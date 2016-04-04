@@ -28,7 +28,7 @@ public class Mole extends ApplicationAdapter{
         theme = th;
 
         if (theme == moleTheme.Kardashian) {
-            moleImage = new Texture(Gdx.files.internal("kardashian.png")); //OBS! The files does not yet exist
+            moleImage = new Texture(Gdx.files.internal("kardashian.png")); //OBS! The files do not yet exist
             moleSound = Gdx.audio.newSound(Gdx.files.internal("kar.mp3"));
         } else if (theme == moleTheme.President) {
             moleImage = new Texture(Gdx.files.internal("DonaldTrump.png"));
