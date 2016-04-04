@@ -23,8 +23,8 @@ Project Layout
 ------------
 
 Folders:
-  * Android
+  * Android:
     contains the starter class and other necessary files to run your application on Android. The assets/ folder stores the assets of your application for all platforms.
-  * Core
+  * Core:
       contains all the code of your application, minus the so called starter classes. All other projects link to this       project. This project is usually referred to as the "core project".
 
