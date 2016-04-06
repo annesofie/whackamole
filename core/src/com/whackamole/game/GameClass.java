@@ -7,6 +7,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameClass extends ApplicationAdapter {
+
+
+	/**
+	 *
+	 * 	Rendering is happening here.
+	 * 	This class should probably be notified by the models when changes happen there and rerender
+	 * 	based on that notification.
+	 *
+	 *
+	 */
+
+
+
 	SpriteBatch batch;
 	Texture img;
 	

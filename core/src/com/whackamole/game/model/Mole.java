@@ -9,7 +9,26 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
 
-public class Mole extends ApplicationAdapter{
+public class Mole extends ApplicationAdapter {
+
+
+    /**
+     *  The view:
+     *  Moles should be rendered on the screen when a signal is given
+     *
+     *  The controller:
+     *  Should maybe accept requests from the server and put a mole in the GameState?
+     *
+     *  The model:
+     *  Should now contain a Mole on a specified location and notify the view that
+     *  a mole should be rendered at that location.
+     *  Some people say that the model should not be aware of the view, but other people
+     *  say that it is perfectly fine to use the Observer-pattern between the model and the view. Let's check this.
+     *
+     *
+     */
+
+
 
     public enum moleTheme {
         Kardashian, President
