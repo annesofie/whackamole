@@ -8,8 +8,11 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.whackamole.game.model.Board;
+import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.SocketRetreiver;
+import com.whackamole.game.view.BoardRenderer;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -60,9 +63,13 @@ public class GameClass extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
+        Board board = new Board(Theme.KARDASHIAN);
+        BoardRenderer renderer = new BoardRenderer(board);
+        renderer.render();
+
+       /* batch.begin();
         batch.draw(img, imagex, imagey);
-        batch.end();
+        batch.end();*/
     }
 
     private Emitter.Listener onConnectError = new Emitter.Listener() {

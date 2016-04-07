@@ -4,13 +4,12 @@ package com.whackamole.game.model;
  * Created by AnneSofie on 04.04.2016.
  */
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 
-public class Mole extends ApplicationAdapter {
+public class Mole {
 
 
     /**
@@ -31,10 +30,6 @@ public class Mole extends ApplicationAdapter {
 
 
 
-    public enum Theme {
-        Kardashian, President
-    }
-
     private Theme theme;
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
@@ -45,14 +40,12 @@ public class Mole extends ApplicationAdapter {
 
         position = pos;
         theme = th;
-
-
-        if (theme == Theme.Kardashian) {
-            moleImage = new Texture(Gdx.files.internal("kardashian.png"));
-            moleSound = Gdx.audio.newSound(Gdx.files.internal("kar.mp3"));
-        } else if (theme == Theme.President) {
-            moleImage = new Texture(Gdx.files.internal("DonaldTrump.png"));
-            moleSound = Gdx.audio.newSound(Gdx.files.internal("trump.mp3"));
+        if (theme == Theme.KARDASHIAN) {
+            moleImage = new Texture(Gdx.files.internal("trump.png"));
+            //moleSound = Gdx.audio.newSound(Gdx.files.internal("kar.mp3"));
+        } else if (theme == Theme.PRESIDENTIAL) {
+            moleImage = new Texture(Gdx.files.internal("trump.png"));
+            //moleSound = Gdx.audio.newSound(Gdx.files.internal("trump.mp3"));
         }
     }
 
@@ -68,6 +61,10 @@ public class Mole extends ApplicationAdapter {
     }
     public void setMoleSound(Sound msc) {
         this.moleSound = msc;
+    }
+
+    public Vector2 getPosition(){
+        return position;
     }
 
 }
