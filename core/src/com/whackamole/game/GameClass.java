@@ -15,6 +15,17 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
 public class GameClass extends ApplicationAdapter {
+
+
+	/**
+	 *
+	 * 	Rendering is happening here.
+	 * 	This class should probably be notified by the models when changes happen there and rerender
+	 * 	based on that notification.
+	 *
+	 *
+	 */
+
     SpriteBatch batch;
     Texture img;
     Socket socket;
