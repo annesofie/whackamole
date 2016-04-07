@@ -4,12 +4,11 @@ package com.whackamole.game.model;
  * Created by AnneSofie on 04.04.2016.
  */
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
 
-public class GameSettings extends ApplicationAdapter{
+public class GameSettings {
 
     /**
      *  Should store the current game configurations to be used
