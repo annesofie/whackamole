@@ -5,7 +5,6 @@ package com.whackamole.game.model;
  */
 public class LobbyState {
 
-
     /**
      *
      *  This model should typically contain information and some logic on what should be shown
@@ -27,6 +26,14 @@ public class LobbyState {
      *
      */
 
+    private GameSettings game_setting;
+    private String name;
+    private int id;
+    private GameSettings.gameTheme game_theme;
+    private int num_of_moles;
 
+    public LobbyState(){
+        game_setting = new GameSettings(name, id, game_theme, num_of_moles);
+    }
 
 }

@@ -4,12 +4,12 @@ package com.whackamole.game.model;
  * Created by AnneSofie on 04.04.2016.
  */
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.Vector2;
 
-public class Mole extends ApplicationAdapter {
+public class Mole {
 
 
     /**
@@ -30,48 +30,41 @@ public class Mole extends ApplicationAdapter {
 
 
 
-    public enum moleTheme {
-        Kardashian, President
-    }
-
-    private moleTheme theme;
+    private Theme theme;
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
-    private int positionx, positiony;
+    private Vector2 position = new Vector2();
 
 
-    public Mole(int pos_x, int pos_y, moleTheme th) {
+    public Mole(Vector2 pos, Theme th) {
 
-        positionx=pos_x;
-        positiony=pos_y;
+        position = pos;
         theme = th;
-
-        if (theme == moleTheme.Kardashian) {
-            moleImage = new Texture(Gdx.files.internal("kardashian.png"));
-            moleSound = Gdx.audio.newSound(Gdx.files.internal("kar.mp3"));
-        } else if (theme == moleTheme.President) {
-            moleImage = new Texture(Gdx.files.internal("DonaldTrump.png"));
-            moleSound = Gdx.audio.newSound(Gdx.files.internal("trump.mp3"));
+        if (theme == Theme.KARDASHIAN) {
+            moleImage = new Texture(Gdx.files.internal("trump.png"));
+            //moleSound = Gdx.audio.newSound(Gdx.files.internal("kar.mp3"));
+        } else if (theme == Theme.PRESIDENTIAL) {
+            moleImage = new Texture(Gdx.files.internal("trump.png"));
+            //moleSound = Gdx.audio.newSound(Gdx.files.internal("trump.mp3"));
         }
     }
 
-    public int getPositionx(){
-        return positionx;
-    }
-    public void setPositionx(int pos_x){
-        positionx=pos_x;
-    }
-    public int getPositiony(){
-        return positiony;
-    }
-    public void setPositiony(int pos_y){
-        positiony=pos_y;
-    }
+
     public Texture getMoleImage(){
         return moleImage;
     }
+    public void setMoleImg(Texture img) {
+        this.moleImage=img;
+    }
     public Sound getMoleSound(){
         return moleSound;
+    }
+    public void setMoleSound(Sound msc) {
+        this.moleSound = msc;
+    }
+
+    public Vector2 getPosition(){
+        return position;
     }
 
 }
