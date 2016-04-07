@@ -27,9 +27,6 @@ public class Mole {
      *
      *
      */
-
-
-
     private Theme theme;
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
@@ -38,7 +35,6 @@ public class Mole {
 
 
     public Mole(Vector2 pos, Theme th) {
-
         position = pos;
         theme = th;
         if (theme == Theme.KARDASHIAN) {
@@ -50,6 +46,10 @@ public class Mole {
         }
     }
 
+    public void setPos(int x, int y) {
+        Vector2 pos = new Vector2(x,y);
+        position = pos;
+    }
 
     public Texture getMoleImage(){
         return moleImage;

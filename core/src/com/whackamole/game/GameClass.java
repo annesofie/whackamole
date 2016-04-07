@@ -66,6 +66,7 @@ public class GameClass extends Game {
 
         });
         socket.on("chat message", onNewMessage);
+        socket.on("new mole", newMole);
     }
 
     @Override
@@ -126,6 +127,19 @@ public class GameClass extends Game {
     };
 
     private Emitter.Listener onNewMessage = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            String message = (String) args[0];
+            String[] coord = message.split(",");
+            if (coord.length < 2){
+                return;
+            }
+            imagex = Integer.parseInt(coord[0]);
+            imagey = Integer.parseInt(coord[1]);
+        }
+    };
+
+    private Emitter.Listener newMole = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             String message = (String) args[0];

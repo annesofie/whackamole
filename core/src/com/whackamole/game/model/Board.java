@@ -2,12 +2,9 @@ package com.whackamole.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -15,7 +12,6 @@ import java.util.List;
 public class Board {
 
     private Array<Mole> grid = new Array<Mole>();
-    //private List<Mole> moles;
     private Texture background;
     int height, width;
 
@@ -40,6 +36,10 @@ public class Board {
 
     public void setMole(Mole mole){
 
+    }
+
+    public Mole getMole() {
+        return grid.get(0);
     }
 
     public Array<Mole> getMoles(){
