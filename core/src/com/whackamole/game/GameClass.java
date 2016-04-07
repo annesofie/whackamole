@@ -41,7 +41,7 @@ public class GameClass extends ApplicationAdapter {
         imagey = 0;
 
         reader = new JsonReader();
-        SocketRetreiver retreiver = new SocketRetreiver();
+        SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
         socket.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError);
