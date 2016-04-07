@@ -4,13 +4,12 @@ package com.whackamole.game.model;
  * Created by AnneSofie on 04.04.2016.
  */
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 
-public class Mole extends ApplicationAdapter {
+public class Mole {
 
 
     /**
@@ -30,15 +29,16 @@ public class Mole extends ApplicationAdapter {
      */
 
 
-
     public enum Theme {
         Kardashian, President
     }
+
 
     private Theme theme;
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position = new Vector2();
+    private Boolean hit;
 
 
     public Mole(Vector2 pos, Theme th) {
@@ -53,6 +53,7 @@ public class Mole extends ApplicationAdapter {
             moleImage = new Texture(Gdx.files.internal("DonaldTrump.png"));
             moleSound = Gdx.audio.newSound(Gdx.files.internal("trump.mp3"));
         }
+        hit = false;
     }
 
 
@@ -67,6 +68,9 @@ public class Mole extends ApplicationAdapter {
     }
     public void setMoleSound(Sound msc) {
         this.moleSound = msc;
+    }
+    public void hitMole() {
+        this.hit = true;
     }
 
 }
