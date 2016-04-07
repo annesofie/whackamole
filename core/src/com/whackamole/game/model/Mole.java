@@ -34,6 +34,7 @@ public class Mole {
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position = new Vector2();
+    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth();
 
 
     public Mole(Vector2 pos, Theme th) {
@@ -65,6 +66,10 @@ public class Mole {
 
     public Vector2 getPosition(){
         return position;
+    }
+
+    public void hide(){
+        position.add(position.x, position.y - height/6);
     }
 
 }

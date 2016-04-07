@@ -59,13 +59,8 @@ public class Board {
         return true;
     }
 
-    public void hideMole(){
 
-    }
 
-    public void showMole(){
-
-    }
 
 
 
