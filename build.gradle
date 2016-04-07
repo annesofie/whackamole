@@ -61,6 +61,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+        compile ('org.json:json')
+        compile ('io.socket:socket.io-client:0.7.0')
     }
 }
 
