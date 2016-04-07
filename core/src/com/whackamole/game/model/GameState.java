@@ -30,6 +30,9 @@ public class GameState {
      *
      */
 
+    private Board board = new Board();
+    private GameSettings gs = new GameSettings();
+
 
 
 }
