@@ -16,9 +16,6 @@ public class EventHandler {
      *       to change the model states.
      *       This class should delegate work to the SocketHandler class for sending click-data to the server.
      *       (or should that be done directly in this class?
-     *
-     *
-     *
      */
 
 }
