@@ -18,6 +18,7 @@ public class Board {
     //private List<Mole> moles;
     private Texture background;
     int height, width;
+    Theme theme;
 
     public Board(Theme theme){
 
@@ -26,6 +27,7 @@ public class Board {
         //background = new Texture(Gdx.files.internal("background.png"));
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
+        this.theme = theme;
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -57,6 +59,10 @@ public class Board {
 
     public boolean isMole(){
         return true;
+    }
+
+    public Theme getTheme(){
+        return theme;
     }
 
 
