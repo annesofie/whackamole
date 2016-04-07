@@ -1,7 +1,7 @@
 package com.whackamole.game.views;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.whackamole.game.model.InstructionState;
+import com.whackamole.game.model.Instruction;
 
 /**
  * Created by Lars on 07/04/16.
@@ -16,11 +16,11 @@ public class InstructionScreenRenderer {
      *
      */
 
-    private InstructionState state;
+    private Instruction state;
     private OrthographicCamera cam;
 
 
-    public InstructionScreenRenderer(InstructionState state) {
+    public InstructionScreenRenderer(Instruction state) {
 
         this.state = state;
         this.cam = new OrthographicCamera();

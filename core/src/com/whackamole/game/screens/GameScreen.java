@@ -1,8 +1,10 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.whackamole.game.model.GameState;
+import com.whackamole.game.model.Board;
+import com.whackamole.game.model.Theme;
 import com.whackamole.game.views.BoardRenderer;
+import com.whackamole.game.controller.BoardController;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -16,25 +18,24 @@ public class GameScreen implements Screen{
      */
 
 
-    private GameState state;
-    private BoardRenderer renderer;
+    private Board board;
+    private BoardRenderer boardRenderer;
+    private BoardController controller;
 
-
-    public GameScreen() {
-        this.state = new GameState();
-        this.renderer = new BoardRenderer(this.state);
-    }
-
+    private Theme th;
 
     @Override
     public void show() {
-
-
+        th = Theme.KARDASHIAN;
+        board = new Board(th);
+        boardRenderer = new BoardRenderer(board);
+        controller = new BoardController(board);
     }
 
     @Override
     public void render(float delta) {
-        renderer.render();
+        controller.update(delta);
+        boardRenderer.render();
 
     }
 

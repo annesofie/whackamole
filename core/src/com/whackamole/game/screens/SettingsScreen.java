@@ -1,7 +1,6 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.whackamole.game.model.GameSettingsState;
 import com.whackamole.game.views.GameSettingsRenderer;
 
 /**

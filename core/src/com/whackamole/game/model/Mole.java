@@ -55,6 +55,10 @@ public class Mole {
         }
     }
 
+    public void setPos(int x, int y) {
+        Vector2 pos = new Vector2(x,y);
+        position = pos;
+    }
 
     public Texture getMoleImage(){
         return moleImage;

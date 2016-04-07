@@ -1,8 +1,8 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.whackamole.game.model.MainMenuState;
-import com.whackamole.game.views.MainMenuStateRenderer;
+import com.whackamole.game.model.MainMenu;
+import com.whackamole.game.views.MainMenuRenderer;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -10,18 +10,18 @@ import com.whackamole.game.views.MainMenuStateRenderer;
 public class MainMenuScreen implements Screen {
 
 
-    private MainMenuState state;
-    private MainMenuStateRenderer renderer;
+    private MainMenu state;
+    private MainMenuRenderer renderer;
 
     @Override
     public void show() {
-        this.state = new MainMenuState();
-        this.renderer = new MainMenuStateRenderer(this.state);
+        this.state = new MainMenu();
+        this.renderer = new MainMenuRenderer(this.state);
     }
 
     @Override
     public void render(float delta) {
-
+        this.renderer.render();
     }
 
     @Override
