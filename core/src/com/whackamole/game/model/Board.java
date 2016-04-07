@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class Board {
 
-    Array grid;
+    Array grid = new Array();
     List<Mole> moles;
     private Texture background;
 
@@ -24,13 +24,13 @@ public class Board {
 
     public Board(Theme theme){
 
-        grid = new Array();
         moles = new ArrayList<Mole>();
         //Choose correct background for current theme
         background = new Texture(Gdx.files.internal("background.png"));
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 grid.add(new Mole(new Vector2(i, j)), theme);
+                //grid.get(i+j).setMoleImg(blabla.png);
 
             }
         }
@@ -40,6 +40,10 @@ public class Board {
 
     public void setMole(Mole mole){
 
+    }
+
+    public Array getMoles(){
+        return grid;
     }
 
     public int getX(){
