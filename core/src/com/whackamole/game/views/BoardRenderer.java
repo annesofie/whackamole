@@ -66,6 +66,7 @@ public class BoardRenderer {
         if(mole.getLocation() > 5 && mole.getLocation() < 9){
             batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);
         }
+        Gdx.files.internal("/presidential/b1.png");
         batch.draw(new Texture(Gdx.files.internal(b3)), 0, 6*height/16, width, 3*height/16);
         if(mole.getLocation() > 2 && mole.getLocation() < 6){
             batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);

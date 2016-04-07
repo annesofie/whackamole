@@ -14,4 +14,6 @@ public class WhackAMole extends Game {
         // Initilizes GameScreen, calls show() to make it the active screen and runs render every subsequent cycle
         setScreen(new MainMenuScreen());
     }
+
+
 }
