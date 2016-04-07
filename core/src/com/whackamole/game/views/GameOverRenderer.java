@@ -1,15 +1,15 @@
 package com.whackamole.game.views;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.whackamole.game.model.GameOverState;
+import com.whackamole.game.model.GameOver;
 
 /**
  * Created by Lars on 07/04/16.
  */
-public class GameOverStateRenderer {
+public class GameOverRenderer {
 
 
-    private GameOverState state;
+    private GameOver state;
     private OrthographicCamera cam;
 
 
@@ -20,7 +20,7 @@ public class GameOverStateRenderer {
      *
      */
 
-    public GameOverStateRenderer(GameOverState state) {
+    public GameOverRenderer(GameOver state) {
         this.state = state;
         this.cam = new OrthographicCamera();
 

@@ -1,7 +1,7 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.whackamole.game.model.InstructionState;
+import com.whackamole.game.model.Instruction;
 import com.whackamole.game.views.InstructionScreenRenderer;
 
 /**
@@ -9,12 +9,12 @@ import com.whackamole.game.views.InstructionScreenRenderer;
  */
 public class InstructionScreen implements Screen{
 
-    InstructionState state;
+    Instruction state;
     InstructionScreenRenderer renderer;
 
     @Override
     public void show() {
-        this.state = new InstructionState();
+        this.state = new Instruction();
         this.renderer = new InstructionScreenRenderer(this.state);
     }
 
