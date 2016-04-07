@@ -35,6 +35,17 @@ public class GameClass extends ApplicationAdapter {
 
     @Override
     public void create() {
+
+        /**
+         *
+         *  RUN ON APP START
+         *  USED TO SETUP EVERYTHING
+         *
+         *
+         */
+
+
+
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         imagex = 0;
@@ -65,6 +76,39 @@ public class GameClass extends ApplicationAdapter {
         batch.end();
     }
 
+    @Override
+    public void pause() {
+        /**
+         *  This method is run when a user exits the app.
+         *  It pauses the game.
+         *
+         */
+    }
+
+
+    @Override
+    public void resume() {
+
+        /**
+         *  This method is called when the app is put back into the foreground.
+         *  It is run to resume the game.
+         *
+         */
+    }
+
+    @Override
+    public void dispose() {
+        /**
+         *  This method is called when the application is closed (the process itself).
+         *  This should be used to do some cleanup (save states, etc. if necessary)
+         *
+         */
+
+
+    }
+
+
+
     private Emitter.Listener onConnectError = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -84,4 +128,5 @@ public class GameClass extends ApplicationAdapter {
             imagey = Integer.parseInt(coord[1]);
         }
     };
+
 }
