@@ -50,13 +50,13 @@ public class BoardRenderer {
         batch.end();
 
         //
-        for (Mole mole: board.getMoles()) {
+        /*for (Mole mole: board.getMoles()) {
             batch.begin();
-            batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/12, 17*width/60, height/6);
+            batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);
             sprite = new Sprite(mole.getMoleImage());
             sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
             //sprite.draw(batch);
             batch.end();
-        }
+        }*/
     }
 }
