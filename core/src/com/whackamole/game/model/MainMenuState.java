@@ -32,7 +32,7 @@ public class MainMenuState {
     private GameSettings.gameTheme game_theme;
     private int num_of_moles;
 
-    public LobbyState(){
+    public MainMenuState(){
         game_setting = new GameSettings(name, id, game_theme, num_of_moles);
     }
 

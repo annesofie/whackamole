@@ -1,6 +1,7 @@
 package com.whackamole.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,10 +11,11 @@ import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.views.BoardRenderer;
+import com.whackamole.game.views.MoleRenderer;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class GameClass extends ApplicationAdapter {
+public class GameClass extends Game {
 
 
 	/**
@@ -73,6 +75,10 @@ public class GameClass extends ApplicationAdapter {
         Board board = new Board(Theme.KARDASHIAN);
         BoardRenderer renderer = new BoardRenderer(board);
         renderer.render();
+        board.getMoles().get(0).hide();
+        MoleRenderer mr = new MoleRenderer(board.getMoles().get(0));
+        mr.render();
+
 
        /* batch.begin();
         batch.draw(img, imagex, imagey);

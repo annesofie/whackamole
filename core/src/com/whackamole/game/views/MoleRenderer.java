@@ -36,10 +36,10 @@ public class MoleRenderer {
 
 
     public void render(){
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        debugrenderer.setProjectionMatrix(camera.combined);
-        debugrenderer.begin(ShapeRenderer.ShapeType.Line);
+        //debugrenderer.setProjectionMatrix(camera.combined);
+        //debugrenderer.begin(ShapeRenderer.ShapeType.Line);
 
 
         batch.begin();
