@@ -2,7 +2,7 @@ package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.model.GameState;
-import com.whackamole.game.views.GameStateRenderer;
+import com.whackamole.game.views.BoardRenderer;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -17,12 +17,12 @@ public class GameScreen implements Screen{
 
 
     private GameState state;
-    private GameStateRenderer renderer;
+    private BoardRenderer renderer;
 
 
     public GameScreen() {
         this.state = new GameState();
-        this.renderer = new GameStateRenderer(this.state);
+        this.renderer = new BoardRenderer(this.state);
     }
 
 

@@ -29,7 +29,7 @@ public class Board {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                grid.add(new Mole(new Vector2((2+3*i)*width/10, (3 + 3*j)*height/16), theme));
+                grid.add(new Mole(new Vector2((2+3*i)*width/10, (3 + 3*j)*height/16), theme, grid.size));
                // grid.get(i+j).setMoleImg(new Texture(Gdx.files.internal("hull.png")));
 
             }

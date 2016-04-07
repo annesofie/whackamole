@@ -1,6 +1,5 @@
 package com.whackamole.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.JsonReader;
@@ -11,7 +10,6 @@ import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.views.BoardRenderer;
-import com.whackamole.game.views.MoleRenderer;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
@@ -73,11 +71,11 @@ public class GameClass extends Game {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Board board = new Board(Theme.KARDASHIAN);
-        BoardRenderer renderer = new BoardRenderer(board);
+        BoardRenderer renderer = new BoardRenderer(board, board.getMoles().get(4));
         renderer.render();
-        board.getMoles().get(0).hide();
-        MoleRenderer mr = new MoleRenderer(board.getMoles().get(0));
-        mr.render();
+        //board.getMoles().get(6).hide();
+        //MoleRenderer mr = new MoleRenderer(board.getMoles().get(6));
+        //mr.render();
 
 
        /* batch.begin();

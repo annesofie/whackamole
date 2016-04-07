@@ -33,13 +33,14 @@ public class Mole {
     private Theme theme;
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
-    private Vector2 position = new Vector2();
-    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth();
+    private Vector2 position, velocity;
+    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
 
 
-    public Mole(Vector2 pos, Theme th) {
+    public Mole(Vector2 pos, Theme th, int location) {
 
         position = pos;
+        this.location = location;
         theme = th;
         if (theme == Theme.KARDASHIAN) {
             moleImage = new Texture(Gdx.files.internal("trump.png"));
@@ -68,8 +69,12 @@ public class Mole {
         return position;
     }
 
+    public int getLocation(){
+        return location;
+    }
+
     public void hide(){
-        position.add(position.x, position.y - height/6);
+        position.set(position.x, position.y - height/10);
     }
 
 }
