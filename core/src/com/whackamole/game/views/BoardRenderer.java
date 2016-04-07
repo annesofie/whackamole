@@ -1,4 +1,4 @@
-package com.whackamole.game.view;
+package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

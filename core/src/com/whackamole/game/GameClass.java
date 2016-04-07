@@ -2,18 +2,14 @@ package com.whackamole.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Theme;
-import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.SocketRetreiver;
-import com.whackamole.game.view.BoardRenderer;
-import io.socket.client.IO;
+import com.whackamole.game.views.BoardRenderer;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
