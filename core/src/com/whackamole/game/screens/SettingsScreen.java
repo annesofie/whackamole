@@ -10,13 +10,13 @@ public class SettingsScreen implements Screen{
 
 
 
-    private GameSettingsState state;
+    //private GameSettingsState state;
     private GameSettingsRenderer renderer;
 
     @Override
     public void show() {
-        this.state = new GameSettingsState();
-        this.renderer = new GameSettingsRenderer(this.state);
+        //this.state = new GameSettingsState();
+        //this.renderer = new GameSettingsRenderer(this.state);
 
     }
 

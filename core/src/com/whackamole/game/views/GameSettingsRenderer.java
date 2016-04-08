@@ -7,14 +7,14 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
  */
 public class GameSettingsRenderer {
 
-    private GameSettingsState state;
+    //private GameSettingsState state;
     private OrthographicCamera cam;
 
 
-    public GameSettingsRenderer(GameSettingsState state) {
-        this.state = state;
-        this.cam = new OrthographicCamera();
-    }
+    //public GameSettingsRenderer(GameSettingsState state) {
+       // this.state = state;
+        //this.cam = new OrthographicCamera();
+    //}//
 
 
     public void render() {

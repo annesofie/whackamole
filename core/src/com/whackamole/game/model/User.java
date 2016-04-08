@@ -23,6 +23,8 @@ public class User {
         userList.add(this);
         idList.add(this.userId);
         namelist.add(this.username);
+        //probably unnecessary
+        this.loggedIn = true;
         
     }
 
@@ -42,7 +44,7 @@ public class User {
         return username;
     }
 
-    //belongs in controller maybe?
+
     public void logout(){
         int temp = userList.indexOf(this);
         userList.remove(this);

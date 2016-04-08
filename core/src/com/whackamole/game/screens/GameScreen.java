@@ -1,8 +1,11 @@
 package com.whackamole.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.model.Mole;
+import com.badlogic.gdx.graphics.Texture;
 import com.whackamole.game.model.Board;
+import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.controller.BoardController;
 import com.whackamole.game.views.BoardRenderer;
@@ -17,6 +20,8 @@ public class GameScreen implements Screen{
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
+    private Mole mole;
+
     private Theme th;
     private int pos;
 
@@ -24,6 +29,10 @@ public class GameScreen implements Screen{
     public void show() {
         th = Theme.KARDASHIAN;
         board = new Board(th);
+        board.getMoles().get(4).setMoleImg(new Texture(Gdx.files.internal("trump.png")));
+        //board.setMole(board.getMoles().get(4));
+        boardRenderer = new BoardRenderer(board);
+        boardRenderer.setMole(board.getMoles().get(4));
         controller = new BoardController(board);
         pos = controller.getMolePositoin();
         boardRenderer = new BoardRenderer(board);
@@ -34,6 +43,7 @@ public class GameScreen implements Screen{
     public void render(float delta) {
         controller.update(delta);
         boardRenderer.render();
+        System.out.println("Testing");
 
     }
 
@@ -60,5 +70,9 @@ public class GameScreen implements Screen{
     @Override
     public void dispose() {
 
+    }
+
+    public void setTheme(Theme th){
+        this.th = th;
     }
 }

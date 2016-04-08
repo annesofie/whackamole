@@ -7,9 +7,12 @@ package com.whackamole.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 
 public class Mole {
+
+
 
 
     /**
@@ -35,15 +38,19 @@ public class Mole {
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position, velocity;
     private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
+    private float dt = 0, hiddenposition;
+    private float hidespeed = 1000.0f;
 
 
     public Mole(Vector2 pos, Theme th, int location) {
 
-        position = pos;
+        this.position = pos;
         this.location = location;
+        hiddenposition = this.position.y - height*33/160;
         theme = th;
         if (theme == Theme.KARDASHIAN) {
             moleImage = new Texture(Gdx.files.internal("trump.png"));
+
             //moleSound = Gdx.audio.newSound(Gdx.files.internal("kar.mp3"));
         } else if (theme == Theme.PRESIDENTIAL) {
             moleImage = new Texture(Gdx.files.internal("trump.png"));
@@ -51,9 +58,8 @@ public class Mole {
         }
     }
 
-    public void setPos(int x, int y) {
-        Vector2 pos = new Vector2(x,y);
-        position = pos;
+    public void setPos(float x, float y) {
+        position.set(x,y);
     }
 
     public Texture getMoleImage(){
@@ -77,8 +83,14 @@ public class Mole {
         return location;
     }
 
-    public void hide(){
-        position.set(position.x, position.y - height/10);
+    public void hide(float dt){
+        if(this.position.y > hiddenposition) {
+            this.position.set(this.position.x, this.position.y - (height/100)*dt);
+        }
+    }
+
+    public void show(){
+
     }
 
 }
