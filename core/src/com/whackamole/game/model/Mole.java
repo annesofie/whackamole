@@ -37,13 +37,14 @@ public class Mole {
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position, velocity;
-    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
+    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location, hiddenposition = 200;
     private float dt = 0;
+    private float hidespeed = 1000.0f;
 
 
     public Mole(Vector2 pos, Theme th, int location) {
 
-        position = pos;
+        this.position = pos;
         this.location = location;
         theme = th;
         if (theme == Theme.KARDASHIAN) {
@@ -55,9 +56,8 @@ public class Mole {
         }
     }
 
-    public void setPos(int x, int y) {
-        Vector2 pos = new Vector2(x,y);
-        position = pos;
+    public void setPos(float x, float y) {
+        position.set(x,y);
     }
 
     public Texture getMoleImage(){
@@ -82,7 +82,9 @@ public class Mole {
     }
 
     public void hide(float dt){
-        position.set(position.x, position.y - height*dt);
+        if(this.position.y > hiddenposition) {
+            this.position.set(this.position.x, this.position.y - 1000.0f*dt);
+        }
     }
 
     public void show(){

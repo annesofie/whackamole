@@ -22,9 +22,6 @@ public class BoardRenderer {
      *
      */
 
-    private GameState state;
-    private OrthographicCamera cam;
-
     private Board board;
     private OrthographicCamera camera;
     private Texture img;
@@ -51,28 +48,35 @@ public class BoardRenderer {
     }
 
     public void render(){
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        debugrenderer.setProjectionMatrix(camera.combined);
-        debugrenderer.begin(ShapeRenderer.ShapeType.Line);
         batch.begin();
+
+        //debugrenderer.setProjectionMatrix(camera.combined);
+        //debugrenderer.begin(ShapeRenderer.ShapeType.Line);
         sprite = new Sprite(mole.getMoleImage());
-        //mole.hide();
+
+        mole.hide(Gdx.graphics.getDeltaTime());
         sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
 
         batch.draw(new Texture(Gdx.files.internal(hs)), 0, 13*height/16, width, 3*height/16);
         batch.draw(new Texture(Gdx.files.internal(b4)), 0, 9*height/16, width, height/4);
         if(mole.getLocation() > 5 && mole.getLocation() < 9){
-            batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);
+            batch.draw(mole.getMoleImage(),
+                    mole.getPosition().x - 17*width/120,
+                    mole.getPosition().y - height/32, 17*width/60, height/6);
         }
-        Gdx.files.internal("/presidential/b1.png");
         batch.draw(new Texture(Gdx.files.internal(b3)), 0, 6*height/16, width, 3*height/16);
         if(mole.getLocation() > 2 && mole.getLocation() < 6){
-            batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);
+            batch.draw(mole.getMoleImage(),
+                    mole.getPosition().x - 17*width/120,
+                    mole.getPosition().y - height/32, 17*width/60, height/6);
         }
         batch.draw(new Texture(Gdx.files.internal(b2)), 0, 3*height/16, width, 3*height/16);
         if(mole.getLocation() < 3){
-            batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);
+            batch.draw(mole.getMoleImage(),
+                    mole.getPosition().x - 17*width/120,
+                    mole.getPosition().y - height/32, 17*width/60, height/6);
         }
         batch.draw(new Texture(Gdx.files.internal(b1)), 0, 0 , width, 3*height/16);
 
@@ -98,11 +102,11 @@ public class BoardRenderer {
     private Mole mole;
 
 
-    public BoardRenderer(GameState gameState) {
+    /*public BoardRenderer(GameState gameState) {
         this.state = gameState;
         this.cam = new OrthographicCamera();
 
-    }
+    }*/
 
 
 

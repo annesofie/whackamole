@@ -69,8 +69,6 @@ public class GameClass extends Game {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Board board = new Board(Theme.KARDASHIAN);
         BoardRenderer renderer = new BoardRenderer(board, board.getMoles().get(4));
         renderer.render();
@@ -79,7 +77,7 @@ public class GameClass extends Game {
         //mr.render();
 
 
-       /* batch.begin();
+       /* batch.begingit add();
         batch.draw(img, imagex, imagey);
         batch.end();*/
     }

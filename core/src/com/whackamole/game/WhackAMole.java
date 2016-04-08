@@ -1,6 +1,7 @@
 package com.whackamole.game;
 
 import com.badlogic.gdx.Game;
+import com.whackamole.game.screens.GameScreen;
 import com.whackamole.game.screens.MainMenuScreen;
 
 /**
@@ -12,7 +13,7 @@ public class WhackAMole extends Game {
     public void create() {
 
         // Initilizes GameScreen, calls show() to make it the active screen and runs render every subsequent cycle
-        setScreen(new MainMenuScreen());
+        setScreen(new GameScreen());
     }
 
 
