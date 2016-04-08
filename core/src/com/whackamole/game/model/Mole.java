@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Mole {
@@ -32,8 +33,6 @@ public class Mole {
      */
 
 
-
-
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
@@ -51,6 +50,7 @@ public class Mole {
         this.hiddenposition = pos.y - height*33/160;
         this.position = setPos(pos.x, hiddenposition);
         this.hidden = true;
+        this.bounds = new Rectangle();
 
     }
 
@@ -85,7 +85,7 @@ public class Mole {
     }
 
     public void setMoleImg(Texture img) {
-        this.moleImage=img;
+        this.moleImage = img;
     }
     public Sound getMoleSound(){
         return moleSound;

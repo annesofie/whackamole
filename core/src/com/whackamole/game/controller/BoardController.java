@@ -4,38 +4,43 @@ package com.whackamole.game.controller;
  * Created by AnneSofie on 07.04.2016.
  */
 
+import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Board;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 
-public class BoardController implements InputProcessor{
+import java.util.ArrayList;
+
+public class BoardController {
 
     private Vector2 touchPos;
     private int touch_x, touch_y;
     private Board board;
+    private Array<Mole> currentMoles;
     private Mole mole;
 
     public BoardController(Board board) {
         this.board = board;
         this.mole = board.getMole();
+        this.currentMoles = board.getCurrentMoles();
     }
 
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        touch_x = screenX;
-        touch_y = screenY;
-        checkTouch(touch_x, touch_y);
-        mole.setPos(touch_x, touch_y);
-        System.out.println("touched");
-        return true;
+    public boolean checkTouch(int x, int y) {
+        for(Mole mole : this.currentMoles) {
+            if(mole.bounds.contains(x, y)) {
+                System.out.println("You hit Trump!!");
+                return true;
+            }
+            System.out.println("You missed Trump!");
+        }
+        return false;
     }
 
-    public void checkTouch(int x, int y) {
-
-
+    public void sendTouch() {
+        // Send bekreftelse til serveren at
     }
+
 
     /** The main update method **/
     public void update(float delta) {
