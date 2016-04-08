@@ -5,43 +5,42 @@ import com.badlogic.gdx.Screen;
 import com.whackamole.game.model.Mole;
 import com.badlogic.gdx.graphics.Texture;
 import com.whackamole.game.model.Board;
-import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.controller.BoardController;
 import com.whackamole.game.views.BoardRenderer;
-import com.whackamole.game.controller.BoardController;
 
 /**
  * Created by AnneSofie on 04.04.2016.
  */
 public class GameScreen implements Screen{
 
-    private Mole mole;
     private Board board;
     private BoardRenderer boardRenderer;
-    private BoardController controller;
+    private BoardController boardcontroller;
     private Mole mole;
 
     private Theme th;
-    private int pos;
+    private int currentMole, currentImg;
 
     @Override
     public void show() {
         th = Theme.KARDASHIAN;
         board = new Board(th);
-        board.getMoles().get(4).setMoleImg(new Texture(Gdx.files.internal("trump.png")));
         //board.setMole(board.getMoles().get(4));
         boardRenderer = new BoardRenderer(board);
-        boardRenderer.setMole(board.getMoles().get(4));
-        controller = new BoardController(board);
-        pos = controller.getMolePositoin();
+        boardcontroller = new BoardController(board);
+        currentMole = boardcontroller.getMolePosition();
+        currentImg = boardcontroller.getImgPosition();
         boardRenderer = new BoardRenderer(board);
+        boardRenderer.setMole(board.getMole(currentMole));
+        board.getMoles().get(currentMole).setMoleImg(new Texture(Gdx.files.internal("trump.png")));
+        System.out.println(currentMole);
 
     }
 
     @Override
     public void render(float delta) {
-        controller.update(delta);
+        boardcontroller.update(delta);
         boardRenderer.render();
         System.out.println("Testing");
 

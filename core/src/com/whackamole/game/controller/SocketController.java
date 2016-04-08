@@ -8,13 +8,16 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.whackamole.game.utils.SocketRetreiver;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
+import org.json.JSONObject;
+import org.json.JSONException;
+
 
 public class SocketController {
 
     private SocketRetreiver soRetreiver;
     Socket socket;
     JsonReader reader;
-    private int currentMolePosition;
+    private int currentMolePosition, currentImgPos;
 
     public SocketController() {
 
@@ -30,24 +33,50 @@ public class SocketController {
             }
 
         });
-
+        socket.emit('new game', )
         socket.on("new mole", newMole);
     }
+    private Emitter.Listener onConnectError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Connected error");
+        }
+    };
 
     private Emitter.Listener newMole = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            String currentMole = (String) args[0];
+            /*String currentMole = (String) args[0];
             String[] coord = currentMole.split(",");
             if (coord.length < 2){
                 return;
             }
             currentMolePosition = Integer.parseInt(coord[0]);
+            currentImgPos = Integer.parseInt(coord[1]);
+            System.out.println(currentMolePosition);
+            System.out.println(currentImgPos); */
+
+            JSONObject data = (JSONObject) args[0];
+            System.out.println(data);
+
+            try {
+                System.out.println("inside try");
+                currentMolePosition = data.getInt("pos");
+                currentImgPos = data.getInt("pic");
+            } catch (JSONException e) {
+                System.out.println("nothing");
+                return;
+            }
+            System.out.println(currentMolePosition);
+            System.out.println(currentImgPos);
         }
     };
 
     public int getMolePosition() {
         return currentMolePosition;
+    };
+    public int getImgPosition() {
+        return currentImgPos;
     };
 
 }

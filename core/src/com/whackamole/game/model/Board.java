@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 public class Board {
 
     private Array<Mole> grid = new Array<Mole>();
+    //private Array<Mole> imgChoices = new Array<Mole>();
     private Texture background;
     int height, width;
     Theme theme;
@@ -40,8 +41,8 @@ public class Board {
 
     }
 
-    public Mole getMole() {
-        return grid.get(0);
+    public Mole getMole(int pos) {
+        return grid.get(pos);
     }
 
     public Array<Mole> getMoles(){
@@ -64,11 +65,6 @@ public class Board {
     public Theme getTheme(){
         return theme;
     }
-
-
-
-
-
 
 
 }

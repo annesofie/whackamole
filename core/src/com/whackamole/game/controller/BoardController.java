@@ -15,18 +15,24 @@ public class BoardController implements InputProcessor{
     private int touch_x, touch_y;
     private Board board;
     private Mole mole;
-    private SocketController controller;
+    private SocketController sockcontroller;
 
     public BoardController(Board board) {
         this.board = board;
-        this.mole = board.getMole();
-        this.controller = new SocketController();
+        //this.mole = board.getMole();
+        this.sockcontroller = new SocketController();
     }
 
-    public int getMolePositoin() {
-        controller.getMolePosition();
+    public int getMolePosition() {
+        return sockcontroller.getMolePosition();
+    }
+    public int getImgPosition() {
+        return sockcontroller.getImgPosition();
     }
 
+    public void setMole(int pos) {
+
+    }
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
