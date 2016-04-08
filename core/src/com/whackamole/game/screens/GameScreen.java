@@ -2,17 +2,24 @@ package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.whackamole.game.model.Mole;
 import com.badlogic.gdx.graphics.Texture;
 import com.whackamole.game.model.Board;
+import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
-import com.whackamole.game.controller.BoardController;
 import com.whackamole.game.views.BoardRenderer;
+import com.whackamole.game.controller.BoardController;
 
 /**
  * Created by AnneSofie on 04.04.2016.
  */
 public class GameScreen implements Screen{
+
+    /**
+     *  Contains a GameState
+     *
+     *
+     */
+
 
     private Board board;
     private BoardRenderer boardRenderer;
@@ -26,8 +33,18 @@ public class GameScreen implements Screen{
     public void show() {
         th = Theme.KARDASHIAN;
         board = new Board(th);
+        board.getMoles().get(4).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p1.png")));
+        board.getMoles().get(5).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p2.png")));
+        board.getMoles().get(1).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p3.png")));
+        board.getMoles().get(4);
+        board.addCurrentMole(board.getMoles().get(4));
+        board.addCurrentMole(board.getMoles().get(5));
+        board.addCurrentMole(board.getMoles().get(1));
         //board.setMole(board.getMoles().get(4));
         boardRenderer = new BoardRenderer(board);
+        //boardRenderer.setMole(board.getMoles().get(4));
+        boardRenderer.loadTextures();
+        controller = new BoardController(board);
         boardcontroller = new BoardController(board);
         currentMole = boardcontroller.getMolePosition();
         currentImg = boardcontroller.getImgPosition();
@@ -42,7 +59,7 @@ public class GameScreen implements Screen{
     public void render(float delta) {
         boardcontroller.update(delta);
         boardRenderer.render();
-        System.out.println("Testing");
+        System.out.println(Gdx.graphics.getDeltaTime());
 
     }
 

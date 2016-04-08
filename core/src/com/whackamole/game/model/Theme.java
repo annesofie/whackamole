@@ -16,13 +16,17 @@ public enum Theme {
      *
      */
 
-    PRESIDENTIAL ("/assets/presedential"),
-    KARDASHIAN ("/assets/kardashian");
+    PRESIDENTIAL ("presidential/"),
+    KARDASHIAN ("kardashian/");
 
     private final String path;
 
     Theme(String path) {
         this.path = path;
+    }
+
+    public String path() {
+        return this.path;
     }
 
 }

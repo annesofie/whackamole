@@ -11,11 +11,12 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Board {
 
-    private Array<Mole> grid = new Array<Mole>();
-    //private Array<Mole> imgChoices = new Array<Mole>();
+    private Array<Mole> grid = new Array<Mole>(), currentMoles = new Array<Mole>();
+    private Texture b1, b2, b3, b4, hs;
     private Texture background;
     int height, width;
     Theme theme;
+    private String filepath;
 
     public Board(Theme theme){
 
@@ -28,17 +29,35 @@ public class Board {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                grid.add(new Mole(new Vector2((2+3*i)*width/10  - 17*width/120, (3 + 3*j)*height/16 - height/32), theme, grid.size));
-               // grid.get(i+j).setMoleImg(new Texture(Gdx.files.internal("hull.png")));
-
+                grid.add(new Mole(new Vector2((2+3*i)*width/10  - 17*width/120, (3 + 3*j)*height/16 - height/32),
+                        theme, grid.size));
             }
         }
-
+        this.filepath = theme.path();
 
     }
 
-    public void setMole(Mole mole){
+    public void addCurrentMole(Mole mole){
+        currentMoles.add(mole);
+    }
 
+    public Array<Mole> getCurrentMoles(){
+        return currentMoles;
+    }
+
+    public String getPath(){
+        return this.filepath;
+    }
+
+    public void showMole(Mole mole){
+        if(mole.hidden()) {
+            mole.show();
+        }
+    }
+    public void hideMole(Mole mole){
+        if(!mole.hidden()) {
+            mole.hide();
+        }
     }
 
     public Mole getMole(int pos) {
