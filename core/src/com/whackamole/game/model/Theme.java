@@ -16,8 +16,8 @@ public enum Theme {
      *
      */
 
-    PRESEDENTIAL_THEME ("/assets/presedential"),
-    KARDASHIAN_THEME ("/assets/kardashian");
+    PRESIDENTIAL ("/assets/presedential"),
+    KARDASHIAN ("/assets/kardashian");
 
     private final String path;
 
