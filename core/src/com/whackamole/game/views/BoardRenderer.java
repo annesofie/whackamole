@@ -24,13 +24,14 @@ public class BoardRenderer {
 
     private Board board;
     private OrthographicCamera camera;
-    private Texture img;
+    private Texture b1, b2, b3, b4 , hs;
     private SpriteBatch batch;
     private Sprite sprite;
     private int height, width;
     private Mole mole;
+    private boolean show;
 
-    private String b1, b2, b3, b4, hs;
+    private String s1, s2, s3, s4, s5, path;
 
     ShapeRenderer debugrenderer = new ShapeRenderer();
 
@@ -42,9 +43,8 @@ public class BoardRenderer {
         this.camera = new OrthographicCamera(10, 7);
         this.camera.position.set(5, 3.5f, 0);
         this.camera.update();
-        if(board.getTheme().equals(Theme.KARDASHIAN)){
-            b1 = "1Kar.png"; b2 = "2Kar.png"; b3 = "3Kar.png"; b4 = "4Kar.png"; hs = "HighscoreKar.png";
-        }
+        s1 = "b1.png"; s2 = "b2.png"; s3 = "b3.png"; s4 = "b4.png"; s5 = "hs.png";
+        this.path = board.getPath();
 
     }
 
@@ -55,48 +55,43 @@ public class BoardRenderer {
 
         //debugrenderer.setProjectionMatrix(camera.combined);
         //debugrenderer.begin(ShapeRenderer.ShapeType.Line);
-        sprite = new Sprite(mole.getMoleImage());
+        //sprite = new Sprite(mole.getMoleImage());
 
-        mole.hide(Gdx.graphics.getDeltaTime());
-        sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
+        //mole.hide();
 
-        batch.draw(new Texture(Gdx.files.internal(hs)), 0, 13*height/16, width, 3*height/16);
-        batch.draw(new Texture(Gdx.files.internal(b4)), 0, 9*height/16, width, height/4);
-        if(mole.getLocation() > 5 && mole.getLocation() < 9){
-            batch.draw(mole.getMoleImage(),
-                    mole.getPosition().x,
-                    mole.getPosition().y, 17*width/60, height/6);
+        //sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
+
+        batch.draw(hs, 0, 13*height/16, width, 3*height/16);
+        batch.draw(b4, 0, 9*height/16, width, height/4);
+
+        for (Mole mole: board.getCurrentMoles()) {
+            if(mole.getLocation() > 5 && mole.getLocation() < 9){
+                batch.draw(mole.getMoleImage(),
+                        mole.getPosition().x,
+                        mole.getPosition().y, 17*width/60, height/6);
+            }
         }
-        batch.draw(new Texture(Gdx.files.internal(b3)), 0, 6*height/16, width, 3*height/16);
-        if(mole.getLocation() > 2 && mole.getLocation() < 6){
-            batch.draw(mole.getMoleImage(),
-                    mole.getPosition().x,
-                    mole.getPosition().y, 17*width/60, height/6);
+        batch.draw(b3, 0, 6*height/16, width, 3*height/16);
+
+        for (Mole mole: board.getCurrentMoles()) {
+            if(mole.getLocation() > 2 && mole.getLocation() < 6){
+                ;
+                batch.draw(mole.getMoleImage(),
+                        mole.getPosition().x,
+                        mole.getPosition().y, 17*width/60, height/6);
+            }
         }
-        batch.draw(new Texture(Gdx.files.internal(b2)), 0, 3*height/16, width, 3*height/16);
-        if(mole.getLocation() < 3){
-            batch.draw(mole.getMoleImage(),
-                    mole.getPosition().x,
-                    mole.getPosition().y, 17*width/60, height/6);
+        batch.draw(b2, 0, 3*height/16, width, 3*height/16);
+
+        for (Mole mole: board.getCurrentMoles()) {
+            if(mole.getLocation() < 3){
+                batch.draw(mole.getMoleImage(),
+                        mole.getPosition().x,
+                        mole.getPosition().y, 17*width/60, height/6);
+            }
         }
-        batch.draw(new Texture(Gdx.files.internal(b1)), 0, 0 , width, 3*height/16);
-
-
-
+        batch.draw(b1, 0, 0 , width, 3*height/16);
         batch.end();
-
-        //sprite.draw(batch);
-
-
-        //
-        /*for (Mole mole: board.getMoles()) {
-            batch.begin();
-            batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);
-            sprite = new Sprite(mole.getMoleImage());
-            sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
-            //sprite.draw(batch);
-            batch.end();
-        }*/
 
     }
 
@@ -104,16 +99,12 @@ public class BoardRenderer {
         this.mole = mole;
     }
 
-
-    /*public BoardRenderer(GameState gameState) {
-        this.state = gameState;
-        this.cam = new OrthographicCamera();
-
-    }*/
-
-
-
-
-
-
+    public void loadTextures(){
+        b1 = new Texture(Gdx.files.internal(path + s1));
+        b2 = new Texture(Gdx.files.internal(path + s2));
+        b3 = new Texture(Gdx.files.internal(path + s3));
+        b4 = new Texture(Gdx.files.internal(path + s4));
+        hs = new Texture(Gdx.files.internal(path + s5));
+        //må også laste moleImage
+    }
 }

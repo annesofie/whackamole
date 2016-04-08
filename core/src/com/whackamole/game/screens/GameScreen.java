@@ -32,10 +32,17 @@ public class GameScreen implements Screen{
     public void show() {
         th = Theme.KARDASHIAN;
         board = new Board(th);
-        board.getMoles().get(4).setMoleImg(new Texture(Gdx.files.internal("trump.png")));
+        board.getMoles().get(4).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p1.png")));
+        board.getMoles().get(5).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p2.png")));
+        board.getMoles().get(1).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p3.png")));
+        board.getMoles().get(4);
+        board.addCurrentMole(board.getMoles().get(4));
+        board.addCurrentMole(board.getMoles().get(5));
+        board.addCurrentMole(board.getMoles().get(1));
         //board.setMole(board.getMoles().get(4));
         boardRenderer = new BoardRenderer(board);
-        boardRenderer.setMole(board.getMoles().get(4));
+        //boardRenderer.setMole(board.getMoles().get(4));
+        boardRenderer.loadTextures();
         controller = new BoardController(board);
     }
 
@@ -43,7 +50,7 @@ public class GameScreen implements Screen{
     public void render(float delta) {
         controller.update(delta);
         boardRenderer.render();
-        System.out.println("Testing");
+        System.out.println(Gdx.graphics.getDeltaTime());
 
     }
 
