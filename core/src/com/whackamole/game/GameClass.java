@@ -43,8 +43,6 @@ public class GameClass extends Game {
          *
          */
 
-
-
         batch = new SpriteBatch();
         img = new Texture("badlogic.jpg");
         imagex = 0;

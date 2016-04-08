@@ -15,10 +15,16 @@ public class BoardController implements InputProcessor{
     private int touch_x, touch_y;
     private Board board;
     private Mole mole;
+    private SocketController controller;
 
     public BoardController(Board board) {
         this.board = board;
         this.mole = board.getMole();
+        this.controller = new SocketController();
+    }
+
+    public int getMolePositoin() {
+        controller.getMolePosition();
     }
 
     @Override

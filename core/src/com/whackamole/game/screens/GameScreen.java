@@ -1,8 +1,10 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
+import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Theme;
+import com.whackamole.game.controller.BoardController;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
 
@@ -11,25 +13,21 @@ import com.whackamole.game.controller.BoardController;
  */
 public class GameScreen implements Screen{
 
-    /**
-     *  Contains a GameState
-     *
-     *
-     */
-
-
+    private Mole mole;
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
-
     private Theme th;
+    private int pos;
 
     @Override
     public void show() {
         th = Theme.KARDASHIAN;
         board = new Board(th);
-        boardRenderer = new BoardRenderer(board);
         controller = new BoardController(board);
+        pos = controller.getMolePositoin();
+        boardRenderer = new BoardRenderer(board);
+
     }
 
     @Override
