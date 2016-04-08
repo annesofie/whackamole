@@ -37,8 +37,8 @@ public class Mole {
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position, velocity;
-    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location, hiddenposition = 200;
-    private float dt = 0;
+    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
+    private float dt = 0, hiddenposition;
     private float hidespeed = 1000.0f;
 
 
@@ -46,9 +46,11 @@ public class Mole {
 
         this.position = pos;
         this.location = location;
+        hiddenposition = this.position.y - height*33/160;
         theme = th;
         if (theme == Theme.KARDASHIAN) {
             moleImage = new Texture(Gdx.files.internal("trump.png"));
+
             //moleSound = Gdx.audio.newSound(Gdx.files.internal("kar.mp3"));
         } else if (theme == Theme.PRESIDENTIAL) {
             moleImage = new Texture(Gdx.files.internal("trump.png"));
@@ -83,7 +85,7 @@ public class Mole {
 
     public void hide(float dt){
         if(this.position.y > hiddenposition) {
-            this.position.set(this.position.x, this.position.y - 1000.0f*dt);
+            this.position.set(this.position.x, this.position.y - (height/100)*dt);
         }
     }
 

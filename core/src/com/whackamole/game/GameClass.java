@@ -70,7 +70,8 @@ public class GameClass extends Game {
     @Override
     public void render() {
         Board board = new Board(Theme.KARDASHIAN);
-        BoardRenderer renderer = new BoardRenderer(board, board.getMoles().get(4));
+        board.setMole(board.getMoles().get(4));
+        BoardRenderer renderer = new BoardRenderer(board);
         renderer.render();
         //board.getMoles().get(6).hide();
         //MoleRenderer mr = new MoleRenderer(board.getMoles().get(6));
