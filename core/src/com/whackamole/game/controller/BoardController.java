@@ -4,6 +4,7 @@ package com.whackamole.game.controller;
  * Created by AnneSofie on 07.04.2016.
  */
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Board;
@@ -27,12 +28,24 @@ public class BoardController {
     }
 
     public boolean checkTouch(int x, int y) {
+
         for(Mole mole : this.currentMoles) {
-            if(mole.bounds.contains(x, y)) {
-                System.out.println("You hit Trump!!");
+            System.out.println("Box:");
+            float xbox = mole.getHitBox().getX();
+            float ybox = mole.getHitBox().getY();
+            System.out.println("x: " + xbox + " - " + (xbox + mole.getHitBox().getWidth()));
+            System.out.println("y: " + ybox + " - " + (ybox + mole.getHitBox().getHeight()));
+            System.out.print("Hit:");
+            System.out.println("x: " + x);
+            System.out.println("y: " + (board.getHeight() - y));
+
+            int canvasHeight = this.board.getHeight();
+
+            if(mole.getHitBox().contains(x, canvasHeight - y)) {
+                System.out.println("You hit the mole!!");
                 return true;
             }
-            System.out.println("You missed Trump!");
+            System.out.println("You missed the mole!");
         }
         return false;
     }
@@ -50,45 +63,5 @@ public class BoardController {
 
     private void processInput() {
 
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    @Override
-    public boolean keyDown(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        // TODO Auto-generated method stub
-        return false;
     }
 }

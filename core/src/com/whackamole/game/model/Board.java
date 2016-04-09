@@ -2,8 +2,10 @@ package com.whackamole.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.whackamole.game.utils.Constants;
 
 
 /**
@@ -25,8 +27,15 @@ public class Board {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                grid.add(new Mole(new Vector2((2+3*i)*width/10  - 17*width/120, (3 + 3*j)*height/16 - height/32),
-                        theme, grid.size));
+                float xpos = (2+3*i)*width/10  - 17*width/120;
+                float ypos = (3 + 3*j)*height/16 - height/32;
+                Vector2 vector = new Vector2(xpos, ypos);
+
+                float hitBoxWidth = Constants.hitBoxRelativeWidth * width;
+                float hitBoxHeight = Constants.hitBoxRelativeHeight * height;
+                Rectangle hitBox = new Rectangle(xpos, ypos, hitBoxWidth, hitBoxHeight);
+
+                grid.add(new Mole(vector, theme, grid.size, hitBox));
             }
         }
         this.filepath = theme.path();
@@ -74,6 +83,14 @@ public class Board {
 
     public Theme getTheme(){
         return theme;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public int getWidth() {
+        return this.width;
     }
 
 }

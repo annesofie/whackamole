@@ -40,17 +40,18 @@ public class Mole {
     private float dt = 0, hiddenposition, shownposition;
     private float hidespeed = 1000.0f;
     private boolean hidden;
+    private Rectangle hitBox;
 
 
-    public Mole(Vector2 pos, Theme th, int location) {
+    public Mole(Vector2 pos, Theme th, int location, Rectangle hitBox) {
 
         //this.position = pos;
         this.shownposition = pos.y;
         this.location = location;
-        this.hiddenposition = pos.y - height*33/160;
+        this.hiddenposition = pos.y - height * 33/160;
         this.position = setPos(pos.x, hiddenposition);
         this.hidden = true;
-        this.bounds = new Rectangle();
+        this.hitBox = hitBox;
 
     }
 
@@ -120,6 +121,10 @@ public class Mole {
             this.position.y = shownposition;}
     }
 
+
+    public Rectangle getHitBox() {
+        return this.hitBox;
+    }
 
 
 }

@@ -1,12 +1,14 @@
 package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
@@ -28,7 +30,6 @@ public class BoardRenderer {
     private SpriteBatch batch;
     private Sprite sprite;
     private int height, width;
-    private Mole mole;
     private boolean show;
 
     private String s1, s2, s3, s4, s5, path;
@@ -49,21 +50,27 @@ public class BoardRenderer {
     }
 
     public void render(){
+
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+
         batch.begin();
 
-        //debugrenderer.setProjectionMatrix(camera.combined);
-        //debugrenderer.begin(ShapeRenderer.ShapeType.Line);
-        //sprite = new Sprite(mole.getMoleImage());
 
-        //mole.hide();
+        batch.draw(hs, 0, 13 * height/16, width, 3 * height/16);
+        batch.draw(b4, 0, 9 * height/16, width, height/4);
 
-        //sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
 
-        batch.draw(hs, 0, 13*height/16, width, 3*height/16);
-        batch.draw(b4, 0, 9*height/16, width, height/4);
+        for(Mole mole : board.getCurrentMoles()) {
+            batch.draw(mole.getMoleImage(), mole.getPosition().x, mole.getPosition().y,
+                    mole.getMoleImage().getWidth(), mole.getMoleImage().getHeight());
+        }
 
+
+
+        /**
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 5 && mole.getLocation() < 9){
                 batch.draw(mole.getMoleImage(),
@@ -71,18 +78,36 @@ public class BoardRenderer {
                         mole.getPosition().y, 17*width/60, height/6);
             }
         }
+
+        **/
+
         batch.draw(b3, 0, 6*height/16, width, 3*height/16);
 
+        for(Mole mole : board.getCurrentMoles()) {
+            batch.draw(mole.getMoleImage(), mole.getPosition().x, mole.getPosition().y,
+                    mole.getMoleImage().getWidth(), mole.getMoleImage().getHeight());
+        }
+
+         /**
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 2 && mole.getLocation() < 6){
-                ;
+
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
             }
         }
+        **/
+
         batch.draw(b2, 0, 3*height/16, width, 3*height/16);
 
+        for(Mole mole : board.getCurrentMoles()) {
+            batch.draw(mole.getMoleImage(), mole.getPosition().x, mole.getPosition().y,
+                    mole.getMoleImage().getWidth(), mole.getMoleImage().getHeight());
+        }
+
+
+         /**
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() < 3){
                 batch.draw(mole.getMoleImage(),
@@ -90,14 +115,32 @@ public class BoardRenderer {
                         mole.getPosition().y, 17*width/60, height/6);
             }
         }
+         **/
+
         batch.draw(b1, 0, 0 , width, 3*height/16);
         batch.end();
 
+
+
+
+        debugrenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugrenderer.setColor(Color.RED);
+        for(Mole mole : board.getMoles()) {
+            float x = mole.getHitBox().getX();
+            float y = mole.getHitBox().getY();
+            float width = mole.getHitBox().getWidth();
+            float height = mole.getHitBox().getHeight();
+            debugrenderer.rect(x, y, width, height);
+        }
+        debugrenderer.end();
+
+
     }
 
-    public void setMole(Mole mole){
+    /**public void setMole(Mole mole){
         this.mole = mole;
     }
+     **/
 
     public void loadTextures(){
         b1 = new Texture(Gdx.files.internal(path + s1));
