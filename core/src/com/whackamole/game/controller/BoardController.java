@@ -24,8 +24,15 @@ public class BoardController implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
+
         touch_x = screenX;
         touch_y = screenY;
+
+        for (Mole mole: board.getCurrentMoles()) {
+            if(mole.getBoundingRectangle().contains(touch_x, touch_y)){
+                mole.finish();
+            }
+        }
         checkTouch(touch_x, touch_y);
         mole.setPos(touch_x, touch_y);
         System.out.println("touched");
