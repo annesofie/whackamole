@@ -34,18 +34,7 @@ public class GameScreen implements Screen, InputProcessor{
     public void show() {
         th = Theme.KARDASHIAN;
         board = new Board(th);
-        board.getMoles().get(4);
-        board.addCurrentMole(board.getMoles().get(4));
-        board.addCurrentMole(board.getMoles().get(5));
-        board.addCurrentMole(board.getMoles().get(1));
-
-        board.getCurrentMoles().get(0).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p1.png")));
-        board.getCurrentMoles().get(1).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p2.png")));
-        board.getCurrentMoles().get(2).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p3.png")));
-        board.getCurrentMoles().get(0).setTimeLimit(1f);
-        board.getCurrentMoles().get(1).setTimeLimit(2f);
-        board.getCurrentMoles().get(2).setTimeLimit(3f);
-        board.getCurrentMoles().get(2);
+        board.loadImages();
 
         //board.setMole(board.getMoles().get(4));
         boardRenderer = new BoardRenderer(board);

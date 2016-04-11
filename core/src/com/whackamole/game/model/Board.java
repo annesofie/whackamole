@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 public class Board {
 
     private Array<Mole> grid = new Array<Mole>(), currentMoles = new Array<Mole>();
+    private Array<Texture> imgList;
     private Texture b1, b2, b3, b4, hs;
     int height, width;
     Theme theme;
@@ -34,8 +35,21 @@ public class Board {
 
     }
 
+    public void loadImages(){
+        for (int i = 0; i < 6; i++) {
+            imgList.add(new Texture(Gdx.files.internal(filepath + "p" + i + 1 +".png")));
+        }
+    }
+
     public void addCurrentMole(Mole mole){
         currentMoles.add(mole);
+    }
+
+    public Texture getImg(int i){
+        if(i >=0 && i< 6){
+            return imgList.get(i);
+        }
+        else throw new IllegalArgumentException("Texture doesn't exist!");
     }
 
     public void removeCurrentMole(Mole mole){

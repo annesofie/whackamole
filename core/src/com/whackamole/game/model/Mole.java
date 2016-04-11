@@ -10,6 +10,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public class Mole extends Sprite{
 
@@ -43,6 +44,7 @@ public class Mole extends Sprite{
     //private float hidespeed = 1000.0f;
     private boolean hidden, finished = false;
     Rectangle rect;
+    private static Array<Texture> imgList;
    // private Rectangle hitBox;
 
     public Mole(Vector2 pos, Theme th, int location) {
@@ -78,6 +80,7 @@ public class Mole extends Sprite{
         this.dt += time;
 
     }
+
 
     public Vector2 setPos(float x, float y) {
         return new Vector2(x,y);
@@ -132,9 +135,11 @@ public class Mole extends Sprite{
     public void setMoleImg(Texture img) {
         this.moleImage=img;
     }
+
     public Sound getMoleSound(){
         return moleSound;
     }
+
     public void setMoleSound(Sound msc) {
         this.moleSound = msc;
     }
