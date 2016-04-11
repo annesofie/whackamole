@@ -7,10 +7,11 @@ package com.whackamole.game.model;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Mole {
+public class Mole extends Sprite{
 
 
 
@@ -38,10 +39,11 @@ public class Mole {
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
     private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
-    private float dt = 0, hiddenposition, shownposition;
-    private float hidespeed = 1000.0f;
-    private boolean hidden;
-
+    private float dt, hiddenposition, shownposition, timeLimit = 2;
+    //private float hidespeed = 1000.0f;
+    private boolean hidden, finished = false;
+    Rectangle rect;
+   // private Rectangle hitBox;
 
     public Mole(Vector2 pos, Theme th, int location) {
 
@@ -51,11 +53,50 @@ public class Mole {
         this.hiddenposition = pos.y - height*33/160;
         this.position = setPos(pos.x, hiddenposition);
         this.hidden = true;
+        this.dt=0;
+        setBoundingRectangle();
+
+    }
+
+    public void update(float time, float timeLimit){
+
+        if(finished){
+
+        }
+
+        if(this.dt < 0.145f && this.hidden){
+            show();
+            System.out.println("show()");
+            //this.hidden = false;
+
+        } else if (this.dt < timeLimit) {
+            this.hidden = false;
+        }else if (this.dt >= timeLimit && this.dt < timeLimit + 0.145f){
+            hide();
+            this.hidden = true;
+        } else finished = true;
+        this.dt += time;
 
     }
 
     public Vector2 setPos(float x, float y) {
         return new Vector2(x,y);
+    }
+
+    public void finish(){
+        this.finished = true;
+    }
+
+    public void reset(){
+        this.finished = false;
+    }
+
+    public float getTimeLimit(){
+        return timeLimit;
+    }
+
+    public void setTimeLimit(float timeLimit){
+        this.timeLimit =  timeLimit;
     }
 
 
@@ -66,6 +107,10 @@ public class Mole {
 
     public void setShownposition(){
         this.position.y = shownposition;
+    }
+
+    public boolean getFinished(){
+        return finished;
     }
 
     public Texture getMoleImage(){
@@ -104,7 +149,7 @@ public class Mole {
 
     public void hide(){
         if(this.position.y > hiddenposition){
-            this.position.y = this.position.y - height/100.0f;
+            this.position.y = this.position.y - height*33/1600.0f;
         }
         else {
             this.hidden = true;
@@ -113,11 +158,19 @@ public class Mole {
 
     public void show(){
         if(this.position.y < shownposition){
-            this.position.y = this.position.y + height/100.0f;
+            this.position.y = this.position.y + height*33/1600.0f;
         }
         else {
             this.hidden = false;
             this.position.y = shownposition;}
+    }
+
+    public void setBoundingRectangle(){
+        this.rect = new Rectangle(this.position.x, this.shownposition, height*33/160, width*17/60);
+    }
+
+    public Rectangle getBoundingRectangle(){
+        return this.rect;
     }
 
 
