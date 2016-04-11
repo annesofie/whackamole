@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Array;
 public class Board {
 
     private Array<Mole> grid = new Array<Mole>(), currentMoles = new Array<Mole>();
+    private Array<Texture> imgList;
     private Texture b1, b2, b3, b4, hs;
     int height, width;
     Theme theme;
@@ -23,8 +24,9 @@ public class Board {
         this.width = Gdx.graphics.getWidth();
         this.theme = theme;
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+
                 grid.add(new Mole(new Vector2((2+3*i)*width/10  - 17*width/120, (3 + 3*j)*height/16 - height/32),
                         theme, grid.size));
             }
@@ -33,8 +35,25 @@ public class Board {
 
     }
 
-    public void addCurrentMole(Mole mole){
-        currentMoles.add(mole);
+    public void loadImages(){
+        for (int i = 0; i < 6; i++) {
+            imgList.add(new Texture(Gdx.files.internal(filepath + "p" + i + 1 +".png")));
+        }
+    }
+
+    public void addCurrentMole(int i){
+        currentMoles.add(grid.get(i));
+    }
+
+    public Texture getImg(int i){
+        if(i >=0 && i< 6){
+            return imgList.get(i);
+        }
+        else throw new IllegalArgumentException("Texture doesn't exist!");
+    }
+
+    public void removeCurrentMole(Mole mole){
+        currentMoles.removeValue(mole, false);
     }
 
     public Array<Mole> getCurrentMoles(){
@@ -54,6 +73,10 @@ public class Board {
         if(!mole.hidden()) {
             mole.hide();
         }
+    }
+
+    public int getHeight(){
+        return height;
     }
 
     public Mole getMole() {
