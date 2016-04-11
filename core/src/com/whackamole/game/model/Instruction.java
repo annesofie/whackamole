@@ -13,14 +13,18 @@ public class Instruction {
 
     int screenWidth;
     int screenHeight;
+    int buttonWidth;
+    int buttonHeight;
 
-    public InstructionState(){
+    public Instruction(){
 
         instructions = new Texture("instructionsTemp.png");
-        returnBtn = new Texture("returnButtonTemp");
+        returnBtn = new Texture("returnButtonTemp.png");
 
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
+        buttonWidth = returnBtn.getWidth();
+        buttonHeight = returnBtn.getHeight();
     }
 
     public Texture getInstructions() {
@@ -37,5 +41,13 @@ public class Instruction {
 
     public int getScreenHeight() {
         return screenHeight;
+    }
+
+    public int getButtonWidth() {
+        return buttonWidth;
+    }
+
+    public int getButtonHeight() {
+        return buttonHeight;
     }
 }
