@@ -125,7 +125,7 @@ public class BoardRenderer {
         p3 = new Texture(Gdx.files.internal(path + "p3.png"));
         p4 = new Texture(Gdx.files.internal(path + "p4.png"));
         p5 = new Texture(Gdx.files.internal(path + "p5.png"));
-        bonus = new Texture(Gdx.files.internal(path + "bonus.png"));
+        bonus = new Texture(Gdx.files.internal(path + "p6.png"));
 
         //må også laste moleImage
     }
