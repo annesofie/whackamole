@@ -1,7 +1,9 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.math.Vector2;
 import com.whackamole.game.model.Board;
+import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
