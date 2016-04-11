@@ -31,10 +31,10 @@ public class MainMenuRenderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.draw(state.getBackground(),0,0,state.getScreenWidth(),state.getScreenHeight());
-        batch.draw(state.getCreateGameBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*4/5 - state.getButtonHeight()/2);
-        batch.draw(state.getJoinGameBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*3/5 - state.getButtonHeight()/2);
-        batch.draw(state.getSettingsBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*2/5 - state.getButtonHeight()/2);
-        batch.draw(state.getInstructionsBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*4/5 - state.getButtonHeight()/2);
+        batch.draw(state.getCreateGameBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*9/12 - state.getButtonHeight()/2);
+        batch.draw(state.getJoinGameBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*7/12 - state.getButtonHeight()/2);
+        batch.draw(state.getSettingsBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*5/12 - state.getButtonHeight()/2);
+        batch.draw(state.getInstructionsBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*3/12 - state.getButtonHeight()/2);
         batch.end();
     }
 

@@ -42,11 +42,11 @@ public class MainMenu {
     int buttonHeight;
 
     public MainMenu(){
-        background = new Texture("background_temp.png");
-        createGameBtn = new Texture("create_btn_temp.png");
-        joinGameBtn = new Texture("join_btn_temp.png");
-        settingsBtn = new Texture("settings_btn_temp.png");
-        instructionsBtn = new Texture("instructions_btn_temp.png");
+        background = new Texture("Bakgr.png");
+        createGameBtn = new Texture("CreateGame.png");
+        joinGameBtn = new Texture("JoinGame.png");
+        settingsBtn = new Texture("SettingsBTN.png");
+        instructionsBtn = new Texture("Instructions.png");
 
         game_setting = new GameSettings(name, id, game_theme, num_of_moles);
         buttonWidth = createGameBtn.getWidth();
@@ -90,4 +90,22 @@ public class MainMenu {
     public int getButtonHeight() {
         return buttonHeight;
     }
+
+    public void setCreateGameBtn(Texture createGameBtn) {
+        this.createGameBtn = createGameBtn;
+    }
+
+    public void setJoinGameBtn(Texture joinGameBtn) {
+        this.joinGameBtn = joinGameBtn;
+    }
+
+    public void setSettingsBtn(Texture settingsBtn) {
+        this.settingsBtn = settingsBtn;
+    }
+
+    public void setInstructionsBtn(Texture instructionsBtn) {
+        this.instructionsBtn = instructionsBtn;
+    }
+
+
 }
