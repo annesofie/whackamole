@@ -1,22 +1,22 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
-import com.whackamole.game.model.GameOverState;
-import com.whackamole.game.views.GameOverStateRenderer;
+import com.whackamole.game.model.GameOver;
+import com.whackamole.game.views.GameOverRenderer;
 
 /**
  * Created by AnneSofie on 04.04.2016.
  */
 public class GameOverScreen implements Screen {
 
-    GameOverState state;
-    GameOverStateRenderer renderer;
+    GameOver state;
+    GameOverRenderer renderer;
 
 
     @Override
     public void show() {
-        this.state = new GameOverState();
-        this.renderer = new GameOverStateRenderer(this.state);
+        this.state = new GameOver();
+        this.renderer = new GameOverRenderer(this.state);
     }
 
     @Override

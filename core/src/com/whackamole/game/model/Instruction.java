@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 /**
  * Created by Lars on 07/04/16.
  */
-public class InstructionState {
+public class Instruction {
 
     private Texture instructions;
     private Texture returnBtn;
