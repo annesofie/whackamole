@@ -35,10 +35,7 @@ public class GameScreen implements Screen, InputProcessor{
         th = Theme.KARDASHIAN;
         board = new Board(th);
         board.loadImages();
-
-        //board.setMole(board.getMoles().get(4));
         boardRenderer = new BoardRenderer(board);
-        //boardRenderer.setMole(board.getMoles().get(4));
         boardRenderer.loadTextures();
         controller = new BoardController(board);
         Gdx.input.setInputProcessor(this);

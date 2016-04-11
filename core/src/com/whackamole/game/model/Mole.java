@@ -60,25 +60,22 @@ public class Mole extends Sprite{
 
     }
 
-    public void update(float time, float timeLimit){
+    public void update(float time){
 
-        if(finished){
 
-        }
-
-        if(this.dt < 0.145f && this.hidden){
+        if(this.dt < 0.145f && this.hidden) {
             show();
             System.out.println("show()");
             //this.hidden = false;
 
-        } else if (this.dt < timeLimit) {
-            this.hidden = false;
-        }else if (this.dt >= timeLimit && this.dt < timeLimit + 0.145f){
-            hide();
-            this.hidden = true;
-        } else finished = true;
-        this.dt += time;
-
+            // { else if (this.dt < timeLimit) {
+            //this.hidden = false;
+//        }else if (this.dt >= timeLimit && this.dt < timeLimit + 0.145f){
+//            hide();
+//            this.hidden = true;
+//        } else finished = true;
+            this.dt += time;
+        }
     }
 
 
@@ -92,6 +89,7 @@ public class Mole extends Sprite{
 
     public void reset(){
         this.finished = false;
+        this.moleImage = null;
     }
 
     public float getTimeLimit(){

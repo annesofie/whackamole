@@ -33,15 +33,15 @@ public class BoardController implements InputProcessor{
                 mole.finish();
             }
         }
-        checkTouch(touch_x, touch_y);
+        //checkTouch(touch_x, touch_y);
         mole.setPos(touch_x, touch_y);
         System.out.println("touched");
         return true;
     }
 
-    public void checkTouch(int x, int y) {
-
-
+    public void receiveSocket(int mole, int img){
+        this.board.addCurrentMole(mole);
+        this.board.getCurrentMoles().get(0).setMoleImg(board.getImg(img));
     }
 
     /** The main update method **/

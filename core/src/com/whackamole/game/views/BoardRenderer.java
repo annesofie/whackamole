@@ -65,11 +65,12 @@ public class BoardRenderer {
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 5 && mole.getLocation() < 9){
-
+                mole.update(0.15f);
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
                 if(mole.getFinished()){
+                    board.getCurrentMoles().get(0).reset();
                     board.removeCurrentMole(mole);
                 }
             }
@@ -79,7 +80,7 @@ public class BoardRenderer {
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 2 && mole.getLocation() < 6){
 
-                mole.update(0.015f, mole.getTimeLimit());
+                mole.update(0.015f);
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
@@ -92,7 +93,7 @@ public class BoardRenderer {
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() < 3){
-                mole.update(0.015f, mole.getTimeLimit());
+                mole.update(0.015f);
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);

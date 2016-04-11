@@ -41,8 +41,8 @@ public class Board {
         }
     }
 
-    public void addCurrentMole(Mole mole){
-        currentMoles.add(mole);
+    public void addCurrentMole(int i){
+        currentMoles.add(grid.get(i));
     }
 
     public Texture getImg(int i){
