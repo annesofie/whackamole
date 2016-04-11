@@ -41,7 +41,7 @@ public class GameScreen implements Screen, InputProcessor{
 
     @Override
     public void show() {
-        th = Theme.KARDASHIAN;
+        th = Theme.PRESIDENTIAL;
         board = new Board(th);
         board.loadImages();
         boardRenderer = new BoardRenderer(board);
@@ -51,6 +51,7 @@ public class GameScreen implements Screen, InputProcessor{
         sc.setBoardController(controller);
         backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(th.path() + "background.mp3"));
         backgroundmusic.setLooping(true);
+        backgroundmusic.setVolume(0.5f);
         backgroundmusic.play();
 
     }

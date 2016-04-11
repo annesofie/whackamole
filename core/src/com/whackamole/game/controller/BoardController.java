@@ -34,7 +34,7 @@ public class BoardController implements InputProcessor{
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getBoundingRectangle().contains(touch_x, touch_y)){
 //                firstuser.addScore(mole.getScore());
-                hitsound.play();
+                hitsound.play(1);
                 mole.finish();
 
             }
