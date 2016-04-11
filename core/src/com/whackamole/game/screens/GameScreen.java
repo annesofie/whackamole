@@ -29,6 +29,7 @@ public class GameScreen implements Screen, InputProcessor{
     private Mole mole;
 
     private Theme th;
+    private int currentMole, currentImg;
 
     @Override
     public void show() {

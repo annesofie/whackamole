@@ -1,9 +1,5 @@
 package com.whackamole.game.controller;
 
-/**
- * Created by AnneSofie on 07.04.2016.
- */
-
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Board;
 import com.badlogic.gdx.InputProcessor;
@@ -16,15 +12,16 @@ public class BoardController implements InputProcessor{
     private Board board;
     private Mole mole;
 
-
     public BoardController(Board board) {
         this.board = board;
         this.mole = board.getMole();
     }
 
+    public void setMole(int pos) {
+
+    }
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
 
         touch_x = screenX;
         touch_y = screenY;
@@ -35,7 +32,7 @@ public class BoardController implements InputProcessor{
             }
         }
         //checkTouch(touch_x, touch_y);
-        mole.setPos(touch_x, touch_y);
+        //mole.setPos(touch_x, touch_y);
         System.out.println("touched");
         return true;
     }

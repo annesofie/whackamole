@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Mole;
+import com.whackamole.game.model.Theme;
 
 /**
  * Created by Lars on 07/04/16.

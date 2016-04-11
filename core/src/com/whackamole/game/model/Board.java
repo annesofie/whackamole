@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-
 /**
  * Created by AnneSofie on 04.04.2016.
  */
@@ -14,12 +13,16 @@ public class Board {
     private Array<Mole> grid = new Array<Mole>(), currentMoles = new Array<Mole>();
     private Array<Texture> imgList;
     private Texture b1, b2, b3, b4, hs;
+    private Texture background;
     int height, width;
     Theme theme;
     private String filepath;
 
     public Board(Theme theme){
 
+       // moles = new ArrayList<Mole>();
+        //Choose correct background for current theme
+        //background = new Texture(Gdx.files.internal("background.png"));
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
         this.theme = theme;
@@ -74,7 +77,6 @@ public class Board {
             mole.hide();
         }
     }
-
     public int getHeight(){
         return height;
     }
@@ -85,6 +87,11 @@ public class Board {
 
     public Array<Mole> getMoles(){
         return grid;
+    }
+
+    public int getX(){
+        return 0;
+
     }
 
     public int getY(){

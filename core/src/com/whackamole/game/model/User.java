@@ -9,6 +9,8 @@ public class User {
 
     String username;
     int userId;
+    int points;
+
     boolean loggedIn = false;
     public static ArrayList<User> userList = new ArrayList<User>();
     public static ArrayList<Integer> idList = new ArrayList<Integer>();
