@@ -16,6 +16,7 @@ public class BoardController implements InputProcessor{
     private Board board;
     private Mole mole;
 
+
     public BoardController(Board board) {
         this.board = board;
         this.mole = board.getMole();
