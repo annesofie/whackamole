@@ -17,13 +17,6 @@ public class BoardController implements InputProcessor{
         this.mole = board.getMole();
     }
 
-    public int getMolePosition() {
-        return sockcontroller.getMolePosition();
-    }
-    public int getImgPosition() {
-        return sockcontroller.getImgPosition();
-    }
-
     public void setMole(int pos) {
 
     }
