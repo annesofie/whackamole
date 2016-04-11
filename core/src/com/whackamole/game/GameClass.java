@@ -13,7 +13,7 @@ import com.whackamole.game.views.BoardRenderer;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 
-public class GameClass extends Game {
+//public class GameClass extends Game {
 
 
 //	/**
@@ -33,7 +33,7 @@ public class GameClass extends Game {
 //    int imagey;
 //
 //    @Override
-        public void create() {}
+        //public void create() {}
 //
 //        /**
 //         *

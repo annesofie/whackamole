@@ -1,9 +1,5 @@
 package com.whackamole.game.controller;
 
-/**
- * Created by AnneSofie on 07.04.2016.
- */
-
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Board;
 import com.badlogic.gdx.InputProcessor;

@@ -75,7 +75,7 @@ public class BoardRenderer {
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 2 && mole.getLocation() < 6){
-                ;
+
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);

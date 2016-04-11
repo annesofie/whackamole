@@ -33,9 +33,19 @@ public class SocketController {
             }
 
         });
-        socket.emit('new game', )
+        String gamename = "anso";
+        socket.emit("new game", gamename);
+        socket.on("new game success", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                System.out.println(args + "start game");
+                socket.emit("start game");
+            }
+
+        });
         socket.on("new mole", newMole);
     }
+
     private Emitter.Listener onConnectError = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
@@ -46,16 +56,6 @@ public class SocketController {
     private Emitter.Listener newMole = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            /*String currentMole = (String) args[0];
-            String[] coord = currentMole.split(",");
-            if (coord.length < 2){
-                return;
-            }
-            currentMolePosition = Integer.parseInt(coord[0]);
-            currentImgPos = Integer.parseInt(coord[1]);
-            System.out.println(currentMolePosition);
-            System.out.println(currentImgPos); */
-
             JSONObject data = (JSONObject) args[0];
             System.out.println(data);
 
