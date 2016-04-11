@@ -69,6 +69,8 @@ public class BoardRenderer {
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
+            }if(mole.getFinished()){
+                board.removeCurrentMole(mole);
             }
         }
         batch.draw(b3, 0, 6*height/16, width, 3*height/16);

@@ -5,11 +5,13 @@ package com.whackamole.game.controller;
  */
 
 import com.badlogic.gdx.utils.JsonReader;
+import com.whackamole.game.model.Board;
 import com.whackamole.game.utils.SocketRetreiver;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.json.JSONObject;
 import org.json.JSONException;
+
 
 
 public class SocketController {
@@ -18,8 +20,10 @@ public class SocketController {
     Socket socket;
     JsonReader reader;
     private int currentMolePosition, currentImgPos;
+    private BoardController boardController;
 
-    public SocketController() {
+    public SocketController(String gamename) {
+
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
@@ -33,7 +37,6 @@ public class SocketController {
             }
 
         });
-        String gamename = "anso";
         socket.emit("new game", gamename);
         socket.on("new game success", new Emitter.Listener() {
             @Override
@@ -57,12 +60,13 @@ public class SocketController {
         @Override
         public void call(Object... args) {
             JSONObject data = (JSONObject) args[0];
-            System.out.println(data);
+            System.out.println(data + " = args from server");
 
             try {
                 System.out.println("inside try");
                 currentMolePosition = data.getInt("pos");
                 currentImgPos = data.getInt("pic");
+                boardController.receiveSocket(currentMolePosition, currentImgPos);
             } catch (JSONException e) {
                 System.out.println("nothing");
                 return;
@@ -78,5 +82,9 @@ public class SocketController {
     public int getImgPosition() {
         return currentImgPos;
     };
+
+    public void setBoardController(BoardController bc){
+        this.boardController = bc;
+    }
 
 }

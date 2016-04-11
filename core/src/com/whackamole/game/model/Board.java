@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-
 /**
  * Created by AnneSofie on 04.04.2016.
  */
@@ -64,7 +63,6 @@ public class Board {
             mole.hide();
         }
     }
-
     public int getHeight(){
         return height;
     }

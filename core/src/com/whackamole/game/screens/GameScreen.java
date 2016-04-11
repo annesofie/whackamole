@@ -34,6 +34,8 @@ public class GameScreen implements Screen, InputProcessor{
     @Override
     public void show() {
         th = Theme.KARDASHIAN;
+        boardcontroller = new BoardController(board);
+        /*
         board = new Board(th);
         board.getMoles().get(4).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p1.png")));
         board.getMoles().get(5).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p2.png")));
@@ -50,12 +52,11 @@ public class GameScreen implements Screen, InputProcessor{
         board.getCurrentMoles().get(1).setTimeLimit(2f);
         board.getCurrentMoles().get(2).setTimeLimit(3f);
         board.getCurrentMoles().get(2);
-
+        */
         //board.setMole(board.getMoles().get(4));
         boardRenderer = new BoardRenderer(board);
         //boardRenderer.setMole(board.getMoles().get(4));
         boardRenderer.loadTextures();
-        boardcontroller = new BoardController(board);
         //controller = new BoardController(board);
         Gdx.input.setInputProcessor(this);
     }

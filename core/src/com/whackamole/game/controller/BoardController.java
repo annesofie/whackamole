@@ -12,11 +12,16 @@ public class BoardController implements InputProcessor{
     private Board board;
     private Mole mole;
     private SocketController sockcontroller;
+    int count = 0;
 
     public BoardController(Board board) {
+        count ++;
+        String gamename = "Game" + count;  //Midlertidig før vi får mainmenu opp
+        System.out.println(gamename + " = gamename ");
+        this.sockcontroller = new SocketController(gamename);
+
         this.board = board;
         //this.mole = board.getMole();
-        this.sockcontroller = new SocketController();
     }
 
     public int getMolePosition() {
@@ -32,7 +37,6 @@ public class BoardController implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-
         touch_x = screenX;
         touch_y = screenY;
 
@@ -41,8 +45,8 @@ public class BoardController implements InputProcessor{
                 mole.finish();
             }
         }
-        checkTouch(touch_x, touch_y);
-        mole.setPos(touch_x, touch_y);
+        //checkTouch(touch_x, touch_y);
+        //mole.setPos(touch_x, touch_y);
         System.out.println("touched");
         return true;
     }

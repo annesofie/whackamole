@@ -13,9 +13,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Mole extends Sprite{
 
-
-
-
     /**
      *  The view:
      *  Moles should be rendered on the screen when a signal is given
@@ -28,22 +25,15 @@ public class Mole extends Sprite{
      *  a mole should be rendered at that location.
      *  Some people say that the model should not be aware of the view, but other people
      *  say that it is perfectly fine to use the Observer-pattern between the model and the view. Let's check this.
-     *
-     *
      */
-
-
-
 
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
     private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
     private float dt, hiddenposition, shownposition, timeLimit = 2;
-    //private float hidespeed = 1000.0f;
     private boolean hidden, finished = false;
     Rectangle rect;
-   // private Rectangle hitBox;
 
     public Mole(Vector2 pos, Theme th, int location) {
 
@@ -98,8 +88,6 @@ public class Mole extends Sprite{
     public void setTimeLimit(float timeLimit){
         this.timeLimit =  timeLimit;
     }
-
-
 
     public void setHiddenposition(){
         this.position.y = hiddenposition;
