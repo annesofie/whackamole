@@ -3,8 +3,10 @@ package com.whackamole.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.whackamole.game.controller.SocketController;
 import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
@@ -27,9 +29,15 @@ public class GameScreen implements Screen, InputProcessor{
     private BoardRenderer boardRenderer;
     private BoardController controller;
     private Mole mole;
+    private SocketController sc;
+    private Music backgroundmusic;
 
     private Theme th;
     private int currentMole, currentImg;
+
+    public GameScreen(SocketController sc){
+        this.sc = sc;
+    }
 
     @Override
     public void show() {
@@ -40,6 +48,11 @@ public class GameScreen implements Screen, InputProcessor{
         boardRenderer.loadTextures();
         controller = new BoardController(board);
         Gdx.input.setInputProcessor(this);
+        sc.setBoardController(controller);
+        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(th.path() + "background.mp3"));
+        backgroundmusic.setLooping(true);
+        backgroundmusic.play();
+
     }
 
     @Override

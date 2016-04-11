@@ -1,9 +1,12 @@
 package com.whackamole.game.controller;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Board;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.whackamole.game.model.User;
 
 public class BoardController implements InputProcessor{
 
@@ -11,6 +14,8 @@ public class BoardController implements InputProcessor{
     private int touch_x, touch_y;
     private Board board;
     private Mole mole;
+    private User firstuser;
+    private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
 
     public BoardController(Board board) {
         this.board = board;
@@ -28,7 +33,10 @@ public class BoardController implements InputProcessor{
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getBoundingRectangle().contains(touch_x, touch_y)){
+//                firstuser.addScore(mole.getScore());
+                hitsound.play();
                 mole.finish();
+
             }
         }
         //checkTouch(touch_x, touch_y);
@@ -39,7 +47,7 @@ public class BoardController implements InputProcessor{
 
     public void receiveSocket(int mole, int img){
         this.board.addCurrentMole(mole);
-        this.board.getCurrentMoles().get(0).setMoleImg(board.getImg(img));
+        this.board.getCurrentMoles().get(0).setMoleImg(board.getImg(img), img);
     }
 
     /** The main update method **/

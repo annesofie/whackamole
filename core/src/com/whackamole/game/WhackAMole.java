@@ -16,11 +16,12 @@ public class WhackAMole extends Game {
     @Override
     public void create() {
         count ++;
-        String gamename = "Game" + count;  //Midlertidig før vi får mainmenu opp
+        String gamename = "lol" + count; //Midlertidig før vi får mainmenu opp
+        System.out.println(gamename);
         soController = new SocketController(gamename);
 
         // Initilizes GameScreen, calls show() to make it the active screen and runs render every subsequent cycle
-        setScreen(new GameScreen());
+        setScreen(new GameScreen(soController));
 
     }
 

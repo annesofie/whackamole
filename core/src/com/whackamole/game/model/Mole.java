@@ -39,7 +39,7 @@ public class Mole extends Sprite{
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
-    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
+    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location, value;
     private float dt, hiddenposition, shownposition, timeLimit = 2;
     //private float hidespeed = 1000.0f;
     private boolean hidden, finished = false;
@@ -89,6 +89,7 @@ public class Mole extends Sprite{
     public void reset(){
         this.finished = false;
         this.moleImage = null;
+        this.value = 0;
     }
 
     public float getTimeLimit(){
@@ -129,12 +130,18 @@ public class Mole extends Sprite{
         this.hidden = false;
     }
 
-    public void setMoleImg(Texture img) {
+    public void setMoleImg(Texture img, int points) {
         this.moleImage=img;
+
+        if(points > 4) {
+            this.value = 5;
+        } else this.value = 1;
     }
     public Sound getMoleSound(){
         return moleSound;
     }
+
+    public int getScore(){return this.value;}
     public void setMoleSound(Sound msc) {
         this.moleSound = msc;
     }

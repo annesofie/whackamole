@@ -66,5 +66,9 @@ public class User {
         return this.userId;
     }
 
+    public void addScore(int i){
+        points += i;
+    }
+
     
 }

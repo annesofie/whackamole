@@ -34,10 +34,23 @@ public class SocketController {
             @Override
             public void call(Object... args) {
                 System.out.println("connected to socket");
+                //boardController.receiveSocket(3, 5);
             }
 
         });
-        socket.emit("new game", gamename);
+
+        String message = "";
+        JSONObject json = new JSONObject();
+        try {
+            json.put("gameName", gamename);
+            json.put("nickName", "anneri");
+            message = json.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        System.out.println(message);
+
+        socket.emit("new game", message);
         socket.on("new game success", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -46,6 +59,15 @@ public class SocketController {
             }
 
         });
+
+        socket.on("new game error", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                System.out.println(args[0] + " failed");
+            }
+        });
+        socket.on("chat message", onNewMessage);
         socket.on("new mole", newMole);
     }
 
@@ -53,6 +75,21 @@ public class SocketController {
         @Override
         public void call(Object... args) {
             System.out.println("Connected error");
+        }
+    };
+
+    private Emitter.Listener onNewMessage = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            String message = (String) args[0];
+            String[] coord = message.split(",");
+            if (coord.length < 2){
+                return;
+            }
+            currentMolePosition = Integer.parseInt(coord[0]);
+            currentImgPos = Integer.parseInt(coord[1]);
+            System.out.println(currentMolePosition);
+            System.out.println(currentImgPos);
         }
     };
 
