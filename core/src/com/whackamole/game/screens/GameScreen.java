@@ -18,16 +18,12 @@ public class GameScreen implements Screen, InputProcessor{
 
     /**
      *  Contains a GameState
-     *
-     *
      */
-
 
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
     private Mole mole;
-
     private Theme th;
     private int currentMole, currentImg;
 
@@ -41,7 +37,6 @@ public class GameScreen implements Screen, InputProcessor{
         controller = new BoardController(board);
         Gdx.input.setInputProcessor(this);
     }
-
     @Override
     public void render(float delta) {
         controller.update(delta);
@@ -49,31 +44,16 @@ public class GameScreen implements Screen, InputProcessor{
         //System.out.println(Gdx.graphics.getDeltaTime());
 
     }
-
     @Override
-    public void resize(int width, int height) {
-
-    }
-
+    public void resize(int width, int height) { }
     @Override
-    public void pause() {
-
-    }
-
+    public void pause() { }
     @Override
-    public void resume() {
-
-    }
-
+    public void resume() { }
     @Override
-    public void hide() {
-
-    }
-
+    public void hide() { }
     @Override
-    public void dispose() {
-
-    }
+    public void dispose() { }
 
     public void setTheme(Theme th){
         this.th = th;

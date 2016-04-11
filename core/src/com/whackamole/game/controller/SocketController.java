@@ -23,8 +23,6 @@ public class SocketController {
     private BoardController boardController;
 
     public SocketController(String gamename) {
-
-
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -37,7 +35,18 @@ public class SocketController {
             }
 
         });
-        socket.emit("new game", gamename);
+
+        String message = "";
+        JSONObject json = new JSONObject();
+        try {
+            json.put("gameName", gamename);
+            json.put("nickName", "anneri");
+            message = json.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        socket.emit("new game", message);
         socket.on("new game success", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -45,6 +54,13 @@ public class SocketController {
                 socket.emit("start game");
             }
 
+        });
+        socket.on("new game error", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                System.out.println(args + " failed");
+            }
         });
         socket.on("new mole", newMole);
     }
