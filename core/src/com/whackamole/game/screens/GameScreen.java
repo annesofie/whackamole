@@ -25,7 +25,7 @@ public class GameScreen implements Screen, InputProcessor{
 
     private Board board;
     private BoardRenderer boardRenderer;
-    private BoardController boardcontroller;
+    private BoardController controller;
     private Mole mole;
 
     private Theme th;
@@ -34,36 +34,17 @@ public class GameScreen implements Screen, InputProcessor{
     @Override
     public void show() {
         th = Theme.KARDASHIAN;
-        boardcontroller = new BoardController(board);
-        /*
         board = new Board(th);
-        board.getMoles().get(4).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p1.png")));
-        board.getMoles().get(5).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p2.png")));
-        board.getMoles().get(1).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p3.png")));
-        board.getMoles().get(4);
-        board.addCurrentMole(board.getMoles().get(4));
-        board.addCurrentMole(board.getMoles().get(5));
-        board.addCurrentMole(board.getMoles().get(1));
-
-        board.getCurrentMoles().get(0).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p1.png")));
-        board.getCurrentMoles().get(1).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p2.png")));
-        board.getCurrentMoles().get(2).setMoleImg(new Texture(Gdx.files.internal(board.getPath() + "p3.png")));
-        board.getCurrentMoles().get(0).setTimeLimit(1f);
-        board.getCurrentMoles().get(1).setTimeLimit(2f);
-        board.getCurrentMoles().get(2).setTimeLimit(3f);
-        board.getCurrentMoles().get(2);
-        */
-        //board.setMole(board.getMoles().get(4));
+        board.loadImages();
         boardRenderer = new BoardRenderer(board);
-        //boardRenderer.setMole(board.getMoles().get(4));
         boardRenderer.loadTextures();
-        //controller = new BoardController(board);
+        controller = new BoardController(board);
         Gdx.input.setInputProcessor(this);
     }
 
     @Override
     public void render(float delta) {
-        boardcontroller.update(delta);
+        controller.update(delta);
         boardRenderer.render();
         //System.out.println(Gdx.graphics.getDeltaTime());
 
@@ -116,7 +97,7 @@ public class GameScreen implements Screen, InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("Touch");
-        return this.boardcontroller.touchDown(screenX, board.getHeight() - screenY, pointer, button);
+        return this.controller.touchDown(screenX, board.getHeight() - screenY, pointer, button);
     }
 
     @Override

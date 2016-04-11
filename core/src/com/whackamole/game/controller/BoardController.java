@@ -11,17 +11,10 @@ public class BoardController implements InputProcessor{
     private int touch_x, touch_y;
     private Board board;
     private Mole mole;
-    private SocketController sockcontroller;
-    int count = 0;
 
     public BoardController(Board board) {
-        count ++;
-        String gamename = "Game" + count;  //Midlertidig før vi får mainmenu opp
-        System.out.println(gamename + " = gamename ");
-        this.sockcontroller = new SocketController(gamename);
-
         this.board = board;
-        //this.mole = board.getMole();
+        this.mole = board.getMole();
     }
 
     public int getMolePosition() {
@@ -51,9 +44,9 @@ public class BoardController implements InputProcessor{
         return true;
     }
 
-    public void checkTouch(int x, int y) {
-
-
+    public void receiveSocket(int mole, int img){
+        this.board.addCurrentMole(mole);
+        this.board.getCurrentMoles().get(0).setMoleImg(board.getImg(img));
     }
 
     /** The main update method **/

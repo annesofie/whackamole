@@ -24,7 +24,7 @@ public class BoardRenderer {
 
     private Board board;
     private OrthographicCamera camera;
-    private Texture b1, b2, b3, b4 , hs;
+    private Texture b1, b2, b3, b4 , hs, p1, p2, p3, p4, p5, bonus;
     private SpriteBatch batch;
     private Sprite sprite;
     private int height, width;
@@ -66,11 +66,14 @@ public class BoardRenderer {
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 5 && mole.getLocation() < 9){
+                mole.update(0.15f);
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
-            }if(mole.getFinished()){
-                board.removeCurrentMole(mole);
+                if(mole.getFinished()){
+                    board.getCurrentMoles().get(0).reset();
+                    board.removeCurrentMole(mole);
+                }
             }
         }
         batch.draw(b3, 0, 6*height/16, width, 3*height/16);
@@ -78,7 +81,7 @@ public class BoardRenderer {
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 2 && mole.getLocation() < 6){
 
-                mole.update(0.015f, mole.getTimeLimit());
+                mole.update(0.015f);
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
@@ -91,7 +94,7 @@ public class BoardRenderer {
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() < 3){
-                mole.update(0.015f, mole.getTimeLimit());
+                mole.update(0.015f);
                 batch.draw(mole.getMoleImage(),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
@@ -102,6 +105,8 @@ public class BoardRenderer {
         }
         batch.draw(b1, 0, 0 , width, 3*height/16);
         batch.end();
+
+
 
     }
 
@@ -115,6 +120,13 @@ public class BoardRenderer {
         b3 = new Texture(Gdx.files.internal(path + s3));
         b4 = new Texture(Gdx.files.internal(path + s4));
         hs = new Texture(Gdx.files.internal(path + s5));
+        p1 = new Texture(Gdx.files.internal(path + "p1.png"));
+        p2 = new Texture(Gdx.files.internal(path + "p2.png"));
+        p3 = new Texture(Gdx.files.internal(path + "p3.png"));
+        p4 = new Texture(Gdx.files.internal(path + "p4.png"));
+        p5 = new Texture(Gdx.files.internal(path + "p5.png"));
+        bonus = new Texture(Gdx.files.internal(path + "bonus.png"));
+
         //må også laste moleImage
     }
 }

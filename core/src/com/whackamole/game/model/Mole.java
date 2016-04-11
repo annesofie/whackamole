@@ -10,8 +10,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 public class Mole extends Sprite{
+
+
+
 
     /**
      *  The view:
@@ -25,15 +29,23 @@ public class Mole extends Sprite{
      *  a mole should be rendered at that location.
      *  Some people say that the model should not be aware of the view, but other people
      *  say that it is perfectly fine to use the Observer-pattern between the model and the view. Let's check this.
+     *
+     *
      */
+
+
+
 
     private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
     private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location;
     private float dt, hiddenposition, shownposition, timeLimit = 2;
+    //private float hidespeed = 1000.0f;
     private boolean hidden, finished = false;
     Rectangle rect;
+   // private Rectangle hitBox;
+   private static Array<Texture> imgList;
 
     public Mole(Vector2 pos, Theme th, int location) {
 
@@ -48,25 +60,22 @@ public class Mole extends Sprite{
 
     }
 
-    public void update(float time, float timeLimit){
+    public void update(float time){
 
-        if(finished){
 
-        }
-
-        if(this.dt < 0.145f && this.hidden){
+        if(this.dt < 0.145f && this.hidden) {
             show();
             System.out.println("show()");
             //this.hidden = false;
 
-        } else if (this.dt < timeLimit) {
-            this.hidden = false;
-        }else if (this.dt >= timeLimit && this.dt < timeLimit + 0.145f){
-            hide();
-            this.hidden = true;
-        } else finished = true;
-        this.dt += time;
-
+            // { else if (this.dt < timeLimit) {
+            //this.hidden = false;
+//        }else if (this.dt >= timeLimit && this.dt < timeLimit + 0.145f){
+//            hide();
+//            this.hidden = true;
+//        } else finished = true;
+            this.dt += time;
+        }
     }
 
     public Vector2 setPos(float x, float y) {
@@ -79,6 +88,7 @@ public class Mole extends Sprite{
 
     public void reset(){
         this.finished = false;
+        this.moleImage = null;
     }
 
     public float getTimeLimit(){
@@ -88,6 +98,8 @@ public class Mole extends Sprite{
     public void setTimeLimit(float timeLimit){
         this.timeLimit =  timeLimit;
     }
+
+
 
     public void setHiddenposition(){
         this.position.y = hiddenposition;
