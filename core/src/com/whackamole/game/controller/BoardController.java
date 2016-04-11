@@ -16,6 +16,7 @@ public class BoardController implements InputProcessor{
     private Board board;
     private Mole mole;
 
+
     public BoardController(Board board) {
         this.board = board;
         this.mole = board.getMole();
@@ -24,17 +25,24 @@ public class BoardController implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
+
         touch_x = screenX;
         touch_y = screenY;
-        checkTouch(touch_x, touch_y);
+
+        for (Mole mole: board.getCurrentMoles()) {
+            if(mole.getBoundingRectangle().contains(touch_x, touch_y)){
+                mole.finish();
+            }
+        }
+        //checkTouch(touch_x, touch_y);
         mole.setPos(touch_x, touch_y);
         System.out.println("touched");
         return true;
     }
 
-    public void checkTouch(int x, int y) {
-
-
+    public void receiveSocket(int mole, int img){
+        this.board.addCurrentMole(mole);
+        this.board.getCurrentMoles().get(0).setMoleImg(board.getImg(img));
     }
 
     /** The main update method **/
