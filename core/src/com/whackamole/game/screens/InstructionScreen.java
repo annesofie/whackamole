@@ -4,35 +4,64 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.WhackAMole;
-import com.whackamole.game.controller.MainMenuController;
+import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.model.Instruction;
-import com.whackamole.game.views.InstructionScreenRenderer;
+import com.whackamole.game.views.InstructionRenderer;
 
 /**
  * Created by AnneSofie on 04.04.2016.
  */
 public class InstructionScreen implements Screen, InputProcessor{
 
-    private Instruction instruction;
-    private InstructionScreenRenderer renderer;
+
+
     final WhackAMole game;
+    private Instruction instruction;
+    private InstructionRenderer renderer;
+    private GameSettings gameSettings;
 
     public InstructionScreen(final WhackAMole game){
         this.game = game;
-        instruction = new Instruction();
-        renderer = new InstructionScreenRenderer(this.instruction);
+        this.instruction = new Instruction();
+        this.gameSettings = game.getGameSettings();
+        renderer = new InstructionRenderer(instruction, gameSettings);
     }
+
 
 
     @Override
     public void show() {
+
+        renderer.loadRenderer();
+
+        // Setter denne til å lytte på input fra brukeren
         Gdx.input.setInputProcessor(this);
     }
+
+
 
     @Override
     public void render(float delta) {
         this.renderer.render();
     }
+
+
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(screenY >= instruction.getScreenHeight()-instruction.getButtonWidth() && screenX <= instruction.getButtonWidth()){
+            game.goToMainMenuScreen();
+            dispose();
+            return true;
+        }
+        return false;
+    }
+
+
+
+
+
+    // THE REST OF THE SCREEN METHODS
 
     @Override
     public void resize(int width, int height) {
@@ -59,6 +88,12 @@ public class InstructionScreen implements Screen, InputProcessor{
 
     }
 
+
+
+
+
+    // THE REST OF THE INPUTPROCESSOR METHODS
+
     @Override
     public boolean keyDown(int keycode) {
         return false;
@@ -71,16 +106,6 @@ public class InstructionScreen implements Screen, InputProcessor{
 
     @Override
     public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(screenY >= instruction.getScreenHeight()-instruction.getButtonWidth() && screenX <= instruction.getButtonWidth()){
-            game.setScreen(new MainMenuScreen(game));
-            dispose();
-            return true;
-        }
         return false;
     }
 
@@ -103,4 +128,6 @@ public class InstructionScreen implements Screen, InputProcessor{
     public boolean scrolled(int amount) {
         return false;
     }
+
+
 }

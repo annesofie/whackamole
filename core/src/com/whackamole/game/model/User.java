@@ -1,5 +1,7 @@
 package com.whackamole.game.model;
 
+import com.whackamole.game.utils.Constants;
+
 import java.util.ArrayList;
 
 /**
@@ -16,13 +18,18 @@ public class User {
     public static ArrayList<Integer> idList = new ArrayList<Integer>();
     public static ArrayList<String> namelist = new ArrayList<String>();
 
-    public User(String username){
-        this.username = setUsername(username);
+    public User(){
+
+        String defaultUsername = Constants.username;
+        this.username = setUsername(defaultUsername);
+
         this.userId = createId();
         this.loggedIn = true;
+
         userList.add(this);
         idList.add(this.userId);
         namelist.add(this.username);
+
         //probably unnecessary
         this.loggedIn = true;
         

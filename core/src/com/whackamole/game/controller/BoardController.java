@@ -18,8 +18,6 @@ public class BoardController{
     private Vector2 touchPos;
     private int touch_x, touch_y;
     private Board board;
-    private Mole mole;
-    private User firstuser;
     private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
     private Socket socket;
     private String gameName;

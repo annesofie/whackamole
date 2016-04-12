@@ -34,14 +34,8 @@ public class MoleRenderer {
 
     }
 
-
+    /*
     public void render(){
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        //debugrenderer.setProjectionMatrix(camera.combined);
-        //debugrenderer.begin(ShapeRenderer.ShapeType.Line);
-
-
         batch.begin();
         batch.draw(mole.getMoleImage(), mole.getPosition().x - 17*width/120, mole.getPosition().y - height/32, 17*width/60, height/6);
         sprite = new Sprite(mole.getMoleImage());
@@ -49,5 +43,6 @@ public class MoleRenderer {
         //sprite.draw(batch);
         batch.end();
     }
+    */
 }
 
