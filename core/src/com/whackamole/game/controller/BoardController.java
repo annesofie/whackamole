@@ -121,13 +121,13 @@ public class BoardController{
 //                firstuser.addScore(mole.getScore());
                 hitsound.play(1);
                 mole.finish();
-
+                socket.emit("mole hit", gameName);
             }
         }
         //checkTouch(touch_x, touch_y);
         //mole.setPos(touch_x, touch_y);
         System.out.println("touched");
-        socket.emit("mole hit", gameName);
+
         return true;
     }
 
