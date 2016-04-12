@@ -7,8 +7,13 @@ import com.whackamole.game.model.Board;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.whackamole.game.model.User;
+import com.whackamole.game.utils.SocketRetreiver;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class BoardController implements InputProcessor{
+public class BoardController{
 
     private Vector2 touchPos;
     private int touch_x, touch_y;
@@ -16,16 +21,85 @@ public class BoardController implements InputProcessor{
     private Mole mole;
     private User firstuser;
     private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
+    private Socket socket;
 
     public BoardController(Board board) {
         this.board = board;
         this.mole = board.getMole();
+        SocketRetreiver retreiver = SocketRetreiver.getInstance();
+        socket = retreiver.getSocket();
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                System.out.println("connected to socket");
+                newGame("peder5", "asdfasdf");
+            }
+        });
+        socket.on("new game success", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                String msg = (String) args[0];
+                System.out.println(msg);
+                startGame();
+            }
+        });
+        socket.on("new game error", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                String msg = (String) args[0];
+                System.out.println(msg);
+                // Fake a hit
+                socket.emit("mole hit");
+            }
+        });
+        socket.on("start game success", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                String msg = (String) args[0];
+                System.out.println(msg);
+            }
+        });
+        socket.on("start game error", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                String msg = (String) args[0];
+                System.out.println(msg);
+            }
+        });
+        socket.on("new mole", new Emitter.Listener(){
+            @Override
+            public void call(Object... args) {
+                System.out.println("got calles");
+                JSONObject obj = (JSONObject) args[0];
+                try {
+                    receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    private void startGame() {
+        socket.emit("start game");
+    }
+
+    private void newGame(String gameName, String nickName) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("gameName", gameName);
+            json.put("nickName", nickName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        socket.emit("new game", json);
+
     }
 
     public void setMole(int pos) {
 
     }
-    @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         touch_x = screenX;
@@ -42,6 +116,7 @@ public class BoardController implements InputProcessor{
         //checkTouch(touch_x, touch_y);
         //mole.setPos(touch_x, touch_y);
         System.out.println("touched");
+        socket.emit("mole hit", "peder5");
         return true;
     }
 
@@ -60,41 +135,34 @@ public class BoardController implements InputProcessor{
 
     }
 
-    @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         // TODO Auto-generated method stub
         return false;
     }
-    @Override
     public boolean keyDown(int keycode) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public boolean keyUp(int keycode) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public boolean keyTyped(char character) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         // TODO Auto-generated method stub
         return false;
     }
-    @Override
     public boolean mouseMoved(int screenX, int screenY) {
         // TODO Auto-generated method stub
         return false;
     }
 
-    @Override
     public boolean scrolled(int amount) {
         // TODO Auto-generated method stub
         return false;

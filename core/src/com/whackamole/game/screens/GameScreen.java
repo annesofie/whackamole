@@ -6,12 +6,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.SocketController;
 import com.whackamole.game.model.Board;
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
+import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -24,6 +28,13 @@ public class GameScreen implements Screen, InputProcessor{
      *
      */
 
+    final WhackAMole game;
+    private String gameName;
+
+    public GameScreen(final WhackAMole game) {
+        this.game = game;
+
+    }
 
     private Board board;
     private BoardRenderer boardRenderer;
@@ -35,10 +46,6 @@ public class GameScreen implements Screen, InputProcessor{
     private Theme th;
     private int currentMole, currentImg;
 
-    public GameScreen(SocketController sc){
-        this.sc = sc;
-    }
-
     @Override
     public void show() {
         th = Theme.PRESIDENTIAL;
@@ -48,12 +55,10 @@ public class GameScreen implements Screen, InputProcessor{
         boardRenderer.loadTextures();
         controller = new BoardController(board);
         Gdx.input.setInputProcessor(this);
-        sc.setBoardController(controller);
         backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(th.path() + "background.mp3"));
         backgroundmusic.setLooping(true);
         backgroundmusic.setVolume(0.5f);
         backgroundmusic.play();
-
     }
 
     @Override

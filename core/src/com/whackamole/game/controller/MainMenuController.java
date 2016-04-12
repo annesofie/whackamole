@@ -13,60 +13,35 @@ import static com.badlogic.gdx.graphics.g3d.particles.ParticleShader.Setters.scr
  */
 public class MainMenuController {
 
-    private WhackAMole game;
-    private MainMenu state;
+    private MainMenu mainMenu;
+    final WhackAMole game;
 
 
 
-    public MainMenuController(WhackAMole game, MainMenu state){
+    public MainMenuController(MainMenu mainMenu, WhackAMole game){
+        this.mainMenu = mainMenu;
         this.game = game;
-        this.state = state;
     }
 
-    public boolean click(int screenX, int screenY){
-        if (screenX <= state.getButtonWidth()/2 + state.getButtonWidth()/2 && screenX >= state.getButtonWidth()/2 - state.getButtonWidth()/2){
-            int screenHeight = state.getScreenHeight();
-            int buttonHeight = state.getButtonHeight();
-            if(screenY >= screenHeight*9/12-buttonHeight/2 && screenY <= screenHeight*9/12+buttonHeight/2){
-                joinGameClicked();
-            }
-            else if(screenY >= screenHeight*7/12-buttonHeight/2 && screenY <= screenHeight*7/12+buttonHeight/2){
-                createGameClicked();
-            }
-            else if(screenY >= screenHeight*5/12-buttonHeight/2 && screenY <= screenHeight*5/12+buttonHeight/2){
-                settingsClicked();
-            }
-            else if(screenY >= screenHeight*3/12-buttonHeight/2 && screenY <= screenHeight*3/12+buttonHeight/2){
-                instructionsClicked();
-            }
-            else{
-                return false;
-            }
-        }
-        return true;
+    /** The main update method **/
+    public void update(float delta) {
+
     }
 
-    private void joinGameClicked(){
-        state.setJoinGameBtn(new Texture("JoinGameKlikket.png"));
+    public void joinGameClicked(){
+        mainMenu.setJoinGameBtn(new Texture("JoinGameKlikket.png"));
     }
 
-    private void createGameClicked(){
-        state.setCreateGameBtn(new Texture("CreateGameKlikket.png"));
+    public void createGameClicked(){
+        mainMenu.setCreateGameBtn(new Texture("CreateGameKlikket.png"));
     }
 
-    private void settingsClicked(){
-        state.setSettingsBtn(new Texture("SettingsKlikket.png"));
+    public void settingsClicked(){
+        mainMenu.setSettingsBtn(new Texture("SettingsKlikket.png"));
     }
 
-    private void instructionsClicked(){
-        state.setInstructionsBtn(new Texture("InstructionsKlikket.png"));
-        game.goToInstructions();
+    public void instructionsClicked(){
+        mainMenu.setInstructionsBtn(new Texture("InstructionsKlikket.png"));
+        game.setScreen(new InstructionScreen(game));
     }
-
-    public void goToMainMenu(){
-        state.setInstructionsBtn(new Texture("Instructions.png"));
-        game.goToMainMenu();
-    }
-
-
 }

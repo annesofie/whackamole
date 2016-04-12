@@ -3,6 +3,7 @@ package com.whackamole.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.MainMenuController;
 import com.whackamole.game.model.Instruction;
 import com.whackamole.game.views.InstructionScreenRenderer;
@@ -12,22 +13,20 @@ import com.whackamole.game.views.InstructionScreenRenderer;
  */
 public class InstructionScreen implements Screen, InputProcessor{
 
-    private Instruction state;
+    private Instruction instruction;
     private InstructionScreenRenderer renderer;
-    private MainMenuController controller;
+    final WhackAMole game;
 
-    public InstructionScreen(MainMenuController controller, Instruction state){
-        this.state = state;
-        this.controller = controller;
+    public InstructionScreen(final WhackAMole game){
+        this.game = game;
+        instruction = new Instruction();
+        renderer = new InstructionScreenRenderer(this.instruction);
     }
 
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this);
-        //this.state = new Instruction();
-        this.renderer = new InstructionScreenRenderer(this.state);
-        //this.controller
     }
 
     @Override
@@ -77,8 +76,9 @@ public class InstructionScreen implements Screen, InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(screenY >= state.getScreenHeight()-state.getButtonWidth() && screenX <= state.getButtonWidth()){
-            controller.goToMainMenu();
+        if(screenY >= instruction.getScreenHeight()-instruction.getButtonWidth() && screenX <= instruction.getButtonWidth()){
+            game.setScreen(new MainMenuScreen(game));
+            dispose();
             return true;
         }
         return false;
