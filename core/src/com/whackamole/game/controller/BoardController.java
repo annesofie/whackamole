@@ -22,36 +22,28 @@ public class BoardController{
     private User firstuser;
     private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
     private Socket socket;
+    private String gameName;
+    private String nickName;
 
     public BoardController(Board board) {
         this.board = board;
         this.mole = board.getMole();
+
+        this.gameName = "spill1234";
+        this.nickName = "Mitt kallenavn"
+
+
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 System.out.println("connected to socket");
-                newGame("peder5", "asdfasdf");
+                newGame(gameName, nickName);
             }
         });
-        socket.on("new game success", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                String msg = (String) args[0];
-                System.out.println(msg);
-                startGame();
-            }
-        });
-        socket.on("new game error", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                String msg = (String) args[0];
-                System.out.println(msg);
-                // Fake a hit
-                socket.emit("mole hit");
-            }
-        });
+        socket.on("new game success", onNewGameSuccess);
+        socket.on("new game error", onNewGameError);
         socket.on("start game success", new Emitter.Listener(){
             @Override
             public void call(Object... args) {
@@ -66,18 +58,7 @@ public class BoardController{
                 System.out.println(msg);
             }
         });
-        socket.on("new mole", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                System.out.println("got calles");
-                JSONObject obj = (JSONObject) args[0];
-                try {
-                    receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        socket.on("new mole", onNewMole);
 
     }
 
@@ -95,6 +76,39 @@ public class BoardController{
         }
         socket.emit("new game", json);
 
+    }
+
+    private Emitter.Listener onNewGameError = new Emitter.Listener(){
+
+        @Override
+        public void call(Object... args) {
+            String msg = (String) args[0];
+            System.out.println(msg);
+        }
+    };
+
+    private Emitter.Listener onNewGameSuccess = new Emitter.Listener(){
+
+
+        @Override
+        public void call(Object... args) {
+            String msg = (String) args[0];
+            System.out.println(msg);
+            startGame();
+        }
+    };
+
+    private Emitter.Listener onNewMole = new Emitter.Listener(){
+        @Override
+        public void call(Object... args) {
+            System.out.println("got calles");
+            JSONObject obj = (JSONObject) args[0];
+            try {
+                receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void setMole(int pos) {
