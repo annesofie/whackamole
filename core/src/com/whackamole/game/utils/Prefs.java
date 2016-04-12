@@ -5,11 +5,11 @@ package com.whackamole.game.utils;
  */
 public enum Prefs {
 
-    PREFSKEY ("WhackAMole"),
-    ISSOUNDKEY ("isSound"),
-    USERNAMEKEY("username"),
-    THEMEKEY ("themeID"),
-    NUMOFMOLESKEY ("numOfMoles");
+    PREFS("WhackAMole"),
+    ISSOUND("isSound"),
+    USERNAME("username"),
+    THEME("themeID"),
+    NUMOFMOLES("numOfMoles");
 
 
     private final String key;

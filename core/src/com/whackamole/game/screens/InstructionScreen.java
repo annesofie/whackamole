@@ -24,7 +24,7 @@ public class InstructionScreen implements Screen, InputProcessor{
     public InstructionScreen(final WhackAMole game){
         this.game = game;
         this.instruction = new Instruction();
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         renderer = new InstructionRenderer(instruction);
     }
 

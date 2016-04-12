@@ -14,7 +14,7 @@ public class GameSettingsController {
     Preferences prefs;
 
     public GameSettingsController() {
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
     }
 
 

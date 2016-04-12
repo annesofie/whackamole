@@ -2,7 +2,6 @@ package com.whackamole.game.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.utils.Constants;
@@ -25,7 +24,7 @@ public class Board {
 
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.theme = Theme.getThemeOnThemeId(prefs.getInteger("themeID"));
         this.filepath = theme.path();
 

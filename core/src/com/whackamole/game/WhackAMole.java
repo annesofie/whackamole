@@ -97,12 +97,12 @@ public class WhackAMole extends Game implements ScreenController {
         int themeID = Constants.themeID;
         boolean isSound = Constants.isSound;
 
-        Preferences prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        Preferences prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
-        prefs.putInteger(Prefs.NUMOFMOLESKEY.key(), numOfMoles);
-        prefs.putString(Prefs.USERNAMEKEY.key(), username);
-        prefs.putInteger(Prefs.THEMEKEY.key(), themeID);
-        prefs.putBoolean(Prefs.ISSOUNDKEY.key(), isSound);
+        prefs.putInteger(Prefs.NUMOFMOLES.key(), numOfMoles);
+        prefs.putString(Prefs.USERNAME.key(), username);
+        prefs.putInteger(Prefs.THEME.key(), themeID);
+        prefs.putBoolean(Prefs.ISSOUND.key(), isSound);
 
         // Use flush to write preferences to disk
         prefs.flush();

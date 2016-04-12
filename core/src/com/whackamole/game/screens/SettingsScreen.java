@@ -29,7 +29,7 @@ public class SettingsScreen implements Screen, InputProcessor {
         this.game = game;
 
         // Modellen vi jobber med her
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
         this.renderer = new GameSettingsRenderer();
 

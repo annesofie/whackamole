@@ -7,7 +7,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.*;
-import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
@@ -44,7 +43,7 @@ public class GameScreen implements Screen, InputProcessor{
         this.game = game;
 
         // Preferences
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
         // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i Preferences
         this.board = new Board();
@@ -92,8 +91,9 @@ public class GameScreen implements Screen, InputProcessor{
 
 
     public void loadSoundtracks() {
-        if(prefs.getBoolean(Prefs.ISSOUNDKEY.key())) {
-            Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEMEKEY.key()));
+        boolean isSound = prefs.getBoolean(Prefs.ISSOUND.key());
+        if(isSound) {
+            Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
             backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + FileName.BACKGROUNDMUSIC.filename()));
             backgroundmusic.setLooping(true);
             backgroundmusic.setVolume(0.5f);
