@@ -3,7 +3,7 @@ package com.whackamole.game.model;
 /**
  * Created by Lars on 12/04/16.
  */
-public enum FilePath {
+public enum FileName {
 
     // Used to render the board
     BOARD_BOTTOM("b1.png"),
@@ -26,7 +26,7 @@ public enum FilePath {
 
     private final String filename;
 
-    FilePath(String filename) {
+    FileName(String filename) {
         this.filename = filename;
     }
 

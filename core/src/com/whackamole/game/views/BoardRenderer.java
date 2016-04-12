@@ -115,11 +115,11 @@ public class BoardRenderer {
             moleImages.add(new Texture(Gdx.files.internal(filepath + MoleImage.getFileNameOnImageId(i))));
         }
 
-        board_bottom = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_BOTTOM.filename()));
-        board_second_bottom = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_SECOND_BOTTOM.filename()));
-        board_second_top = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_SECOND_TOP.filename()));
-        board_top = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_TOP.filename()));
-        board_score = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_SCORE.filename()));
+        board_bottom = new Texture(Gdx.files.internal(filepath + FileName.BOARD_BOTTOM.filename()));
+        board_second_bottom = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_BOTTOM.filename()));
+        board_second_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_TOP.filename()));
+        board_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_TOP.filename()));
+        board_score = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SCORE.filename()));
 
     }
 

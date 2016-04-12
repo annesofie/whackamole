@@ -4,19 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.whackamole.game.WhackAMole;
-import com.whackamole.game.controller.SocketController;
 import com.whackamole.game.model.*;
-import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -100,7 +91,7 @@ public class GameScreen implements Screen, InputProcessor{
     public void loadSoundtracks() {
         if(gameSettings.isSound()) {
             Theme theme = gameSettings.getTheme();
-            backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + FilePath.BACKGROUNDMUSIC.filename()));
+            backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + FileName.BACKGROUNDMUSIC.filename()));
             backgroundmusic.setLooping(true);
             backgroundmusic.setVolume(0.5f);
             backgroundmusic.play();
