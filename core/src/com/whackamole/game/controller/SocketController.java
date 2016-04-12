@@ -34,7 +34,6 @@ public class SocketController {
             @Override
             public void call(Object... args) {
                 System.out.println("connected to socket");
-                boardController.receiveSocket(3, 4);
             }
 
         });

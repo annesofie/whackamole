@@ -15,12 +15,12 @@ public class MainMenuRenderer {
      *
      */
 
-    private MainMenu state;
+    private MainMenu mainMenu;
     private OrthographicCamera cam;
     private SpriteBatch batch;
 
-    public MainMenuRenderer(MainMenu state) {
-        this.state = state;
+    public MainMenuRenderer(MainMenu mainMenu) {
+        this.mainMenu = mainMenu;
         this.cam = new OrthographicCamera();
         this.batch = new SpriteBatch();
     }
@@ -30,11 +30,11 @@ public class MainMenuRenderer {
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(state.getBackground(),0,0,state.getScreenWidth(),state.getScreenHeight());
-        batch.draw(state.getCreateGameBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*9/12 - state.getButtonHeight()/2);
-        batch.draw(state.getJoinGameBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*7/12 - state.getButtonHeight()/2);
-        batch.draw(state.getSettingsBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*5/12 - state.getButtonHeight()/2);
-        batch.draw(state.getInstructionsBtn(),state.getScreenWidth()/2 - state.getButtonWidth()/2,state.getScreenHeight()*3/12 - state.getButtonHeight()/2);
+        batch.draw(mainMenu.getBackground(),0,0,mainMenu.getScreenWidth(),mainMenu.getScreenHeight());
+        batch.draw(mainMenu.getCreateGameBtn(),mainMenu.getScreenWidth()/2 - mainMenu.getButtonWidth()/2,mainMenu.getScreenHeight()*9/12 - mainMenu.getButtonHeight()/2);
+        batch.draw(mainMenu.getJoinGameBtn(),mainMenu.getScreenWidth()/2 - mainMenu.getButtonWidth()/2,mainMenu.getScreenHeight()*7/12 - mainMenu.getButtonHeight()/2);
+        batch.draw(mainMenu.getSettingsBtn(),mainMenu.getScreenWidth()/2 - mainMenu.getButtonWidth()/2,mainMenu.getScreenHeight()*5/12 - mainMenu.getButtonHeight()/2);
+        batch.draw(mainMenu.getInstructionsBtn(),mainMenu.getScreenWidth()/2 - mainMenu.getButtonWidth()/2,mainMenu.getScreenHeight()*3/12 - mainMenu.getButtonHeight()/2);
         batch.end();
     }
 

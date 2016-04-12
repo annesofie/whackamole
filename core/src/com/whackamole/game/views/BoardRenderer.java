@@ -2,72 +2,65 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.whackamole.game.model.Board;
-import com.whackamole.game.model.Mole;
-import com.whackamole.game.model.Theme;
+import com.badlogic.gdx.utils.Array;
+import com.whackamole.game.model.*;
 
-/**
- * Created by Lars on 07/04/16.
- */
+
 public class BoardRenderer {
 
-    /**
-     *  Renders the game during game play.
-     *  Equivalent to the WorldRenderer class in the LibGdx MVC example
-     *
-     */
 
     private Board board;
-    private OrthographicCamera camera;
-    private Texture b1, b2, b3, b4 , hs, p1, p2, p3, p4, p5, bonus;
+    private GameSettings gameSettings;
+
+    // TEXTURES
+    private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score;
+    private Array<Texture> moleImages;
+
     private SpriteBatch batch;
-    private Sprite sprite;
+
+    // GAME PROPERTIES
     private int height, width;
-    private Mole mole;
-    private boolean show;
+    private Theme theme;
 
-    private String s1, s2, s3, s4, s5, path;
 
-    ShapeRenderer debugrenderer = new ShapeRenderer();
 
-    public BoardRenderer(Board board){
+    public BoardRenderer(Board board, GameSettings gameSettings){
+
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
         this.batch = new SpriteBatch();
+
         this.board = board;
-        this.camera = new OrthographicCamera(10, 7);
-        this.camera.position.set(5, 3.5f, 0);
-        this.camera.update();
-        s1 = "b1.png"; s2 = "b2.png"; s3 = "b3.png"; s4 = "b4.png"; s5 = "hs.png";
-        this.path = board.getPath();
+        this.gameSettings = gameSettings;
+        this.theme = gameSettings.getTheme();
+
+        this.moleImages = new Array<Texture>();
 
     }
 
+    public void loadRenderer() {
+        loadTextures();
+        // ++ Andre ting som eventuelt må gjøres klart før spillet kan rendres
+    }
+
+
+    // Render to the screen
     public void render(){
+
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         batch.begin();
 
-        //debugrenderer.setProjectionMatrix(camera.combined);
-        //debugrenderer.begin(ShapeRenderer.ShapeType.Line);
-        //sprite = new Sprite(mole.getMoleImage());
-
-        //mole.hide();
-
-        //sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
-
-        batch.draw(hs, 0, 13*height/16, width, 3*height/16);
-        batch.draw(b4, 0, 9*height/16, width, height/4);
+        batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
+        batch.draw(board_top, 0, 9*height/16, width, height/4);
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 5 && mole.getLocation() < 9){
                 mole.update(0.15f);
-                batch.draw(mole.getMoleImage(),
+                batch.draw(getMoleImage(mole),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
                 if(mole.getFinished()){
@@ -76,13 +69,13 @@ public class BoardRenderer {
                 }
             }
         }
-        batch.draw(b3, 0, 6*height/16, width, 3*height/16);
+        batch.draw(board_second_top, 0, 6*height/16, width, 3*height/16);
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() > 2 && mole.getLocation() < 6){
 
                 mole.update(0.015f);
-                batch.draw(mole.getMoleImage(),
+                batch.draw(getMoleImage(mole),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
                 if(mole.getFinished()){
@@ -90,12 +83,12 @@ public class BoardRenderer {
                 }
             }
         }
-        batch.draw(b2, 0, 3*height/16, width, 3*height/16);
+        batch.draw(board_second_bottom, 0, 3*height/16, width, 3*height/16);
 
         for (Mole mole: board.getCurrentMoles()) {
             if(mole.getLocation() < 3){
                 mole.update(0.015f);
-                batch.draw(mole.getMoleImage(),
+                batch.draw(getMoleImage(mole),
                         mole.getPosition().x,
                         mole.getPosition().y, 17*width/60, height/6);
                 if(mole.getFinished()) {
@@ -103,30 +96,37 @@ public class BoardRenderer {
                 }
             }
         }
-        batch.draw(b1, 0, 0 , width, 3*height/16);
+        batch.draw(board_bottom, 0, 0 , width, 3*height/16);
+
         batch.end();
 
+    }
 
+
+
+
+    public void loadTextures() {
+
+        // Last inn og gjør klar alle bilder basert på valgt tema
+        String filepath = theme.path();
+
+        moleImages.clear();
+        for (int i = 0; i < 6; i++) {
+            moleImages.add(new Texture(Gdx.files.internal(filepath + MoleImage.getFileNameOnImageId(i))));
+        }
+
+        board_bottom = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_BOTTOM.filename()));
+        board_second_bottom = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_SECOND_BOTTOM.filename()));
+        board_second_top = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_SECOND_TOP.filename()));
+        board_top = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_TOP.filename()));
+        board_score = new Texture(Gdx.files.internal(filepath + FilePath.BOARD_SCORE.filename()));
 
     }
 
-    public void setMole(Mole mole){
-        this.mole = mole;
+
+    private Texture getMoleImage(Mole mole) {
+        return moleImages.get(mole.getMoleImageId());
     }
 
-    public void loadTextures(){
-        b1 = new Texture(Gdx.files.internal(path + s1));
-        b2 = new Texture(Gdx.files.internal(path + s2));
-        b3 = new Texture(Gdx.files.internal(path + s3));
-        b4 = new Texture(Gdx.files.internal(path + s4));
-        hs = new Texture(Gdx.files.internal(path + s5));
-        p1 = new Texture(Gdx.files.internal(path + "p1.png"));
-        p2 = new Texture(Gdx.files.internal(path + "p2.png"));
-        p3 = new Texture(Gdx.files.internal(path + "p3.png"));
-        p4 = new Texture(Gdx.files.internal(path + "p4.png"));
-        p5 = new Texture(Gdx.files.internal(path + "p5.png"));
-        bonus = new Texture(Gdx.files.internal(path + "p6.png"));
 
-        //må også laste moleImage
-    }
 }

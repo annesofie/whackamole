@@ -15,27 +15,29 @@ import com.whackamole.game.views.MainMenuRenderer;
 public class MainMenuScreen implements Screen, InputProcessor {
 
 
-    private MainMenu state;
+    private MainMenu mainMenu;
     private MainMenuRenderer renderer;
     private MainMenuController controller;
+    final WhackAMole game;
 
 
-    public MainMenuScreen(MainMenuController controller, MainMenu state){
-        this.state = state;
-        this.controller = controller;
+    public MainMenuScreen(final WhackAMole game) {
+        this.game = game;
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this);
-        //this.state = new MainMenu();
-        this.renderer = new MainMenuRenderer(this.state);
+        mainMenu = new MainMenu();
+        renderer = new MainMenuRenderer(mainMenu);
+        controller = new MainMenuController(mainMenu, game);
         //this.controller = new MainMenuController(this, this.state);
     }
 
     @Override
     public void render(float delta) {
-        this.renderer.render();
+        controller.update(delta);
+        renderer.render();
     }
 
     @Override
@@ -61,6 +63,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
     @Override
     public void dispose() {
 
+
     }
 
     @Override
@@ -80,7 +83,27 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return controller.click(screenX,screenY);
+        if (screenX <= mainMenu.getButtonWidth() / 2 + mainMenu.getButtonWidth() / 2 && screenX >= mainMenu.getButtonWidth() / 2 - mainMenu.getButtonWidth() / 2) {
+            int screenHeight = mainMenu.getScreenHeight();
+            int buttonHeight = mainMenu.getButtonHeight();
+            if (screenY >= screenHeight * 9 / 12 - buttonHeight / 2 && screenY <= screenHeight * 9 / 12 + buttonHeight / 2) {
+                controller.joinGameClicked();
+                dispose();
+            } else if (screenY >= screenHeight * 7 / 12 - buttonHeight / 2 && screenY <= screenHeight * 7 / 12 + buttonHeight / 2) {
+                controller.createGameClicked();
+                dispose();
+            } else if (screenY >= screenHeight * 5 / 12 - buttonHeight / 2 && screenY <= screenHeight * 5 / 12 + buttonHeight / 2) {
+                controller.settingsClicked();
+                dispose();
+            } else if (screenY >= screenHeight * 3 / 12 - buttonHeight / 2 && screenY <= screenHeight * 3 / 12 + buttonHeight / 2) {
+                controller.instructionsClicked();
+                dispose();
+
+            } else {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
