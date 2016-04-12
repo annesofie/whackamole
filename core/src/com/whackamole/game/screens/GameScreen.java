@@ -2,10 +2,13 @@ package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.*;
+import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
 
@@ -20,7 +23,7 @@ public class GameScreen implements Screen, InputProcessor{
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
-    private GameSettings gameSettings;
+    private Preferences prefs;
 
     // Helt greit at denne starter musikken
     private Music backgroundmusic;
@@ -41,13 +44,13 @@ public class GameScreen implements Screen, InputProcessor{
         this.game = game;
 
         // GameSettings er kjekt å ha mange steder. Theme finner man blant annet her
-        this.gameSettings = game.getGameSettings();
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
 
         // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i GameSettings
-        this.board = new Board(gameSettings);
+        this.board = new Board();
 
         // Gir boardRenderer modellen å jobbe med
-        this.boardRenderer = new BoardRenderer(board, gameSettings);
+        this.boardRenderer = new BoardRenderer(board);
 
         // Gir kontrolleren modellen å jobbe med. Legg merke til at kun kontroller
         controller = new BoardController(board);
@@ -89,8 +92,8 @@ public class GameScreen implements Screen, InputProcessor{
 
 
     public void loadSoundtracks() {
-        if(gameSettings.isSound()) {
-            Theme theme = gameSettings.getTheme();
+        if(prefs.getBoolean(Prefs.ISSOUNDKEY.key())) {
+            Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEMEKEY.key()));
             backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + FileName.BACKGROUNDMUSIC.filename()));
             backgroundmusic.setLooping(true);
             backgroundmusic.setVolume(0.5f);

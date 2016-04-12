@@ -1,7 +1,10 @@
 package com.whackamole.game.views;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.whackamole.game.model.GameSettings;
+import com.whackamole.game.utils.Prefs;
 
 /**
  * Created by Lars on 07/04/16.
@@ -9,12 +12,12 @@ import com.whackamole.game.model.GameSettings;
 public class GameSettingsRenderer {
 
 
-    GameSettings gameSettings;
+    Preferences prefs;
 
 
 
-    public GameSettingsRenderer(GameSettings gameSettings) {
-        this.gameSettings = gameSettings;
+    public GameSettingsRenderer() {
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
 
     }
 
@@ -29,7 +32,6 @@ public class GameSettingsRenderer {
         // Her skal Textures og tekst som ble gjort klart i loadTextures() rendres.
 
         // Current settings should be displayed to the user
-        // The current settings can be found in gameSettings above
         // The player should be able to select new settings
     }
 

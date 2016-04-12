@@ -1,10 +1,12 @@
 package com.whackamole.game.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.Prefs;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -17,14 +19,14 @@ public class Board {
     Theme theme;
     private String filepath;
 
-    private GameSettings gameSettings;
+    private Preferences prefs;
 
-    public Board(GameSettings gameSettings){
+    public Board(){
 
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();
-        this.gameSettings = gameSettings;
-        this.theme = gameSettings.getTheme();
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        this.theme = Theme.getThemeOnThemeId(prefs.getInteger("themeID"));
         this.filepath = theme.path();
 
     }

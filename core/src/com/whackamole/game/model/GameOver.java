@@ -1,5 +1,10 @@
 package com.whackamole.game.model;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
+import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.Prefs;
+
 /**
  * Created by Lars on 07/04/16.
  */
@@ -7,11 +12,11 @@ public class GameOver {
 
 
 
-    GameSettings gameSettings;
+    Preferences prefs;
 
-    public GameOver(GameSettings gameSettings) {
+    public GameOver() {
 
-        this.gameSettings = gameSettings;
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
 
     }
 
