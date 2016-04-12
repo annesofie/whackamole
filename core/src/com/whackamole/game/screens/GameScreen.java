@@ -43,10 +43,10 @@ public class GameScreen implements Screen, InputProcessor{
         // game kan nå brukes til å endre screens, f.eks. game.goToMainMenuScreen();
         this.game = game;
 
-        // GameSettings er kjekt å ha mange steder. Theme finner man blant annet her
+        // Preferences
         this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
 
-        // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i GameSettings
+        // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i Preferences
         this.board = new Board();
 
         // Gir boardRenderer modellen å jobbe med

@@ -2,8 +2,6 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.utils.Prefs;
 
 /**
