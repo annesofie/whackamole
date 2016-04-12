@@ -27,10 +27,10 @@ public class BoardController{
 
     public BoardController(Board board) {
         this.board = board;
-        this.mole = board.getMole();
+        this.mole = board.getCurrentMole();
 
-        this.gameName = "spill1234";
-        this.nickName = "Mitt kallenavn";
+        this.gameName = "spill123456"; // + (int)Math.floor(Math.random()*101);
+        this.nickName = "oystein";
 
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
@@ -40,8 +40,10 @@ public class BoardController{
             public void call(Object... args) {
                 System.out.println("connected to socket");
                 newGame(gameName, nickName);
+                System.out.println(socket.id());
             }
         });
+
         socket.on("new game success", onNewGameSuccess);
         socket.on("new game error", onNewGameError);
         socket.on("start game success", new Emitter.Listener(){
@@ -101,7 +103,7 @@ public class BoardController{
     private Emitter.Listener onNewMole = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            System.out.println("got calles");
+            System.out.println("got called");
             JSONObject obj = (JSONObject) args[0];
             try {
                 receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
@@ -118,25 +120,25 @@ public class BoardController{
 
         touch_x = screenX;
         touch_y = screenY;
+        mole = board.getCurrentMole();
 
-        for (Mole mole: board.getCurrentMoles()) {
-            if(mole.getBoundingRectangle().contains(touch_x, touch_y)){
+        if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
 //                firstuser.addScore(mole.getScore());
-                hitsound.play(1);
-                mole.finish();
+            hitsound.play(1);
+            mole.finish();
+            System.out.println("touched");
+            socket.emit("mole hit", gameName);
 
-            }
         }
+
         //checkTouch(touch_x, touch_y);
         //mole.setPos(touch_x, touch_y);
-        System.out.println("touched");
-        socket.emit("mole hit", gameName);
         return true;
     }
 
     public void receiveSocket(int mole, int img){
         this.board.addCurrentMole(mole);
-        this.board.getCurrentMoles().get(0).setMoleImg(board.getImg(img), img);
+        this.board.getCurrentMole().setMoleImg(board.getImg(img), img);
     }
 
     /** The main update method **/

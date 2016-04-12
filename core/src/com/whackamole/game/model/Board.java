@@ -10,13 +10,14 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Board {
 
-    private Array<Mole> grid = new Array<Mole>(), currentMoles = new Array<Mole>();
+    private Array<Mole> grid = new Array<Mole>();
     private Array<Texture> imgList = new Array<Texture>();
     private Texture b1, b2, b3, b4, hs;
     private Texture background;
     int height, width;
     Theme theme;
     private String filepath;
+    private Mole currentMole;
 
     public Board(Theme theme){
 
@@ -45,7 +46,7 @@ public class Board {
     }
 
     public void addCurrentMole(int i){
-        currentMoles.add(grid.get(i));
+        this.currentMole = grid.get(i);
     }
 
     public Texture getImg(int i){
@@ -55,12 +56,12 @@ public class Board {
         else throw new IllegalArgumentException("Texture doesn't exist!");
     }
 
-    public void removeCurrentMole(Mole mole){
-        currentMoles.removeValue(mole, false);
+    public void removeCurrentMole(){
+        this.currentMole = null;
     }
 
-    public Array<Mole> getCurrentMoles(){
-        return currentMoles;
+    public Mole getCurrentMole(){
+        return currentMole;
     }
 
     public String getPath(){

@@ -88,8 +88,9 @@ public class Mole extends Sprite{
 
     public void reset(){
         this.finished = false;
-        this.moleImage = null;
+        //this.moleImage = null;
         this.value = 0;
+        this.position = setPos(position.x, hiddenposition);
     }
 
     public float getTimeLimit(){
@@ -165,7 +166,7 @@ public class Mole extends Sprite{
 
     public void show(){
         if(this.position.y < shownposition){
-            this.position.y = this.position.y + height*33/1600.0f;
+            this.position = setPos(this.position.x, this.position.y + height*33/1600.0f);
         }
         else {
             this.hidden = false;

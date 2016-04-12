@@ -28,7 +28,7 @@ public class BoardRenderer {
     private SpriteBatch batch;
     private Sprite sprite;
     private int height, width;
-    private Mole mole;
+    private Mole currentMole;
     private boolean show;
 
     private String s1, s2, s3, s4, s5, path;
@@ -51,58 +51,16 @@ public class BoardRenderer {
     public void render(){
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        currentMole = board.getCurrentMole();
+
         batch.begin();
-
-        //debugrenderer.setProjectionMatrix(camera.combined);
-        //debugrenderer.begin(ShapeRenderer.ShapeType.Line);
-        //sprite = new Sprite(mole.getMoleImage());
-
-        //mole.hide();
-
-        //sprite.setPosition(mole.getPosition().x, mole.getPosition().y);
-
         batch.draw(hs, 0, 13*height/16, width, 3*height/16);
         batch.draw(b4, 0, 9*height/16, width, height/4);
-
-        for (Mole mole: board.getCurrentMoles()) {
-            if(mole.getLocation() > 5 && mole.getLocation() < 9){
-                mole.update(0.15f);
-                batch.draw(mole.getMoleImage(),
-                        mole.getPosition().x,
-                        mole.getPosition().y, 17*width/60, height/6);
-                if(mole.getFinished()){
-                    board.getCurrentMoles().get(0).reset();
-                    board.removeCurrentMole(mole);
-                }
-            }
-        }
+        drawMole(5,9);
         batch.draw(b3, 0, 6*height/16, width, 3*height/16);
-
-        for (Mole mole: board.getCurrentMoles()) {
-            if(mole.getLocation() > 2 && mole.getLocation() < 6){
-
-                mole.update(0.015f);
-                batch.draw(mole.getMoleImage(),
-                        mole.getPosition().x,
-                        mole.getPosition().y, 17*width/60, height/6);
-                if(mole.getFinished()){
-                    board.removeCurrentMole(mole);
-                }
-            }
-        }
+        drawMole(2,6);
         batch.draw(b2, 0, 3*height/16, width, 3*height/16);
-
-        for (Mole mole: board.getCurrentMoles()) {
-            if(mole.getLocation() < 3){
-                mole.update(0.015f);
-                batch.draw(mole.getMoleImage(),
-                        mole.getPosition().x,
-                        mole.getPosition().y, 17*width/60, height/6);
-                if(mole.getFinished()) {
-                    board.removeCurrentMole(mole);
-                }
-            }
-        }
+        drawMole(-1, 3);
         batch.draw(b1, 0, 0 , width, 3*height/16);
         batch.end();
 
@@ -111,7 +69,7 @@ public class BoardRenderer {
     }
 
     public void setMole(Mole mole){
-        this.mole = mole;
+        this.currentMole = mole;
     }
 
     public void loadTextures(){
@@ -128,5 +86,20 @@ public class BoardRenderer {
         bonus = new Texture(Gdx.files.internal(path + "p6.png"));
 
         //må også laste moleImage
+    }
+
+    private void drawMole(int start, int end){
+        if(currentMole!= null && currentMole.getLocation() > start && currentMole.getLocation() < end){
+            if(currentMole.getFinished()){
+                currentMole.reset();
+                //board.removeCurrentMole();
+            }
+            else {
+                currentMole.update(0.015f);
+                batch.draw(currentMole.getMoleImage(),
+                        currentMole.getPosition().x,
+                        currentMole.getPosition().y, 17 * width / 60, height / 6);
+            }
+        }
     }
 }
