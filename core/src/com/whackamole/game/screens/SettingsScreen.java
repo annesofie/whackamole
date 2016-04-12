@@ -1,6 +1,7 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Screen;
+import com.whackamole.game.WhackAMole;
 import com.whackamole.game.views.GameSettingsRenderer;
 
 /**
@@ -9,9 +10,18 @@ import com.whackamole.game.views.GameSettingsRenderer;
 public class SettingsScreen implements Screen{
 
 
+    private final WhackAMole game;
 
     //private GameSettingsState state;
     private GameSettingsRenderer renderer;
+
+
+    public SettingsScreen(final WhackAMole game) {
+        this.game = game;
+    }
+
+
+
 
     @Override
     public void show() {

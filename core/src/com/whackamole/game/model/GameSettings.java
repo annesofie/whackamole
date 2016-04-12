@@ -26,7 +26,9 @@ public class GameSettings extends ApplicationAdapter{
 
     }
 
-
+    public Theme getTheme(){
+        return this.theme;
+    }
     public String getGamename(){
         return gamename;
     }

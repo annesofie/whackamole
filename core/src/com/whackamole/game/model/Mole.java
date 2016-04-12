@@ -10,73 +10,59 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 
 public class Mole extends Sprite{
 
-
-
-
-    /**
-     *  The view:
-     *  Moles should be rendered on the screen when a signal is given
-     *
-     *  The controller:
-     *  Should maybe accept requests from the server and put a mole in the GameState?
-     *
-     *  The model:
-     *  Should now contain a Mole on a specified location and notify the view that
-     *  a mole should be rendered at that location.
-     *  Some people say that the model should not be aware of the view, but other people
-     *  say that it is perfectly fine to use the Observer-pattern between the model and the view. Let's check this.
-     *
-     *
-     */
-
-
-
-
-    private Texture moleImage;
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
-    private int height = Gdx.graphics.getHeight(), width = Gdx.graphics.getWidth(), location, value;
+
+    private int height = Gdx.graphics.getHeight();
+    private int width = Gdx.graphics.getWidth();
+
+    // Denne IDen er brukt av renderer for å bestemme hvilket bilde den skal rendre for molen.
+    private int moleImageId = 0;
+    private int pointsWorth = 0;
+
     private float dt, hiddenposition, shownposition, timeLimit = 2;
+
     //private float hidespeed = 1000.0f;
-    private boolean hidden, finished = false;
+    private boolean hidden = true;
+    private boolean finished = false;
+
     Rectangle rect;
-   // private Rectangle hitBox;
-   private static Array<Texture> imgList;
 
-    public Mole(Vector2 pos, Theme th, int location) {
-
-        //this.position = pos;
+    public Mole(Vector2 pos) {
         this.shownposition = pos.y;
-        this.location = location;
         this.hiddenposition = pos.y - height*33/160;
         this.position = setPos(pos.x, hiddenposition);
-        this.hidden = true;
         this.dt=0;
-        setBoundingRectangle();
 
+        setBoundingRectangle();
     }
 
     public void update(float time){
 
-
         if(this.dt < 0.145f && this.hidden) {
             show();
-            System.out.println("show()");
-            //this.hidden = false;
-
-            // { else if (this.dt < timeLimit) {
-            //this.hidden = false;
-//        }else if (this.dt >= timeLimit && this.dt < timeLimit + 0.145f){
-//            hide();
-//            this.hidden = true;
-//        } else finished = true;
             this.dt += time;
         }
     }
+
+
+    public void setMoleImageId(int id, int pointsWorth) {
+        this.moleImageId = id;
+        this.pointsWorth = pointsWorth;
+    }
+
+    public int getMoleImageId() {
+        return moleImageId;
+    }
+
+    public int getPointsWorth() {
+        return pointsWorth;
+    }
+
+
 
     public Vector2 setPos(float x, float y) {
         return new Vector2(x,y);
@@ -88,8 +74,7 @@ public class Mole extends Sprite{
 
     public void reset(){
         this.finished = false;
-        this.moleImage = null;
-        this.value = 0;
+        this.pointsWorth = 0;
     }
 
     public float getTimeLimit(){
@@ -114,10 +99,6 @@ public class Mole extends Sprite{
         return finished;
     }
 
-    public Texture getMoleImage(){
-        return moleImage;
-    }
-
     public boolean hidden(){
         return this.hidden;
     }
@@ -130,28 +111,16 @@ public class Mole extends Sprite{
         this.hidden = false;
     }
 
-    public void setMoleImg(Texture img, int points) {
-        this.moleImage=img;
-
-        if(points > 4) {
-            this.value = 5;
-        } else this.value = 1;
-    }
     public Sound getMoleSound(){
         return moleSound;
     }
 
-    public int getScore(){return this.value;}
     public void setMoleSound(Sound msc) {
         this.moleSound = msc;
     }
 
     public Vector2 getPosition(){
         return position;
-    }
-
-    public int getLocation(){
-        return location;
     }
 
     public void hide(){
@@ -179,7 +148,5 @@ public class Mole extends Sprite{
     public Rectangle getBoundingRectangle(){
         return this.rect;
     }
-
-
 
 }

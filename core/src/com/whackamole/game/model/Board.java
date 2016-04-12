@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.whackamole.game.utils.Constants;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -12,30 +13,36 @@ public class Board {
 
     private Array<Mole> grid = new Array<Mole>(), currentMoles = new Array<Mole>();
     private Array<Texture> imgList = new Array<Texture>();
-    private Texture b1, b2, b3, b4, hs;
-    private Texture background;
-    int height, width;
+    int canvasHeight, canvasWidth;
     Theme theme;
     private String filepath;
 
-    public Board(Theme theme){
+    private GameSettings gameSettings;
 
-       // moles = new ArrayList<Mole>();
-        //Choose correct background for current theme
-        //background = new Texture(Gdx.files.internal("background.png"));
-        this.height = Gdx.graphics.getHeight();
-        this.width = Gdx.graphics.getWidth();
-        this.theme = theme;
+    public Board(GameSettings gameSettings){
 
-        for (int j = 0; j < 3; j++) {
-            for (int i = 0; i < 3; i++) {
+        this.canvasHeight = Gdx.graphics.getHeight();
+        this.canvasWidth = Gdx.graphics.getWidth();
+        this.gameSettings = gameSettings;
+        this.theme = gameSettings.getTheme();
 
-                grid.add(new Mole(new Vector2((2+3*i)*width/10  - 17*width/120, (3 + 3*j)*height/16 - height/32),
-                        theme, grid.size));
-            }
-        }
+        loadGrid();
+
         this.filepath = theme.path();
 
+    }
+
+
+    private void loadGrid() {
+        int gridDimensions = Constants.gridDimensions;
+        for (int j = 0; j < gridDimensions; j++) {
+            for (int i = 0; i < gridDimensions; i++) {
+                float xpos = (2 + gridDimensions * i)*canvasWidth/10  - 17 * canvasWidth/120;
+                float ypos = (gridDimensions + gridDimensions * j)*canvasHeight/16 - canvasHeight/32;
+
+                grid.add(new Mole(new Vector2(xpos, ypos)));
+            }
+        }
     }
 
     public void loadImages(){
@@ -48,6 +55,10 @@ public class Board {
         currentMoles.add(grid.get(i));
     }
 
+    public void removeCurrentMole(Mole mole){
+        currentMoles.removeValue(mole, false);
+    }
+
     public Texture getImg(int i){
         if(i >=0 && i< 6){
             return imgList.get(i);
@@ -55,15 +66,12 @@ public class Board {
         else throw new IllegalArgumentException("Texture doesn't exist!");
     }
 
-    public void removeCurrentMole(Mole mole){
-        currentMoles.removeValue(mole, false);
-    }
 
     public Array<Mole> getCurrentMoles(){
         return currentMoles;
     }
 
-    public String getPath(){
+    public String getPath() {
         return this.filepath;
     }
 
@@ -77,39 +85,9 @@ public class Board {
             mole.hide();
         }
     }
-    public int getHeight(){
-        return height;
-    }
-
-    public Mole getMole() {
-        return grid.get(0);
-    }
 
     public Array<Mole> getMoles(){
         return grid;
     }
-
-    public int getX(){
-        return 0;
-
-    }
-
-    public int getY(){
-        return 0;
-    }
-
-    public boolean isMole(){
-        return true;
-    }
-
-    public Theme getTheme(){
-        return theme;
-    }
-
-
-
-
-
-
 
 }

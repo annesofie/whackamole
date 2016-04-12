@@ -13,5 +13,10 @@ public class Constants {
 
     public static final int numOfMoles = 1;
     public static final Theme theme = Theme.PRESIDENTIAL;
+    public static final String username = "";
+
+
+    // Used to load the grid in board
+    public static final int gridDimensions = 3;
 
 }

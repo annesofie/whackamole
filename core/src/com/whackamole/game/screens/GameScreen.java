@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.SocketController;
 import com.whackamole.game.model.Board;
+import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.SocketRetreiver;
@@ -25,60 +26,57 @@ import io.socket.emitter.Emitter;
  */
 public class GameScreen implements Screen, InputProcessor{
 
-    /**
-     *  Contains a GameState
-     *
-     *
-     */
 
+    // Screens inneholder først og fremst disse: Game, Model, View og Kontroller
     final WhackAMole game;
-    private String gameName;
-    private OrthographicCamera camera;
-    private Texture b1, b2, b3, b4 , hs, p1, p2, p3, p4, p5, bonus;
-    private String s1, s2, s3, s4, s5, path;
-    private SpriteBatch batch;
-    private Sprite sprite;
-    private int height, width;
-    private Board board;
-
-
-
-    public GameScreen(final WhackAMole game) {
-        this.game = game;
-        this.height = Gdx.graphics.getHeight();
-        this.width = Gdx.graphics.getWidth();
-        this.batch = new SpriteBatch();
-        this.path = board.getPath();
-        s1 = "b1.png"; s2 = "b2.png"; s3 = "b3.png"; s4 = "b4.png"; s5 = "hs.png";
-
-
-    }
-
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
-    private Mole mole;
-    private SocketController sc;
+
+    // Helt greit at denne starter musikken
     private Music backgroundmusic;
 
-    private Theme th;
-    private int currentMole, currentImg;
 
+    /**
+
+        GameScreen kan sees på som en del av kontrollerne.
+        Den håndterer input fra bruker, initialiserer modellen og viewene. I dette tilfelle Board og BoardRenderer.
+        Den delegerer også oppgaver videre til andre kontrollere. I dette tilfelle BoardController først og fremst.
+        Ikke så alt for mye bør skje her. Den bør delegere mesteparten av arbeidet videre til andre klasser.
+
+     **/
+
+    public GameScreen(final WhackAMole game) {
+
+        // game kan nå brukes til å endre screens, f.eks. game.goToMainMenuScreen();
+        this.game = game;
+
+        // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i GameSettings
+        GameSettings gameSettings = game.getGameSettings();
+        this.board = new Board(gameSettings);
+
+        // Gir boardRenderer modellen å jobbe med
+        this.boardRenderer = new BoardRenderer(board);
+
+        // Gir kontrolleren modellen å jobbe med. Legg merke til at kun kontroller
+        controller = new BoardController(board);
+    }
 
 
     @Override
     public void show() {
-        th = Theme.PRESIDENTIAL;
-        board = new Board(th);
+        // Load images on setScreen()
         board.loadImages();
-        boardRenderer = new BoardRenderer(board);
-        boardRenderer.loadTextures();
-        controller = new BoardController(board);
+
+        // Gjør klar renderer til å rendre board modellen
+        boardRenderer.loadRenderer();
+
+
+        // Starter musikken
+        loadSoundtracks();
+
+        // Setter denne til å lytte på input fra brukeren
         Gdx.input.setInputProcessor(this);
-        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(th.path() + "background.mp3"));
-        backgroundmusic.setLooping(true);
-        backgroundmusic.setVolume(0.5f);
-        backgroundmusic.play();
     }
 
 
@@ -86,38 +84,25 @@ public class GameScreen implements Screen, InputProcessor{
     public void render(float delta) {
         controller.update(delta);
         boardRenderer.render();
-        //System.out.println(Gdx.graphics.getDeltaTime());
 
     }
 
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("Touch");
-        return this.controller.touchDown(screenX, board.getHeight() - screenY, pointer, button);
+
+        int xhit = screenX;
+        int yhit = Gdx.graphics.getHeight() - screenY;
+
+        return this.controller.touchDown(xhit, yhit, pointer, button);
     }
 
 
-
-
-
-
-
-
-    public void loadTextures(){
-        b1 = new Texture(Gdx.files.internal(path + s1));
-        b2 = new Texture(Gdx.files.internal(path + s2));
-        b3 = new Texture(Gdx.files.internal(path + s3));
-        b4 = new Texture(Gdx.files.internal(path + s4));
-        hs = new Texture(Gdx.files.internal(path + s5));
-        p1 = new Texture(Gdx.files.internal(path + "p1.png"));
-        p2 = new Texture(Gdx.files.internal(path + "p2.png"));
-        p3 = new Texture(Gdx.files.internal(path + "p3.png"));
-        p4 = new Texture(Gdx.files.internal(path + "p4.png"));
-        p5 = new Texture(Gdx.files.internal(path + "p5.png"));
-        bonus = new Texture(Gdx.files.internal(path + "p6.png"));
-
-        //må også laste moleImage
+    public void loadSoundtracks() {
+        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(th.path() + "background.mp3"));
+        backgroundmusic.setLooping(true);
+        backgroundmusic.setVolume(0.5f);
+        backgroundmusic.play();
     }
 
 
@@ -132,7 +117,7 @@ public class GameScreen implements Screen, InputProcessor{
 
 
 
-    // THE REST OF SCREEN
+    // THE REST OF SCREEN METHODS
 
     @Override
     public void resize(int width, int height) {
@@ -159,15 +144,9 @@ public class GameScreen implements Screen, InputProcessor{
 
     }
 
-    public void setTheme(Theme th){
-        this.th = th;
-    }
 
 
-
-
-
-    // THE REST OF INPUTPROCESSOR
+    // REST OF THE INPUTPROCESSOR METHODS
 
     @Override
     public boolean keyDown(int keycode) {
@@ -183,7 +162,6 @@ public class GameScreen implements Screen, InputProcessor{
     public boolean keyTyped(char character) {
         return false;
     }
-
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
@@ -204,4 +182,7 @@ public class GameScreen implements Screen, InputProcessor{
     public boolean scrolled(int amount) {
         return false;
     }
+
+
+
 }
