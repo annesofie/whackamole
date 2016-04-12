@@ -22,6 +22,7 @@ public class Mole extends Sprite{
     // Denne IDen er brukt av renderer for å bestemme hvilket bilde den skal rendre for molen.
     private int moleImageId = 0;
     private int pointsWorth = 0;
+    private int location;
 
     private float dt, hiddenposition, shownposition, timeLimit = 2;
 
@@ -31,7 +32,8 @@ public class Mole extends Sprite{
 
     Rectangle rect;
 
-    public Mole(Vector2 pos) {
+    public Mole(Vector2 pos, int location) {
+        this.location = location;
         this.shownposition = pos.y;
         this.hiddenposition = pos.y - height*33/160;
         this.position = setPos(pos.x, hiddenposition);
@@ -49,9 +51,8 @@ public class Mole extends Sprite{
     }
 
 
-    public void setMoleImageId(int id, int pointsWorth) {
+    public void setMoleImageId(int id) {
         this.moleImageId = id;
-        this.pointsWorth = pointsWorth;
     }
 
     public int getMoleImageId() {
@@ -61,6 +62,19 @@ public class Mole extends Sprite{
     public int getPointsWorth() {
         return pointsWorth;
     }
+
+    public void setPointsWorth(int pointsWorth) {
+        this.pointsWorth = pointsWorth;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+
+
+
+
 
 
 
@@ -84,8 +98,6 @@ public class Mole extends Sprite{
     public void setTimeLimit(float timeLimit){
         this.timeLimit =  timeLimit;
     }
-
-
 
     public void setHiddenposition(){
         this.position.y = hiddenposition;

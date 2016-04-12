@@ -13,6 +13,7 @@ public class Constants {
 
     public static final int numOfMoles = 1;
     public static final Theme theme = Theme.PRESIDENTIAL;
+    public static final boolean isSound = true;
     public static final String username = "";
 
 

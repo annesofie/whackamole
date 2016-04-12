@@ -18,8 +18,6 @@ public class BoardController{
     private Vector2 touchPos;
     private int touch_x, touch_y;
     private Board board;
-    private Mole mole;
-    private User firstuser;
     private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
     private Socket socket;
     private String gameName;
@@ -27,7 +25,6 @@ public class BoardController{
 
     public BoardController(Board board) {
         this.board = board;
-        this.mole = board.getMole();
 
         this.gameName = "spill1234";
         this.nickName = "Mitt kallenavn";
@@ -135,8 +132,7 @@ public class BoardController{
     }
 
     public void receiveSocket(int mole, int img){
-        this.board.addCurrentMole(mole);
-        this.board.getCurrentMoles().get(0).setMoleImg(board.getImg(img), img);
+        this.board.setMole(mole, img);
     }
 
     /** The main update method **/

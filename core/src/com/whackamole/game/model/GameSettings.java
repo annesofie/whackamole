@@ -5,9 +5,6 @@ package com.whackamole.game.model;
  */
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.audio.Sound;
 import com.whackamole.game.utils.Constants;
 
 public class GameSettings extends ApplicationAdapter{
@@ -16,36 +13,31 @@ public class GameSettings extends ApplicationAdapter{
     // Default values;
     private int numOfMoles = Constants.numOfMoles;
     private Theme theme = Constants.theme;
-
-    private String gamename;
-    private Sound gameMusic;
+    private boolean isSound = Constants.isSound;
 
 
     public GameSettings() {
-
 
     }
 
     public Theme getTheme(){
         return this.theme;
     }
-    public String getGamename(){
-        return gamename;
-    }
-    public void setGamename(String name){
-        gamename = name;
-    }
+
     public int getNumOfMoles(){
         return numOfMoles;
     }
+
     public void setNumOfMoles(int num){
         numOfMoles = num;
     }
-    public Sound getGameMusic(){
-        return gameMusic;
+
+    public boolean isSound() {
+        return isSound;
     }
-    public void setGameMusic(Sound music){
-        gameMusic=music;
+
+    public void setIsSound(boolean isSound) {
+        this.isSound = isSound;
     }
 
 

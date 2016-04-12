@@ -11,10 +11,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.SocketController;
-import com.whackamole.game.model.Board;
-import com.whackamole.game.model.GameSettings;
-import com.whackamole.game.model.Mole;
-import com.whackamole.game.model.Theme;
+import com.whackamole.game.model.*;
 import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
@@ -32,6 +29,7 @@ public class GameScreen implements Screen, InputProcessor{
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
+    private GameSettings gameSettings;
 
     // Helt greit at denne starter musikken
     private Music backgroundmusic;
@@ -51,12 +49,14 @@ public class GameScreen implements Screen, InputProcessor{
         // game kan nå brukes til å endre screens, f.eks. game.goToMainMenuScreen();
         this.game = game;
 
+        // GameSettings er kjekt å ha mange steder. Theme finner man blant annet her
+        gameSettings = game.getGameSettings();
+
         // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i GameSettings
-        GameSettings gameSettings = game.getGameSettings();
         this.board = new Board(gameSettings);
 
         // Gir boardRenderer modellen å jobbe med
-        this.boardRenderer = new BoardRenderer(board);
+        this.boardRenderer = new BoardRenderer(board, gameSettings);
 
         // Gir kontrolleren modellen å jobbe med. Legg merke til at kun kontroller
         controller = new BoardController(board);
@@ -65,12 +65,12 @@ public class GameScreen implements Screen, InputProcessor{
 
     @Override
     public void show() {
-        // Load images on setScreen()
-        board.loadImages();
 
-        // Gjør klar renderer til å rendre board modellen
+        // Load board
+        board.loadBoard();
+
+        // Load renderer
         boardRenderer.loadRenderer();
-
 
         // Starter musikken
         loadSoundtracks();
@@ -84,7 +84,6 @@ public class GameScreen implements Screen, InputProcessor{
     public void render(float delta) {
         controller.update(delta);
         boardRenderer.render();
-
     }
 
 
@@ -99,22 +98,14 @@ public class GameScreen implements Screen, InputProcessor{
 
 
     public void loadSoundtracks() {
-        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(th.path() + "background.mp3"));
-        backgroundmusic.setLooping(true);
-        backgroundmusic.setVolume(0.5f);
-        backgroundmusic.play();
+        if(gameSettings.isSound()) {
+            Theme theme = gameSettings.getTheme();
+            backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + FilePath.BACKGROUNDMUSIC.filename()));
+            backgroundmusic.setLooping(true);
+            backgroundmusic.setVolume(0.5f);
+            backgroundmusic.play();
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     // THE REST OF SCREEN METHODS

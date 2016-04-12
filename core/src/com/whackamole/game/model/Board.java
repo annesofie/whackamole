@@ -11,8 +11,8 @@ import com.whackamole.game.utils.Constants;
  */
 public class Board {
 
-    private Array<Mole> grid = new Array<Mole>(), currentMoles = new Array<Mole>();
-    private Array<Texture> imgList = new Array<Texture>();
+    private Array<Mole> grid = new Array<Mole>();
+    private Array<Mole> currentMoles = new Array<Mole>();
     int canvasHeight, canvasWidth;
     Theme theme;
     private String filepath;
@@ -33,23 +33,35 @@ public class Board {
     }
 
 
+    public void loadBoard() {
+        // Init board in GameScreen show()
+        loadGrid();
+        // ++ andre ting som må lastes når screen byttes til GameScreen
+
+    }
+
+
     private void loadGrid() {
+        // Clean the grid for moles if any
+        grid.clear();
+
         int gridDimensions = Constants.gridDimensions;
         for (int j = 0; j < gridDimensions; j++) {
             for (int i = 0; i < gridDimensions; i++) {
                 float xpos = (2 + gridDimensions * i)*canvasWidth/10  - 17 * canvasWidth/120;
                 float ypos = (gridDimensions + gridDimensions * j)*canvasHeight/16 - canvasHeight/32;
 
-                grid.add(new Mole(new Vector2(xpos, ypos)));
+                grid.add(new Mole(new Vector2(xpos, ypos), grid.size));
             }
         }
     }
 
-    public void loadImages(){
-        for (int i = 0; i < 6; i++) {
-            imgList.add(new Texture(Gdx.files.internal(filepath + "p" + (i + 1) +".png")));
-        }
+    public void setMole(int moleLocation, int image) {
+        Mole mole = grid.get(moleLocation);
+        mole.setMoleImageId(image);
+        currentMoles.add(mole);
     }
+
 
     public void addCurrentMole(int i){
         currentMoles.add(grid.get(i));
@@ -58,14 +70,6 @@ public class Board {
     public void removeCurrentMole(Mole mole){
         currentMoles.removeValue(mole, false);
     }
-
-    public Texture getImg(int i){
-        if(i >=0 && i< 6){
-            return imgList.get(i);
-        }
-        else throw new IllegalArgumentException("Texture doesn't exist!");
-    }
-
 
     public Array<Mole> getCurrentMoles(){
         return currentMoles;

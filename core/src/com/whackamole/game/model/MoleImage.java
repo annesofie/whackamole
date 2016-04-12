@@ -22,7 +22,7 @@ public enum MoleImage {
         this.filename = filename;
     }
 
-    public String getFileNameOnImageId(int id) {
+    public static String getFileNameOnImageId(int id) {
         for(MoleImage img : MoleImage.values()) {
             if(img.getId() == id) {
                 return img.getFilename();

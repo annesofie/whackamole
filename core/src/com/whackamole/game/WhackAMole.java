@@ -34,6 +34,11 @@ public class WhackAMole extends Game implements ScreenController {
 
         game = this;
 
+        // Models that should be available to multiple screens
+        // WARNING: gameSettings må initialiseres først
+        gameSettings = new GameSettings();
+        user = new User();
+
         // Initialize all the screens
         gameScreen = new GameScreen(game);
         instructionScreen = new InstructionScreen(game);
@@ -42,9 +47,6 @@ public class WhackAMole extends Game implements ScreenController {
         newGameScreen = new NewGameScreen(game);
         joinGameScreen = new JoinGameScreen(game);
 
-        // Models that should be available to multiple screens
-        gameSettings = new GameSettings();
-        user = new User();
 
         // Inital screen to be displayed on app startup
         goToGameScreen();
