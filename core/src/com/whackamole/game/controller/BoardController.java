@@ -101,7 +101,7 @@ public class BoardController{
     private Emitter.Listener onNewMole = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            System.out.println("got calles");
+            System.out.println("got called");
             JSONObject obj = (JSONObject) args[0];
             try {
                 receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
@@ -123,6 +123,8 @@ public class BoardController{
             if(mole.getBoundingRectangle().contains(touch_x, touch_y)){
 //                firstuser.addScore(mole.getScore());
                 hitsound.play(1);
+                System.out.println("hit");
+                socket.emit("mole hit", gameName);
                 mole.finish();
 
             }
@@ -130,7 +132,7 @@ public class BoardController{
         //checkTouch(touch_x, touch_y);
         //mole.setPos(touch_x, touch_y);
         System.out.println("touched");
-        socket.emit("mole hit", gameName);
+
         return true;
     }
 
