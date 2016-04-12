@@ -30,7 +30,7 @@ public class BoardController{
         this.mole = board.getMole();
 
         this.gameName = "spill1234";
-        this.nickName = "Mitt kallenavn"
+        this.nickName = "Mitt kallenavn";
 
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
@@ -109,7 +109,7 @@ public class BoardController{
                 e.printStackTrace();
             }
         }
-    }
+    };
 
     public void setMole(int pos) {
 
@@ -130,7 +130,7 @@ public class BoardController{
         //checkTouch(touch_x, touch_y);
         //mole.setPos(touch_x, touch_y);
         System.out.println("touched");
-        socket.emit("mole hit", "peder5");
+        socket.emit("mole hit", gameName);
         return true;
     }
 
