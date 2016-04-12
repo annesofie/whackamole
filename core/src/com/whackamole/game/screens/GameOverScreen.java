@@ -1,28 +1,57 @@
 package com.whackamole.game.screens;
 
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.GameOver;
+import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.views.GameOverRenderer;
 
 /**
  * Created by AnneSofie on 04.04.2016.
  */
-public class GameOverScreen implements Screen {
+public class GameOverScreen implements Screen, InputProcessor {
 
-    GameOver state;
+    private final WhackAMole game;
+    private GameOver gameOver;
+    private GameOverRenderer gameOverRenderer;
+    private GameSettings gameSettings;
+
     GameOverRenderer renderer;
+
+
+
+
+    public GameOverScreen(final WhackAMole game) {
+        this.game = game;
+
+        this.gameSettings = game.getGameSettings();
+
+        this.gameOver = new GameOver(gameSettings);
+
+        this.gameOverRenderer = new GameOverRenderer(gameOver);
+
+    }
 
 
     @Override
     public void show() {
-        this.state = new GameOver();
-        this.renderer = new GameOverRenderer(this.state);
+
     }
+
 
     @Override
     public void render(float delta) {
         renderer.render();
     }
+
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+
 
     @Override
     public void resize(int width, int height) {
@@ -47,5 +76,46 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+
+
+
+    // THE REST OF THE INPUTPROCESSOR METHODS
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }

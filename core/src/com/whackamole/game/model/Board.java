@@ -25,9 +25,6 @@ public class Board {
         this.canvasWidth = Gdx.graphics.getWidth();
         this.gameSettings = gameSettings;
         this.theme = gameSettings.getTheme();
-
-        loadGrid();
-
         this.filepath = theme.path();
 
     }

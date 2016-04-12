@@ -7,4 +7,14 @@ public class GameOver {
 
 
 
+    GameSettings gameSettings;
+
+    public GameOver(GameSettings gameSettings) {
+
+        this.gameSettings = gameSettings;
+
+    }
+
+
+
 }

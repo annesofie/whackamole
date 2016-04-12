@@ -41,7 +41,7 @@ public class GameScreen implements Screen, InputProcessor{
         this.game = game;
 
         // GameSettings er kjekt å ha mange steder. Theme finner man blant annet her
-        gameSettings = game.getGameSettings();
+        this.gameSettings = game.getGameSettings();
 
         // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i GameSettings
         this.board = new Board(gameSettings);
