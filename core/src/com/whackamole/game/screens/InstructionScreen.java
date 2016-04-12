@@ -2,10 +2,12 @@ package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.model.Instruction;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.InstructionRenderer;
 
 /**
@@ -18,13 +20,13 @@ public class InstructionScreen implements Screen, InputProcessor{
     final WhackAMole game;
     private Instruction instruction;
     private InstructionRenderer renderer;
-    private GameSettings gameSettings;
+    private Preferences prefs;
 
     public InstructionScreen(final WhackAMole game){
         this.game = game;
         this.instruction = new Instruction();
-        this.gameSettings = game.getGameSettings();
-        renderer = new InstructionRenderer(instruction, gameSettings);
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        renderer = new InstructionRenderer(instruction);
     }
 
 

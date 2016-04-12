@@ -1,10 +1,14 @@
 package com.whackamole.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.GameOver;
 import com.whackamole.game.model.GameSettings;
+import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.GameOverRenderer;
 
 /**
@@ -15,7 +19,7 @@ public class GameOverScreen implements Screen, InputProcessor {
     private final WhackAMole game;
     private GameOver gameOver;
     private GameOverRenderer gameOverRenderer;
-    private GameSettings gameSettings;
+    private Preferences prefs;
 
     GameOverRenderer renderer;
 
@@ -25,9 +29,9 @@ public class GameOverScreen implements Screen, InputProcessor {
     public GameOverScreen(final WhackAMole game) {
         this.game = game;
 
-        this.gameSettings = game.getGameSettings();
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
 
-        this.gameOver = new GameOver(gameSettings);
+        this.gameOver = new GameOver();
 
         this.gameOverRenderer = new GameOverRenderer(gameOver);
 
