@@ -35,8 +35,8 @@ public class BoardRenderer {
         this.batch = new SpriteBatch();
 
         this.board = board;
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
-        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEMEKEY.key()));
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
 
         this.moleImages = new Array<Texture>();
 

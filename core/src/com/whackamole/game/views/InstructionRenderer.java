@@ -29,8 +29,8 @@ public class InstructionRenderer {
     public InstructionRenderer(Instruction instruction) {
 
         this.instructions = instruction;
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
-        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEMEKEY.key()));
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
 
         this.batch = new SpriteBatch();
     }

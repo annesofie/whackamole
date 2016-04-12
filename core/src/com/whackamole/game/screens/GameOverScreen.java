@@ -27,7 +27,7 @@ public class GameOverScreen implements Screen, InputProcessor {
     public GameOverScreen(final WhackAMole game) {
         this.game = game;
 
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFSKEY.key());
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
         this.gameOver = new GameOver();
 
