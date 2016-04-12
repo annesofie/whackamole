@@ -2,7 +2,6 @@ package com.whackamole.game.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.utils.Prefs;
 
 /**

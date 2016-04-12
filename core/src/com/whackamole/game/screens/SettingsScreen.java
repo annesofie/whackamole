@@ -6,7 +6,6 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.GameSettingsController;
-import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.GameSettingsRenderer;
 

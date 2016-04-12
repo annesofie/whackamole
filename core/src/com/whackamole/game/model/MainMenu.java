@@ -14,7 +14,7 @@ public class MainMenu {
     int buttonWidth;
     int buttonHeight;
 
-    GameSettings gameSettings;
+
 
     public MainMenu(){
         background = new Texture("Bakgr.png");
@@ -23,7 +23,6 @@ public class MainMenu {
         settingsBtn = new Texture("SettingsBTN.png");
         instructionsBtn = new Texture("Instructions.png");
 
-        gameSettings = new GameSettings();
         buttonWidth = createGameBtn.getWidth();
         buttonHeight = createGameBtn.getHeight();
         screenWidth = Gdx.graphics.getWidth();
