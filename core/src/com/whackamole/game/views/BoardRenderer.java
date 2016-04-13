@@ -104,7 +104,7 @@ public class BoardRenderer {
                 currentMole.update(0.015f);
                 batch.draw(getMoleImage(currentMole),
                         currentMole.getPosition().x,
-                        currentMole.getPosition().y, 17 * width / 60, height / 6);
+                        currentMole.getPosition().y, 17 * width / 60, 33*height / 160);
             }
         }
     }
