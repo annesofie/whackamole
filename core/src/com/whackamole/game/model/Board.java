@@ -63,7 +63,7 @@ public class Board {
     public void setMole(int moleLocation, int image) {
         Mole mole = grid.get(moleLocation);
         mole.setMoleImageId(image);
-        currentMoles.add(mole);
+        this.currentMole = mole;
     }
 
 
@@ -71,8 +71,8 @@ public class Board {
         this.currentMole = grid.get(i);
     }
 
-    public void removeCurrentMole(Mole mole){
-        currentMoles.removeValue(mole, false);
+    public void removeCurrentMole(){
+        this.currentMole = null;
     }
 
     public Mole getCurrentMole(){

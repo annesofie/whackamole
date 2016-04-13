@@ -24,7 +24,7 @@ public class Mole extends Sprite{
     private int pointsWorth = 0;
     private int location;
 
-    private float dt, hiddenposition, shownposition, timeLimit = 2;
+    private float dt, hiddenposition, shownposition;
 
     //private float hidespeed = 1000.0f;
     private boolean hidden = true;
@@ -71,13 +71,6 @@ public class Mole extends Sprite{
         return location;
     }
 
-
-
-
-
-
-
-
     public Vector2 setPos(float x, float y) {
         return new Vector2(x,y);
     }
@@ -89,16 +82,9 @@ public class Mole extends Sprite{
     public void reset(){
         this.finished = false;
         //this.moleImage = null;
-        this.pointsworth = 0;
+        pointsWorth = 0;
         this.position = setPos(position.x, hiddenposition);
-    }
-
-    public float getTimeLimit(){
-        return timeLimit;
-    }
-
-    public void setTimeLimit(float timeLimit){
-        this.timeLimit =  timeLimit;
+        this.dt = 0;
     }
 
     public void setHiddenposition(){
@@ -109,7 +95,7 @@ public class Mole extends Sprite{
         this.position.y = shownposition;
     }
 
-    public boolean getFinished(){
+    public boolean finished(){
         return finished;
     }
 

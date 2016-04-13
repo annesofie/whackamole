@@ -56,14 +56,14 @@ public class BoardRenderer {
         currentMole = board.getCurrentMole();
 
         batch.begin();
-        batch.draw(hs, 0, 13*height/16, width, 3*height/16);
-        batch.draw(b4, 0, 9*height/16, width, height/4);
+        batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
+        batch.draw(board_top, 0, 9*height/16, width, height/4);
         drawMole(5,9);
-        batch.draw(b3, 0, 6*height/16, width, 3*height/16);
+        batch.draw(board_second_top, 0, 6*height/16, width, 3*height/16);
         drawMole(2,6);
-        batch.draw(b2, 0, 3*height/16, width, 3*height/16);
+        batch.draw(board_second_bottom, 0, 3*height/16, width, 3*height/16);
         drawMole(-1, 3);
-        batch.draw(b1, 0, 0 , width, 3*height/16);
+        batch.draw(board_bottom, 0, 0 , width, 3*height/16);
         batch.end();
 
     }
@@ -94,13 +94,13 @@ public class BoardRenderer {
 
     private void drawMole(int start, int end){
         if(currentMole!= null && currentMole.getLocation() > start && currentMole.getLocation() < end){
-            if(currentMole.getFinished()){
-                currentMole.reset();
-                //board.removeCurrentMole();
+            if(currentMole.finished()){
+                    currentMole.reset();
+                    board.removeCurrentMole();
             }
             else {
                 currentMole.update(0.015f);
-                batch.draw(currentMole.getMoleImage(),
+                batch.draw(getMoleImage(currentMole),
                         currentMole.getPosition().x,
                         currentMole.getPosition().y, 17 * width / 60, height / 6);
             }

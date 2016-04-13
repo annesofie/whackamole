@@ -22,11 +22,10 @@ public class BoardController{
     private Socket socket;
     private String gameName;
     private String nickName;
+    private Mole mole;
 
     public BoardController(Board board) {
         this.board = board;
-        this.mole = board.getCurrentMole();
-
         this.gameName = "spill123456"; // + (int)Math.floor(Math.random()*101);
         this.nickName = "oystein";
 
@@ -114,6 +113,7 @@ public class BoardController{
     public void setMole(int pos) {
 
     }
+
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
         touch_x = screenX;
@@ -121,7 +121,7 @@ public class BoardController{
         mole = board.getCurrentMole();
 
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
-//                firstuser.addScore(mole.getScore());
+//          firstuser.addScore(mole.getScore());
             hitsound.play(1);
             mole.finish();
             System.out.println("touched");
@@ -135,8 +135,7 @@ public class BoardController{
     }
 
     public void receiveSocket(int mole, int img){
-        this.board.addCurrentMole(mole);
-        this.board.getCurrentMole().setMoleImg(board.getImg(img), img);
+        board.setMole(mole, img);
     }
 
     /** The main update method **/
