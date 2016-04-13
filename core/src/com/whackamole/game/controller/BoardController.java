@@ -15,7 +15,7 @@ import org.json.JSONObject;
 
 public class BoardController{
 
-    private Vector2 touchPos;
+
     private int touch_x, touch_y;
     private Board board;
     private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));

@@ -15,17 +15,13 @@ public class BoardRenderer {
 
     private Board board;
     private Preferences prefs;
-
     // TEXTURES
     private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score;
     private Array<Texture> moleImages;
-
     private SpriteBatch batch;
-
     // GAME PROPERTIES
     private int height, width;
     private Mole currentMole;
-    private boolean show;
     private Theme theme;
 
 

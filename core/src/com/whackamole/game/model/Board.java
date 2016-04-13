@@ -14,7 +14,6 @@ public class Board {
 
     private Array<Mole> grid = new Array<Mole>();
 
-    int height, width;
     int canvasHeight, canvasWidth;
     Theme theme;
     private String filepath;

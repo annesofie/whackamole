@@ -15,18 +15,13 @@ public class Mole extends Sprite{
 
     private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
-
     private int height = Gdx.graphics.getHeight();
     private int width = Gdx.graphics.getWidth();
-
     // Denne IDen er brukt av renderer for å bestemme hvilket bilde den skal rendre for molen.
     private int moleImageId = 0;
     private int pointsWorth = 0;
     private int location;
-
     private float dt, hiddenposition, shownposition;
-
-    //private float hidespeed = 1000.0f;
     private boolean hidden = true;
     private boolean finished = false;
 
@@ -81,7 +76,6 @@ public class Mole extends Sprite{
 
     public void reset(){
         this.finished = false;
-        //this.moleImage = null;
         pointsWorth = 0;
         this.position = setPos(position.x, hiddenposition);
         this.dt = 0;
