@@ -13,9 +13,7 @@ import com.whackamole.game.utils.Prefs;
 public class Board {
 
     private Array<Mole> grid = new Array<Mole>();
-    private Array<Texture> imgList = new Array<Texture>();
-    private Texture b1, b2, b3, b4, hs;
-    private Texture background;
+
     int height, width;
     int canvasHeight, canvasWidth;
     Theme theme;
