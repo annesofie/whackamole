@@ -1,10 +1,13 @@
 package com.whackamole.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.whackamole.game.controller.ScreenController;
-import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.model.User;
 import com.whackamole.game.screens.*;
+import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.Prefs;
 
 /**
  * Created by Lars on 07/04/16.
@@ -23,7 +26,6 @@ public class WhackAMole extends Game implements ScreenController {
 
 
 
-    GameSettings gameSettings;
     User user;
     WhackAMole game;
 
@@ -33,10 +35,9 @@ public class WhackAMole extends Game implements ScreenController {
     public void create() {
 
         game = this;
+        loadDefaultPrefs();
 
         // Models that should be available to multiple screens
-        // WARNING: gameSettings må initialiseres først
-        gameSettings = new GameSettings();
         user = new User();
 
         // Initialize all the screens
@@ -88,16 +89,24 @@ public class WhackAMole extends Game implements ScreenController {
     }
 
 
+    public void loadDefaultPrefs() {
 
+        // Default values stored in Constants
+        int numOfMoles = Constants.numOfMoles;
+        String username = Constants.username;
+        int themeID = Constants.themeID;
+        boolean isSound = Constants.isSound;
 
-    // Getters for models that should be available to multiple classes
+        Preferences prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
-    public GameSettings getGameSettings() {
-        return this.gameSettings;
-    }
+        prefs.putInteger(Prefs.NUMOFMOLES.key(), numOfMoles);
+        prefs.putString(Prefs.USERNAME.key(), username);
+        prefs.putInteger(Prefs.THEME.key(), themeID);
+        prefs.putBoolean(Prefs.ISSOUND.key(), isSound);
 
-    public User getUser() {
-        return this.user;
+        // Use flush to write preferences to disk
+        prefs.flush();
+
     }
 
 

@@ -2,21 +2,14 @@ package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Rectangle;
 import com.whackamole.game.WhackAMole;
-import com.whackamole.game.controller.SocketController;
 import com.whackamole.game.model.*;
-import com.whackamole.game.utils.SocketRetreiver;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -29,7 +22,7 @@ public class GameScreen implements Screen, InputProcessor{
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
-    private GameSettings gameSettings;
+    private Preferences prefs;
 
     // Helt greit at denne starter musikken
     private Music backgroundmusic;
@@ -49,14 +42,14 @@ public class GameScreen implements Screen, InputProcessor{
         // game kan nå brukes til å endre screens, f.eks. game.goToMainMenuScreen();
         this.game = game;
 
-        // GameSettings er kjekt å ha mange steder. Theme finner man blant annet her
-        gameSettings = game.getGameSettings();
+        // Preferences
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
-        // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i GameSettings
-        this.board = new Board(gameSettings);
+        // Initialiserer brettet basert på theme, num of moles osv. som alltid er definert i Preferences
+        this.board = new Board();
 
         // Gir boardRenderer modellen å jobbe med
-        this.boardRenderer = new BoardRenderer(board, gameSettings);
+        this.boardRenderer = new BoardRenderer(board);
 
         // Gir kontrolleren modellen å jobbe med. Legg merke til at kun kontroller
         controller = new BoardController(board);
@@ -98,9 +91,10 @@ public class GameScreen implements Screen, InputProcessor{
 
 
     public void loadSoundtracks() {
-        if(gameSettings.isSound()) {
-            Theme theme = gameSettings.getTheme();
-            backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + FilePath.BACKGROUNDMUSIC.filename()));
+        boolean isSound = prefs.getBoolean(Prefs.ISSOUND.key());
+        if(isSound) {
+            Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
+            backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + FileName.BACKGROUNDMUSIC.filename()));
             backgroundmusic.setLooping(true);
             backgroundmusic.setVolume(0.5f);
             backgroundmusic.play();

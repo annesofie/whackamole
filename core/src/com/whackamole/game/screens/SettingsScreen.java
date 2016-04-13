@@ -1,10 +1,12 @@
 package com.whackamole.game.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.GameSettingsController;
-import com.whackamole.game.model.GameSettings;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.GameSettingsRenderer;
 
 /**
@@ -14,7 +16,7 @@ public class SettingsScreen implements Screen, InputProcessor {
 
 
     private final WhackAMole game;
-    private GameSettings gameSettings;
+    private Preferences prefs;
     private GameSettingsRenderer renderer;
     private GameSettingsController gameSettingsController;
 
@@ -27,12 +29,12 @@ public class SettingsScreen implements Screen, InputProcessor {
         this.game = game;
 
         // Modellen vi jobber med her
-        this.gameSettings = game.getGameSettings();
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
-        this.renderer = new GameSettingsRenderer(gameSettings);
+        this.renderer = new GameSettingsRenderer();
 
         // Hjelpekontrolleren til SettingsScreen
-        this.gameSettingsController = new GameSettingsController(gameSettings);
+        this.gameSettingsController = new GameSettingsController();
 
 
     }

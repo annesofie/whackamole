@@ -1,13 +1,13 @@
 package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.whackamole.game.model.GameSettings;
 import com.whackamole.game.model.Instruction;
 import com.whackamole.game.model.Theme;
+import com.whackamole.game.utils.Prefs;
 
 /**
  * Created by Lars on 07/04/16.
@@ -15,7 +15,7 @@ import com.whackamole.game.model.Theme;
 public class InstructionRenderer {
 
     private Instruction instructions;
-    private GameSettings gameSettings;
+    private Preferences prefs;
 
     private SpriteBatch batch;
 
@@ -26,11 +26,11 @@ public class InstructionRenderer {
 
     private Theme theme;
 
-    public InstructionRenderer(Instruction instruction, GameSettings gameSettings) {
+    public InstructionRenderer(Instruction instruction) {
 
         this.instructions = instruction;
-        this.gameSettings = gameSettings;
-        this.theme = gameSettings.getTheme();
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
 
         this.batch = new SpriteBatch();
     }

@@ -16,13 +16,24 @@ public enum Theme {
      *
      */
 
-    PRESIDENTIAL ("presidential/"),
-    KARDASHIAN ("kardashian/");
+    PRESIDENTIAL (0, "presidential/"),
+    KARDASHIAN (1, "kardashian/");
 
     private final String path;
+    private final int id;
 
-    Theme(String path) {
+    Theme(int id, String path) {
         this.path = path;
+        this.id = id;
+    }
+
+    public static Theme getThemeOnThemeId(int id) {
+        for(Theme theme : Theme.values()) {
+            if(theme.id == id) {
+                return theme;
+            }
+        }
+        return null;
     }
 
     public String path() {
