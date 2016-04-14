@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.views.MainMenuRenderer;
 
@@ -79,7 +80,7 @@ public class MainMenuScreen implements Screen {
 
         skin.add("createGameBtn", new Texture("CreateGameBtn.png"));
         skin.add("joinGameBtn", new Texture("JoinGameBtn.png"));
-        skin.add("settingsBtn", new Texture(Gdx.files.internal("SettingsBTN.png")));
+        skin.add("settingsBtn", new Texture(Gdx.files.internal("settingsbtn.png")));
         skin.add("instructionsBtn", new Texture("InstructionsBtn.png"));
 
         skin.add("createGameClicked", new Texture("CreateGameBtnClicked.png"));
@@ -99,13 +100,10 @@ public class MainMenuScreen implements Screen {
         settingsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight/2);
         instructionsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*3/12-btnHeight/2);
 
-        createGameButton.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                //game.gotToNewGameScreen();
-                //dispose();
+        createGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.goToGameScreen();
             }
         });
 

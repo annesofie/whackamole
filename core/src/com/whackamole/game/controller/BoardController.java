@@ -29,6 +29,10 @@ public class BoardController{
 
     public BoardController(Board board) {
         this.board = board;
+
+    }
+
+    public void loadController() {
         this.gameName = "spill123456"; // + (int)Math.floor(Math.random()*101);
         this.nickName = "oystein";
 
@@ -61,7 +65,6 @@ public class BoardController{
             }
         });
         socket.on("new mole", onNewMole);
-
     }
 
     private void startGame() {
