@@ -1,8 +1,6 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,13 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.CreateGameController;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.FileName;
-import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.CreateGameRenderer;
 
 /**
@@ -83,16 +80,23 @@ public class CreateGameScreen implements Screen{
 
         skin.add("btnNotClicked", new Texture(Gdx.files.internal(FileName.CREATEGAMEBTN.filename())));
         skin.add("btnClicked", new Texture(Gdx.files.internal(FileName.CREATEGAMEBTNCLICKED.filename())));
+        skin.add("background", new Texture(FileName.BACKGROUND_GRASS.filename()));
 
+        Image background = new Image(skin.getDrawable("background"));
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
-        
+        TextField textField = new TextField("", skin);
+        textField.setMessageText("Enter game name");
+
 
         float btnXPos = ((float)1/4 * canvasWidth);
         float btnYPos = ((float)1/3 * canvasHeight);
 
         btn.setPosition(btnXPos, btnYPos);
+        textField.setPosition(btnXPos, btnYPos + (float)(1/4) * canvasHeight);
 
         stage.addActor(btn);
+        stage.addActor(textField);
+        stage.addActor(background);
 
         btn.addListener(new ClickListener() {
             @Override

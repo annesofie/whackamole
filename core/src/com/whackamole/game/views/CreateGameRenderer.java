@@ -27,8 +27,6 @@ public class CreateGameRenderer implements Renderer {
 
     private Texture background;
 
-    private SpriteBatch batch;
-
     // MODEL
     private CreateGame createGame;
 
@@ -43,8 +41,6 @@ public class CreateGameRenderer implements Renderer {
 
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
-        this.batch = new SpriteBatch();
-
         canvasHeight = Gdx.graphics.getHeight();
         canvasWidth = Gdx.graphics.getWidth();
 
@@ -56,18 +52,19 @@ public class CreateGameRenderer implements Renderer {
     public void loadRenderer(Stage stage) {
 
         this.stage = stage;
-        loadTextures();
+        // loadTextures();
 
     }
 
 
     public void render() {
 
-        batch.begin();
-        batch.draw(background, 0, 0, canvasWidth, canvasHeight);
-        batch.end();
-
         stage.act();
+
+        stage.getBatch().begin();
+        stage.getBatch().draw(background, 0, 0, canvasWidth, canvasHeight);
+        stage.getBatch().end();
+
         stage.draw();
 
     }
