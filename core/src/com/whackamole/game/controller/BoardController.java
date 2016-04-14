@@ -6,7 +6,9 @@ import com.whackamole.game.model.Mole;
 import com.whackamole.game.model.Board;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.whackamole.game.model.Theme;
 import com.whackamole.game.model.User;
+import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.SocketRetreiver;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -18,7 +20,8 @@ public class BoardController{
 
     private int touch_x, touch_y;
     private Board board;
-    private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
+    private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3")),
+    speech = Gdx.audio.newSound(Gdx.files.internal(Theme.getThemeOnThemeId(Constants.themeID).path() + "speech.m4a"));
     private Socket socket;
     private String gameName;
     private String nickName;
@@ -136,6 +139,9 @@ public class BoardController{
 
     public void receiveSocket(int mole, int img){
         board.setMole(mole, img);
+        if(board.getCurrentMole().getMoleImageId() == 0){
+            speech.play();
+        }
     }
 
     /** The main update method **/
