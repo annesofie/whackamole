@@ -20,6 +20,12 @@ public enum FileName {
     INSTRUCTIONS(""),
     SETTINGS(""),
 
+    BACKGROUND_GRASS("Bakgr.png"),
+
+    CREATEGAMEBTN("CreateGame.png"),
+    CREATEGAMEBTNCLICKED("CreateGameKlikket.png"),
+
+
     // Sounds
     BACKGROUNDMUSIC("background.mp3");
 

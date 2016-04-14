@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.whackamole.game.model.MainMenu;
 
 
-public class MainMenuRenderer {
+public class MainMenuRenderer implements Renderer {
 
 
     /**

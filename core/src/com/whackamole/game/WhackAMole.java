@@ -21,8 +21,9 @@ public class WhackAMole extends Game implements ScreenController {
     private InstructionScreen instructionScreen;
     private MainMenuScreen mainMenuScreen;
     private SettingsScreen settingsScreen;
-    private NewGameScreen newGameScreen;
+    private CreateGameScreen newGameScreen;
     private JoinGameScreen joinGameScreen;
+    private CreateGameScreen createGameScreen;
 
 
 
@@ -45,12 +46,13 @@ public class WhackAMole extends Game implements ScreenController {
         instructionScreen = new InstructionScreen(game);
         mainMenuScreen = new MainMenuScreen(game);
         settingsScreen = new SettingsScreen(game);
-        newGameScreen = new NewGameScreen(game);
+        newGameScreen = new CreateGameScreen(game);
         joinGameScreen = new JoinGameScreen(game);
+        createGameScreen = new CreateGameScreen(game);
 
 
         // Inital screen to be displayed on app startup
-        goToGameScreen();
+        goToCreateGameScreen();
 
     }
 
@@ -88,6 +90,10 @@ public class WhackAMole extends Game implements ScreenController {
         setScreen(joinGameScreen);
     }
 
+    @Override
+    public void goToCreateGameScreen() {
+        setScreen(createGameScreen);
+    }
 
     public void loadDefaultPrefs() {
 

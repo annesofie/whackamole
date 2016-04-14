@@ -65,6 +65,9 @@ public class GameScreen implements Screen, InputProcessor{
         // Load renderer
         boardRenderer.loadRenderer();
 
+        // Load controller
+        controller.loadController();
+
         // Starter musikken
         loadSoundtracks();
 

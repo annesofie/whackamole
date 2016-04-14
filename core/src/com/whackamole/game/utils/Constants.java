@@ -10,6 +10,7 @@ public class Constants {
 
     public static final float hitBoxRelativeHeight = (float) 33/160;
     public static final float hitBoxRelativeWidth = (float) 260/900;
+    public static final float buttonHeightWidthRatio = (float) 154/692;
 
     public static final int numOfMoles = 1;
     public static final Theme theme = Theme.PRESIDENTIAL;
@@ -20,5 +21,6 @@ public class Constants {
 
     // Used to load the grid in board
     public static final int gridDimensions = 3;
+
 
 }
