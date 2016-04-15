@@ -7,7 +7,7 @@ import com.whackamole.game.utils.Prefs;
 /**
  * Created by Lars on 07/04/16.
  */
-public class GameSettingsRenderer {
+public class GameSettingsRenderer implements Renderer {
 
 
     Preferences prefs;

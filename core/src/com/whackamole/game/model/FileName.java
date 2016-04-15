@@ -20,6 +20,19 @@ public enum FileName {
     INSTRUCTIONS(""),
     SETTINGS(""),
 
+    FONT("fonts/OpenSans-CondLight.ttf"),
+
+    BACKGROUND_GRASS("Background.png"),
+
+    ENTERGAMENAME("textfield/EnterGameName.png"),
+    ENTERGAMENAMENOTEXT("textfield/EnterGameNameNoText.png"),
+    CURSOR("textfield/cursor.png"),
+    TEXTFIELD("textfield/textfield.png"),
+    INVALIDGAMENAME("textfield/invalidgamename.png"),
+
+    CREATEGAMEBTN("CreateGameBtn.png"),
+    CREATEGAMEBTNCLICKED("CreateGameBtnClicked.png"),
+
     // Sounds
     BACKGROUNDMUSIC("background.mp3");
 

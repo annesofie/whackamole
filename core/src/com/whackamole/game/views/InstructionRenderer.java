@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 /**
  * Created by Lars on 07/04/16.
  */
-public class InstructionRenderer {
+public class InstructionRenderer implements Renderer {
 
 
     // TEXTURES
