@@ -14,11 +14,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.whackamole.game.WhackAMole;
@@ -69,8 +65,8 @@ public class CreateGameScreen implements Screen{
 
 
     //TODO: Her lager vi actors og legger dem inn i en stage som vi sender videre til renderer.
-    //TODO: Vi ønsket i utgangspunktet å håndtere alt som skal rendres i renderer. Men var nødt til å lage
-    //TODO knapper og inputfelt her for å legge til listeners. Forslag til hvordan vi kan håndtere dette bedre?
+    //TODO: Vi ønsket i utgangspunktet å håndtere alt som skal rendres i renderer.
+    //TODO  Var nødt til å lage knapper og inputfelt her for å håndtere button clicks her. Forslag til hvordan vi kan håndtere dette bedre?
 
     private Stage loadActors() {
         /*
@@ -155,17 +151,6 @@ public class CreateGameScreen implements Screen{
         skin.dispose();
         stage.dispose();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

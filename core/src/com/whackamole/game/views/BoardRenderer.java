@@ -56,10 +56,13 @@ public class BoardRenderer implements Renderer {
 
         batch.begin();
         batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
+        batch.draw(board_score, 0, 7*height/16, width, 3*height/16);
         batch.draw(board_top, 0, 9*height/16, width, height/4);
         drawMole(5,9);
+        batch.draw(board_score, 0, 5*height/16, width, 2*height/16);
         batch.draw(board_second_top, 0, 6*height/16, width, 3*height/16);
         drawMole(2,6);
+        batch.draw(board_score, 0, 2*height/16, width, 2*height/16);
         batch.draw(board_second_bottom, 0, 3*height/16, width, 3*height/16);
         drawMole(-1, 3);
         batch.draw(board_bottom, 0, 0 , width, 3*height/16);

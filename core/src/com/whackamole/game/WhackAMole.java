@@ -16,8 +16,6 @@ import com.whackamole.game.utils.Prefs;
 public class WhackAMole extends Game implements ScreenController {
 
 
-
-
     private GameScreen gameScreen;
     private InstructionScreen instructionScreen;
     private MainMenuScreen mainMenuScreen;
@@ -49,15 +47,12 @@ public class WhackAMole extends Game implements ScreenController {
         joinGameScreen = new JoinGameScreen(game);
         createGameScreen = new CreateGameScreen(game);
 
-
         // Inital screen to be displayed on app startup
-
         goToCreateGameScreen();
+
     }
 
 
-
-    // Methods that can be used to switch between the different screen instances
 
     @Override
     public void goToGameScreen() {
@@ -113,9 +108,6 @@ public class WhackAMole extends Game implements ScreenController {
         prefs.flush();
 
     }
-
-
-
 
 
 }

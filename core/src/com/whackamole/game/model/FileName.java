@@ -22,7 +22,7 @@ public enum FileName {
 
     FONT("fonts/OpenSans-CondLight.ttf"),
 
-    BACKGROUND_GRASS("Bakgr.png"),
+    BACKGROUND_GRASS("Background.png"),
 
     ENTERGAMENAME("textfield/EnterGameName.png"),
     ENTERGAMENAMENOTEXT("textfield/EnterGameNameNoText.png"),
@@ -30,8 +30,8 @@ public enum FileName {
     TEXTFIELD("textfield/textfield.png"),
     INVALIDGAMENAME("textfield/invalidgamename.png"),
 
-    CREATEGAMEBTN("CreateGame.png"),
-    CREATEGAMEBTNCLICKED("CreateGameKlikket.png"),
+    CREATEGAMEBTN("CreateGameBtn.png"),
+    CREATEGAMEBTNCLICKED("CreateGameBtnClicked.png"),
 
     // Sounds
     BACKGROUNDMUSIC("background.mp3");

@@ -2,6 +2,7 @@ package com.whackamole.game.screens;
 
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.whackamole.game.WhackAMole;
 
 /**
