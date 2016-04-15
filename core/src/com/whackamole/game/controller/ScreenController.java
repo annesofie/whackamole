@@ -18,8 +18,9 @@ public interface ScreenController {
     void goToInstructionsScreen();
     void goToMainMenuScreen();
     void goToSettingsScreen();
-    void gotToNewGameScreen();
+    void gotToCreateGameScreen();
     void goToJoinGameScreen();
     void goToCreateGameScreen();
+
 
 }

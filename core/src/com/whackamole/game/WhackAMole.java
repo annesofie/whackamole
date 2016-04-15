@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.User;
 import com.whackamole.game.screens.*;
 import com.whackamole.game.utils.Constants;
@@ -21,7 +22,6 @@ public class WhackAMole extends Game implements ScreenController {
     private InstructionScreen instructionScreen;
     private MainMenuScreen mainMenuScreen;
     private SettingsScreen settingsScreen;
-    private CreateGameScreen newGameScreen;
     private JoinGameScreen joinGameScreen;
     private CreateGameScreen createGameScreen;
 
@@ -46,14 +46,13 @@ public class WhackAMole extends Game implements ScreenController {
         instructionScreen = new InstructionScreen(game);
         mainMenuScreen = new MainMenuScreen(game);
         settingsScreen = new SettingsScreen(game);
-        newGameScreen = new CreateGameScreen(game);
         joinGameScreen = new JoinGameScreen(game);
         createGameScreen = new CreateGameScreen(game);
 
 
         // Inital screen to be displayed on app startup
-        goToCreateGameScreen();
 
+        goToCreateGameScreen();
     }
 
 
@@ -81,8 +80,8 @@ public class WhackAMole extends Game implements ScreenController {
     }
 
     @Override
-    public void gotToNewGameScreen() {
-        setScreen(newGameScreen);
+    public void gotToCreateGameScreen() {
+        setScreen(createGameScreen);
     }
 
     @Override

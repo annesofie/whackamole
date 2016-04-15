@@ -1,39 +1,24 @@
 package com.whackamole.game.model;
 
-/**
- * Created by Lars on 12/04/16.
- */
+
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
 public class CreateGame {
 
-
-    private boolean buttonClicked;
-
+    private boolean invalidGameName;
 
     public CreateGame() {
-
-        this.buttonClicked = false;
-
+        invalidGameName = false;
     }
 
-
-
-    public void loadCreateGame() {
-
+    public boolean isInvalidGameName() {
+        return invalidGameName;
     }
 
-
-    public void setClicked() {
-        this.buttonClicked = true;
+    public void setInvalidGameName(boolean invalid) {
+        invalidGameName = invalid;
     }
-
-    public void setNotClicked() {
-        this.buttonClicked = false;
-    }
-
-    public boolean isClicked() {
-        return this.buttonClicked;
-    }
-
-
 
 }
