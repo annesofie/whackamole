@@ -4,11 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.model.FileName;
 import com.whackamole.game.views.InstructionRenderer;
 
 /**
@@ -21,17 +22,17 @@ public class InstructionScreen implements Screen {
     private InstructionRenderer renderer;
     private Skin skin;
     private Stage stage;
-    int screenWidth, screenHeight, whiteRectangleWidth, whiteRectangleHeight, btnWidth, btnHeight;
+    int screenWidth, screenHeight;
+    int returnBtnWidth, returnBtnHeight;
+
 
     public InstructionScreen(final WhackAMole game) {
         this.game = game;
         renderer = new InstructionRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
-        whiteRectangleWidth = (new Texture("WhiteRectangle.png").getWidth());
-        whiteRectangleHeight = (new Texture("WhiteRectangle.png").getWidth());
-        btnWidth = (new Texture("ReturnBtn.png")).getWidth();
-        btnHeight = (new Texture("ReturnBtn.png")).getHeight();
+        returnBtnWidth = (new Texture(FileName.RETURN_BTN.filename())).getWidth();
+        returnBtnHeight = (new Texture(FileName.RETURN_BTN.filename())).getHeight();
     }
 
     @Override
@@ -52,16 +53,15 @@ public class InstructionScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         skin = new Skin();
 
-        skin.add("returnBtn", new Texture("ReturnBtn.png"));
+        skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
-        returnButton.setPosition(screenWidth/2 + whiteRectangleWidth/2 - btnHeight*2,screenHeight/2 + whiteRectangleHeight/2 - btnHeight*2);
 
-        returnButton.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new MainMenuScreen(game));
+        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2,screenHeight*8/10 - returnBtnHeight*2);
+
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.goToMainMenuScreen();
                 dispose();
             }
         });
@@ -75,7 +75,6 @@ public class InstructionScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override

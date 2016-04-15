@@ -21,10 +21,10 @@ public class SocketController {
     JsonReader reader;
     private int currentMolePosition, currentImgPos;
     private BoardController boardController;
+    private String gamename;
 
     public SocketController(String gamename) {
-
-
+        this.gamename = gamename;
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
         socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
@@ -37,6 +37,10 @@ public class SocketController {
             }
 
         });
+    }
+
+
+    public void loadController() {
 
         String message = "";
         JSONObject json = new JSONObject();
@@ -68,6 +72,8 @@ public class SocketController {
         });
         socket.on("chat message", onNewMessage);
         socket.on("new mole", newMole);
+
+
     }
 
     private Emitter.Listener onConnectError = new Emitter.Listener() {

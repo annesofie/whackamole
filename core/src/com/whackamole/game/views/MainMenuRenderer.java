@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.whackamole.game.model.FileName;
 
 
 public class MainMenuRenderer {
@@ -21,7 +22,7 @@ public class MainMenuRenderer {
 
     public MainMenuRenderer(){
         screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
     }
 
     public void render() {
@@ -39,7 +40,7 @@ public class MainMenuRenderer {
     }
 
     private void loadTextures(){
-        background = new Texture("Background.png");
+        background = new Texture(FileName.BACKGROUND.filename());
     }
 
 }

@@ -2,6 +2,10 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.whackamole.game.model.FileName;
 import com.whackamole.game.utils.Prefs;
 
 /**
@@ -10,34 +14,43 @@ import com.whackamole.game.utils.Prefs;
 public class GameSettingsRenderer {
 
 
-    Preferences prefs;
+    private Texture background;
+    private Texture whiteRectangle;
+    private Stage stage;
+    private int screenWidth, screenHeight;
+    //Preferences prefs;
 
 
 
     public GameSettingsRenderer() {
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-
+        //this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
     }
 
 
-    public void loadRenderer() {
+    public void loadRenderer(Stage stage) {
+        this.stage = stage;
         loadTextures();
     }
 
 
     public void render() {
-
-        // Her skal Textures og tekst som ble gjort klart i loadTextures() rendres.
-
-        // Current settings should be displayed to the user
-        // The player should be able to select new settings
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.getBatch().begin();
+        stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
+        stage.getBatch().draw(whiteRectangle, screenWidth*1/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
+        stage.getBatch().end();
+        stage.draw();
     }
 
-
-    private void loadTextures() {
-
-        // Gjør klar bilder og tekst som skal rendres
-
+    public void loadTextures() {
+        // Lag textures her basert på tema, instruksjoner osv.
+        // Antakeligvis bare et bakgrunnsbilde med text på.
+        // I render skal disse tegnes.
+        background = new Texture(FileName.BACKGROUND.filename());
+        whiteRectangle = new Texture(FileName.WHITE_RECTANGLE.filename());
 
     }
 

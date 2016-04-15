@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.model.FileName;
 import com.whackamole.game.views.MainMenuRenderer;
 
 
@@ -31,8 +31,8 @@ public class MainMenuScreen implements Screen {
         this.renderer = new MainMenuRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
-        btnWidth = (new Texture("CreateGameBtn.png")).getWidth();
-        btnHeight = (new Texture("CreateGameBtn.png")).getHeight();
+        btnWidth = (new Texture(FileName.CREATE_GAME_BTN.filename())).getWidth();
+        btnHeight = (new Texture(FileName.CREATE_GAME_BTN.filename())).getHeight();
     }
 
     @Override
@@ -78,15 +78,15 @@ public class MainMenuScreen implements Screen {
 
         skin = new Skin();
 
-        skin.add("createGameBtn", new Texture("CreateGameBtn.png"));
-        skin.add("joinGameBtn", new Texture("JoinGameBtn.png"));
-        skin.add("settingsBtn", new Texture(Gdx.files.internal("settingsbtn.png")));
-        skin.add("instructionsBtn", new Texture("InstructionsBtn.png"));
+        skin.add("createGameBtn", new Texture(FileName.CREATE_GAME_BTN.filename()));
+        skin.add("joinGameBtn", new Texture(FileName.JOIN_GAME_BTN.filename()));
+        skin.add("settingsBtn", new Texture(FileName.SETTINGS_BTN.filename()));
+        skin.add("instructionsBtn", new Texture(FileName.INSTRUCTIONS_BTN.filename()));
 
-        skin.add("createGameClicked", new Texture("CreateGameBtnClicked.png"));
-        skin.add("joinGameClicked", new Texture("JoinGameBtnClicked.png"));
-        skin.add("settingsClicked", new Texture("SettingsBtnClicked.png"));
-        skin.add("instructionsClicked", new Texture("InstructionsBtnClicked.png"));
+        skin.add("createGameClicked", new Texture(FileName.CREATE_GAME_BTN_CLICKED.filename()));
+        skin.add("joinGameClicked", new Texture(FileName.JOIN_GAME_BTN_CLICKED.filename()));
+        skin.add("settingsClicked", new Texture(FileName.SETTINGS_BTN_CLICKED.filename()));
+        skin.add("instructionsClicked", new Texture(FileName.INSTRUCTIONS_BTN_CLICKED.filename()));
 
         //Buttons:
 
@@ -103,35 +103,30 @@ public class MainMenuScreen implements Screen {
         createGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToGameScreen();
+                //game.goToGameScreen();
+                //dispose();
             }
         });
 
-        joinGameButton.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+        joinGameButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
                 //game.goToJoinGameScreen();
                 //dispose();
             }
         });
 
-        settingsButton.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                //game.goToSettingsScreen();
-                //dispose();
+        settingsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.goToSettingsScreen();
+                dispose();
             }
         });
 
-        instructionsButton.addListener(new InputListener() {
-            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
-                return true;
-            }
-            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+        instructionsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
                 game.goToInstructionsScreen();
                 dispose();
             }
