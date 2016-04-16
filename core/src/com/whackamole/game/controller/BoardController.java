@@ -34,7 +34,7 @@ public class BoardController{
 
     public void loadController() {
         this.gameName = "spill123456"; // + (int)Math.floor(Math.random()*101);
-        this.nickName = "oystein";
+        this.nickName = "oystein2";
 
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
@@ -43,7 +43,8 @@ public class BoardController{
             @Override
             public void call(Object... args) {
                 System.out.println("connected to socket");
-                newGame(gameName, nickName);
+                //newGame(gameName, nickName);
+                joinGame(gameName, nickName);
                 System.out.println(socket.id());
             }
         });
@@ -69,6 +70,17 @@ public class BoardController{
 
     private void startGame() {
         socket.emit("start game");
+    }
+
+    private void joinGame(String gameName, String nickName){
+        JSONObject json = new JSONObject();
+        try{
+            json.put("gameName", gameName);
+            json.put("nickName", nickName);
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+        socket.emit("join game", json);
     }
 
     private void newGame(String gameName, String nickName) {
@@ -142,7 +154,7 @@ public class BoardController{
 
     public void receiveSocket(int mole, int img){
         board.setMole(mole, img);
-        if(board.getCurrentMole().getMoleImageId() == 0){
+        if(img == 0){
             speech.play();
         }
     }

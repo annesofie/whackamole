@@ -20,6 +20,8 @@ public enum FileName {
     INSTRUCTIONS(""),
     SETTINGS(""),
 
+    SETTINGSBTN("SettingsBTN.png"),
+
     // Sounds
     BACKGROUNDMUSIC("background.mp3");
 

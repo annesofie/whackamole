@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.model.FileName;
 import com.whackamole.game.views.MainMenuRenderer;
 
 
@@ -80,7 +81,7 @@ public class MainMenuScreen implements Screen {
 
         skin.add("createGameBtn", new Texture("CreateGameBtn.png"));
         skin.add("joinGameBtn", new Texture("JoinGameBtn.png"));
-        skin.add("settingsBtn", new Texture(Gdx.files.internal("settingsbtn.png")));
+        skin.add("settingsBtn", new Texture(Gdx.files.internal(FileName.SETTINGSBTN.filename())));
         skin.add("instructionsBtn", new Texture("InstructionsBtn.png"));
 
         skin.add("createGameClicked", new Texture("CreateGameBtnClicked.png"));
