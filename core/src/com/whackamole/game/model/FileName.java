@@ -39,6 +39,8 @@ public enum FileName {
     READYBTN("ReadyBtn.png"),
     READYBTNCLICKED("ReadyBtnClicked.png"),
 
+    SETTINGSBTN("SettingsBTN.png"),
+
     // Sounds
     BACKGROUNDMUSIC("background.mp3");
 

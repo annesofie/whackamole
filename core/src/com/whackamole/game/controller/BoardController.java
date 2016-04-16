@@ -35,6 +35,9 @@ public class BoardController{
 
     public void loadController() {
 
+        SocketRetreiver retreiver = SocketRetreiver.getInstance();
+        socket = retreiver.getSocket();
+
         this.gameName = match.getGameName();
         this.nickName = match.getThisPlayerNickName();
 
@@ -142,7 +145,7 @@ public class BoardController{
 
     public void receiveSocket(int mole, int img){
         board.setMole(mole, img);
-        if(board.getCurrentMole().getMoleImageId() == 0){
+        if(img == 0){
             speech.play();
         }
     }
