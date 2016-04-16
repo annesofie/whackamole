@@ -5,12 +5,13 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
 
 
-public class BoardRenderer {
+public class BoardRenderer implements Renderer {
 
 
     private Board board;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.User;
 import com.whackamole.game.screens.*;
 import com.whackamole.game.utils.Constants;
@@ -19,8 +20,8 @@ public class WhackAMole extends Game implements ScreenController {
     private InstructionScreen instructionScreen;
     private MainMenuScreen mainMenuScreen;
     private SettingsScreen settingsScreen;
-    private NewGameScreen newGameScreen;
     private JoinGameScreen joinGameScreen;
+    private CreateGameScreen createGameScreen;
 
 
 
@@ -38,25 +39,18 @@ public class WhackAMole extends Game implements ScreenController {
         // Models that should be available to multiple screens
         user = new User();
 
-
-
         // Initialize all the screens
         gameScreen = new GameScreen(game);
         instructionScreen = new InstructionScreen(game);
         mainMenuScreen = new MainMenuScreen(game);
         settingsScreen = new SettingsScreen(game);
-        newGameScreen = new NewGameScreen(game);
         joinGameScreen = new JoinGameScreen(game);
-
+        createGameScreen = new CreateGameScreen(game);
 
         // Inital screen to be displayed on app startup
-        //goToGameScreen();
-        setScreen(mainMenuScreen);
+        goToCreateGameScreen();
+
     }
-
-
-
-    // Methods that can be used to switch between the different screen instances
 
 
 
@@ -81,8 +75,8 @@ public class WhackAMole extends Game implements ScreenController {
     }
 
     @Override
-    public void gotToNewGameScreen() {
-        setScreen(newGameScreen);
+    public void gotToCreateGameScreen() {
+        setScreen(createGameScreen);
     }
 
     @Override
@@ -90,6 +84,10 @@ public class WhackAMole extends Game implements ScreenController {
         setScreen(joinGameScreen);
     }
 
+    @Override
+    public void goToCreateGameScreen() {
+        setScreen(createGameScreen);
+    }
 
     public void loadDefaultPrefs() {
 

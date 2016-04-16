@@ -28,13 +28,14 @@ public class BoardController{
     private Mole mole;
 
     public BoardController(Board board) {
+
         this.board = board;
 
     }
 
     public void loadController() {
         this.gameName = "spill123456"; // + (int)Math.floor(Math.random()*101);
-        this.nickName = "oystein2";
+        this.nickName = "usrname";
 
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
@@ -43,8 +44,8 @@ public class BoardController{
             @Override
             public void call(Object... args) {
                 System.out.println("connected to socket");
-                //newGame(gameName, nickName);
-                joinGame(gameName, nickName);
+                newGame(gameName, nickName);
+                //joinGame(gameName, nickName);
                 System.out.println(socket.id());
             }
         });
@@ -94,6 +95,20 @@ public class BoardController{
         socket.emit("new game", json);
 
     }
+
+    private void joinGame(String gameName, String nickName) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("gameName", gameName);
+            json.put("nickName", nickName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        socket.emit("join game", json);
+
+    }
+
+
 
     private Emitter.Listener onNewGameError = new Emitter.Listener(){
 

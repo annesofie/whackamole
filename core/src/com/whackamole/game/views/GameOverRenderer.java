@@ -6,7 +6,7 @@ import com.whackamole.game.model.GameOver;
 /**
  * Created by Lars on 07/04/16.
  */
-public class GameOverRenderer {
+public class GameOverRenderer implements Renderer {
 
 
     private GameOver state;
