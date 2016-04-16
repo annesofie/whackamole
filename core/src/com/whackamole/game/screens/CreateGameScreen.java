@@ -21,6 +21,7 @@ import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.CreateGameController;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.FileName;
+import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.CreateGameRenderer;
 
 
@@ -28,12 +29,14 @@ public class CreateGameScreen implements Screen{
 
 
     private final WhackAMole game;
+    private Screen screen;
     private CreateGame createGame;
     private CreateGameController controller;
     private CreateGameRenderer renderer;
-    private TextField textField;
+    private TextField textFieldGameName;
+    private TextField textFieldNickName;
 
-    Stage stage;
+    StageExtension stage;
     Skin skin;
 
 
@@ -41,19 +44,26 @@ public class CreateGameScreen implements Screen{
     public CreateGameScreen(final WhackAMole game) {
 
         this.game = game;
+        this.screen = this;
 
         this.createGame = new CreateGame();
 
         this.renderer = new CreateGameRenderer(createGame);
 
-        this.controller = new CreateGameController(createGame);
+        this.controller = new CreateGameController(createGame, game.getMatch());
+
+
+        // Temporarily moved here for performance
+        renderer.loadRenderer(loadActors());
 
     }
 
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
+
+        Gdx.input.setInputProcessor(stage);
+
     }
 
 
@@ -68,12 +78,12 @@ public class CreateGameScreen implements Screen{
     //TODO: Vi ønsket i utgangspunktet å håndtere alt som skal rendres i renderer.
     //TODO  Var nødt til å lage knapper og inputfelt her for å håndtere button clicks her. Forslag til hvordan vi kan håndtere dette bedre?
 
-    private Stage loadActors() {
+    private StageExtension loadActors() {
         /*
             Loads and returns the actors that can be acted upon on the screen
          */
 
-        stage = new Stage();
+        stage = new StageExtension();
         skin = new Skin();
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
@@ -106,25 +116,29 @@ public class CreateGameScreen implements Screen{
         textFieldStyle.messageFontColor = Color.WHITE;
 
         // Create a textfield with the styling defined above
-        textField = new TextField("", textFieldStyle);
+        textFieldGameName = new TextField("", textFieldStyle);
+        textFieldNickName = new TextField("", textFieldStyle);
 
         // Set the size and messagetext of the textfield
-        textField.setSize(btn.getWidth(), btn.getHeight());
-        String messageText = "Enter game name";
-        textField.setMessageText(messageText);
-        textField.setAlignment(1);
+        textFieldGameName.setSize(btn.getWidth(), btn.getHeight());
+        textFieldNickName.setSize(btn.getWidth(), btn.getHeight());
+        String messageTextGameName = "Enter game name";
+        String messageTextNickName = "Enter nickname";
+        textFieldGameName.setMessageText(messageTextGameName);
+        textFieldNickName.setMessageText(messageTextNickName);
 
         // Position the actors
-        btn.setPosition(btnXPos, btnYPos);
-        textField.setPosition(btnXPos, canvasHeight/2);
+        float btnWidth = btn.getWidth();
+        btn.setPosition(canvasWidth/2-btnWidth/2, btnYPos);
+        textFieldGameName.setPosition(canvasWidth/2-btnWidth/2, canvasHeight/2);
+        textFieldNickName.setPosition(canvasWidth/2-btnWidth/2, ((canvasHeight/2) + 400));
 
         addClickListener(btn);
 
         // Add actors
         stage.addActor(btn);
-        stage.addActor(textField);
-
-        Gdx.input.setInputProcessor(stage);
+        stage.addActor(textFieldGameName);
+        stage.addActor(textFieldNickName);
 
         return stage;
     }
@@ -132,15 +146,16 @@ public class CreateGameScreen implements Screen{
 
 
     private void addClickListener(ImageButton button) {
-
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                String gameName = textField.getText();
-                boolean isValid = controller.isValidGameName(gameName);
-                if(isValid) {
-                    game.goToGameScreen();
-                    dispose();
+                String gameName = textFieldGameName.getText();
+                String nickName = textFieldNickName.getText();
+                boolean isValidGameName = controller.isValidGameName(gameName);
+                boolean isValidNickName = controller.isValidNickName(nickName);
+                if(isValidGameName && isValidNickName) {
+                    controller.createGame(gameName, nickName);
+                    game.goToReadyScreen(screen);
                 }
             }
         });
@@ -148,11 +163,9 @@ public class CreateGameScreen implements Screen{
 
     @Override
     public void dispose() {
-        skin.dispose();
         stage.dispose();
+        skin.dispose();
     }
-
-
 
 
     @Override

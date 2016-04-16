@@ -2,6 +2,7 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,7 +50,6 @@ public class BoardRenderer implements Renderer {
 
     // Render to the screen
     public void render(){
-
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         currentMole = board.getCurrentMole();
@@ -91,6 +91,12 @@ public class BoardRenderer implements Renderer {
         board_second_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_TOP.filename()));
         board_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_TOP.filename()));
         board_score = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SCORE.filename()));
+
+
+        System.out.println(board_bottom);
+        System.out.println(board_second_bottom);
+        System.out.println(board_second_top);
+        System.out.println(board_top);
 
     }
 

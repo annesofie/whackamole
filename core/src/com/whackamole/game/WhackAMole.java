@@ -3,9 +3,11 @@ package com.whackamole.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.whackamole.game.controller.ScreenController;
-import com.whackamole.game.model.CreateGame;
-import com.whackamole.game.model.User;
+import com.whackamole.game.model.Match;
 import com.whackamole.game.screens.*;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
@@ -22,11 +24,11 @@ public class WhackAMole extends Game implements ScreenController {
     private SettingsScreen settingsScreen;
     private JoinGameScreen joinGameScreen;
     private CreateGameScreen createGameScreen;
+    private ReadyScreen readyScreen;
 
-
-
-    User user;
-    WhackAMole game;
+    private WhackAMole game;
+    private Match match;
+    private SpriteBatch batch;
 
 
 
@@ -37,7 +39,8 @@ public class WhackAMole extends Game implements ScreenController {
         loadDefaultPrefs();
 
         // Models that should be available to multiple screens
-        user = new User();
+        match = new Match();
+        batch = new SpriteBatch();
 
         // Initialize all the screens
         gameScreen = new GameScreen(game);
@@ -46,47 +49,51 @@ public class WhackAMole extends Game implements ScreenController {
         settingsScreen = new SettingsScreen(game);
         joinGameScreen = new JoinGameScreen(game);
         createGameScreen = new CreateGameScreen(game);
+        readyScreen = new ReadyScreen(game);
 
         // Inital screen to be displayed on app startup
-        goToCreateGameScreen();
+        setScreen(mainMenuScreen);
 
     }
 
-
-
     @Override
-    public void goToGameScreen() {
+    public void goToGameScreen(Screen fromScreen) {
         setScreen(gameScreen);
     }
 
     @Override
-    public void goToInstructionsScreen() {
+    public void goToInstructionsScreen(Screen fromScreen) {
         setScreen(instructionScreen);
     }
 
     @Override
-    public void goToMainMenuScreen() {
+    public void goToMainMenuScreen(Screen fromScreen) {
         setScreen(mainMenuScreen);
     }
 
     @Override
-    public void goToSettingsScreen() {
+    public void goToSettingsScreen(Screen fromScreen) {
         setScreen(settingsScreen);
     }
 
     @Override
-    public void gotToCreateGameScreen() {
+    public void gotToCreateGameScreen(Screen fromScreen) {
         setScreen(createGameScreen);
     }
 
     @Override
-    public void goToJoinGameScreen() {
+    public void goToJoinGameScreen(Screen fromScreen) {
         setScreen(joinGameScreen);
     }
 
     @Override
-    public void goToCreateGameScreen() {
+    public void goToCreateGameScreen(Screen fromScreen) {
         setScreen(createGameScreen);
+    }
+
+    @Override
+    public void goToReadyScreen(Screen fromScreen) {
+        setScreen(readyScreen);
     }
 
     public void loadDefaultPrefs() {
@@ -96,6 +103,7 @@ public class WhackAMole extends Game implements ScreenController {
         String username = Constants.username;
         int themeID = Constants.themeID;
         boolean isSound = Constants.isSound;
+        int numOfPlayers = Constants.numOfPlayers;
 
         Preferences prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
@@ -103,11 +111,19 @@ public class WhackAMole extends Game implements ScreenController {
         prefs.putString(Prefs.USERNAME.key(), username);
         prefs.putInteger(Prefs.THEME.key(), themeID);
         prefs.putBoolean(Prefs.ISSOUND.key(), isSound);
+        prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
 
         // Use flush to write preferences to disk
         prefs.flush();
 
     }
 
+    public Match getMatch() {
+        return match;
+    }
+
+    public SpriteBatch getSpriteBatch() {
+        return batch;
+    }
 
 }

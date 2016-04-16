@@ -52,27 +52,21 @@ public class GameScreen implements Screen, InputProcessor{
         this.boardRenderer = new BoardRenderer(board);
 
         // Gir kontrolleren modellen å jobbe med. Legg merke til at kun kontroller
-        controller = new BoardController(board);
+        controller = new BoardController(board, game.getMatch());
+
+        // TEMORARILY MOVED HERE FOR PERFORMANCE
+        loadScreen();
     }
 
 
     @Override
     public void show() {
-
-        // Load board
-        board.loadBoard();
-
-        // Load renderer
-        boardRenderer.loadRenderer();
+        // Setter denne til å lytte på input fra brukeren
+        Gdx.input.setInputProcessor(this);
+        Gdx.graphics.setContinuousRendering(true);
 
         // Load controller
         controller.loadController();
-
-        // Starter musikken
-        loadSoundtracks();
-
-        // Setter denne til å lytte på input fra brukeren
-        Gdx.input.setInputProcessor(this);
     }
 
 
@@ -81,6 +75,24 @@ public class GameScreen implements Screen, InputProcessor{
         controller.update(delta);
         boardRenderer.render();
     }
+
+
+
+    public void loadScreen() {
+        // Load board
+        board.loadBoard();
+
+        // Load renderer
+        boardRenderer.loadRenderer();
+
+        // Starter musikken
+        loadSoundtracks();
+
+    }
+
+
+
+
 
 
     @Override

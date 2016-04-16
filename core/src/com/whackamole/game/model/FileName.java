@@ -23,15 +23,21 @@ public enum FileName {
     FONT("fonts/OpenSans-CondLight.ttf"),
 
     BACKGROUND_GRASS("Background.png"),
+    READYBACKGROUND("ready.png"),
+    PLAYERLISTBACKGROUND("PlayerListBackground.png"),
 
     ENTERGAMENAME("textfield/EnterGameName.png"),
     ENTERGAMENAMENOTEXT("textfield/EnterGameNameNoText.png"),
     CURSOR("textfield/cursor.png"),
     TEXTFIELD("textfield/textfield.png"),
     INVALIDGAMENAME("textfield/invalidgamename.png"),
+    INVALIDNICKNAME("textfield/invalidnickname.png"),
+    GAMENAMEALREADYEXISTS("textfield/gamenamealreadyexists.png"),
 
     CREATEGAMEBTN("CreateGameBtn.png"),
     CREATEGAMEBTNCLICKED("CreateGameBtnClicked.png"),
+    READYBTN("ReadyBtn.png"),
+    READYBTNCLICKED("ReadyBtnClicked.png"),
 
     // Sounds
     BACKGROUNDMUSIC("background.mp3");

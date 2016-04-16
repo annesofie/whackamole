@@ -25,19 +25,25 @@ public class MainMenuScreen implements Screen {
     private int screenWidth, screenHeight, btnWidth, btnHeight;
     private Skin skin;
     private Stage stage;
+    private Screen screen;
 
     public MainMenuScreen(final WhackAMole game) {
         this.game = game;
+        this.screen = this;
         this.renderer = new MainMenuRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
         btnWidth = (new Texture("CreateGameBtn.png")).getWidth();
         btnHeight = (new Texture("CreateGameBtn.png")).getHeight();
+
+        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
+
+        Gdx.graphics.setContinuousRendering(false);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -103,7 +109,8 @@ public class MainMenuScreen implements Screen {
         createGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToGameScreen();
+                game.goToCreateGameScreen(screen);
+                dispose();
             }
         });
 
@@ -132,8 +139,7 @@ public class MainMenuScreen implements Screen {
                 return true;
             }
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.goToInstructionsScreen();
-                dispose();
+                game.goToInstructionsScreen(screen);
             }
         });
 
@@ -144,9 +150,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(settingsButton);
         stage.addActor(instructionsButton);
 
-        Gdx.input.setInputProcessor(stage);
         return stage;
-
     }
 
 }

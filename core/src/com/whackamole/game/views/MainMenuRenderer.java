@@ -21,7 +21,7 @@ public class MainMenuRenderer implements Renderer {
 
     public MainMenuRenderer(){
         screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
     }
 
     public void render() {

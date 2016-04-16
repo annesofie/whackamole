@@ -13,11 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.FileName;
+import com.whackamole.game.utils.*;
+
+
 import com.whackamole.game.utils.Button;
-import com.whackamole.game.utils.Constants;
-import com.whackamole.game.utils.Prefs;
-
-
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 
@@ -34,6 +33,8 @@ public class CreateGameRenderer implements Renderer {
 
     private Texture background;
     private Texture invalidGameNameText;
+    private Texture invalidNickNameText;
+    private Texture gameNameAlreadyExistsText;
 
     // MODEL
     private CreateGame createGame;
@@ -56,9 +57,9 @@ public class CreateGameRenderer implements Renderer {
     }
 
 
-    Stage stage;
+    StageExtension stage;
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
 
         this.stage = stage;
         loadTextures();
@@ -76,6 +77,14 @@ public class CreateGameRenderer implements Renderer {
             float verticalMargin = getVerticalMargin(invalidGameNameText);
             stage.getBatch().draw(invalidGameNameText, verticalMargin, ((canvasHeight/2) - 150), invalidGameNameText.getWidth(), invalidGameNameText.getHeight());
         }
+        else if(createGame.gameNameAlreadyExists()) {
+            float verticalMargin = getVerticalMargin(gameNameAlreadyExistsText);
+            stage.getBatch().draw(gameNameAlreadyExistsText, verticalMargin, ((canvasHeight/2)- 150), gameNameAlreadyExistsText.getWidth(), gameNameAlreadyExistsText.getHeight());
+        }
+        if(createGame.isInvalidNickName()) {
+            float verticalMargin = getVerticalMargin(invalidNickNameText);
+            stage.getBatch().draw(invalidNickNameText, verticalMargin, ((canvasHeight/2) + 400 - 150), invalidNickNameText.getWidth(), invalidNickNameText.getHeight());
+        }
         stage.getBatch().end();
 
         stage.draw();
@@ -87,7 +96,8 @@ public class CreateGameRenderer implements Renderer {
 
         background = new Texture(Gdx.files.internal(FileName.BACKGROUND_GRASS.filename()));
         invalidGameNameText = new Texture(Gdx.files.internal(FileName.INVALIDGAMENAME.filename()));
-
+        invalidNickNameText = new Texture(Gdx.files.internal(FileName.INVALIDNICKNAME.filename()));
+        gameNameAlreadyExistsText = new Texture(Gdx.files.internal(FileName.GAMENAMEALREADYEXISTS.filename()));
     }
 
 

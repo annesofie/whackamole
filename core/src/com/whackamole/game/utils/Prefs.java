@@ -9,6 +9,7 @@ public enum Prefs {
     ISSOUND("isSound"),
     USERNAME("username"),
     THEME("themeID"),
+    NUMOFPLAYERS("numOfPlayers"),
     NUMOFMOLES("numOfMoles");
 
 
