@@ -35,6 +35,8 @@ public class CreateGameRenderer implements Renderer {
     private Texture invalidGameNameText;
     private Texture invalidNickNameText;
     private Texture gameNameAlreadyExistsText;
+    private Texture noGameWithNameExistsText;
+    private Texture gameIsFullText;
 
     // MODEL
     private CreateGame createGame;
@@ -81,14 +83,22 @@ public class CreateGameRenderer implements Renderer {
             float verticalMargin = getVerticalMargin(gameNameAlreadyExistsText);
             stage.getBatch().draw(gameNameAlreadyExistsText, verticalMargin, ((canvasHeight/2)- 150), gameNameAlreadyExistsText.getWidth(), gameNameAlreadyExistsText.getHeight());
         }
+        else if(createGame.noGameWithNameExists()) {
+            float verticalMargin = getVerticalMargin(noGameWithNameExistsText);
+            stage.getBatch().draw(noGameWithNameExistsText, verticalMargin, ((canvasHeight/2) - 150), invalidGameNameText.getWidth(), invalidGameNameText.getHeight());
+        }
+        else if(createGame.gameIsFull()) {
+            float verticalMargin = getVerticalMargin(gameIsFullText);
+            stage.getBatch().draw(gameIsFullText, verticalMargin, ((canvasHeight/2) - 150), invalidGameNameText.getWidth(), invalidGameNameText.getHeight());
+        }
         if(createGame.isInvalidNickName()) {
             float verticalMargin = getVerticalMargin(invalidNickNameText);
             stage.getBatch().draw(invalidNickNameText, verticalMargin, ((canvasHeight/2) + 400 - 150), invalidNickNameText.getWidth(), invalidNickNameText.getHeight());
         }
+
         stage.getBatch().end();
 
         stage.draw();
-
     }
 
 
@@ -98,6 +108,9 @@ public class CreateGameRenderer implements Renderer {
         invalidGameNameText = new Texture(Gdx.files.internal(FileName.INVALIDGAMENAME.filename()));
         invalidNickNameText = new Texture(Gdx.files.internal(FileName.INVALIDNICKNAME.filename()));
         gameNameAlreadyExistsText = new Texture(Gdx.files.internal(FileName.GAMENAMEALREADYEXISTS.filename()));
+        noGameWithNameExistsText = new Texture(Gdx.files.internal(FileName.NOGAMEWITHNAMEEXISTS.filename()));
+        gameIsFullText = new Texture(Gdx.files.internal(FileName.GAMEISFULL.filename()));
+
     }
 
 

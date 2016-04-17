@@ -10,11 +10,15 @@ public class CreateGame {
     private boolean invalidGameName;
     private boolean invalidNickName;
     private boolean gameNameAlreadyExists;
+    private boolean noGameWithNameExists;
+    private boolean gameIsFull;
 
     public CreateGame() {
         invalidGameName = false;
         invalidNickName = false;
         gameNameAlreadyExists = false;
+        noGameWithNameExists = false;
+        gameIsFull = false;
     }
 
     public boolean isInvalidGameName() {
@@ -39,6 +43,22 @@ public class CreateGame {
 
     public void setGameNameAlreadyExists(boolean value) {
         gameNameAlreadyExists = value;
+    }
+
+    public boolean noGameWithNameExists() {
+        return noGameWithNameExists;
+    }
+
+    public void setNoGameWithNameExists(boolean value) {
+        noGameWithNameExists = value;
+    }
+
+    public boolean gameIsFull() {
+        return gameIsFull;
+    }
+
+    public void setGameIsFull(boolean gameIsFull) {
+        this.gameIsFull = gameIsFull;
     }
 
 }

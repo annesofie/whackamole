@@ -51,10 +51,8 @@ public class BoardController {
         socket.on("start game success", startGameSuccess);
         socket.on("start game error", startGameError);
 
-        socket.on("hit success", hitSuccess);
-        socket.on("hit miss", hitMiss);
+        socket.on("player hit", playerHit);
         socket.on("new mole", onNewMole);
-        socket.on("player score", playerScore);
     }
 
     private Emitter.Listener playerScore = new Emitter.Listener() {
@@ -81,18 +79,29 @@ public class BoardController {
     };
 
 
-    private Emitter.Listener hitSuccess = new Emitter.Listener() {
+    private Emitter.Listener playerHit = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            System.out.println(args);
-        }
-    };
+            JSONObject obj = (JSONObject) args[0];
+            try {
+                String nickName = obj.getString("nickName");
+                int points = obj.getInt("points");
+                int totalScore = obj.getInt("totalScore");
+                System.out.println("Got here, but not to into the if sentence.. :(");
+                if(match.getThisPlayerNickName().equals(nickName)) {
+                    System.out.print("You hit the last mole for " + points + " points!");
+                    board.setHitTheLastMole(true, points);
+                    match.setScoreToUser(nickName, totalScore);
+                }
+                else {
+                    board.setHitTheLastMole(false, 0);
+                    match.setScoreToUser(nickName, totalScore);
+                }
+                board.setNotFirstRound();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-
-    private Emitter.Listener hitMiss = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            System.out.println(args);
         }
     };
 
@@ -123,6 +132,7 @@ public class BoardController {
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);
+                json.put("nickName", nickName);
                 json.put("mole", mole.getMoleImageId());
             } catch (JSONException e) {
                 e.printStackTrace();

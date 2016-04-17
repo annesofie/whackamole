@@ -54,6 +54,11 @@ public class ReadyRenderer implements Renderer {
     @Override
     public void render() {
 
+        //TODO: MANGLER Å RENDRE HVILKE SPILLERE SOM HAR MELDT SEG PÅ OG HVOR MANGE SOM HAR MELDT 'READY'.
+        //TODO: DENNE INFOEN FINNES I VARIABLENE UNDER :)
+        List<String> currentNickNames = match.getCurrentNickNames();
+        int numOfReadyPlayers = match.numOfReadyPlayers();
+
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, canvasWidth, canvasHeight);

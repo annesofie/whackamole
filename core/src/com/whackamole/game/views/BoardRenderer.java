@@ -2,14 +2,19 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
+
+import java.util.List;
 
 
 public class BoardRenderer implements Renderer {
@@ -24,14 +29,17 @@ public class BoardRenderer implements Renderer {
     // GAME PROPERTIES
     private int height, width;
     private Mole currentMole;
+    private BitmapFont font;
+    private Match match;
 
 
 
-    public BoardRenderer(Board board){
+    public BoardRenderer(Board board, Match match){
 
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
         this.batch = new SpriteBatch();
+        this.match = match;
 
         this.board = board;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
@@ -52,9 +60,31 @@ public class BoardRenderer implements Renderer {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         currentMole = board.getCurrentMole();
+        boolean hitTheLastMole = board.hitTheLastMole();
+        int lastMolePoints = board.getLastMolePoints();
+        List<Player> scoreList = match.getSortedHighScoreList();
 
         batch.begin();
+
         batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
+
+        font.draw(batch, "Scores:", 100, height - 50);
+        for(int i = 0; i < scoreList.size(); i++) {
+            if(i >= 3) {
+                break; // Breaks to avoid lists longer than 3 players
+            }
+            Player player = scoreList.get(i);
+            String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
+            font.draw(batch, line, 100 , height - 130 - (i*80));
+        }
+        if(hitTheLastMole) {
+            font.draw(batch, "You hit the mole first!", width - width/2 + 50, height - 150);
+            font.draw(batch, "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 280);
+        }
+        else if (!board.firstRound()) {
+            font.draw(batch, "You missed.\nNot fast enough!", width - width/2, height - 150);
+        }
+
         batch.draw(board_score, 0, 7*height/16, width, 3*height/16);
         batch.draw(board_top, 0, 9*height/16, width, height/4);
         drawMole(5,9);
@@ -80,6 +110,13 @@ public class BoardRenderer implements Renderer {
         // Last inn og gjør klar alle bilder basert på valgt tema
 
         String filepath = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path();
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 72;
+        font = generator.generateFont(parameter);
+        font.setColor(Color.BLACK);
+        generator.dispose();
 
         moleImages.clear();
         for (int i = 0; i < 6; i++) {

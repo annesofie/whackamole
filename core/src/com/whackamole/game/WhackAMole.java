@@ -22,7 +22,6 @@ public class WhackAMole extends Game implements ScreenController {
     private InstructionScreen instructionScreen;
     private MainMenuScreen mainMenuScreen;
     private SettingsScreen settingsScreen;
-    private JoinGameScreen joinGameScreen;
     private CreateGameScreen createGameScreen;
     private ReadyScreen readyScreen;
 
@@ -47,8 +46,7 @@ public class WhackAMole extends Game implements ScreenController {
         instructionScreen = new InstructionScreen(game);
         mainMenuScreen = new MainMenuScreen(game);
         settingsScreen = new SettingsScreen(game);
-        joinGameScreen = new JoinGameScreen(game);
-        createGameScreen = new CreateGameScreen(game);
+        createGameScreen = new CreateGameScreen(game, false);
         readyScreen = new ReadyScreen(game);
 
         // Inital screen to be displayed on app startup
@@ -77,17 +75,14 @@ public class WhackAMole extends Game implements ScreenController {
     }
 
     @Override
-    public void gotToCreateGameScreen(Screen fromScreen) {
+    public void goToJoinGameScreen(Screen fromScreen) {
+        createGameScreen.setJoinGame(true);
         setScreen(createGameScreen);
     }
 
     @Override
-    public void goToJoinGameScreen(Screen fromScreen) {
-        setScreen(joinGameScreen);
-    }
-
-    @Override
     public void goToCreateGameScreen(Screen fromScreen) {
+        createGameScreen.setJoinGame(false);
         setScreen(createGameScreen);
     }
 
@@ -106,16 +101,26 @@ public class WhackAMole extends Game implements ScreenController {
         int numOfPlayers = Constants.numOfPlayers;
 
         Preferences prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-
-        prefs.putInteger(Prefs.NUMOFMOLES.key(), numOfMoles);
-        prefs.putString(Prefs.USERNAME.key(), username);
-        prefs.putInteger(Prefs.THEME.key(), themeID);
-        prefs.putBoolean(Prefs.ISSOUND.key(), isSound);
-        prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
-
-        // Use flush to write preferences to disk
-        prefs.flush();
-
+        if(!prefs.contains(Prefs.NUMOFMOLES.key())) {
+            prefs.putInteger(Prefs.NUMOFMOLES.key(), numOfMoles);
+            prefs.flush();
+        }
+        if(!prefs.contains(Prefs.USERNAME.key())) {
+            prefs.putString(Prefs.USERNAME.key(), username);
+            prefs.flush();
+        }
+        if(!prefs.contains(Prefs.THEME.key())) {
+            prefs.putInteger(Prefs.THEME.key(), themeID);
+            prefs.flush();
+        }
+        if(!prefs.contains(Prefs.ISSOUND.key())) {
+            prefs.putBoolean(Prefs.ISSOUND.key(), isSound);
+            prefs.flush();
+        }
+        if(!prefs.contains(Prefs.NUMOFPLAYERS.key())) {
+            prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
+            prefs.flush();
+        }
     }
 
     public Match getMatch() {

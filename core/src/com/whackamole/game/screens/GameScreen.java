@@ -49,7 +49,7 @@ public class GameScreen implements Screen, InputProcessor{
         this.board = new Board();
 
         // Gir boardRenderer modellen å jobbe med
-        this.boardRenderer = new BoardRenderer(board);
+        this.boardRenderer = new BoardRenderer(board, game.getMatch());
 
         // Gir kontrolleren modellen å jobbe med. Legg merke til at kun kontroller
         controller = new BoardController(board, game.getMatch());

@@ -39,25 +39,19 @@ public class ReadyController {
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
 
-        socket.on("players", currentPlayers);
+        socket.on("player joined", playerJoined);
         socket.on("start game success", startGame);
+        socket.on("player ready", playerReady);
 
     }
 
 
-    private Emitter.Listener currentPlayers = new Emitter.Listener() {
+    private Emitter.Listener playerJoined = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             try {
-                JSONArray arr = new JSONArray(args);
-                List<Player> players = new ArrayList<Player>();
-                for(int i = 0; i < arr.length(); i++) {
-                    JSONObject attender = (JSONObject) arr.get(i);
-                    String nickName = attender.getString("nickName");
-                    Player player = new Player(nickName);
-                    players.add(player);
-                }
-                match.setPlayerList(players);
+                JSONObject obj = (JSONObject) args[0];
+                match.addPlayer(obj.getString("nickName"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -71,6 +65,18 @@ public class ReadyController {
         }
     };
 
+    private Emitter.Listener playerReady = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            JSONObject obj = (JSONObject)args[0];
+            try {
+                match.setPlayerReady(obj.getString("nickName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
     public void isReady() {
         JSONObject obj = new JSONObject();
         try {
@@ -81,6 +87,7 @@ public class ReadyController {
         }
         System.out.println("Got to isReady()");
         socket.emit("ready", obj);
+        match.setThisPlayerReady();
     }
 
 

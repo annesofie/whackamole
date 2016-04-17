@@ -43,7 +43,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
 
-        Gdx.graphics.setContinuousRendering(false);
+        //Gdx.graphics.setContinuousRendering(false);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -117,7 +117,7 @@ public class MainMenuScreen implements Screen {
         joinGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.goToJoinGameScreen();
+                game.goToJoinGameScreen(screen);
             }
         });
 

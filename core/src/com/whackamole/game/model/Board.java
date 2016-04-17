@@ -16,11 +16,16 @@ public class Board {
 
     int canvasHeight, canvasWidth;
     private Mole currentMole;
+    private boolean hitTheLastMole;
+    private int lastMolePoints;
+    private boolean firstRound;
 
     public Board(){
 
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();
+        hitTheLastMole = false;
+        firstRound = true;
 
     }
 
@@ -64,5 +69,25 @@ public class Board {
         return currentMole;
     }
 
+    public void setHitTheLastMole(boolean hit, int points) {
+        this.hitTheLastMole = hit;
+        this.lastMolePoints = points;
+    }
+
+    public boolean hitTheLastMole() {
+        return hitTheLastMole;
+    }
+
+    public int getLastMolePoints() {
+        return lastMolePoints;
+    }
+
+    public void setNotFirstRound() {
+        firstRound = false;
+    }
+
+    public boolean firstRound() {
+        return firstRound;
+    }
 
 }

@@ -7,10 +7,12 @@ public class Player implements Comparable {
 
     String username;
     int score;
+    boolean ready;
 
     public Player(String username){
         username = username;
         score = 0;
+        ready = false;
     }
 
     public String getNickname() {
@@ -33,6 +35,13 @@ public class Player implements Comparable {
         this.score += points;
     }
 
+    public void setReady(boolean isReady) {
+        this.ready = isReady;
+    }
+
+    public boolean isReady() {
+        return ready;
+    }
 
     @Override
     public int compareTo(Object o) {

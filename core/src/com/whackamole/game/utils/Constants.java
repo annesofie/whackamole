@@ -15,7 +15,7 @@ public class Constants {
     public static final float buttonHeightWidthRatio = (float) 154/692;
 
     public static final int numOfMoles = 1;
-    public static final int numOfPlayers = 1;
+    public static final int numOfPlayers = 2;
     public static final Theme theme = Theme.PRESIDENTIAL;
     public static final int themeID = 1;
     public static final boolean isSound = true;

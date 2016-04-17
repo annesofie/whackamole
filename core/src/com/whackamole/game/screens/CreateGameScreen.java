@@ -35,37 +35,36 @@ public class CreateGameScreen implements Screen{
     private CreateGameRenderer renderer;
     private TextField textFieldGameName;
     private TextField textFieldNickName;
+    private boolean joinGame;
+    private float canvasWidth;
+    private float canvasHeight;
 
     StageExtension stage;
     Skin skin;
 
 
 
-    public CreateGameScreen(final WhackAMole game) {
+    public CreateGameScreen(final WhackAMole game, boolean joinGame) {
 
         this.game = game;
         this.screen = this;
+        this.joinGame = joinGame;
 
         this.createGame = new CreateGame();
 
         this.renderer = new CreateGameRenderer(createGame);
 
-        this.controller = new CreateGameController(createGame, game.getMatch());
-
+        this.controller = new CreateGameController(createGame, game.getMatch(), this);
 
         // Temporarily moved here for performance
         renderer.loadRenderer(loadActors());
 
     }
 
-
     @Override
     public void show() {
-
         Gdx.input.setInputProcessor(stage);
-
     }
-
 
     @Override
     public void render(float delta) {
@@ -95,12 +94,13 @@ public class CreateGameScreen implements Screen{
         float canvasHeight = Gdx.graphics.getHeight();
         float canvasWidth = Gdx.graphics.getWidth();
         float btnXPos = ((float)1/4 * canvasWidth);
-        float btnYPos = ((float)1/3 * canvasHeight);
+        float btnYPos = ((float)1/4 * canvasHeight);
 
-        skin.add("btnNotClicked", new Texture(Gdx.files.internal(FileName.CREATEGAMEBTN.filename())));
-        skin.add("btnClicked", new Texture(Gdx.files.internal(FileName.CREATEGAMEBTNCLICKED.filename())));
+
         skin.add("textfield", new Texture(Gdx.files.internal(FileName.TEXTFIELD.filename())));
         skin.add("cursor", new Texture(Gdx.files.internal(FileName.CURSOR.filename())));
+        skin.add("btnNotClicked", new Texture(Gdx.files.internal(FileName.ENTERBTN.filename())));
+        skin.add("btnClicked", new Texture(Gdx.files.internal(FileName.ENTERBTNCLICKED.filename())));
 
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         Drawable textFieldBackground = skin.getDrawable("textfield");
@@ -119,6 +119,9 @@ public class CreateGameScreen implements Screen{
         textFieldGameName = new TextField("", textFieldStyle);
         textFieldNickName = new TextField("", textFieldStyle);
 
+        float btnWidth = btn.getWidth();
+        btn.setPosition(canvasWidth/2-btnWidth/2, btnYPos);
+
         // Set the size and messagetext of the textfield
         textFieldGameName.setSize(btn.getWidth(), btn.getHeight());
         textFieldNickName.setSize(btn.getWidth(), btn.getHeight());
@@ -128,8 +131,7 @@ public class CreateGameScreen implements Screen{
         textFieldNickName.setMessageText(messageTextNickName);
 
         // Position the actors
-        float btnWidth = btn.getWidth();
-        btn.setPosition(canvasWidth/2-btnWidth/2, btnYPos);
+
         textFieldGameName.setPosition(canvasWidth/2-btnWidth/2, canvasHeight/2);
         textFieldNickName.setPosition(canvasWidth/2-btnWidth/2, ((canvasHeight/2) + 400));
 
@@ -144,6 +146,14 @@ public class CreateGameScreen implements Screen{
     }
 
 
+    public void setJoinGame(boolean joinGame) {
+        this.joinGame = joinGame;
+    }
+
+    public void goToReadyScreen() {
+        game.goToReadyScreen(screen);
+    }
+
 
     private void addClickListener(ImageButton button) {
         button.addListener(new ClickListener() {
@@ -154,8 +164,14 @@ public class CreateGameScreen implements Screen{
                 boolean isValidGameName = controller.isValidGameName(gameName);
                 boolean isValidNickName = controller.isValidNickName(nickName);
                 if(isValidGameName && isValidNickName) {
-                    controller.createGame(gameName, nickName);
-                    game.goToReadyScreen(screen);
+                    if(joinGame) {
+                        System.out.println("Got to joinGame() in controller");
+                        controller.joinGame(gameName, nickName);
+                    }
+                    else {
+                        controller.createGame(gameName, nickName);
+                    }
+
                 }
             }
         });

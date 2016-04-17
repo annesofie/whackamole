@@ -22,8 +22,8 @@ public enum FileName {
     JOIN_GAME_BTN_CLICKED("JoinGameBtnClicked.png"),
     SETTINGS_BTN_CLICKED("SettingsBtnClicked.png"),
     INSTRUCTIONS_BTN_CLICKED("InstructionsBtnClicked.png"),
-    KARDASHIANTHEMESELECTED("KardashianThemeSelected.png"),
-    PRESEDENTIALTHEMESELECTED("PresedentialThemeSelected.png"),
+    KARDASHIANTHEMESELECTED("KardashianBtnSelected.png"),
+    PRESEDENTIALTHEMESELECTED("PresedentialBtnSelected.png"),
 
     RETURN_BTN("ReturnBtn.png"),
     WHITE_RECTANGLE("WhiteRectangle.png"),
@@ -35,11 +35,15 @@ public enum FileName {
 
     PRESIDENTIAL_THEME_BTN("TrumpGame.png"),
     KARDASHIAN_THEME_BTN("KardGame.png"),
+    PLUSBTN("plusbtn.png"),
+    PLUSBTNCLICKED("plusbtnclicked.png"),
+    MINUSBTN("minusbtn.png"),
+    MINUSBTNCLICKED("minusbtnclicked.png"),
 
     FONT("fonts/OpenSans-CondLight.ttf"),
 
     BACKGROUND_GRASS("Background.png"),
-    READYBACKGROUND("ready.png"),
+    READYBACKGROUND("ReadyBackground.png"),
     PLAYERLISTBACKGROUND("PlayerListBackground.png"),
 
     ENTERGAMENAME("textfield/EnterGameName.png"),
@@ -47,11 +51,16 @@ public enum FileName {
     CURSOR("textfield/cursor.png"),
     TEXTFIELD("textfield/textfield.png"),
     INVALIDGAMENAME("textfield/invalidgamename.png"),
-    INVALIDNICKNAME("textfield/InvalidNickName.png"),
-    GAMENAMEALREADYEXISTS("textfield/gamenamealreadyexists.png"),
+    INVALIDNICKNAME("textfield/invalidnickname.png"),
+    GAMENAMEALREADYEXISTS("textfield/gamenameallreadyexists.png"),
+    NOGAMEWITHNAMEEXISTS("textfield/NoGameWithNameExists.png"),
+    GAMEISFULL("textfield/GameIsFull.png"),
 
     CREATEGAMEBTN("CreateGameBtn.png"),
     CREATEGAMEBTNCLICKED("CreateGameBtnClicked.png"),
+    ENTERBTN("EnterBtn.png"),
+    ENTERBTNCLICKED("EnterBtnClicked.png"),
+
     READYBTN("ReadyBtn.png"),
     READYBTNCLICKED("ReadyBtnClicked.png"),
 

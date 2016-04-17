@@ -67,10 +67,9 @@ public class ReadyScreen implements Screen{
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         btn.setName("readybtn");
         float btnWidth = btn.getWidth();
-        btn.setPosition(canvasWidth/2-btnWidth/2, btnYPos);
+        btn.setPosition(canvasWidth/2 - btnWidth/2, btnYPos);
 
         addClickListener(btn);
-
 
         stage.addActor(btn);
 
@@ -92,8 +91,6 @@ public class ReadyScreen implements Screen{
     public void goToGameScreen() {
         game.goToGameScreen(this);
     }
-
-
 
 
     @Override

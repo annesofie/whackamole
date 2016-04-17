@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -36,6 +37,8 @@ public class SettingsScreen implements Screen {
     private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
     private CheckBox presCheckBox;
+    private ImageButton plusBtn;
+    private ImageButton minusBtn;
     private Screen screen;
 
 
@@ -83,28 +86,36 @@ public class SettingsScreen implements Screen {
         skin.add("kardThemeBtn", new Texture(FileName.KARDASHIAN_THEME_BTN.filename()));
         skin.add("kardThemeBtnSelected", new Texture(FileName.KARDASHIANTHEMESELECTED.filename()));
         skin.add("presThemeBtnSelected", new Texture(FileName.PRESEDENTIALTHEMESELECTED.filename()));
+        skin.add("minusBtn", new Texture(FileName.MINUSBTN.filename()));
+        skin.add("minusBtnClicked", new Texture(FileName.MINUSBTN.filename()));
+        skin.add("plusBtn", new Texture(FileName.PLUSBTN.filename()));
+        skin.add("plusBtnClicked", new Texture(FileName.PLUSBTNCLICKED.filename()));
+
 
         skin.add("soundOnBtn", new Texture(FileName.SOUND_ON_BTN.filename()));
         skin.add("soundOffBtn", new Texture(FileName.SOUND_OFF_BTN.filename()));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
+        ImageButton plusBtn = new ImageButton(skin.getDrawable("plusBtn"), skin.getDrawable("plusBtnClicked"));
+        ImageButton minusBtn = new ImageButton(skin.getDrawable("minusBtn"), skin.getDrawable("minusBtnClicked"));
         //ImageButton presThemeButton = new ImageButton(skin.getDrawable("presThemeBtn"));
         //ImageButton kardThemeButton = new ImageButton(skin.getDrawable("kardThemeBtn"));
 
         CheckBox.CheckBoxStyle soundCheckBoxStyle  = new CheckBox.CheckBoxStyle(skin.getDrawable("soundOffBtn"), skin.getDrawable("soundOnBtn"), new BitmapFont(), new Color());
         CheckBox.CheckBoxStyle kardCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("kardThemeBtn"), skin.getDrawable("kardThemeBtnSelected"), new BitmapFont(), new Color());
-        CheckBox.CheckBoxStyle presCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("presThemeBtn"), skin.getDrawable("presThemeBtnSelected"), new BitmapFont(), new Color());
+        final CheckBox.CheckBoxStyle presCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("presThemeBtn"), skin.getDrawable("presThemeBtnSelected"), new BitmapFont(), new Color());
         //new ImageButton(skin.getDrawable("soundOffBtn"),skin.getDrawable("soundOnBtn"),skin.getDrawable("soundOnBtn"));
 
         soundCheckBox = new CheckBox("sound", soundCheckBoxStyle);
         kardCheckBox = new CheckBox("kard", kardCheckBoxStyle);
         presCheckBox = new CheckBox("pres", presCheckBoxStyle);
 
-
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2, screenHeight*8/10 - returnBtnHeight*2);
+        plusBtn.setPosition(screenWidth/2 + screenWidth/20 + 50, screenHeight*8/12 - plusBtn.getHeight() + 50);
+        minusBtn.setPosition(screenWidth/2 - screenWidth/20 - minusBtn.getWidth(), screenHeight*8/12 - minusBtn.getHeight() + 50);
+        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*3, screenHeight*8/10 - returnBtnHeight*3);
         //presThemeButton.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
         //kardThemeButton.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
-        soundCheckBox.setPosition(screenWidth/2-soundBtnWidth/2,screenHeight*6/10);
+        soundCheckBox.setPosition(screenWidth/2-soundBtnWidth/2, screenHeight*5/10);
         kardCheckBox.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
         presCheckBox.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
         if(prefs.getBoolean(Prefs.ISSOUND.key())) {
@@ -129,15 +140,41 @@ public class SettingsScreen implements Screen {
             }
         });
 
+        plusBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) + 1);
+                prefs.flush();
+                System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+            }
+        });
+
+        minusBtn.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) - 1);
+                prefs.flush();
+                System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+            }
+        });
+
         //presThemeButton
         presCheckBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("presthemeClicked");
-                kardCheckBox.setChecked(false);
-                prefs.putInteger(Prefs.THEME.key(), 0);
-                prefs.flush();
-                game.reloadBoardRenderer();
+                if(presCheckBox.isChecked()) {
+                    kardCheckBox.setChecked(false);
+                    presCheckBox.setChecked(true);
+
+                }
+                else {
+                    kardCheckBox.setChecked(false);
+                    kardCheckBox.setChecked(true);
+                    prefs.putInteger(Prefs.THEME.key(), 0);
+                    prefs.flush();
+                    game.reloadBoardRenderer();
+                }
             }
         });
 
@@ -146,10 +183,16 @@ public class SettingsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("kardthemeClicked");
-                presCheckBox.setChecked(false);
-                prefs.putInteger(Prefs.THEME.key(), 1);
-                prefs.flush();
-                game.reloadBoardRenderer();
+                if(kardCheckBox.isChecked()) {
+                    presCheckBox.setChecked(false);
+                    kardCheckBox.setChecked(true);
+                }
+                else {
+                    presCheckBox.setChecked(false);
+                    prefs.putInteger(Prefs.THEME.key(), 1);
+                    prefs.flush();
+                    game.reloadBoardRenderer();
+                }
             }
         });
 
@@ -171,6 +214,8 @@ public class SettingsScreen implements Screen {
 
 
         stage.addActor(returnButton);
+        stage.addActor(minusBtn);
+        stage.addActor(plusBtn);
         //stage.addActor(presThemeButton);
         //stage.addActor(kardThemeButton);
         stage.addActor(kardCheckBox);
