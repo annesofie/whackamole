@@ -2,15 +2,17 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
 
 
-public class BoardRenderer {
+public class BoardRenderer implements Renderer {
 
 
     private Board board;
@@ -22,7 +24,6 @@ public class BoardRenderer {
     // GAME PROPERTIES
     private int height, width;
     private Mole currentMole;
-    private Theme theme;
 
 
 
@@ -34,13 +35,13 @@ public class BoardRenderer {
 
         this.board = board;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
 
         this.moleImages = new Array<Texture>();
 
     }
 
     public void loadRenderer() {
+        // Dispose to clean up if the theme was changed and loadRenderer() is run a second time.
         loadTextures();
         // ++ Andre ting som eventuelt må gjøres klart før spillet kan rendres
     }
@@ -48,7 +49,6 @@ public class BoardRenderer {
 
     // Render to the screen
     public void render(){
-
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         currentMole = board.getCurrentMole();
@@ -78,7 +78,8 @@ public class BoardRenderer {
     public void loadTextures() {
 
         // Last inn og gjør klar alle bilder basert på valgt tema
-        String filepath = theme.path();
+
+        String filepath = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path();
 
         moleImages.clear();
         for (int i = 0; i < 6; i++) {
@@ -90,6 +91,12 @@ public class BoardRenderer {
         board_second_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_TOP.filename()));
         board_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_TOP.filename()));
         board_score = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SCORE.filename()));
+
+
+        System.out.println(board_bottom);
+        System.out.println(board_second_bottom);
+        System.out.println(board_second_top);
+        System.out.println(board_top);
 
     }
 

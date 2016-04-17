@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.model.FileName;
 
 
-public class MainMenuRenderer {
+public class MainMenuRenderer implements Renderer {
 
 
     /**

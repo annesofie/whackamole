@@ -22,18 +22,40 @@ public enum FileName {
     JOIN_GAME_BTN_CLICKED("JoinGameBtnClicked.png"),
     SETTINGS_BTN_CLICKED("SettingsBtnClicked.png"),
     INSTRUCTIONS_BTN_CLICKED("InstructionsBtnClicked.png"),
+    KARDASHIANTHEMESELECTED("KardashianThemeSelected.png"),
+    PRESEDENTIALTHEMESELECTED("PresedentialThemeSelected.png"),
 
     RETURN_BTN("ReturnBtn.png"),
     WHITE_RECTANGLE("WhiteRectangle.png"),
 
     SOUND_ON_BTN("SoundOn.png"),
     SOUND_OFF_BTN("SoundOff.png"),
+    HITSOUND("hit.mp3"),
+    SPEECHSOUND("speech.m4a"),
 
     PRESIDENTIAL_THEME_BTN("TrumpGame.png"),
     KARDASHIAN_THEME_BTN("KardGame.png"),
 
+    FONT("fonts/OpenSans-CondLight.ttf"),
 
+    BACKGROUND_GRASS("Background.png"),
+    READYBACKGROUND("ready.png"),
+    PLAYERLISTBACKGROUND("PlayerListBackground.png"),
 
+    ENTERGAMENAME("textfield/EnterGameName.png"),
+    ENTERGAMENAMENOTEXT("textfield/EnterGameNameNoText.png"),
+    CURSOR("textfield/cursor.png"),
+    TEXTFIELD("textfield/textfield.png"),
+    INVALIDGAMENAME("textfield/invalidgamename.png"),
+    INVALIDNICKNAME("textfield/InvalidNickName.png"),
+    GAMENAMEALREADYEXISTS("textfield/gamenamealreadyexists.png"),
+
+    CREATEGAMEBTN("CreateGameBtn.png"),
+    CREATEGAMEBTNCLICKED("CreateGameBtnClicked.png"),
+    READYBTN("ReadyBtn.png"),
+    READYBTNCLICKED("ReadyBtnClicked.png"),
+
+    SETTINGSBTN("SettingsBTN.png"),
 
     // Sounds
     BACKGROUNDMUSIC("background.mp3");

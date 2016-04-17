@@ -15,19 +15,12 @@ public class Board {
     private Array<Mole> grid = new Array<Mole>();
 
     int canvasHeight, canvasWidth;
-    Theme theme;
-    private String filepath;
     private Mole currentMole;
-
-    private Preferences prefs;
 
     public Board(){
 
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-        this.theme = Theme.getThemeOnThemeId(prefs.getInteger("themeID"));
-        this.filepath = theme.path();
 
     }
 
@@ -62,9 +55,6 @@ public class Board {
     }
 
 
-    public void addCurrentMole(int i){
-        this.currentMole = grid.get(i);
-    }
 
     public void removeCurrentMole(){
         this.currentMole = null;
@@ -74,23 +64,5 @@ public class Board {
         return currentMole;
     }
 
-    public String getPath() {
-        return this.filepath;
-    }
-
-    public void showMole(Mole mole){
-        if(mole.hidden()) {
-            mole.show();
-        }
-    }
-    public void hideMole(Mole mole){
-        if(!mole.hidden()) {
-            mole.hide();
-        }
-    }
-
-    public Array<Mole> getMoles(){
-        return grid;
-    }
 
 }

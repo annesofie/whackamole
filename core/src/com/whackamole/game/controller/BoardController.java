@@ -1,90 +1,70 @@
 package com.whackamole.game.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
-import com.whackamole.game.model.Mole;
-import com.whackamole.game.model.Board;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
-import com.whackamole.game.model.Theme;
-import com.whackamole.game.model.User;
+import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class BoardController{
+public class BoardController {
 
 
     private int touch_x, touch_y;
     private Board board;
-    private Sound hitsound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3")),
-    speech = Gdx.audio.newSound(Gdx.files.internal(Theme.getThemeOnThemeId(Constants.themeID).path() + "speech.m4a"));
+    private Sound hitsound;
+    private Sound speech;
     private Socket socket;
     private String gameName;
     private String nickName;
     private Mole mole;
+    private Match match;
+    private Preferences prefs;
 
-    public BoardController(Board board) {
+    public BoardController(Board board, Match match) {
+
         this.board = board;
+        this.match = match;
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
     }
 
     public void loadController() {
-        this.gameName = "spill123456"; // + (int)Math.floor(Math.random()*101);
-        this.nickName = "oystein";
-
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                System.out.println("connected to socket");
-                newGame(gameName, nickName);
-                System.out.println(socket.id());
-            }
-        });
 
-        socket.on("new game success", onNewGameSuccess);
-        socket.on("new game error", onNewGameError);
-        socket.on("start game success", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                String msg = (String) args[0];
-                System.out.println(msg);
-            }
-        });
-        socket.on("start game error", new Emitter.Listener(){
-            @Override
-            public void call(Object... args) {
-                String msg = (String) args[0];
-                System.out.println(msg);
-            }
-        });
+        this.gameName = match.getGameName();
+        this.nickName = match.getThisPlayerNickName();
+
+        this.hitsound = Gdx.audio.newSound(Gdx.files.internal(FileName.HITSOUND.filename()));
+        this.speech = Gdx.audio.newSound(Gdx.files.internal(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path() + FileName.SPEECHSOUND.filename()));
+
+        SocketRetreiver socketRetreiver = SocketRetreiver.getInstance();
+        socket = socketRetreiver.getSocket();
+
+        socket.on("start game success", startGameSuccess);
+        socket.on("start game error", startGameError);
+
+        socket.on("hit success", hitSuccess);
+        socket.on("hit miss", hitMiss);
         socket.on("new mole", onNewMole);
+        socket.on("player score", playerScore);
     }
 
-    private void startGame() {
-        socket.emit("start game");
-    }
-
-    private void newGame(String gameName, String nickName) {
-        JSONObject json = new JSONObject();
-        try {
-            json.put("gameName", gameName);
-            json.put("nickName", nickName);
-        } catch (JSONException e) {
-            e.printStackTrace();
+    private Emitter.Listener playerScore = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Player score: " + args);
         }
-        socket.emit("new game", json);
+    };
 
-    }
-
-    private Emitter.Listener onNewGameError = new Emitter.Listener(){
-
+    private  Emitter.Listener startGameError = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             String msg = (String) args[0];
@@ -92,21 +72,35 @@ public class BoardController{
         }
     };
 
-    private Emitter.Listener onNewGameSuccess = new Emitter.Listener(){
-
-
+    private Emitter.Listener startGameSuccess = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             String msg = (String) args[0];
             System.out.println(msg);
-            startGame();
         }
     };
+
+
+    private Emitter.Listener hitSuccess = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println(args);
+        }
+    };
+
+
+    private Emitter.Listener hitMiss = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println(args);
+        }
+    };
+
 
     private Emitter.Listener onNewMole = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            System.out.println("got called");
+            System.out.println("New mole");
             JSONObject obj = (JSONObject) args[0];
             try {
                 receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
@@ -115,10 +109,6 @@ public class BoardController{
             }
         }
     };
-
-    public void setMole(int pos) {
-
-    }
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
@@ -130,9 +120,15 @@ public class BoardController{
 //          firstuser.addScore(mole.getScore());
             hitsound.play(1);
             mole.finish();
-            System.out.println("touched");
-            socket.emit("mole hit", gameName);
+            JSONObject json = new JSONObject();
+            try {
+                json.put("gameName", gameName);
+                json.put("mole", mole.getMoleImageId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
+            socket.emit("mole hit", json);
         }
 
         //checkTouch(touch_x, touch_y);
@@ -142,7 +138,7 @@ public class BoardController{
 
     public void receiveSocket(int mole, int img){
         board.setMole(mole, img);
-        if(board.getCurrentMole().getMoleImageId() == 0){
+        if(img == 0){
             speech.play();
         }
     }

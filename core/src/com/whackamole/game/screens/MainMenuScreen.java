@@ -25,19 +25,26 @@ public class MainMenuScreen implements Screen {
     private int screenWidth, screenHeight, btnWidth, btnHeight;
     private Skin skin;
     private Stage stage;
+    private Screen screen;
 
     public MainMenuScreen(final WhackAMole game) {
         this.game = game;
+        this.screen = this;
         this.renderer = new MainMenuRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
+
         btnWidth = (new Texture(FileName.CREATE_GAME_BTN.filename())).getWidth();
         btnHeight = (new Texture(FileName.CREATE_GAME_BTN.filename())).getHeight();
+
+        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
+
+        Gdx.graphics.setContinuousRendering(false);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -103,8 +110,7 @@ public class MainMenuScreen implements Screen {
         createGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                //game.goToGameScreen();
-                //dispose();
+                game.goToCreateGameScreen(screen);
             }
         });
 
@@ -112,23 +118,20 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //game.goToJoinGameScreen();
-                //dispose();
             }
         });
 
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToSettingsScreen();
-                dispose();
+                game.goToSettingsScreen(screen);
             }
         });
 
         instructionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToInstructionsScreen();
-                dispose();
+                game.goToInstructionsScreen(screen);
             }
         });
 
@@ -139,9 +142,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(settingsButton);
         stage.addActor(instructionsButton);
 
-        Gdx.input.setInputProcessor(stage);
         return stage;
-
     }
 
 }

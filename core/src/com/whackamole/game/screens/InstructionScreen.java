@@ -18,16 +18,18 @@ import com.whackamole.game.views.InstructionRenderer;
 public class InstructionScreen implements Screen {
 
 
-    final WhackAMole game;
+    private final WhackAMole game;
     private InstructionRenderer renderer;
     private Skin skin;
     private Stage stage;
-    int screenWidth, screenHeight;
-    int returnBtnWidth, returnBtnHeight;
+    private int screenWidth, screenHeight;
+    private int returnBtnWidth, returnBtnHeight;
+    private Screen screen;
 
 
     public InstructionScreen(final WhackAMole game) {
         this.game = game;
+        this.screen = this;
         renderer = new InstructionRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
@@ -61,8 +63,7 @@ public class InstructionScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToMainMenuScreen();
-                dispose();
+                game.goToMainMenuScreen(screen);
             }
         });
 
