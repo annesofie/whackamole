@@ -63,7 +63,6 @@ public class GameScreen implements Screen, InputProcessor{
     public void show() {
         // Setter denne til å lytte på input fra brukeren
         Gdx.input.setInputProcessor(this);
-        Gdx.graphics.setContinuousRendering(true);
 
         // Load controller
         controller.loadController();

@@ -35,7 +35,6 @@ public class ReadyScreen implements Screen{
         this.game = game;
         this.renderer = new ReadyRenderer(game.getMatch());
         this.controller = new ReadyController(game.getMatch(), this);
-
         renderer.loadRenderer(loadActors());
 
     }
@@ -49,6 +48,10 @@ public class ReadyScreen implements Screen{
     @Override
     public void render(float delta) {
         renderer.render();
+    }
+
+    public void loadView() {
+        renderer.loadRenderer(loadActors());
     }
 
 
