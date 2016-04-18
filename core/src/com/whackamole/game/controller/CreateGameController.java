@@ -29,7 +29,6 @@ import java.util.List;
  */
 public class CreateGameController {
 
-
     private CreateGame createGame;
     private Socket socket;
     private String gameName;
@@ -108,8 +107,7 @@ public class CreateGameController {
             }
         });
 
-        socket.on("join game ok", onJoinGameOk);
-        socket.on("join game done", onJoinGameDone);
+        socket.on("join game success", onJoinGameSuccess);
         socket.on("game is full error", onGameIsFullError);
         socket.on("game nonexistent error", onGameNonExistentError);
     }
@@ -168,10 +166,9 @@ public class CreateGameController {
         }
     };
 
-    private Emitter.Listener onJoinGameOk = new Emitter.Listener(){
+    private Emitter.Listener onJoinGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            List<String> nickNames = new ArrayList<String>();
             JsonValue json = new JsonReader().parse((String) args[0]);
             int themeId = json.getInt("themeId");
             prefs.putInteger(Prefs.THEME.key(), themeId);
@@ -189,16 +186,8 @@ public class CreateGameController {
                 e.printStackTrace();
             }
 
-            socket.emit("ready to join", obj);
-        }
-    };
-
-
-    private Emitter.Listener onJoinGameDone = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
             List<String> nickNames = new ArrayList<String>();
-            JsonValue attendersJson = new JsonReader().parse((String) args[0]);
+            JsonValue attendersJson = json.get("attenders");
             for(JsonValue attender : attendersJson.iterator()) {
                 String nickName = attender.getString("nickName");
                 nickNames.add(nickName);
@@ -208,6 +197,7 @@ public class CreateGameController {
                     match.addPlayer(nickName);
                 }
             }
+
             System.out.print("You were registered in the game " + gameName + " server as: " + nickName);
             createGameScreen.goToReadyScreen();
         }

@@ -51,7 +51,7 @@ public class ReadyScreen implements Screen{
     }
 
     public void loadView() {
-        renderer.loadRenderer(loadActors());
+        renderer.loadTextures();
     }
 
 
