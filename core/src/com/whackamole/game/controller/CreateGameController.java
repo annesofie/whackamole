@@ -171,13 +171,17 @@ public class CreateGameController {
         public void call(Object... args) {
             JsonValue json = new JsonReader().parse((String) args[0]);
             int themeId = json.getInt("themeId");
-            prefs.putInteger(Prefs.THEME.key(), themeId);
+            if(!(prefs.getInteger(Prefs.THEME.key()) == themeId)) {
+                prefs.putInteger(Prefs.THEME.key(), themeId);
+                prefs.flush();
+                createGameScreen.reloadBoardRenderer();
+                createGameScreen.reloadReadyRenderer();
+            }
 
             createGame.setNoGameWithNameExists(false);
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
-            createGameScreen.reloadBoardRenderer();
-            createGameScreen.reloadReadyRenderer();
+
 
             JSONObject obj = new JSONObject();
             try {
