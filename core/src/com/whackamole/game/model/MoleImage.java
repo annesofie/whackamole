@@ -6,12 +6,12 @@ package com.whackamole.game.model;
 public enum MoleImage {
 
 
-    TRUMP(0, "p1.png"),
-    KASICH(1, "p2.png"),
-    CRUZ(2, "p3.png"),
-    CRUZ2(3, "p4.png"),
-    SANDERS(4, "p5.png"),
-    WEST(5, "p6.png");
+    MOLE0(0, "p1.png"),
+    MOLE1(1, "p2.png"),
+    MOLE2(2, "p3.png"),
+    MOLE3(3, "p4.png"),
+    MOLE4(4, "p5.png"),
+    MOLE5(5, "p6.png");
 
 
     private final int id;

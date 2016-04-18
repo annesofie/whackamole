@@ -9,9 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.whackamole.game.model.FileName;
 import com.whackamole.game.utils.Prefs;
+import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 /**
  * Created by Lars on 07/04/16.
@@ -21,7 +20,6 @@ public class GameSettingsRenderer implements Renderer {
 
     private Texture background;
     private Texture whiteRectangle;
-    private TextArea textArea;
     private Stage stage;
     private int screenWidth, screenHeight;
     private BitmapFont font;
@@ -58,18 +56,13 @@ public class GameSettingsRenderer implements Renderer {
 
     public void loadTextures() {
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 96;
-        font = generator.generateFont(parameter);
+        font = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
         font.setColor(Color.BLACK);
-        generator.dispose();
 
-        // Lag textures her basert på tema, instruksjoner osv.
-        // Antakeligvis bare et bakgrunnsbilde med text på.
-        // I render skal disse tegnes.
-        background = new Texture(FileName.BACKGROUND.filename());
-        whiteRectangle = new Texture(FileName.WHITE_RECTANGLE.filename());
+        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
+        whiteRectangle = Assets.manager.get(Assets.WHITE_RECTANGLE, Texture.class);
 
     }
 

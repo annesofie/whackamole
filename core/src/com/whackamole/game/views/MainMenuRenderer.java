@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.whackamole.game.model.FileName;
 
 
 public class MainMenuRenderer implements Renderer {
@@ -40,7 +39,7 @@ public class MainMenuRenderer implements Renderer {
     }
 
     private void loadTextures(){
-        background = new Texture(FileName.BACKGROUND.filename());
+        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
     }
 
 }

@@ -31,27 +31,33 @@ public class BoardRenderer implements Renderer {
     private Mole currentMole;
     private BitmapFont font;
     private Match match;
+    private Theme theme;
+    String themePath;
+    String themeId;
 
 
 
-    public BoardRenderer(Board board, Match match){
+    public BoardRenderer(Board board, Match match, SpriteBatch batch){
 
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
-        this.batch = new SpriteBatch();
+        this.batch = batch;
         this.match = match;
 
         this.board = board;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-
         this.moleImages = new Array<Texture>();
+
 
     }
 
     public void loadRenderer() {
-        // Dispose to clean up if the theme was changed and loadRenderer() is run a second time.
+        // Updating current themepath and themeId to match the selected theme
+        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
+        this.themePath = theme.path();
+        this.themeId = theme.idAsString();
+
         loadTextures();
-        // ++ Andre ting som eventuelt må gjøres klart før spillet kan rendres
     }
 
 
@@ -102,42 +108,33 @@ public class BoardRenderer implements Renderer {
     }
 
 
-
-    public void setMole(Mole mole){
-        this.currentMole = mole;
-    }
-
     public void loadTextures() {
 
-        // Last inn og gjør klar alle bilder basert på valgt tema
-
-        String filepath = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path();
-
+        // Setting up local references to the already loaded textures
 
         moleImages.clear();
         for (int i = 0; i < 6; i++) {
-            moleImages.add(new Texture(Gdx.files.internal(filepath + MoleImage.getFileNameOnImageId(i))));
+            moleImages.add(Assets.manager.get(themePath + MoleImage.getFileNameOnImageId(i), Texture.class));
         }
 
-        board_bottom = new Texture(Gdx.files.internal(filepath + FileName.BOARD_BOTTOM.filename()));
-        board_second_bottom = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_BOTTOM.filename()));
-        board_second_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_TOP.filename()));
-        board_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_TOP.filename()));
-        board_score = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SCORE.filename()));
+        board_bottom = Assets.manager.get(themePath + Assets.BOARD_BOTTOM, Texture.class);
+        board_second_bottom = Assets.manager.get(themePath + Assets.BOARD_BOTTOM, Texture.class);
+        board_second_top = Assets.manager.get(themePath + Assets.BOARD_SECOND_BOTTOM, Texture.class);
+        board_top= Assets.manager.get(themePath + Assets.BOARD_TOP, Texture.class);
+        board_score = Assets.manager.get(themePath + Assets.BOARD_SCORE, Texture.class);
 
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = board_score.getHeight()/7;
+        font = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
+
+        /*
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = board_score.getHeight()/7;
         font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
         generator.dispose();
-
-
-        System.out.println(board_bottom);
-        System.out.println(board_second_bottom);
-        System.out.println(board_second_top);
-        System.out.println(board_top);
-
+        */
     }
 
     private void drawMole(int start, int end){

@@ -3,16 +3,12 @@ package com.whackamole.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -20,8 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.CreateGameController;
 import com.whackamole.game.model.CreateGame;
-import com.whackamole.game.model.FileName;
 import com.whackamole.game.utils.StageExtension;
+import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.CreateGameRenderer;
 
 
@@ -36,15 +32,12 @@ public class CreateGameScreen implements Screen{
     private TextField textFieldGameName;
     private TextField textFieldNickName;
     private boolean joinGame;
-    private float canvasWidth;
-    private float canvasHeight;
-
-    StageExtension stage;
-    Skin skin;
+    private StageExtension stage;
+    private Skin skin;
 
 
 
-    public CreateGameScreen(final WhackAMole game, boolean joinGame) {
+    public CreateGameScreen(final WhackAMole game, boolean joinGame, SpriteBatch batch) {
 
         this.game = game;
         this.screen = this;
@@ -56,7 +49,6 @@ public class CreateGameScreen implements Screen{
 
         this.controller = new CreateGameController(createGame, game.getMatch(), this);
 
-        // Temporarily moved here for performance
         renderer.loadRenderer(loadActors());
 
     }
@@ -85,11 +77,9 @@ public class CreateGameScreen implements Screen{
         stage = new StageExtension();
         skin = new Skin();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 72;
-        BitmapFont font72 = generator.generateFont(parameter);
-        generator.dispose();
+        BitmapFont font72 = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
 
         float canvasHeight = Gdx.graphics.getHeight();
         float canvasWidth = Gdx.graphics.getWidth();
@@ -97,10 +87,10 @@ public class CreateGameScreen implements Screen{
         float btnYPos = ((float)1/4 * canvasHeight);
 
 
-        skin.add("textfield", new Texture(Gdx.files.internal(FileName.TEXTFIELD.filename())));
-        skin.add("cursor", new Texture(Gdx.files.internal(FileName.CURSOR.filename())));
-        skin.add("btnNotClicked", new Texture(Gdx.files.internal(FileName.ENTERBTN.filename())));
-        skin.add("btnClicked", new Texture(Gdx.files.internal(FileName.ENTERBTNCLICKED.filename())));
+        skin.add("textfield", Assets.manager.get(Assets.TEXTFIELD, Texture.class));
+        skin.add("cursor", Assets.manager.get(Assets.CURSOR, Texture.class));
+        skin.add("btnNotClicked", Assets.manager.get(Assets.ENTERBTN, Texture.class));
+        skin.add("btnClicked", Assets.manager.get(Assets.ENTERBTNCLICKED, Texture.class));
 
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         Drawable textFieldBackground = skin.getDrawable("textfield");
@@ -154,14 +144,6 @@ public class CreateGameScreen implements Screen{
         game.goToReadyScreen(screen);
     }
 
-    public void reloadBoardRenderer() {
-        game.reloadBoardRenderer();
-    }
-
-    public void reloadReadyRenderer() {
-        game.reloadReadyRenderer();
-    }
-
     private void addClickListener(ImageButton button) {
         button.addListener(new ClickListener() {
             @Override
@@ -189,25 +171,20 @@ public class CreateGameScreen implements Screen{
         skin.dispose();
     }
 
-
     @Override
     public void resize(int width, int height) {
 
     }
-
     @Override
     public void pause() {
 
     }
-
     @Override
     public void resume() {
 
     }
-
     @Override
     public void hide() {
 
     }
-
 }

@@ -34,7 +34,7 @@ public class ReadyController {
     }
 
 
-    public void listenToSocket() {
+    private void listenToSocket() {
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();

@@ -3,13 +3,14 @@ package com.whackamole.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
-import com.whackamole.game.model.FileName;
+import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.MainMenuRenderer;
 
 
@@ -22,28 +23,23 @@ public class MainMenuScreen implements Screen {
 
     private MainMenuRenderer renderer;
     final WhackAMole game;
-    private int screenWidth, screenHeight, btnWidth, btnHeight;
+    private int screenWidth, screenHeight;
     private Skin skin;
     private Stage stage;
     private Screen screen;
 
-    public MainMenuScreen(final WhackAMole game) {
+    public MainMenuScreen(final WhackAMole game, final SpriteBatch batch) {
         this.game = game;
         this.screen = this;
         this.renderer = new MainMenuRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
-        btnWidth = (new Texture(FileName.CREATE_GAME_BTN.filename())).getWidth();
-        btnHeight = (new Texture(FileName.CREATE_GAME_BTN.filename())).getHeight();
-
         renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-
-        //Gdx.graphics.setContinuousRendering(false);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -52,51 +48,26 @@ public class MainMenuScreen implements Screen {
         renderer.render();
     }
 
-    @Override
-    public void resize(int width, int height) {
 
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        skin.dispose();
-        stage.dispose();
-    }
 
     private Stage loadActors(){
         stage = new Stage();
-
-        //skin:
-
         skin = new Skin();
 
-        skin.add("createGameBtn", new Texture(FileName.CREATE_GAME_BTN.filename()));
-        skin.add("joinGameBtn", new Texture(FileName.JOIN_GAME_BTN.filename()));
-        skin.add("settingsBtn", new Texture(FileName.SETTINGS_BTN.filename()));
-        skin.add("instructionsBtn", new Texture(FileName.INSTRUCTIONS_BTN.filename()));
+        skin.add("createGameBtn", Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class));
+        skin.add("joinGameBtn", Assets.manager.get(Assets.JOIN_GAME_BTN, Texture.class));
+        skin.add("settingsBtn", Assets.manager.get(Assets.SETTINGS_BTN, Texture.class));
+        skin.add("instructionsBtn", Assets.manager.get(Assets.INSTRUCTIONS_BTN, Texture.class));
 
-        skin.add("createGameClicked", new Texture(FileName.CREATE_GAME_BTN_CLICKED.filename()));
-        skin.add("joinGameClicked", new Texture(FileName.JOIN_GAME_BTN_CLICKED.filename()));
-        skin.add("settingsClicked", new Texture(FileName.SETTINGS_BTN_CLICKED.filename()));
-        skin.add("instructionsClicked", new Texture(FileName.INSTRUCTIONS_BTN_CLICKED.filename()));
+        skin.add("createGameClicked", Assets.manager.get(Assets.CREATE_GAME_BTN_CLICKED, Texture.class));
+        skin.add("joinGameClicked", Assets.manager.get(Assets.JOIN_GAME_BTN_CLICKED, Texture.class));
+        skin.add("settingsClicked", Assets.manager.get(Assets.SETTINGS_BTN_CLICKED, Texture.class));
+        skin.add("instructionsClicked", Assets.manager.get(Assets.INSTRUCTIONS_BTN_CLICKED, Texture.class));
+
+        float btnWidth = Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class).getWidth();
+        float btnHeight = Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class).getHeight();
 
         //Buttons:
-
         ImageButton createGameButton = new ImageButton(skin.getDrawable("createGameBtn"),skin.getDrawable("createGameClicked"));
         ImageButton joinGameButton = new ImageButton(skin.getDrawable("joinGameBtn"),skin.getDrawable("joinGameClicked"));
         ImageButton settingsButton = new ImageButton(skin.getDrawable("settingsBtn"),skin.getDrawable("settingsClicked"));
@@ -135,8 +106,7 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        //Stage:
-
+        // Adding actors to the stage for display on screen
         stage.addActor(createGameButton);
         stage.addActor(joinGameButton);
         stage.addActor(settingsButton);
@@ -145,4 +115,24 @@ public class MainMenuScreen implements Screen {
         return stage;
     }
 
+
+    @Override
+    public void dispose() {
+        skin.dispose();
+        stage.dispose();
+    }
+
+
+    @Override
+    public void resize(int width, int height) {
+    }
+    @Override
+    public void pause() {
+    }
+    @Override
+    public void resume() {
+    }
+    @Override
+    public void hide() {
+    }
 }

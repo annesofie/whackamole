@@ -40,4 +40,12 @@ public enum Theme {
         return this.path;
     }
 
+    public String idAsString() {
+        return Integer.toString(this.id);
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
 }

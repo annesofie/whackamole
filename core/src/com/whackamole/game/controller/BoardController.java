@@ -7,6 +7,7 @@ import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
+import com.whackamole.game.views.Assets;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.json.JSONException;
@@ -38,41 +39,29 @@ public class BoardController {
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
+        String themePath = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path();
 
         this.gameName = match.getGameName();
         this.nickName = match.getThisPlayerNickName();
 
-        this.hitsound = Gdx.audio.newSound(Gdx.files.internal(FileName.HITSOUND.filename()));
-        this.speech = Gdx.audio.newSound(Gdx.files.internal(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path() + FileName.SPEECHSOUND.filename()));
+        this.hitsound = Gdx.audio.newSound(Gdx.files.internal(Assets.HITSOUND));
+        this.speech = Gdx.audio.newSound(Gdx.files.internal(themePath + Assets.SPEECH));
 
         SocketRetreiver socketRetreiver = SocketRetreiver.getInstance();
         socket = socketRetreiver.getSocket();
 
-        socket.on("start game success", startGameSuccess);
         socket.on("start game error", startGameError);
-
         socket.on("player hit", playerHit);
         socket.on("new mole", onNewMole);
     }
 
-    private Emitter.Listener playerScore = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            System.out.println("Player score: " + args);
-        }
-    };
 
     private  Emitter.Listener startGameError = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            String msg = (String) args[0];
-            System.out.println(msg);
-        }
-    };
 
-    private Emitter.Listener startGameSuccess = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
+            //TODO: HÅNDTERE FEIL VED START GAME. GI BRUKER FEEDBACK OG GÅ TIL GAME OVER SCREEN
+
             String msg = (String) args[0];
             System.out.println(msg);
         }
@@ -82,16 +71,16 @@ public class BoardController {
     private Emitter.Listener playerHit = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            try {
+                // Hides the mole because someone hit it
+                board.getCurrentMole().finish();
+            } catch (Exception e) {
+            }
             JSONObject obj = (JSONObject) args[0];
             try {
                 String nickName = obj.getString("nickName");
                 int points = obj.getInt("points");
                 int totalScore = obj.getInt("totalScore");
-                System.out.println("Got here, but not to into the if sentence.. :(");
-                try {
-                    board.getCurrentMole().finish();
-                } catch (Exception e) {
-                }
                 if(match.getThisPlayerNickName().equals(nickName)) {
                     System.out.print("You hit the last mole for " + points + " points!");
                     board.setHitTheLastMole(true, points);
@@ -109,7 +98,7 @@ public class BoardController {
         }
     };
 
-
+    // NEW MOLES FROM SERVER ARRIVES HERE
     private Emitter.Listener onNewMole = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
@@ -123,15 +112,12 @@ public class BoardController {
     };
 
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
         touch_x = screenX;
         touch_y = screenY;
         mole = board.getCurrentMole();
-
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
-            // firstuser.addScore(mole.getScore());
             hitsound.play(1);
-            // reset the mole
+            // Reset the mole
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);
@@ -142,9 +128,6 @@ public class BoardController {
             }
             socket.emit("mole hit", json);
         }
-
-        //checkTouch(touch_x, touch_y);
-        //mole.setPos(touch_x, touch_y);
         return true;
     }
 

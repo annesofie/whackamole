@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.whackamole.game.model.FileName;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
@@ -43,11 +41,9 @@ public class ReadyRenderer implements Renderer {
         this.stage = stage;
         loadTextures();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 72;
-        font = generator.generateFont(parameter);
-        generator.dispose();
+        parameter.size = 96;
+        font = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
 
     }
 
@@ -69,13 +65,8 @@ public class ReadyRenderer implements Renderer {
 
 
     public void loadTextures() {
-
         Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
-        background = new Texture(Gdx.files.internal(theme.path() + FileName.READYBACKGROUND.filename()));
-
-        List<String> nicknames = match.getCurrentNickNames();
-
-
+        background = Assets.manager.get(theme.path() + Assets.READYBACKGROUND, Texture.class);
 
     }
 

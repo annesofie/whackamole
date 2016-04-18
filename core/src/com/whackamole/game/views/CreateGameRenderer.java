@@ -3,24 +3,11 @@ package com.whackamole.game.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.model.CreateGame;
-import com.whackamole.game.model.FileName;
 import com.whackamole.game.utils.*;
 
 
-import com.whackamole.game.utils.Button;
-import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
-
-import javax.swing.*;
 
 
 /**
@@ -30,7 +17,6 @@ public class CreateGameRenderer implements Renderer {
 
 
     // TEXTURES
-
     private Texture background;
     private Texture invalidGameNameText;
     private Texture invalidNickNameText;
@@ -42,38 +28,32 @@ public class CreateGameRenderer implements Renderer {
     private CreateGame createGame;
 
     // GAME PROPERTIES
-
     private Preferences prefs;
     private int canvasHeight, canvasWidth;
+    private StageExtension stage;
 
 
     public CreateGameRenderer(CreateGame createGame) {
-
         this.createGame = createGame;
-
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-
         canvasHeight = Gdx.graphics.getHeight();
         canvasWidth = Gdx.graphics.getWidth();
-
     }
 
 
-    StageExtension stage;
-
     public void loadRenderer(StageExtension stage) {
-
         this.stage = stage;
         loadTextures();
-
     }
 
 
     public void render() {
 
-        stage.act();
+        // TODO: DON'T USE WIDTH OF IMAGE TO DRAW, BUT RATHER THE RATIO BETWEEN THE PICTURE AND SCREENWIDTH ETC.
 
+        stage.act();
         stage.getBatch().begin();
+
         stage.getBatch().draw(background, 0, 0, canvasWidth, canvasHeight);
         if(createGame.isInvalidGameName()) {
             float verticalMargin = getVerticalMargin(invalidGameNameText);
@@ -97,32 +77,27 @@ public class CreateGameRenderer implements Renderer {
         }
 
         stage.getBatch().end();
-
         stage.draw();
     }
 
 
     private void loadTextures() {
 
-        background = new Texture(Gdx.files.internal(FileName.BACKGROUND_GRASS.filename()));
-        invalidGameNameText = new Texture(Gdx.files.internal(FileName.INVALIDGAMENAME.filename()));
-        invalidNickNameText = new Texture(Gdx.files.internal(FileName.INVALIDNICKNAME.filename()));
-        gameNameAlreadyExistsText = new Texture(Gdx.files.internal(FileName.GAMENAMEALREADYEXISTS.filename()));
-        noGameWithNameExistsText = new Texture(Gdx.files.internal(FileName.NOGAMEWITHNAMEEXISTS.filename()));
-        gameIsFullText = new Texture(Gdx.files.internal(FileName.GAMEISFULL.filename()));
+        // Setting up local references to already loaded textures
+        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
+        invalidGameNameText = Assets.manager.get(Assets.INVALIDGAMENAME, Texture.class);
+        invalidNickNameText = Assets.manager.get(Assets.INVALIDNICKNAME, Texture.class);
+        gameNameAlreadyExistsText = Assets.manager.get(Assets.GAMENAMEALREADYEXISTS, Texture.class);
+        noGameWithNameExistsText = Assets.manager.get(Assets.NOGAMEWITHNAMEEXISTS, Texture.class);
+        gameIsFullText = Assets.manager.get(Assets.GAMEISFULL, Texture.class);
 
     }
 
 
     public float getVerticalMargin(Texture texture) {
-
         float canvasWidth = Gdx.graphics.getWidth();
         float textureWidth = (float) texture.getWidth();
-
-        float diff = canvasWidth - textureWidth;
-        float margin = diff/2;
-
-        return margin;
+        return (canvasWidth - textureWidth)/2;
     }
 
 
