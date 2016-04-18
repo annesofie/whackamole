@@ -68,18 +68,20 @@ public class BoardRenderer implements Renderer {
 
         batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
 
-        font.draw(batch, "Scores:", 100, height - 50);
+        //must be rendered in the right order to get correct layers
+
+        font.draw(batch, "Leaderboard:", 100, height - board_score.getHeight()/6);
         for(int i = 0; i < scoreList.size(); i++) {
-            if(i >= 3) {
+            if(i >= 5) {
                 break; // Breaks to avoid lists longer than 3 players
             }
             Player player = scoreList.get(i);
             String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
-            font.draw(batch, line, 100 , height - 130 - (i*80));
+            font.draw(batch, line, 100 , height - (i+2)*board_score.getHeight()/6);
         }
         if(hitTheLastMole) {
-            font.draw(batch, "You hit the mole first!", width - width/2 + 50, height - 150);
-            font.draw(batch, "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 280);
+            font.draw(batch, "YOU WERE FAST!", width/2 + 50, height - board_score.getHeight()/5);
+            font.draw(batch, "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 2*board_score.getHeight()/6);
         }
         else if (!board.firstRound()) {
             font.draw(batch, "You missed.\nNot fast enough!", width - width/2, height - 150);
@@ -111,12 +113,6 @@ public class BoardRenderer implements Renderer {
 
         String filepath = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 72;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
-        generator.dispose();
 
         moleImages.clear();
         for (int i = 0; i < 6; i++) {
@@ -128,6 +124,13 @@ public class BoardRenderer implements Renderer {
         board_second_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_TOP.filename()));
         board_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_TOP.filename()));
         board_score = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SCORE.filename()));
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = board_score.getHeight()/7;
+        font = generator.generateFont(parameter);
+        font.setColor(Color.BLACK);
+        generator.dispose();
 
 
         System.out.println(board_bottom);

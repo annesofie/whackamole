@@ -45,6 +45,7 @@ public class Board {
         int gridDimensions = Constants.gridDimensions;
         for (int j = 0; j < gridDimensions; j++) {
             for (int i = 0; i < gridDimensions; i++) {
+                //x and y coordinates must be tweaked to match the background images.
                 float xpos = (2 + gridDimensions * i)*canvasWidth/10  - 17 * canvasWidth/120;
                 float ypos = (gridDimensions + gridDimensions * j)*canvasHeight/16 - canvasHeight/32;
 
