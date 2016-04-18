@@ -10,9 +10,9 @@ public class Player implements Comparable {
     boolean ready;
 
     public Player(String username){
-        username = username;
-        score = 0;
-        ready = false;
+        this.username = username;
+        this.score = 0;
+        this.ready = false;
     }
 
     public String getNickname() {

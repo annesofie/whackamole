@@ -68,6 +68,8 @@ public class BoardRenderer implements Renderer {
 
         batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
 
+        //must be rendered in the right order to get correct layers
+
         font.draw(batch, "Scores:", 100, height - 50);
         for(int i = 0; i < scoreList.size(); i++) {
             if(i >= 3) {
@@ -78,7 +80,7 @@ public class BoardRenderer implements Renderer {
             font.draw(batch, line, 100 , height - 130 - (i*80));
         }
         if(hitTheLastMole) {
-            font.draw(batch, "You hit the mole first!", width - width/2 + 50, height - 150);
+            font.draw(batch, "YOU WERE FAST!", width/2 + 50, height - 150);
             font.draw(batch, "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 280);
         }
         else if (!board.firstRound()) {
