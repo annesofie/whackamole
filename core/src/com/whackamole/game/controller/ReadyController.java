@@ -51,7 +51,11 @@ public class ReadyController {
         public void call(Object... args) {
             try {
                 JSONObject obj = (JSONObject) args[0];
+                System.out.println(obj.getString("nickName") + " joined the game");
                 match.addPlayer(obj.getString("nickName"));
+                for(String name: match.getCurrentNickNames()) {
+                    System.out.println(name);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -68,9 +72,12 @@ public class ReadyController {
     private Emitter.Listener playerReady = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            JSONObject obj = (JSONObject)args[0];
+            JSONObject obj = (JSONObject) args[0];
+            System.out.println(obj.toString());
             try {
-                match.setPlayerReady(obj.getString("nickName"));
+                if(!obj.getString("nickName").equals(null)){
+                    match.setPlayerReady(obj.getString("nickName"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -80,6 +87,10 @@ public class ReadyController {
     public void isReady() {
         JSONObject obj = new JSONObject();
         try {
+
+            System.out.println("Game name in isReady(): " + match.getGameName());
+            System.out.println("Nick name in isReady(): " + match.getThisPlayerNickName());
+
             obj.put("gameName", match.getGameName());
             obj.put("nickName", match.getThisPlayerNickName());
         } catch (JSONException e) {

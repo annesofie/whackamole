@@ -23,18 +23,8 @@ public class Match {
     }
 
 
-    public boolean addPlayer(String username) {
-        /**
-         *  Returns true if the username was unique and the user was added
-         *  Returns flase if the username already exists and the user was not added.
-         */
-        for(Player user : playerList) {
-            if(user.getNickname().equals(username)) {
-                return false;
-            }
-        }
+    public void addPlayer(String username) {
         playerList.add(new Player(username));
-        return true;
     }
 
 
