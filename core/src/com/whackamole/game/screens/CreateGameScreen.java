@@ -172,7 +172,6 @@ public class CreateGameScreen implements Screen{
                 boolean isValidNickName = controller.isValidNickName(nickName);
                 if(isValidGameName && isValidNickName) {
                     if(joinGame) {
-                        System.out.println("Got to joinGame() in controller");
                         controller.joinGame(gameName, nickName);
                     }
                     else {

@@ -67,6 +67,8 @@ public class GameScreen implements Screen, InputProcessor{
         // Load controller
         controller.loadController();
 
+        boardRenderer.loadRenderer();
+
         // Starter musikken
         loadSoundtracks();
     }
@@ -84,7 +86,7 @@ public class GameScreen implements Screen, InputProcessor{
         board.loadBoard();
 
         // Load renderer
-        boardRenderer.loadRenderer();
+        //boardRenderer.loadRenderer();
     }
 
 
