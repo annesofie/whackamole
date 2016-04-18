@@ -4,17 +4,25 @@ package com.whackamole.game.controller;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.Match;
+import com.whackamole.game.model.Player;
+import com.whackamole.game.model.Theme;
 import com.whackamole.game.screens.CreateGameScreen;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Lars on 13/04/16.
@@ -111,6 +119,7 @@ public class CreateGameController {
             json.put("gameName", gameName);
             json.put("nickName", nickName);
             json.put("numOfPlayers", prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+            json.put("themeId", prefs.getInteger(Prefs.THEME.key()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -161,12 +170,28 @@ public class CreateGameController {
     private Emitter.Listener onJoinGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            String msg = (String) args[0];
-            System.out.println(msg);
+            List<String> nickNames = new ArrayList<String>();
+            JsonValue json = new JsonReader().parse((String) args[0]);
+            JsonValue attendersJson = json.get("attenders");
+            int themeId = json.getInt("themeId");
+            prefs.putInteger(Prefs.THEME.key(), themeId);
+            createGameScreen.reloadBoardRenderer();
+
+            for(JsonValue attender : attendersJson.iterator()) {
+                String nickName = attender.getString("nickName");
+                nickNames.add(nickName);
+            }
             createGame.setNoGameWithNameExists(false);
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
+            for(String nickName : nickNames) {
+                if(!nickName.equals(match.getThisPlayerNickName())) {
+                    System.out.println("Got here " + nickName);
+                    match.addPlayer(nickName);
+                }
+            }
             System.out.print("You were registered in the game " + gameName + " server as: " + nickName);
+            
             createGameScreen.goToReadyScreen();
         }
     };
@@ -177,7 +202,6 @@ public class CreateGameController {
             // VARSLE BRUKER AT SPILLET IKKE FINNES PÅ SKJERMEN
             // VARSLE BRUKER AT SPILLET IKKE FINNES PÅ SKJERMEN
             createGame.setNoGameWithNameExists(true);
-
         }
     };
 
@@ -188,5 +212,6 @@ public class CreateGameController {
             // VARLSE BRUKEREN AT SPILLET FINNES FRA FØR PÅ SKJERMEN
         }
     };
+
 
 }

@@ -154,6 +154,10 @@ public class CreateGameScreen implements Screen{
         game.goToReadyScreen(screen);
     }
 
+    public void reloadBoardRenderer() {
+        game.reloadBoardRenderer();
+    }
+
 
     private void addClickListener(ImageButton button) {
         button.addListener(new ClickListener() {
