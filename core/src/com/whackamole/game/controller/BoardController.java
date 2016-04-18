@@ -130,7 +130,6 @@ public class BoardController {
 //          firstuser.addScore(mole.getScore());
             hitsound.play(1);
             //reset the mole
-            mole.finish();
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);

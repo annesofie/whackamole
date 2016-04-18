@@ -49,10 +49,10 @@ public class Player implements Comparable {
             return 0;
         }
         else if ((this.getScore()) > ((Player)o).getScore()) {
-            return 1;
+            return -1;
         }
         else {
-            return -1;
+            return 1;
         }
     }
 }
