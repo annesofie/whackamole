@@ -155,6 +155,10 @@ public class BoardRenderer implements Renderer {
         }
     }
 
+    public void disposeTextures(){
+
+    }
+
 
     private Texture getMoleImage(Mole mole) {
         return moleImages.get(mole.getMoleImageId());

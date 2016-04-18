@@ -88,7 +88,11 @@ public class BoardController {
                 int points = obj.getInt("points");
                 int totalScore = obj.getInt("totalScore");
                 System.out.println("Got here, but not to into the if sentence.. :(");
-                board.getCurrentMole().finish();
+                try {
+                    board.getCurrentMole().finish();
+                } catch(Exception e){
+
+                }
                 if(match.getThisPlayerNickName().equals(nickName)) {
                     System.out.print("You hit the last mole for " + points + " points!");
                     board.setHitTheLastMole(true, points);
