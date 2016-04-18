@@ -88,7 +88,10 @@ public class BoardController {
                 int points = obj.getInt("points");
                 int totalScore = obj.getInt("totalScore");
                 System.out.println("Got here, but not to into the if sentence.. :(");
-                board.getCurrentMole().finish();
+                try {
+                    board.getCurrentMole().finish();
+                } catch (Exception e) {
+                }
                 if(match.getThisPlayerNickName().equals(nickName)) {
                     System.out.print("You hit the last mole for " + points + " points!");
                     board.setHitTheLastMole(true, points);
@@ -110,7 +113,6 @@ public class BoardController {
     private Emitter.Listener onNewMole = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            System.out.println("New mole");
             JSONObject obj = (JSONObject) args[0];
             try {
                 receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
@@ -127,9 +129,9 @@ public class BoardController {
         mole = board.getCurrentMole();
 
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
-//          firstuser.addScore(mole.getScore());
+            // firstuser.addScore(mole.getScore());
             hitsound.play(1);
-            //reset the mole
+            // reset the mole
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);
@@ -138,7 +140,6 @@ public class BoardController {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             socket.emit("mole hit", json);
         }
 
