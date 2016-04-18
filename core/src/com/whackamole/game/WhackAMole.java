@@ -134,5 +134,8 @@ public class WhackAMole extends Game implements ScreenController {
     public void reloadBoardRenderer() {
         this.gameScreen.loadView();
     }
+    public void reloadReadyRenderer() {
+        this.readyScreen.loadView();
+    }
 
 }
