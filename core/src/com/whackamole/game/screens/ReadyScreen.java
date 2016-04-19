@@ -89,7 +89,7 @@ public class ReadyScreen implements Screen {
 
     @Override
     public void hide() {
-        renderer.dispose();
+        // renderer.dispose();
         // dispose();
     }
 

@@ -156,22 +156,16 @@ public class SettingsScreen implements Screen {
             }
         });
 
+
+        // TODO: Fikse så det ikke går ann å klikke på buttons som allerede er "checked"
         // Presedential theme button
         presCheckBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getInteger(Prefs.THEME.key()) == Theme.PRESIDENTIAL.getId()) {
-                    kardCheckBox.setChecked(false);
-                    presCheckBox.setChecked(true);
-
-                }
-                else {
-                    kardCheckBox.setChecked(false);
-                    kardCheckBox.setChecked(true);
-                    prefs.putInteger(Prefs.THEME.key(), Theme.KARDASHIAN.getId());
-                    prefs.flush();
-                    System.out.println("Presidential theme now selected.");
-                }
+                kardCheckBox.setChecked(false);
+                prefs.putInteger(Prefs.THEME.key(), Theme.PRESIDENTIAL.getId());
+                prefs.flush();
+                System.out.println("Presidential theme now selected.");
             }
         });
 
@@ -179,17 +173,10 @@ public class SettingsScreen implements Screen {
         kardCheckBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
-                if(prefs.getInteger(Prefs.THEME.key()) == Theme.KARDASHIAN.getId()) {
-                    presCheckBox.setChecked(false);
-                    kardCheckBox.setChecked(true);
-                }
-                else {
-                    presCheckBox.setChecked(false);
-                    prefs.putInteger(Prefs.THEME.key(), Theme.PRESIDENTIAL.getId());
-                    prefs.flush();
-                    System.out.println("Kardashian theme now selected.");
-                }
+                presCheckBox.setChecked(false);
+                prefs.putInteger(Prefs.THEME.key(), Theme.KARDASHIAN.getId());
+                prefs.flush();
+                System.out.println("Kardashian theme now selected.");
             }
         });
 
@@ -229,7 +216,7 @@ public class SettingsScreen implements Screen {
     public void dispose() {
         skin.dispose();
         stage.dispose();
-        renderer.dispose();
+        // renderer.dispose();
     }
 
 

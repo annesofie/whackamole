@@ -2,16 +2,17 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.*;
+import com.whackamole.game.utils.FontGenerator;
 import com.whackamole.game.utils.Prefs;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class BoardRenderer implements Renderer, Disposable {
     private Board board;
     private Preferences prefs;
     // TEXTURES
-    private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score;
+    private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score, slow, fast;
     private Array<Texture> moleImages;
     private Stage stage;
     // GAME PROPERTIES
@@ -47,12 +48,6 @@ public class BoardRenderer implements Renderer, Disposable {
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.moleImages = new Array<Texture>();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 96;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
-
     }
 
     public void loadRenderer(Stage stage) {
@@ -61,6 +56,16 @@ public class BoardRenderer implements Renderer, Disposable {
         this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
         this.themePath = theme.path();
         this.themeId = theme.idAsString();
+
+        // TODO: midlertidig løsning pga et rendringproblem
+        if(theme == Theme.KARDASHIAN) {
+            font = FontGenerator.kardFont;
+        }
+        else {
+            font = FontGenerator.presFont;
+        }
+        // ----
+
 
         loadTextures();
     }
@@ -75,28 +80,33 @@ public class BoardRenderer implements Renderer, Disposable {
         int lastMolePoints = board.getLastMolePoints();
         List<Player> scoreList = match.getSortedHighScoreList();
 
-
-
         //stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
 
+
+        // TODO: fikse så tekst rendres pent
         //must be rendered in the right order to get correct layers
-        font.draw(stage.getBatch(), "Leaderboard:", 100, height - board_score.getHeight()/6);
+        font.draw(stage.getBatch(), "Leaderboard:", 30, height - (board_score.getHeight()/6 + 20));
         for(int i = 0; i < scoreList.size(); i++) {
-            if(i >= 5) {
-                break; // Breaks to avoid lists longer than 3 players
-            }
             Player player = scoreList.get(i);
-            String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
-            font.draw(stage.getBatch(), line, 100 , height - (i+2)*board_score.getHeight()/6);
+            boolean isThisPlayer = player.getNickname().equals(Match.getCurrentMatch().getThisPlayerNickName());
+            if(!(i >= 3) || isThisPlayer) {
+                String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
+                if (isThisPlayer) {
+                    line = (i + 1) + ". You: " + player.getScore();
+                }
+                font.draw(stage.getBatch(), line, 30, height - ((i+2)*board_score.getHeight()/6 + 10));
+            }
         }
         if(hitTheLastMole) {
-            font.draw(stage.getBatch(), "YOU WERE FAST!", width/2 + 50, height - board_score.getHeight()/5);
-            font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 2*board_score.getHeight()/6);
+            stage.getBatch().draw(fast, width/2, height - board_score.getHeight()/3);
+            //font.draw(stage.getBatch(), "YOU WERE FAST!", width/2, height - board_score.getHeight()/5);
+            font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - 2*board_score.getHeight()/4));
         }
         else if (!board.firstRound()) {
-            font.draw(stage.getBatch(), "You missed.\nNot fast enough!", width - width/2, height - 150);
+            stage.getBatch().draw(slow, width/2, height - board_score.getHeight()/5);
+            //font.draw(stage.getBatch(), "You missed.\nNot fast enough!", width - width/2, height - 150);
         }
         font.draw(stage.getBatch(), "Hello", width/2, height/2);
         stage.getBatch().draw(board_score, 0, 7*height/16, width, 3*height/16);
@@ -110,7 +120,7 @@ public class BoardRenderer implements Renderer, Disposable {
         drawMole(-1, 3);
         stage.getBatch().draw(board_bottom, 0, 0 , width, 3*height/16);
         stage.getBatch().end();
-        stage.draw();
+        //stage.draw();
 
     }
 
@@ -132,11 +142,15 @@ public class BoardRenderer implements Renderer, Disposable {
         board_top= Assets.manager.get(themePath + Assets.BOARD_TOP, Texture.class);
         board_score = Assets.manager.get(themePath + Assets.BOARD_SCORE, Texture.class);
 
+        slow = Assets.manager.get(Assets.SLOW, Texture.class);
+        fast = Assets.manager.get(Assets.FAST, Texture.class);
+
         float var = (float)height/5;
         System.out.println(var);
         System.out.println(var/5);
 
 
+        //TODO: EGENTLIG DENNE SOM SKAL HENTE UT FONT, MEN ER ET PROBLEM MED DET
         //font = FontGenerator.getBitmapFont(theme, ((float)height/25), Assets.FONT);
 
     }

@@ -76,7 +76,6 @@ public class CreateGameScreen implements Screen{
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 72;
         font = generator.generateFont(parameter);
-        generator.dispose();
 
         float canvasHeight = Gdx.graphics.getHeight();
         float canvasWidth = Gdx.graphics.getWidth();
@@ -166,7 +165,6 @@ public class CreateGameScreen implements Screen{
     public void dispose() {
         stage.dispose();
         skin.dispose();
-        font.dispose();
     }
 
 

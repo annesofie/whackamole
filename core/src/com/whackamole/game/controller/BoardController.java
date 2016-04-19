@@ -3,7 +3,10 @@ package com.whackamole.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.whackamole.game.model.*;
+import com.whackamole.game.screens.GameScreen;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
@@ -12,6 +15,9 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardController {
 
@@ -26,12 +32,14 @@ public class BoardController {
     private Mole mole;
     private Match match;
     private Preferences prefs;
+    private ScreenController screenController;
 
-    public BoardController(Board board) {
+    public BoardController(Board board, ScreenController screenController) {
 
         this.board = board;
         this.match = Match.getCurrentMatch();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        this.screenController = screenController;
 
     }
 
@@ -53,8 +61,25 @@ public class BoardController {
         socket.on("start game error", startGameError);
         socket.on("player hit", playerHit);
         socket.on("new mole", onNewMole);
+        socket.on("game finished", onGameFinished);
     }
 
+
+    private Emitter.Listener onGameFinished = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            JsonValue attendersJson = new JsonReader().parse((String) args[0]);
+
+            // Update the scoreboard just to make sure all scores were correct
+            for(JsonValue attender : attendersJson.iterator()) {
+                match.setScoreToUser(attender.getString("nickName"), attender.getInt("points"));
+            }
+
+            // TODO: Switch to GameOverScreen when that one is done
+            screenController.goToMainMenuScreen();
+            socket.disconnect();
+        }
+    };
 
     private  Emitter.Listener startGameError = new Emitter.Listener() {
         @Override

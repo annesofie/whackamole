@@ -47,7 +47,6 @@ public class ReadyRenderer implements Renderer, Disposable{
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 96;
         font = generator.generateFont(parameter);
-        generator.dispose();
         */
 
     }

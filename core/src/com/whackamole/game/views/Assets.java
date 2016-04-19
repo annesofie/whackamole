@@ -110,6 +110,9 @@ public class Assets {
     KARDASHIAN_THEME_BTN_SELECTED = imgDir + "KardashianBtnSelected.png",
     PRESEDENTIAL_THEME_BTN_SELECTED = imgDir + "PresedentialBtnSelected.png",
 
+    FAST = imgDir + "fast.png",
+    SLOW = imgDir + "slow.png",
+
     //
     RETURN_BTN = imgDir + "ReturnBtn.png",
     INSTRUCTIONS = imgDir + "Instructions.png",
@@ -165,7 +168,9 @@ public class Assets {
     }
     */
     public static final String
-    FONT = "fonts/OpenSans-CondLight.ttf";
+    FONT = "fonts/OpenSans-CondBold.ttf",
+    FONT_PRES = "fonts/OpenSans-CondBold.ttf",
+    FONT_KARD = "fonts/OpenSans-CondBold.ttf";
 
     public static final int
     PRES_FONT_R = 15,

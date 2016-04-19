@@ -3,10 +3,15 @@ package com.whackamole.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.Theme;
 import com.whackamole.game.screens.*;
 import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.FontGenerator;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.Assets;
 import net.dermetfan.gdx.assets.AnnotationAssetManager;
@@ -22,10 +27,16 @@ public class WhackAMole extends Game implements ScreenController {
     @Override
     public void create() {
 
+
         stage = new Stage();
         screenController = this;
         loadDefaultPrefs();
         loadAssets();
+
+        //TODO: Midlertidig løsning pga. et rendringproblem i gamescreen
+        FontGenerator.generateKardFont();
+        FontGenerator.generatePresFont();
+
 
         // Initial screen to be displayed on app startup
         goToMainMenuScreen();

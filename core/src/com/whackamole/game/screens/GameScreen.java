@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.WhackAMole;
@@ -28,14 +29,13 @@ public class GameScreen implements Screen, InputProcessor{
 
     public GameScreen(final ScreenController screenController, Stage stage) {
 
+        this.stage = stage;
+        stage.clear();
         this.screenController = screenController;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.board = new Board();
         this.boardRenderer = new BoardRenderer(board);
-        this.controller = new BoardController(board);
-        this.stage = stage;
-        stage.clear();
-
+        this.controller = new BoardController(board, screenController);
         loadGame();
 
     }
@@ -100,6 +100,7 @@ public class GameScreen implements Screen, InputProcessor{
 
     @Override
     public void hide() {
+        backgroundmusic.stop();
         // dispose();
     }
 
