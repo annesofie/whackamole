@@ -38,12 +38,12 @@ public class InstructionRenderer implements Renderer {
         stage.draw();
     }
 
-    public void loadTextures() {
+    private void loadTextures() {
         // Lag textures her basert på tema, instruksjoner osv.
         // Antakeligvis bare et bakgrunnsbilde med text på.
         // I render skal disse tegnes.
         background = new Texture(FileName.BACKGROUND.filename());
-        whiteRectangle = new Texture(FileName.WHITE_RECTANGLE.filename());
+        whiteRectangle = new Texture(FileName.INSTRUCTIONS_WHITE_RECTANGLE.filename());
 
     }
 

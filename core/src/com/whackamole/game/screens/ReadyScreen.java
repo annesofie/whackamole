@@ -29,12 +29,15 @@ public class ReadyScreen implements Screen{
     private Skin skin;
     private ReadyRenderer renderer;
     private ReadyController controller;
+    private int returnBtnWidth, returnBtnHeight;
 
     public ReadyScreen(final WhackAMole game) {
 
         this.game = game;
         this.renderer = new ReadyRenderer(game.getMatch());
         this.controller = new ReadyController(game.getMatch(), this);
+        returnBtnWidth = (new Texture(FileName.RETURN_BTN.filename())).getWidth();
+        returnBtnHeight = (new Texture(FileName.RETURN_BTN.filename())).getHeight();
         renderer.loadRenderer(loadActors());
 
     }
@@ -51,7 +54,7 @@ public class ReadyScreen implements Screen{
     }
 
     public void loadView() {
-        renderer.loadTextures();
+        renderer.loadRenderer(loadActors());
     }
 
 
@@ -67,12 +70,16 @@ public class ReadyScreen implements Screen{
         skin.add("btnNotClicked", new Texture(Gdx.files.internal(FileName.READYBTN.filename())));
         skin.add("btnClicked", new Texture(Gdx.files.internal(FileName.READYBTNCLICKED.filename())));
 
+        skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
+        ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
+        returnButton.setPosition(returnBtnWidth, canvasHeight - returnBtnHeight*2);
+
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         btn.setName("readybtn");
         float btnWidth = btn.getWidth();
         btn.setPosition(canvasWidth/2 - btnWidth/2, btnYPos);
 
-        addClickListener(btn);
+        addClickListener(btn, returnButton);
 
         stage.addActor(btn);
 
@@ -80,7 +87,7 @@ public class ReadyScreen implements Screen{
     }
 
 
-    private void addClickListener(final ImageButton button) {
+    private void addClickListener(final ImageButton button, final ImageButton returnButton) {
 
         button.addListener(new ClickListener() {
             @Override
@@ -88,11 +95,18 @@ public class ReadyScreen implements Screen{
                 controller.isReady();
             }
         });
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.goToMainMenuScreen();
+                dispose();
+            }
+        });
     }
 
 
     public void goToGameScreen() {
-        game.goToGameScreen(this);
+        game.goToGameScreen();
     }
 
 

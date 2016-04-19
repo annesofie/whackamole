@@ -39,14 +39,14 @@ public class SettingsScreen implements Screen {
     private CheckBox presCheckBox;
     private ImageButton plusBtn;
     private ImageButton minusBtn;
-    private Screen screen;
+    //private Screen screen;
 
 
     public SettingsScreen(final WhackAMole game) {
 
         // Game kan brukes til å endre screen f.eks. game.goToMainScreen();
         this.game = game;
-        this.screen = this;
+        //this.screen = this;
 
         // Modellen vi jobber med her
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
@@ -136,25 +136,31 @@ public class SettingsScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToMainMenuScreen(screen);
+                game.goToMainMenuScreen();
             }
         });
 
         plusBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) + 1);
-                prefs.flush();
-                System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+                if(prefs.getInteger(Prefs.NUMOFPLAYERS.key()) < 5){
+                    prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) + 1);
+                    prefs.flush();
+                    System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+                }
+
             }
         });
 
         minusBtn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) - 1);
-                prefs.flush();
-                System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+                if(prefs.getInteger(Prefs.NUMOFPLAYERS.key()) > 2){
+                    prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) - 1);
+                    prefs.flush();
+                    System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+                }
+
             }
         });
 

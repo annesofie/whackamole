@@ -29,7 +29,7 @@ public class CreateGameScreen implements Screen{
 
 
     private final WhackAMole game;
-    private Screen screen;
+    //private Screen screen;
     private CreateGame createGame;
     private CreateGameController controller;
     private CreateGameRenderer renderer;
@@ -38,6 +38,8 @@ public class CreateGameScreen implements Screen{
     private boolean joinGame;
     private float canvasWidth;
     private float canvasHeight;
+    private int returnBtnWidth, returnBtnHeight;
+
 
     StageExtension stage;
     Skin skin;
@@ -47,8 +49,11 @@ public class CreateGameScreen implements Screen{
     public CreateGameScreen(final WhackAMole game, boolean joinGame) {
 
         this.game = game;
-        this.screen = this;
+        //this.screen = this;
         this.joinGame = joinGame;
+
+        returnBtnWidth = (new Texture(FileName.RETURN_BTN.filename())).getWidth();
+        returnBtnHeight = (new Texture(FileName.RETURN_BTN.filename())).getHeight();
 
         this.createGame = new CreateGame();
 
@@ -101,7 +106,9 @@ public class CreateGameScreen implements Screen{
         skin.add("cursor", new Texture(Gdx.files.internal(FileName.CURSOR.filename())));
         skin.add("btnNotClicked", new Texture(Gdx.files.internal(FileName.ENTERBTN.filename())));
         skin.add("btnClicked", new Texture(Gdx.files.internal(FileName.ENTERBTNCLICKED.filename())));
+        skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
 
+        ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         Drawable textFieldBackground = skin.getDrawable("textfield");
         Drawable cursor = skin.getDrawable("cursor");
@@ -121,6 +128,7 @@ public class CreateGameScreen implements Screen{
 
         float btnWidth = btn.getWidth();
         btn.setPosition(canvasWidth/2-btnWidth/2, btnYPos);
+        returnButton.setPosition(returnBtnWidth, canvasHeight - returnBtnHeight*2);
 
         // Set the size and messagetext of the textfield
         textFieldGameName.setSize(btn.getWidth(), btn.getHeight());
@@ -135,12 +143,13 @@ public class CreateGameScreen implements Screen{
         textFieldGameName.setPosition(canvasWidth/2-btnWidth/2, canvasHeight/2);
         textFieldNickName.setPosition(canvasWidth/2-btnWidth/2, ((canvasHeight/2) + 400));
 
-        addClickListener(btn);
+        addClickListener(btn,returnButton);
 
         // Add actors
         stage.addActor(btn);
         stage.addActor(textFieldGameName);
         stage.addActor(textFieldNickName);
+        stage.addActor(returnButton);
 
         return stage;
     }
@@ -151,7 +160,7 @@ public class CreateGameScreen implements Screen{
     }
 
     public void goToReadyScreen() {
-        game.goToReadyScreen(screen);
+        game.goToReadyScreen();
     }
 
     public void reloadBoardRenderer() {
@@ -162,7 +171,7 @@ public class CreateGameScreen implements Screen{
         game.reloadReadyRenderer();
     }
 
-    private void addClickListener(ImageButton button) {
+    private void addClickListener(ImageButton button, ImageButton returnButton) {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -179,6 +188,12 @@ public class CreateGameScreen implements Screen{
                     }
 
                 }
+            }
+        });
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.goToMainMenuScreen();
             }
         });
     }

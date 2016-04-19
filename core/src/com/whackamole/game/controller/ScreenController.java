@@ -15,13 +15,13 @@ public interface ScreenController {
      */
 
 
-    void goToGameScreen(Screen fromScreen);
-    void goToInstructionsScreen(Screen fromScreen);
-    void goToMainMenuScreen(Screen fromScreen);
-    void goToSettingsScreen(Screen fromScreen);
-    void goToJoinGameScreen(Screen fromScreen);
-    void goToCreateGameScreen(Screen fromScreen);
-    void goToReadyScreen(Screen fromScreen);
+    void goToGameScreen();
+    void goToInstructionsScreen();
+    void goToMainMenuScreen();
+    void goToSettingsScreen();
+    void goToJoinGameScreen();
+    void goToCreateGameScreen();
+    void goToReadyScreen();
 
 
 }

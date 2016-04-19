@@ -24,12 +24,12 @@ public class InstructionScreen implements Screen {
     private Stage stage;
     private int screenWidth, screenHeight;
     private int returnBtnWidth, returnBtnHeight;
-    private Screen screen;
+    //private Screen screen;
 
 
     public InstructionScreen(final WhackAMole game) {
         this.game = game;
-        this.screen = this;
+        //this.screen = this;
         renderer = new InstructionRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
@@ -44,7 +44,7 @@ public class InstructionScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        this.renderer.render();
+        renderer.render();
     }
 
     private Stage loadActors(){
@@ -58,12 +58,12 @@ public class InstructionScreen implements Screen {
         skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2,screenHeight*8/10 - returnBtnHeight*2);
+        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*3, screenHeight*8/10 - returnBtnHeight*3);
 
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToMainMenuScreen(screen);
+                game.goToMainMenuScreen();
             }
         });
 

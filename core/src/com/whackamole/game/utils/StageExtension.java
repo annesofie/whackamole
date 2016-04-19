@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  */
 public class StageExtension extends Stage {
 
+    private String text;
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         super.unfocusAll();
@@ -15,5 +17,11 @@ public class StageExtension extends Stage {
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
+    public String getText() {
+        return text;
+    }
 
+    public void setText(String text){
+        this.text = text;
+    }
 }

@@ -24,6 +24,7 @@ public class WhackAMole extends Game implements ScreenController {
     private SettingsScreen settingsScreen;
     private CreateGameScreen createGameScreen;
     private ReadyScreen readyScreen;
+    private GameOverScreen gameOverScreen;
 
     private WhackAMole game;
     private Match match;
@@ -48,47 +49,52 @@ public class WhackAMole extends Game implements ScreenController {
         settingsScreen = new SettingsScreen(game);
         createGameScreen = new CreateGameScreen(game, false);
         readyScreen = new ReadyScreen(game);
+        gameOverScreen = new GameOverScreen(game);
 
         // Inital screen to be displayed on app startup
-        setScreen(mainMenuScreen);
+        setScreen(gameOverScreen);
 
     }
 
     @Override
-    public void goToGameScreen(Screen fromScreen) {
+    public void goToGameScreen() {
         setScreen(gameScreen);
     }
 
     @Override
-    public void goToInstructionsScreen(Screen fromScreen) {
+    public void goToInstructionsScreen() {
         setScreen(instructionScreen);
     }
 
     @Override
-    public void goToMainMenuScreen(Screen fromScreen) {
+    public void goToMainMenuScreen() {
         setScreen(mainMenuScreen);
     }
 
     @Override
-    public void goToSettingsScreen(Screen fromScreen) {
+    public void goToSettingsScreen() {
         setScreen(settingsScreen);
     }
 
     @Override
-    public void goToJoinGameScreen(Screen fromScreen) {
+    public void goToJoinGameScreen() {
         createGameScreen.setJoinGame(true);
         setScreen(createGameScreen);
     }
 
     @Override
-    public void goToCreateGameScreen(Screen fromScreen) {
+    public void goToCreateGameScreen() {
         createGameScreen.setJoinGame(false);
         setScreen(createGameScreen);
     }
 
     @Override
-    public void goToReadyScreen(Screen fromScreen) {
+    public void goToReadyScreen() {
         setScreen(readyScreen);
+    }
+
+    public void goToGameOverScreen(){
+        setScreen(gameOverScreen);
     }
 
     public void loadDefaultPrefs() {

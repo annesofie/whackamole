@@ -1,44 +1,51 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.whackamole.game.WhackAMole;
-import com.whackamole.game.model.GameOver;
-import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.model.FileName;
+import com.whackamole.game.model.Match;
+import com.whackamole.game.model.Player;
+import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.GameOverRenderer;
+
+import java.util.List;
 
 /**
  * Created by AnneSofie on 04.04.2016.
  */
-public class GameOverScreen implements Screen, InputProcessor {
+public class GameOverScreen implements Screen {
 
     private final WhackAMole game;
-    private GameOver gameOver;
-    private GameOverRenderer gameOverRenderer;
-    private Preferences prefs;
-
-    GameOverRenderer renderer;
-
-
-
+    private GameOverRenderer renderer;
+    private Skin skin;
+    private StageExtension stage;
+    private int screenWidth, screenHeight;
+    private int returnBtnWidth, returnBtnHeight;
 
     public GameOverScreen(final WhackAMole game) {
         this.game = game;
-
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-
-        this.gameOver = new GameOver();
-
-        this.gameOverRenderer = new GameOverRenderer(gameOver);
-
+        renderer = new GameOverRenderer();
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+        returnBtnWidth = (new Texture(FileName.RETURN_BTN.filename())).getWidth();
+        returnBtnHeight = (new Texture(FileName.RETURN_BTN.filename())).getHeight();
     }
 
 
     @Override
     public void show() {
-
+        renderer.loadRenderer(loadActors());
     }
 
 
@@ -47,12 +54,50 @@ public class GameOverScreen implements Screen, InputProcessor {
         renderer.render();
     }
 
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+    private String getTextualHighScoreList(){
+        Match match = game.getMatch();
+        String highScoreList = "";
+        int pos = 1;
+        List<Player> playerList = match.getSortedHighScoreList();
+        for(Player player : playerList){
+            highScoreList += pos + ". " + player.getNickname() + " : " + player.getScore() + "\n";
+            pos++;
+        }
+        return highScoreList;
     }
 
+
+    private StageExtension loadActors(){
+
+        String highscoreList = getTextualHighScoreList();
+
+
+        stage = new StageExtension();
+        skin = new Skin();
+
+
+        Gdx.input.setInputProcessor(stage);
+
+
+        skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
+        ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
+
+        returnButton.setPosition(returnBtnWidth, screenHeight - returnBtnHeight*2);
+
+        returnButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.goToMainMenuScreen();
+                dispose();
+            }
+        });
+
+
+        stage.addActor(returnButton);
+        stage.setText(highscoreList);
+        Gdx.input.setInputProcessor(stage);
+        return stage;
+    }
 
 
     @Override
@@ -77,47 +122,9 @@ public class GameOverScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
+        skin.dispose();
+        stage.dispose();
     }
 
 
-
-
-    // THE REST OF THE INPUTPROCESSOR METHODS
-
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
 }

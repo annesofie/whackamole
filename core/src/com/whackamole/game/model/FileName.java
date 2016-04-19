@@ -22,6 +22,7 @@ public enum FileName {
     JOIN_GAME_BTN_CLICKED("JoinGameBtnClicked.png"),
     SETTINGS_BTN_CLICKED("SettingsBtnClicked.png"),
     INSTRUCTIONS_BTN_CLICKED("InstructionsBtnClicked.png"),
+    INSTRUCTIONS_WHITE_RECTANGLE("InstructionsWhiteRectangle.png"),
     KARDASHIANTHEMESELECTED("KardashianBtnSelected.png"),
     PRESEDENTIALTHEMESELECTED("PresedentialBtnSelected.png"),
 
@@ -65,6 +66,12 @@ public enum FileName {
     READYBTNCLICKED("ReadyBtnClicked.png"),
 
     SETTINGSBTN("SettingsBTN.png"),
+
+    CHOOSE_THEME_TEXT("SettingsChooseThemeTemp.png"),
+    SETTINGS_HEADLINE_TEXT("SettingsHeadlineTemp.png"),
+    SETTINGS_MUSIC_TEXT("SettingsMusicTemp.png"),
+
+    GAME_OVER_HEADLINE("GameOverHeadline.png"),
 
     // Sounds
     BACKGROUNDMUSIC("background.mp3");

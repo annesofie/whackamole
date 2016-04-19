@@ -68,7 +68,7 @@ public class ReadyRenderer implements Renderer {
     }
 
 
-    public void loadTextures() {
+    private void loadTextures() {
 
         Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
         background = new Texture(Gdx.files.internal(theme.path() + FileName.READYBACKGROUND.filename()));

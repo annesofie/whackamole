@@ -25,11 +25,11 @@ public class MainMenuScreen implements Screen {
     private int screenWidth, screenHeight, btnWidth, btnHeight;
     private Skin skin;
     private Stage stage;
-    private Screen screen;
+    //private Screen screen;
 
     public MainMenuScreen(final WhackAMole game) {
         this.game = game;
-        this.screen = this;
+        //this.screen = this;
         this.renderer = new MainMenuRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
@@ -110,28 +110,28 @@ public class MainMenuScreen implements Screen {
         createGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToCreateGameScreen(screen);
+                game.goToCreateGameScreen();
             }
         });
 
         joinGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToJoinGameScreen(screen);
+                game.goToJoinGameScreen();
             }
         });
 
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToSettingsScreen(screen);
+                game.goToSettingsScreen();
             }
         });
 
         instructionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToInstructionsScreen(screen);
+                game.goToInstructionsScreen();
             }
         });
 
