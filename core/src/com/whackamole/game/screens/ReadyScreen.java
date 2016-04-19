@@ -27,7 +27,7 @@ public class ReadyScreen implements Screen{
     private ReadyRenderer renderer;
     private ReadyController controller;
 
-    public ReadyScreen(final WhackAMole game, final SpriteBatch batch) {
+    public ReadyScreen(final WhackAMole game) {
 
         this.game = game;
         this.renderer = new ReadyRenderer(game.getMatch());
@@ -37,9 +37,9 @@ public class ReadyScreen implements Screen{
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
         renderer.loadRenderer(loadActors());
         controller.loadController();
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -86,6 +86,12 @@ public class ReadyScreen implements Screen{
         game.goToGameScreen(this);
     }
 
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
     @Override
     public void dispose() {
         skin.dispose();
@@ -103,7 +109,5 @@ public class ReadyScreen implements Screen{
     @Override
     public void resume() {
     }
-    @Override
-    public void hide() {
-    }
+
 }

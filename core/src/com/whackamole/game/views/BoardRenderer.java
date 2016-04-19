@@ -6,18 +6,21 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.RenderableProvider;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
 
 import java.util.List;
 
 
-public class BoardRenderer implements Renderer {
+public class BoardRenderer implements Renderer, Disposable {
 
 
     private Board board;
@@ -25,7 +28,7 @@ public class BoardRenderer implements Renderer {
     // TEXTURES
     private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score;
     private Array<Texture> moleImages;
-    private SpriteBatch batch;
+    private Stage stage;
     // GAME PROPERTIES
     private int height, width;
     private Mole currentMole;
@@ -37,11 +40,10 @@ public class BoardRenderer implements Renderer {
 
 
 
-    public BoardRenderer(Board board, Match match, SpriteBatch batch){
+    public BoardRenderer(Board board, Match match){
 
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
-        this.batch = batch;
         this.match = match;
 
         this.board = board;
@@ -51,8 +53,9 @@ public class BoardRenderer implements Renderer {
 
     }
 
-    public void loadRenderer() {
+    public void loadRenderer(Stage stage) {
         // Updating current themepath and themeId to match the selected theme
+        this.stage = stage;
         this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
         this.themePath = theme.path();
         this.themeId = theme.idAsString();
@@ -69,6 +72,8 @@ public class BoardRenderer implements Renderer {
         boolean hitTheLastMole = board.hitTheLastMole();
         int lastMolePoints = board.getLastMolePoints();
         List<Player> scoreList = match.getSortedHighScoreList();
+
+        Batch batch = stage.getBatch();
 
         batch.begin();
 
@@ -123,21 +128,23 @@ public class BoardRenderer implements Renderer {
         board_top= Assets.manager.get(themePath + Assets.BOARD_TOP, Texture.class);
         board_score = Assets.manager.get(themePath + Assets.BOARD_SCORE, Texture.class);
 
+        /*
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = board_score.getHeight()/7;
         font = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
+        */
 
-        /*
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = board_score.getHeight()/7;
         font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
         generator.dispose();
-        */
+
     }
 
     private void drawMole(int start, int end){
+        Batch batch = stage.getBatch();
         if(currentMole!= null && currentMole.getLocation() > start && currentMole.getLocation() < end){
             if(currentMole.finished()){
                     currentMole.reset();
@@ -158,4 +165,8 @@ public class BoardRenderer implements Renderer {
     }
 
 
+    @Override
+    public void dispose() {
+        font.dispose();
+    }
 }

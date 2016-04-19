@@ -41,9 +41,11 @@ public class ReadyRenderer implements Renderer {
         this.stage = stage;
         loadTextures();
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 96;
-        font = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
+        font = generator.generateFont(parameter);
+        generator.dispose();
 
     }
 

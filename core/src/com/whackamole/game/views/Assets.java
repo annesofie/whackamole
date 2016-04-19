@@ -34,15 +34,15 @@ public class Assets {
     BOARD_SCORE = "hs.png",
 
     // Background texture on ready screen
-    READYBACKGROUND = "ReadyBackground",
+    READYBACKGROUND = "ReadyBackground.png",
 
     // Moles are defined in the MoleImage enum type
-    MOLE0 = MoleImage.getFileNameOnImageId(1),
-    MOLE1 = MoleImage.getFileNameOnImageId(2),
-    MOLE2 = MoleImage.getFileNameOnImageId(3),
-    MOLE3 = MoleImage.getFileNameOnImageId(4),
-    MOLE4 = MoleImage.getFileNameOnImageId(5),
-    MOLE5 = MoleImage.getFileNameOnImageId(6),
+    MOLE0 = MoleImage.getFileNameOnImageId(0),
+    MOLE1 = MoleImage.getFileNameOnImageId(1),
+    MOLE2 = MoleImage.getFileNameOnImageId(2),
+    MOLE3 = MoleImage.getFileNameOnImageId(3),
+    MOLE4 = MoleImage.getFileNameOnImageId(4),
+    MOLE5 = MoleImage.getFileNameOnImageId(5),
 
     SPEECH = "speech.m4a",
     BACKGROUND_MUSIC = "background.mp3";
@@ -120,7 +120,7 @@ public class Assets {
     MINUSBTN = "images/minusbtn.png",
     MINUSBTNCLICKED = "images/minusbtnclicked.png",
     SETTINGSBTN = "images/SettingsBTN.png",
-    SOUND_ON_BTN = "Simages/oundOn.png",
+    SOUND_ON_BTN = "images/SoundOn.png",
     SOUND_OFF_BTN = "images/SoundOff.png",
 
     // TEXTFIELDS AND CREATE/JOIN GAME
@@ -148,6 +148,7 @@ public class Assets {
     HITSOUND = "sounds/hit.mp3";
 
 
+
     // FONTS
     /*
     // IF OTHER FONTS / FONT SIZES ARE NEEDED SIMPLY COPY PASTE THE CODE BELOW AND CHANGE THE PARAMETERS
@@ -157,7 +158,7 @@ public class Assets {
         fontParams.color = Color.BLACK;
     }
     */
-    @Asset(FreeTypeFontGenerator.class)
+    @Asset(value = FreeTypeFontGenerator.class, load = false)
     public static final String
     FONT = "fonts/OpenSans-CondBold.ttf";
 

@@ -22,11 +22,11 @@ public class ReadyController {
 
     Socket socket;
     Match match;
-    ReadyScreen screen;
+    ReadyScreen readyScreen;
 
     public ReadyController(Match match, ReadyScreen screen) {
         this.match = match;
-        this.screen = screen;
+        this.readyScreen = screen;
     }
 
     public void loadController() {
@@ -65,7 +65,7 @@ public class ReadyController {
     private Emitter.Listener startGame = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            screen.goToGameScreen();
+            readyScreen.goToGameScreen();
         }
     };
 

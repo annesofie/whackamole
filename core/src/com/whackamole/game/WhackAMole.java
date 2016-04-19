@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Match;
@@ -12,7 +11,6 @@ import com.whackamole.game.screens.*;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.Assets;
-import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 /**
  * Created by Lars on 07/04/16.
@@ -29,8 +27,6 @@ public class WhackAMole extends Game implements ScreenController {
 
     private WhackAMole game;
     private Match match;
-    private SpriteBatch batch;
-
 
     @Override
     public void create() {
@@ -39,18 +35,16 @@ public class WhackAMole extends Game implements ScreenController {
         loadDefaultPrefs();
         loadAssets();
 
-        // TODO: DISPOSE ALL OF THE ASSETS ON QUIT
         // TODO: Make sure to reset the match/create a new match object if a game was finished and a new one started.
         match = new Match();
-        batch = new SpriteBatch();
 
         // Initialize all the screens
-        gameScreen = new GameScreen(game, batch);
-        instructionScreen = new InstructionScreen(game, batch);
-        mainMenuScreen = new MainMenuScreen(game, batch);
-        settingsScreen = new SettingsScreen(game, batch);
-        createGameScreen = new CreateGameScreen(game, false, batch);
-        readyScreen = new ReadyScreen(game, batch);
+        gameScreen = new GameScreen(game);
+        instructionScreen = new InstructionScreen(game);
+        mainMenuScreen = new MainMenuScreen(game);
+        settingsScreen = new SettingsScreen(game);
+        createGameScreen = new CreateGameScreen(game, false);
+        readyScreen = new ReadyScreen(game);
 
         // Inital screen to be displayed on app startup
         setScreen(mainMenuScreen);
@@ -95,18 +89,25 @@ public class WhackAMole extends Game implements ScreenController {
     }
 
 
-
     public void loadAssets() {
+        System.err.println("Started loading assets...");
         Assets.manager.load(Assets.class);
-        System.out.println("Loading");
-        while(!Assets.manager.update()) {
-            System.out.println(Assets.manager.getProgress() * 100 + "%");
+        while(Assets.manager.update()) {
+            float progress = Assets.manager.getProgress()*100;
+            if(progress % 10 == 0) {
+                System.out.println(progress);
+            }
         }
+        Assets.manager.finishLoading();
+        System.err.println("Done loading assets...");
     }
 
+
     //TODO: USE THIS TO DISPOSE ALL ASSETS ON APP QUIT
-    public void disposeAllAssets() {
+    @Override
+    public void dispose() {
         Assets.dispose();
+        super.dispose();
     }
 
     public void loadDefaultPrefs() {

@@ -37,7 +37,7 @@ public class CreateGameScreen implements Screen{
 
 
 
-    public CreateGameScreen(final WhackAMole game, boolean joinGame, SpriteBatch batch) {
+    public CreateGameScreen(final WhackAMole game, boolean joinGame) {
 
         this.game = game;
         this.screen = this;
@@ -49,12 +49,11 @@ public class CreateGameScreen implements Screen{
 
         this.controller = new CreateGameController(createGame, game.getMatch(), this);
 
-        renderer.loadRenderer(loadActors());
-
     }
 
     @Override
     public void show() {
+        renderer.loadRenderer(loadActors());
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -62,7 +61,6 @@ public class CreateGameScreen implements Screen{
     public void render(float delta) {
         this.renderer.render();
     }
-
 
 
     //TODO: Her lager vi actors og legger dem inn i en stage som vi sender videre til renderer.
@@ -77,9 +75,11 @@ public class CreateGameScreen implements Screen{
         stage = new StageExtension();
         skin = new Skin();
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 72;
-        BitmapFont font72 = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
 
         float canvasHeight = Gdx.graphics.getHeight();
         float canvasWidth = Gdx.graphics.getWidth();
@@ -98,7 +98,7 @@ public class CreateGameScreen implements Screen{
 
         // Textfield styling
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = font72;
+        textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
         textFieldStyle.background = textFieldBackground;
         textFieldStyle.cursor = cursor;
@@ -166,10 +166,17 @@ public class CreateGameScreen implements Screen{
     }
 
     @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
+
+
 
     @Override
     public void resize(int width, int height) {
@@ -181,10 +188,6 @@ public class CreateGameScreen implements Screen{
     }
     @Override
     public void resume() {
-
-    }
-    @Override
-    public void hide() {
 
     }
 }

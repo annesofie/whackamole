@@ -27,7 +27,7 @@ public class InstructionScreen implements Screen {
     private Screen screen;
 
 
-    public InstructionScreen(final WhackAMole game, final SpriteBatch batch) {
+    public InstructionScreen(final WhackAMole game) {
         this.game = game;
         this.screen = this;
         renderer = new InstructionRenderer();
@@ -39,12 +39,15 @@ public class InstructionScreen implements Screen {
     @Override
     public void show() {
         renderer.loadRenderer(loadActors());
+        Gdx.input.setInputProcessor(stage);
     }
+
 
     @Override
     public void render(float delta) {
         this.renderer.render();
     }
+
 
     private Stage loadActors(){
         stage = new Stage();
@@ -63,16 +66,25 @@ public class InstructionScreen implements Screen {
 
         returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2, screenHeight*8/10 - returnBtnHeight*2);
 
-        returnButton.addListener(new ClickListener() {
+        addClickListener(returnButton);
+
+        stage.addActor(returnButton);
+        return stage;
+    }
+
+
+    public void addClickListener(ImageButton button) {
+        button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 game.goToMainMenuScreen(screen);
             }
         });
+    }
 
-        stage.addActor(returnButton);
-        Gdx.input.setInputProcessor(stage);
-        return stage;
+    @Override
+    public void hide() {
+        dispose();
     }
 
     @Override
@@ -92,10 +104,6 @@ public class InstructionScreen implements Screen {
     }
     @Override
     public void resume() {
-
-    }
-    @Override
-    public void hide() {
 
     }
 }

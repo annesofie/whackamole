@@ -2,6 +2,7 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,13 +10,14 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
+import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.utils.Prefs;
 import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 /**
  * Created by Lars on 07/04/16.
  */
-public class GameSettingsRenderer implements Renderer {
+public class GameSettingsRenderer implements Renderer, Disposable {
 
 
     private Texture background;
@@ -56,9 +58,10 @@ public class GameSettingsRenderer implements Renderer {
 
     public void loadTextures() {
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 96;
-        font = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
+        font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
 
         background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
@@ -67,5 +70,8 @@ public class GameSettingsRenderer implements Renderer {
     }
 
 
-
+    @Override
+    public void dispose() {
+        font.dispose();
+    }
 }

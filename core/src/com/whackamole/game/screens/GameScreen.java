@@ -6,6 +6,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
@@ -21,9 +22,10 @@ public class GameScreen implements Screen, InputProcessor{
     private BoardController controller;
     private Preferences prefs;
     private Music backgroundmusic;
+    private Stage stage;
 
 
-    public GameScreen(final WhackAMole game, final SpriteBatch batch) {
+    public GameScreen(final WhackAMole game) {
 
         this.game = game;
 
@@ -31,26 +33,28 @@ public class GameScreen implements Screen, InputProcessor{
 
         this.board = new Board();
 
-        this.boardRenderer = new BoardRenderer(board, game.getMatch(), batch);
+        this.boardRenderer = new BoardRenderer(board, game.getMatch());
 
         controller = new BoardController(board, game.getMatch());
 
-        board.loadBoard();
     }
 
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(this);
+        // Load model
+        board.loadBoard();
 
         // Load renderer
-        boardRenderer.loadRenderer();
+        boardRenderer.loadRenderer(loadActors());
 
         // Load controller
         controller.loadController();
 
         // Start the music
         loadSoundtracks();
+
+        Gdx.input.setInputProcessor(this);
     }
 
 
@@ -83,6 +87,26 @@ public class GameScreen implements Screen, InputProcessor{
     }
 
 
+
+    public Stage loadActors() {
+        return new Stage();
+    }
+
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        boardRenderer.dispose();
+    }
+
+
+
+    
     // THE REST OF SCREEN METHODS
     @Override
     public void resize(int width, int height) {
@@ -96,13 +120,7 @@ public class GameScreen implements Screen, InputProcessor{
     public void resume() {
 
     }
-    @Override
-    public void hide() {
 
-    }
-    @Override
-    public void dispose() {
-    }
 
     // REST OF THE INPUTPROCESSOR METHODS
     @Override

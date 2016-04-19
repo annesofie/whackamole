@@ -37,7 +37,7 @@ public class SettingsScreen implements Screen {
     private Screen screen;
 
 
-    public SettingsScreen(final WhackAMole game, final SpriteBatch batch) {
+    public SettingsScreen(final WhackAMole game) {
 
         // Game kan brukes til å endre screen f.eks. game.goToMainScreen();
         this.game = game;
@@ -57,6 +57,7 @@ public class SettingsScreen implements Screen {
     @Override
     public void show() {
         renderer.loadRenderer(loadActors());
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -64,12 +65,9 @@ public class SettingsScreen implements Screen {
         this.renderer.render();
     }
 
+
     private Stage loadActors(){
         stage = new Stage();
-        skin = new Skin();
-
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
         skin = new Skin();
 
         Texture kardThemeBtn = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN, Texture.class);
@@ -218,9 +216,23 @@ public class SettingsScreen implements Screen {
         stage.addActor(kardCheckBox);
         stage.addActor(presCheckBox);
         stage.addActor(soundCheckBox);
-        Gdx.input.setInputProcessor(stage);
         return stage;
     }
+
+
+    @Override
+    public void hide() {
+        dispose();
+    }
+
+
+    @Override
+    public void dispose() {
+        skin.dispose();
+        stage.dispose();
+        renderer.dispose();
+    }
+
 
     //----------------------------------------------------------------
 
@@ -240,17 +252,6 @@ public class SettingsScreen implements Screen {
     @Override
     public void resume() {
 
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-        skin.dispose();
-        stage.dispose();
     }
 
 

@@ -28,18 +28,18 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     private Screen screen;
 
-    public MainMenuScreen(final WhackAMole game, final SpriteBatch batch) {
+    public MainMenuScreen(final WhackAMole game) {
         this.game = game;
         this.screen = this;
         this.renderer = new MainMenuRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
-        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
+        renderer.loadRenderer(loadActors());
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -47,7 +47,6 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         renderer.render();
     }
-
 
 
     private Stage loadActors(){
@@ -115,12 +114,17 @@ public class MainMenuScreen implements Screen {
         return stage;
     }
 
+    @Override
+    public void hide() {
+        dispose();
+    }
 
     @Override
     public void dispose() {
         skin.dispose();
         stage.dispose();
     }
+
 
 
     @Override
@@ -132,7 +136,5 @@ public class MainMenuScreen implements Screen {
     @Override
     public void resume() {
     }
-    @Override
-    public void hide() {
-    }
+
 }

@@ -147,6 +147,7 @@ public class CreateGameController {
             createGame.setGameNameAlreadyExists(false);
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
+
             createGameScreen.goToReadyScreen();
         }
     };
