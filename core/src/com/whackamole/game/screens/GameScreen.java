@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.Assets;
@@ -16,7 +17,7 @@ import com.whackamole.game.controller.BoardController;
 
 public class GameScreen implements Screen, InputProcessor{
 
-    final WhackAMole game;
+    private final ScreenController screenController;
     private Board board;
     private BoardRenderer boardRenderer;
     private BoardController controller;
@@ -25,23 +26,24 @@ public class GameScreen implements Screen, InputProcessor{
     private Stage stage;
 
 
-    public GameScreen(final WhackAMole game) {
+    public GameScreen(final ScreenController screenController) {
 
-        this.game = game;
+        this.screenController = screenController;
 
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
         this.board = new Board();
 
-        this.boardRenderer = new BoardRenderer(board, game.getMatch());
+        this.boardRenderer = new BoardRenderer(board);
 
-        controller = new BoardController(board, game.getMatch());
+        controller = new BoardController(board);
+
+        loadGame();
 
     }
 
 
-    @Override
-    public void show() {
+    private void loadGame() {
         // Load model
         board.loadBoard();
 
@@ -53,7 +55,11 @@ public class GameScreen implements Screen, InputProcessor{
 
         // Start the music
         loadSoundtracks();
+    }
 
+
+    @Override
+    public void show() {
         Gdx.input.setInputProcessor(this);
     }
 

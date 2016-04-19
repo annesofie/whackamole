@@ -25,8 +25,7 @@ public class WhackAMole extends Game implements ScreenController {
     private CreateGameScreen createGameScreen;
     private ReadyScreen readyScreen;
 
-    private WhackAMole game;
-    private Match match;
+    private ScreenController game;
 
     @Override
     public void create() {
@@ -35,57 +34,43 @@ public class WhackAMole extends Game implements ScreenController {
         loadDefaultPrefs();
         loadAssets();
 
-        // TODO: Make sure to reset the match/create a new match object if a game was finished and a new one started.
-        match = new Match();
-
-        // Initialize all the screens
-        gameScreen = new GameScreen(game);
-        instructionScreen = new InstructionScreen(game);
-        mainMenuScreen = new MainMenuScreen(game);
-        settingsScreen = new SettingsScreen(game);
-        createGameScreen = new CreateGameScreen(game, false);
-        readyScreen = new ReadyScreen(game);
-
-        // Inital screen to be displayed on app startup
-        setScreen(mainMenuScreen);
-
+        // Initial screen to be displayed on app startup
+        goToMainMenuScreen();
     }
 
     @Override
-    public void goToGameScreen(Screen fromScreen) {
-        setScreen(gameScreen);
+    public void goToGameScreen() {
+        setScreen(new GameScreen(game));
     }
 
     @Override
-    public void goToInstructionsScreen(Screen fromScreen) {
-        setScreen(instructionScreen);
+    public void goToInstructionsScreen() {
+        setScreen(new InstructionScreen(game));
     }
 
     @Override
-    public void goToMainMenuScreen(Screen fromScreen) {
-        setScreen(mainMenuScreen);
+    public void goToMainMenuScreen() {
+        setScreen(new MainMenuScreen(game));
     }
 
     @Override
-    public void goToSettingsScreen(Screen fromScreen) {
-        setScreen(settingsScreen);
+    public void goToSettingsScreen() {
+        setScreen(new SettingsScreen(game));
     }
 
     @Override
-    public void goToJoinGameScreen(Screen fromScreen) {
-        createGameScreen.setJoinGame(true);
-        setScreen(createGameScreen);
+    public void goToJoinGameScreen() {
+        setScreen(new CreateGameScreen(game, true));
     }
 
     @Override
-    public void goToCreateGameScreen(Screen fromScreen) {
-        createGameScreen.setJoinGame(false);
-        setScreen(createGameScreen);
+    public void goToCreateGameScreen() {
+        setScreen(new CreateGameScreen(game, false));
     }
 
     @Override
-    public void goToReadyScreen(Screen fromScreen) {
-        setScreen(readyScreen);
+    public void goToReadyScreen() {
+        setScreen(new ReadyScreen(game));
     }
 
 
@@ -141,10 +126,4 @@ public class WhackAMole extends Game implements ScreenController {
             prefs.flush();
         }
     }
-
-    public Match getMatch() {
-        return match;
-    }
-
-
 }

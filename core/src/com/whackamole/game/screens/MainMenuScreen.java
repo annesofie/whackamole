@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.MainMenuRenderer;
 
@@ -20,26 +21,23 @@ import com.whackamole.game.views.MainMenuRenderer;
 public class MainMenuScreen implements Screen {
 
 
-
     private MainMenuRenderer renderer;
-    final WhackAMole game;
+    private final ScreenController screenController;
     private int screenWidth, screenHeight;
     private Skin skin;
     private Stage stage;
-    private Screen screen;
 
-    public MainMenuScreen(final WhackAMole game) {
-        this.game = game;
-        this.screen = this;
+    public MainMenuScreen(final ScreenController screenController) {
+        this.screenController = screenController;
         this.renderer = new MainMenuRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
+        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -80,28 +78,28 @@ public class MainMenuScreen implements Screen {
         createGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToCreateGameScreen(screen);
+                screenController.goToCreateGameScreen();
             }
         });
 
         joinGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToJoinGameScreen(screen);
+                screenController.goToJoinGameScreen();
             }
         });
 
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToSettingsScreen(screen);
+                screenController.goToSettingsScreen();
             }
         });
 
         instructionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToInstructionsScreen(screen);
+                screenController.goToInstructionsScreen();
             }
         });
 
@@ -124,8 +122,6 @@ public class MainMenuScreen implements Screen {
         skin.dispose();
         stage.dispose();
     }
-
-
 
     @Override
     public void resize(int width, int height) {

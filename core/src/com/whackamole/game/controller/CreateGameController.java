@@ -29,9 +29,8 @@ public class CreateGameController {
     private Preferences prefs;
     private CreateGameScreen createGameScreen;
 
-    public CreateGameController(CreateGame createGame, Match match, CreateGameScreen createGameScreen) {
+    public CreateGameController(CreateGame createGame, CreateGameScreen createGameScreen) {
         this.createGame = createGame;
-        this.match = match;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.createGameScreen = createGameScreen;
     }
@@ -142,6 +141,10 @@ public class CreateGameController {
     private Emitter.Listener onNewGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
+            // Start a new match
+            Match.startNewMatch();
+            match = Match.getCurrentMatch();
+
             String msg = (String) args[0];
             System.out.println(msg);
             createGame.setGameNameAlreadyExists(false);
@@ -165,6 +168,10 @@ public class CreateGameController {
     private Emitter.Listener onJoinGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
+            // Start a new match
+            Match.startNewMatch();
+            match = Match.getCurrentMatch();
+
             JsonValue json = new JsonReader().parse((String) args[0]);
             int themeId = json.getInt("themeId");
             if(!(prefs.getInteger(Prefs.THEME.key()) == themeId)) {
@@ -195,7 +202,6 @@ public class CreateGameController {
                     match.addPlayer(nickName);
                 }
             }
-
             createGameScreen.goToReadyScreen();
         }
     };

@@ -27,10 +27,10 @@ public class BoardController {
     private Match match;
     private Preferences prefs;
 
-    public BoardController(Board board, Match match) {
+    public BoardController(Board board) {
 
         this.board = board;
-        this.match = match;
+        this.match = Match.getCurrentMatch();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
     }

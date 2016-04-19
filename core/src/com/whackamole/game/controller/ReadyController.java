@@ -24,8 +24,8 @@ public class ReadyController {
     Match match;
     ReadyScreen readyScreen;
 
-    public ReadyController(Match match, ReadyScreen screen) {
-        this.match = match;
+    public ReadyController(ReadyScreen screen) {
+        this.match = Match.getCurrentMatch();
         this.readyScreen = screen;
     }
 

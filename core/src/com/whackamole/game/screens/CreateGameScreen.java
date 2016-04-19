@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.CreateGameController;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
@@ -24,8 +25,7 @@ import com.whackamole.game.views.CreateGameRenderer;
 public class CreateGameScreen implements Screen{
 
 
-    private final WhackAMole game;
-    private Screen screen;
+    private final ScreenController screenController;
     private CreateGame createGame;
     private CreateGameController controller;
     private CreateGameRenderer renderer;
@@ -37,23 +37,19 @@ public class CreateGameScreen implements Screen{
 
 
 
-    public CreateGameScreen(final WhackAMole game, boolean joinGame) {
+    public CreateGameScreen(final ScreenController screenController, boolean joinGame) {
 
-        this.game = game;
-        this.screen = this;
+        this.screenController = screenController;
         this.joinGame = joinGame;
-
         this.createGame = new CreateGame();
-
         this.renderer = new CreateGameRenderer(createGame);
+        this.controller = new CreateGameController(createGame, this);
 
-        this.controller = new CreateGameController(createGame, game.getMatch(), this);
-
+        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -135,13 +131,8 @@ public class CreateGameScreen implements Screen{
         return stage;
     }
 
-
-    public void setJoinGame(boolean joinGame) {
-        this.joinGame = joinGame;
-    }
-
     public void goToReadyScreen() {
-        game.goToReadyScreen(screen);
+        screenController.goToReadyScreen();
     }
 
     private void addClickListener(ImageButton button) {
@@ -177,17 +168,7 @@ public class CreateGameScreen implements Screen{
     }
 
 
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-    @Override
-    public void pause() {
-
-    }
-    @Override
-    public void resume() {
-
-    }
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
 }

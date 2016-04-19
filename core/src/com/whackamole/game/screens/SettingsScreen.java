@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.Assets;
@@ -25,7 +26,7 @@ import com.whackamole.game.views.GameSettingsRenderer;
 public class SettingsScreen implements Screen {
 
 
-    private final WhackAMole game;
+    private final ScreenController screenController;
     private Preferences prefs;
     private GameSettingsRenderer renderer;
     private Skin skin;
@@ -34,14 +35,12 @@ public class SettingsScreen implements Screen {
     private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
     private CheckBox presCheckBox;
-    private Screen screen;
 
 
-    public SettingsScreen(final WhackAMole game) {
+    public SettingsScreen(final ScreenController screenController) {
 
         // Game kan brukes til å endre screen f.eks. game.goToMainScreen();
-        this.game = game;
-        this.screen = this;
+        this.screenController = screenController;
 
         // Modellen vi jobber med her
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
@@ -51,12 +50,11 @@ public class SettingsScreen implements Screen {
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
-
+        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -135,7 +133,7 @@ public class SettingsScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToMainMenuScreen(screen);
+                screenController.goToMainMenuScreen();
             }
         });
 

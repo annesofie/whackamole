@@ -40,11 +40,11 @@ public class BoardRenderer implements Renderer, Disposable {
 
 
 
-    public BoardRenderer(Board board, Match match){
+    public BoardRenderer(Board board){
 
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
-        this.match = match;
+        this.match = Match.getCurrentMatch();
 
         this.board = board;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());

@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ReadyController;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.ReadyRenderer;
 import net.dermetfan.gdx.assets.AnnotationAssetManager;
@@ -21,24 +22,25 @@ import net.dermetfan.gdx.assets.AnnotationAssetManager;
 public class ReadyScreen implements Screen{
 
 
-    private WhackAMole game;
+    private final ScreenController screenController;
     private Stage stage;
     private Skin skin;
     private ReadyRenderer renderer;
     private ReadyController controller;
 
-    public ReadyScreen(final WhackAMole game) {
+    public ReadyScreen(final ScreenController screenController) {
 
-        this.game = game;
-        this.renderer = new ReadyRenderer(game.getMatch());
-        this.controller = new ReadyController(game.getMatch(), this);
+        this.screenController = screenController;
+        this.renderer = new ReadyRenderer();
+        this.controller = new ReadyController(this);
+
+        renderer.loadRenderer(loadActors());
+        controller.loadController();
 
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
-        controller.loadController();
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -83,7 +85,7 @@ public class ReadyScreen implements Screen{
     }
 
     public void goToGameScreen() {
-        game.goToGameScreen(this);
+        screenController.goToGameScreen();
     }
 
 

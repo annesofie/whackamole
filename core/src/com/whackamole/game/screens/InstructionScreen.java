@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.InstructionRenderer;
 
@@ -19,26 +20,24 @@ import com.whackamole.game.views.InstructionRenderer;
 public class InstructionScreen implements Screen {
 
 
-    private final WhackAMole game;
+    private final ScreenController screenController;
     private InstructionRenderer renderer;
     private Skin skin;
     private Stage stage;
     private int screenWidth, screenHeight;
-    private Screen screen;
 
 
-    public InstructionScreen(final WhackAMole game) {
-        this.game = game;
-        this.screen = this;
+    public InstructionScreen(final ScreenController screenController) {
+        this.screenController = screenController;
         renderer = new InstructionRenderer();
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
+        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -77,7 +76,7 @@ public class InstructionScreen implements Screen {
         button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToMainMenuScreen(screen);
+                screenController.goToMainMenuScreen();
             }
         });
     }

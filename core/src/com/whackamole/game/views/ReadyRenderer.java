@@ -29,8 +29,8 @@ public class ReadyRenderer implements Renderer {
     //Textures
     Texture background;
 
-    public ReadyRenderer(Match match) {
-        this.match = match;
+    public ReadyRenderer() {
+        this.match = Match.getCurrentMatch();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();

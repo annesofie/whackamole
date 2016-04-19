@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.whackamole.game.WhackAMole;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.GameOver;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.GameOverRenderer;
@@ -14,7 +15,7 @@ import com.whackamole.game.views.GameOverRenderer;
  */
 public class GameOverScreen implements Screen, InputProcessor {
 
-    private final WhackAMole game;
+    private final ScreenController screenController;
     private GameOver gameOver;
     private GameOverRenderer gameOverRenderer;
     private Preferences prefs;
@@ -22,10 +23,8 @@ public class GameOverScreen implements Screen, InputProcessor {
     GameOverRenderer renderer;
 
 
-
-
-    public GameOverScreen(final WhackAMole game) {
-        this.game = game;
+    public GameOverScreen(final ScreenController screenController) {
+        this.screenController = screenController;
 
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
 
@@ -76,15 +75,11 @@ public class GameOverScreen implements Screen, InputProcessor {
     }
 
     @Override
-    public void dispose() {
-
-    }
-
+    public void dispose() {}
 
 
 
     // THE REST OF THE INPUTPROCESSOR METHODS
-
 
     @Override
     public boolean keyDown(int keycode) {
