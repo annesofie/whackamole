@@ -3,23 +3,20 @@ package com.whackamole.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ReadyController;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.ReadyRenderer;
-import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 /**
  * Created by Lars on 15/04/16.
  */
-public class ReadyScreen implements Screen{
+public class ReadyScreen implements Screen {
 
 
     private final ScreenController screenController;
@@ -33,6 +30,8 @@ public class ReadyScreen implements Screen{
         this.screenController = screenController;
         this.renderer = new ReadyRenderer();
         this.controller = new ReadyController(this);
+        this.skin = new Skin();
+        this.stage = new Stage();
 
         renderer.loadRenderer(loadActors());
         controller.loadController();
@@ -51,8 +50,6 @@ public class ReadyScreen implements Screen{
 
 
     public Stage loadActors() {
-        skin = new Skin();
-        stage = new Stage();
 
         float canvasHeight = Gdx.graphics.getHeight();
         float canvasWidth = Gdx.graphics.getWidth();

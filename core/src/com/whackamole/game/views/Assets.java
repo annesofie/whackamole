@@ -93,59 +93,65 @@ public class Assets {
 
 
     // OTHER TEXTURES
+    private static final String imgDir = "images/";
+    private static final String txtfieldDir = "textfield/";
+
     @Asset(Texture.class)
     public static final String
-    BACKGROUND = "images/Background.png",
-    CREATE_GAME_BTN = "images/CreateGameBtn.png",
-    JOIN_GAME_BTN = "images/JoinGameBtn.png",
-    SETTINGS_BTN = "images/SettingsBTN.png",
-    INSTRUCTIONS_BTN = "images/InstructionsBtn.png",
-    CREATE_GAME_BTN_CLICKED = "images/CreateGameBtnClicked.png",
-    JOIN_GAME_BTN_CLICKED = "images/JoinGameBtnClicked.png",
-    SETTINGS_BTN_CLICKED = "images/SettingsBtnClicked.png",
-    INSTRUCTIONS_BTN_CLICKED = "images/InstructionsBtnClicked.png",
-    KARDASHIAN_THEME_BTN_SELECTED = "images/KardashianBtnSelected.png",
-    PRESEDENTIAL_THEME_BTN_SELECTED = "images/PresedentialBtnSelected.png",
+    BACKGROUND = imgDir + "Background.png",
+    CREATE_GAME_BTN = imgDir + "CreateGameBtn.png",
+    JOIN_GAME_BTN = imgDir + "JoinGameBtn.png",
+    SETTINGS_BTN = imgDir + "SettingsBTN.png",
+    INSTRUCTIONS_BTN = imgDir + "InstructionsBtn.png",
+    CREATE_GAME_BTN_CLICKED = imgDir + "CreateGameBtnClicked.png",
+    JOIN_GAME_BTN_CLICKED = imgDir + "JoinGameBtnClicked.png",
+    SETTINGS_BTN_CLICKED = imgDir + "SettingsBtnClicked.png",
+    INSTRUCTIONS_BTN_CLICKED = imgDir + "InstructionsBtnClicked.png",
+    KARDASHIAN_THEME_BTN_SELECTED = imgDir + "KardashianBtnSelected.png",
+    PRESEDENTIAL_THEME_BTN_SELECTED = imgDir + "PresedentialBtnSelected.png",
 
     //
-    RETURN_BTN = "images/ReturnBtn.png",
-    INSTRUCTIONS = "images/Instructions.png",
-    WHITE_RECTANGLE = "images/WhiteRectangle.png",
+    RETURN_BTN = imgDir + "ReturnBtn.png",
+    INSTRUCTIONS = imgDir + "Instructions.png",
+    WHITE_RECTANGLE = imgDir + "WhiteRectangle.png",
 
     // SETTINGS
-    PRESEDENTIAL_THEME_BTN = "images/TrumpGame.png",
-    KARDASHIAN_THEME_BTN = "images/KardGame.png",
-    PLUSBTN = "images/plusbtn.png",
-    PLUSBTNCLICKED = "images/plusbtnclicked.png",
-    MINUSBTN = "images/minusbtn.png",
-    MINUSBTNCLICKED = "images/minusbtnclicked.png",
-    SETTINGSBTN = "images/SettingsBTN.png",
-    SOUND_ON_BTN = "images/SoundOn.png",
-    SOUND_OFF_BTN = "images/SoundOff.png",
+    PRESEDENTIAL_THEME_BTN = imgDir + "TrumpGame.png",
+    KARDASHIAN_THEME_BTN = imgDir + "KardGame.png",
+    PLUSBTN = imgDir + "plusbtn.png",
+    PLUSBTNCLICKED = imgDir + "plusbtnclicked.png",
+    MINUSBTN = imgDir + "minusbtn.png",
+    MINUSBTNCLICKED = imgDir + "minusbtnclicked.png",
+    SETTINGSBTN = imgDir + "SettingsBTN.png",
+    SOUND_ON_BTN = imgDir + "SoundOn.png",
+    SOUND_OFF_BTN = imgDir + "SoundOff.png",
 
     // TEXTFIELDS AND CREATE/JOIN GAME
-    ENTERGAMENAME = "textfield/EnterGameName.png",
-    ENTERGAMENAMENOTEXT = "textfield/EnterGameNameNoText.png",
-    CURSOR = "textfield/cursor.png",
-    TEXTFIELD = "textfield/textfield.png",
-    INVALIDGAMENAME = "textfield/InvalidGameName.png",
-    INVALIDNICKNAME = "textfield/InvalidNickName.png",
-    GAMENAMEALREADYEXISTS = "textfield/gamenameallreadyexists.png",
-    NOGAMEWITHNAMEEXISTS = "textfield/NoGameWithNameExists.png",
-    GAMEISFULL = "textfield/GameIsFull.png",
-    ENTERBTN = "images/EnterBtn.png",
-    ENTERBTNCLICKED = "images/EnterBtnClicked.png",
+    ENTERGAMENAME = txtfieldDir + "EnterGameName.png",
+    ENTERGAMENAMENOTEXT = txtfieldDir + "EnterGameNameNoText.png",
+    CURSOR = txtfieldDir + "cursor.png",
+    TEXTFIELD = txtfieldDir + "textfield.png",
+    INVALIDGAMENAME = txtfieldDir + "InvalidGameName.png",
+    INVALIDNICKNAME = txtfieldDir + "InvalidNickName.png",
+    GAMENAMEALREADYEXISTS = txtfieldDir + "gamenameallreadyexists.png",
+    NOGAMEWITHNAMEEXISTS = txtfieldDir + "NoGameWithNameExists.png",
+    GAMEISFULL = txtfieldDir + "GameIsFull.png",
+    ENTERBTN = imgDir + "EnterBtn.png",
+    ENTERBTNCLICKED = imgDir + "EnterBtnClicked.png",
 
     // READY SCREEN
-    READYBTN = "images/ReadyBtn.png",
-    READYBTNCLICKED = "images/ReadyBtnClicked.png",
+    READYBTN = imgDir + "ReadyBtn.png",
+    READYBTNCLICKED = imgDir + "ReadyBtnClicked.png",
 
-    PLAYERLISTBACKGROUND = "images/PlayerListBackground.png";
+    PLAYERLISTBACKGROUND = imgDir + "PlayerListBackground.png";
+
+
+    private static final String soundDir = "sounds/";
 
     // OTHER SOUNDS
     @Asset(Sound.class)
     public static final String
-    HITSOUND = "sounds/hit.mp3";
+    HITSOUND = soundDir + "hit.mp3";
 
 
 

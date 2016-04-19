@@ -29,9 +29,11 @@ public class InstructionScreen implements Screen {
 
     public InstructionScreen(final ScreenController screenController) {
         this.screenController = screenController;
-        renderer = new InstructionRenderer();
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
+        this.renderer = new InstructionRenderer();
+        this.screenWidth = Gdx.graphics.getWidth();
+        this.screenHeight = Gdx.graphics.getHeight();
+        this.stage = new Stage();
+        this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());
     }
@@ -49,12 +51,6 @@ public class InstructionScreen implements Screen {
 
 
     private Stage loadActors(){
-        stage = new Stage();
-        skin = new Skin();
-
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        skin = new Skin();
 
         Texture returnBtn = Assets.manager.get(Assets.RETURN_BTN, Texture.class);
         float returnBtnWidth = returnBtn.getWidth();
@@ -83,7 +79,7 @@ public class InstructionScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        // dispose();
     }
 
     @Override

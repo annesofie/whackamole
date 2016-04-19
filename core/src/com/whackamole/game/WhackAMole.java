@@ -3,34 +3,24 @@ package com.whackamole.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.whackamole.game.controller.ScreenController;
-import com.whackamole.game.model.Match;
 import com.whackamole.game.screens.*;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.Assets;
+import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 /**
  * Created by Lars on 07/04/16.
  */
 public class WhackAMole extends Game implements ScreenController {
 
-
-    private GameScreen gameScreen;
-    private InstructionScreen instructionScreen;
-    private MainMenuScreen mainMenuScreen;
-    private SettingsScreen settingsScreen;
-    private CreateGameScreen createGameScreen;
-    private ReadyScreen readyScreen;
-
-    private ScreenController game;
+    private ScreenController screenController;
 
     @Override
     public void create() {
 
-        game = this;
+        screenController = this;
         loadDefaultPrefs();
         loadAssets();
 
@@ -40,51 +30,53 @@ public class WhackAMole extends Game implements ScreenController {
 
     @Override
     public void goToGameScreen() {
-        setScreen(new GameScreen(game));
+        setScreen(new GameScreen(screenController));
     }
 
     @Override
     public void goToInstructionsScreen() {
-        setScreen(new InstructionScreen(game));
+        setScreen(new InstructionScreen(screenController));
     }
 
     @Override
     public void goToMainMenuScreen() {
-        setScreen(new MainMenuScreen(game));
+        setScreen(new MainMenuScreen(screenController));
     }
 
     @Override
     public void goToSettingsScreen() {
-        setScreen(new SettingsScreen(game));
+        setScreen(new SettingsScreen(screenController));
     }
 
     @Override
     public void goToJoinGameScreen() {
-        setScreen(new CreateGameScreen(game, true));
+        setScreen(new CreateGameScreen(screenController, true));
     }
 
     @Override
     public void goToCreateGameScreen() {
-        setScreen(new CreateGameScreen(game, false));
+        setScreen(new CreateGameScreen(screenController, false));
     }
 
     @Override
     public void goToReadyScreen() {
-        setScreen(new ReadyScreen(game));
+        setScreen(new ReadyScreen(screenController));
     }
 
 
     public void loadAssets() {
-        System.err.println("Started loading assets...");
+        System.out.println("Started loading assets...");
         Assets.manager.load(Assets.class);
+        /*
         while(Assets.manager.update()) {
-            float progress = Assets.manager.getProgress()*100;
-            if(progress % 10 == 0) {
-                System.out.println(progress);
+            float progress = Assets.manager.getProgress() * 100;
+            if((progress % 10) == 0.0) {
+                System.out.println(progress + "%");
             }
         }
+        */
         Assets.manager.finishLoading();
-        System.err.println("Done loading assets...");
+        System.out.println("Done loading assets...");
     }
 
 

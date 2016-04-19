@@ -34,6 +34,7 @@ public class CreateGameScreen implements Screen{
     private boolean joinGame;
     private StageExtension stage;
     private Skin skin;
+    private BitmapFont font;
 
 
 
@@ -44,6 +45,8 @@ public class CreateGameScreen implements Screen{
         this.createGame = new CreateGame();
         this.renderer = new CreateGameRenderer(createGame);
         this.controller = new CreateGameController(createGame, this);
+        this.stage = new StageExtension();
+        this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());
     }
@@ -68,13 +71,10 @@ public class CreateGameScreen implements Screen{
             Loads and returns the actors that can be acted upon on the screen
          */
 
-        stage = new StageExtension();
-        skin = new Skin();
-
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 72;
-        BitmapFont font = generator.generateFont(parameter);
+        font = generator.generateFont(parameter);
         generator.dispose();
 
         float canvasHeight = Gdx.graphics.getHeight();
@@ -132,6 +132,8 @@ public class CreateGameScreen implements Screen{
     }
 
     public void goToReadyScreen() {
+        skin.dispose();
+        stage.dispose();
         screenController.goToReadyScreen();
     }
 
@@ -158,13 +160,14 @@ public class CreateGameScreen implements Screen{
 
     @Override
     public void hide() {
-        dispose();
+      // dispose();
     }
 
     @Override
     public void dispose() {
         stage.dispose();
         skin.dispose();
+        font.dispose();
     }
 
 

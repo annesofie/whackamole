@@ -30,8 +30,10 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final ScreenController screenController) {
         this.screenController = screenController;
         this.renderer = new MainMenuRenderer();
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
+        this.screenWidth = Gdx.graphics.getWidth();
+        this.screenHeight = Gdx.graphics.getHeight();
+        this.stage = new Stage();
+        this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());
     }
@@ -48,8 +50,7 @@ public class MainMenuScreen implements Screen {
 
 
     private Stage loadActors(){
-        stage = new Stage();
-        skin = new Skin();
+
 
         skin.add("createGameBtn", Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class));
         skin.add("joinGameBtn", Assets.manager.get(Assets.JOIN_GAME_BTN, Texture.class));
@@ -114,7 +115,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        // dispose();
     }
 
     @Override

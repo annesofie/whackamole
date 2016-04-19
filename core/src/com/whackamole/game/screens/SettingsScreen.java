@@ -41,6 +41,8 @@ public class SettingsScreen implements Screen {
 
         // Game kan brukes til å endre screen f.eks. game.goToMainScreen();
         this.screenController = screenController;
+        this.stage = new Stage();
+        this.skin = new Skin();
 
         // Modellen vi jobber med her
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
@@ -65,8 +67,6 @@ public class SettingsScreen implements Screen {
 
 
     private Stage loadActors(){
-        stage = new Stage();
-        skin = new Skin();
 
         Texture kardThemeBtn = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN, Texture.class);
         Texture presThemeBtn = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN, Texture.class);
@@ -220,7 +220,7 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+       // dispose();
     }
 
 
