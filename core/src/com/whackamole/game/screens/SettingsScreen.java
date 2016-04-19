@@ -37,9 +37,10 @@ public class SettingsScreen implements Screen {
     private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
     private CheckBox presCheckBox;
+    private ImageButton returnButton;
     private ImageButton plusBtn;
     private ImageButton minusBtn;
-    //private Screen screen;
+
 
 
     public SettingsScreen(final WhackAMole game) {
@@ -95,16 +96,14 @@ public class SettingsScreen implements Screen {
         skin.add("soundOnBtn", new Texture(FileName.SOUND_ON_BTN.filename()));
         skin.add("soundOffBtn", new Texture(FileName.SOUND_OFF_BTN.filename()));
 
-        ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
-        ImageButton plusBtn = new ImageButton(skin.getDrawable("plusBtn"), skin.getDrawable("plusBtnClicked"));
-        ImageButton minusBtn = new ImageButton(skin.getDrawable("minusBtn"), skin.getDrawable("minusBtnClicked"));
-        //ImageButton presThemeButton = new ImageButton(skin.getDrawable("presThemeBtn"));
-        //ImageButton kardThemeButton = new ImageButton(skin.getDrawable("kardThemeBtn"));
+        returnButton = new ImageButton(skin.getDrawable("returnBtn"));
+        plusBtn = new ImageButton(skin.getDrawable("plusBtn"), skin.getDrawable("plusBtnClicked"));
+        minusBtn = new ImageButton(skin.getDrawable("minusBtn"), skin.getDrawable("minusBtnClicked"));
 
         CheckBox.CheckBoxStyle soundCheckBoxStyle  = new CheckBox.CheckBoxStyle(skin.getDrawable("soundOffBtn"), skin.getDrawable("soundOnBtn"), new BitmapFont(), new Color());
         CheckBox.CheckBoxStyle kardCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("kardThemeBtn"), skin.getDrawable("kardThemeBtnSelected"), new BitmapFont(), new Color());
         final CheckBox.CheckBoxStyle presCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("presThemeBtn"), skin.getDrawable("presThemeBtnSelected"), new BitmapFont(), new Color());
-        //new ImageButton(skin.getDrawable("soundOffBtn"),skin.getDrawable("soundOnBtn"),skin.getDrawable("soundOnBtn"));
+
 
         soundCheckBox = new CheckBox("sound", soundCheckBoxStyle);
         kardCheckBox = new CheckBox("kard", kardCheckBoxStyle);
@@ -112,9 +111,8 @@ public class SettingsScreen implements Screen {
 
         plusBtn.setPosition(screenWidth/2 + screenWidth/20 + 50, screenHeight*8/12 - plusBtn.getHeight() + 50);
         minusBtn.setPosition(screenWidth/2 - screenWidth/20 - minusBtn.getWidth(), screenHeight*8/12 - minusBtn.getHeight() + 50);
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*3, screenHeight*8/10 - returnBtnHeight*3);
-        //presThemeButton.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
-        //kardThemeButton.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
+
+        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2, screenHeight*8/10 - returnBtnHeight*2);
         soundCheckBox.setPosition(screenWidth/2-soundBtnWidth/2, screenHeight*5/10);
         kardCheckBox.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
         presCheckBox.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
@@ -164,7 +162,6 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        //presThemeButton
         presCheckBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -184,7 +181,6 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        //kardThemeButton
         kardCheckBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -207,11 +203,9 @@ public class SettingsScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("soundBtnClicked");
                 if(soundCheckBox.isChecked()){
-                    //soundCheckBox.setChecked(false);
                     prefs.putBoolean(Prefs.ISSOUND.key(), true);
                     prefs.flush();
                 } else {
-                    //soundCheckBox.setChecked(true);
                     prefs.putBoolean(Prefs.ISSOUND.key(), false);
                     prefs.flush();
                 }
@@ -222,8 +216,6 @@ public class SettingsScreen implements Screen {
         stage.addActor(returnButton);
         stage.addActor(minusBtn);
         stage.addActor(plusBtn);
-        //stage.addActor(presThemeButton);
-        //stage.addActor(kardThemeButton);
         stage.addActor(kardCheckBox);
         stage.addActor(presCheckBox);
         stage.addActor(soundCheckBox);
@@ -231,7 +223,6 @@ public class SettingsScreen implements Screen {
         return stage;
     }
 
-    //----------------------------------------------------------------
 
 
     // THE REST OF THE SCREEN METHODS

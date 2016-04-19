@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.model.FileName;
 import com.whackamole.game.utils.StageExtension;
 
@@ -43,8 +42,7 @@ public class GameOverRenderer implements Renderer {
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
         stage.getBatch().draw(headline,screenWidth/2 - headlineWidth/2,screenHeight*8/10);
-        font.draw(stage.getBatch(),highScoreList,screenWidth/5,screenHeight*2/3);
-        //font.draw(stage.getBatch(),highScoreList2,screenWidth/5,screenHeight*3/5);
+        font.draw(stage.getBatch(),highScoreList,screenWidth/15,screenHeight*2/3);
         stage.getBatch().end();
         stage.draw();
     }
@@ -59,10 +57,11 @@ public class GameOverRenderer implements Renderer {
         headline = new Texture(FileName.GAME_OVER_HEADLINE.filename());
         headlineWidth = headline.getWidth();
         highScoreList = stage.getText();
-        //highScoreList1 = "Harald   :   300\nTrond   :   0";
+
+
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = screenHeight/15;
+        parameter.size = screenHeight/20;
         font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
         generator.dispose();

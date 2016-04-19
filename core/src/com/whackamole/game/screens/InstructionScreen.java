@@ -58,7 +58,7 @@ public class InstructionScreen implements Screen {
         skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*3, screenHeight*8/10 - returnBtnHeight*3);
+        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2, screenHeight*8/10 - returnBtnHeight*2);
 
         returnButton.addListener(new ClickListener() {
             @Override

@@ -19,7 +19,10 @@ import com.whackamole.game.model.Player;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.GameOverRenderer;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by AnneSofie on 04.04.2016.
@@ -54,18 +57,6 @@ public class GameOverScreen implements Screen {
         renderer.render();
     }
 
-    private String getTextualHighScoreList(){
-        Match match = game.getMatch();
-        String highScoreList = "";
-        int pos = 1;
-        List<Player> playerList = match.getSortedHighScoreList();
-        for(Player player : playerList){
-            highScoreList += pos + ". " + player.getNickname() + " : " + player.getScore() + "\n";
-            pos++;
-        }
-        return highScoreList;
-    }
-
 
     private StageExtension loadActors(){
 
@@ -97,6 +88,19 @@ public class GameOverScreen implements Screen {
         stage.setText(highscoreList);
         Gdx.input.setInputProcessor(stage);
         return stage;
+    }
+
+    private String getTextualHighScoreList(){
+        Match match = game.getMatch();
+        String highScoreList = "";
+        int pos = 1;
+        List<Player> playerList = match.getSortedHighScoreList();
+
+        for(Player player : playerList){
+            highScoreList += pos + ". " + player.getNickname() + " (" + player.getScore() + " points)\n";
+            pos++;
+        }
+        return highScoreList;
     }
 
 

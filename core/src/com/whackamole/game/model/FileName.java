@@ -26,7 +26,7 @@ public enum FileName {
     KARDASHIANTHEMESELECTED("KardashianBtnSelected.png"),
     PRESEDENTIALTHEMESELECTED("PresedentialBtnSelected.png"),
 
-    RETURN_BTN("ReturnBtn.png"),
+    RETURN_BTN("Return.png"),
     WHITE_RECTANGLE("WhiteRectangle.png"),
 
     SOUND_ON_BTN("SoundOn.png"),
@@ -67,11 +67,11 @@ public enum FileName {
 
     SETTINGSBTN("SettingsBTN.png"),
 
-    CHOOSE_THEME_TEXT("SettingsChooseThemeTemp.png"),
-    SETTINGS_HEADLINE_TEXT("SettingsHeadlineTemp.png"),
-    SETTINGS_MUSIC_TEXT("SettingsMusicTemp.png"),
+    CHOOSE_THEME_TEXT("ChooseTheme.png"),
+    SETTINGS_HEADLINE_TEXT("GameSettings.png"),
+    SETTINGS_MUSIC_TEXT("Music.png"),
 
-    GAME_OVER_HEADLINE("GameOverHeadline.png"),
+    GAME_OVER_HEADLINE("GameOver.png"),
 
     // Sounds
     BACKGROUNDMUSIC("background.mp3");
