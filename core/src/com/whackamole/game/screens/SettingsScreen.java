@@ -37,12 +37,13 @@ public class SettingsScreen implements Screen {
     private CheckBox presCheckBox;
 
 
-    public SettingsScreen(final ScreenController screenController) {
+    public SettingsScreen(final ScreenController screenController, Stage stage) {
 
         // Game kan brukes til å endre screen f.eks. game.goToMainScreen();
         this.screenController = screenController;
-        this.stage = new Stage();
         this.skin = new Skin();
+        this.stage = stage;
+        stage.clear();
 
         // Modellen vi jobber med her
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());

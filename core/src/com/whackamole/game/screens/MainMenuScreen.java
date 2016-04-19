@@ -27,12 +27,13 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
     private Stage stage;
 
-    public MainMenuScreen(final ScreenController screenController) {
+    public MainMenuScreen(final ScreenController screenController, Stage stage) {
         this.screenController = screenController;
         this.renderer = new MainMenuRenderer();
         this.screenWidth = Gdx.graphics.getWidth();
         this.screenHeight = Gdx.graphics.getHeight();
-        this.stage = new Stage();
+        this.stage = stage;
+        stage.clear();
         this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());

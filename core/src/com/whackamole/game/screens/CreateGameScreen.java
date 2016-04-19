@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -38,7 +39,7 @@ public class CreateGameScreen implements Screen{
 
 
 
-    public CreateGameScreen(final ScreenController screenController, boolean joinGame) {
+    public CreateGameScreen(final ScreenController screenController, boolean joinGame, Stage stage) {
 
         this.screenController = screenController;
         this.joinGame = joinGame;
@@ -132,8 +133,6 @@ public class CreateGameScreen implements Screen{
     }
 
     public void goToReadyScreen() {
-        skin.dispose();
-        stage.dispose();
         screenController.goToReadyScreen();
     }
 

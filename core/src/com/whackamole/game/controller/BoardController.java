@@ -71,11 +71,6 @@ public class BoardController {
     private Emitter.Listener playerHit = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            try {
-                // Hides the mole because someone hit it
-                board.getCurrentMole().finish();
-            } catch (Exception e) {
-            }
             JSONObject obj = (JSONObject) args[0];
             try {
                 String nickName = obj.getString("nickName");
@@ -87,6 +82,9 @@ public class BoardController {
                     match.setScoreToUser(nickName, totalScore);
                 }
                 else {
+                    try {
+                        board.getCurrentMole().finish();
+                    }catch(Exception e) {}
                     board.setHitTheLastMole(false, 0);
                     match.setScoreToUser(nickName, totalScore);
                 }
@@ -102,6 +100,9 @@ public class BoardController {
     private Emitter.Listener onNewMole = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
+            try {
+                board.getCurrentMole().finish();
+            }catch(Exception e) {}
             JSONObject obj = (JSONObject) args[0];
             try {
                 receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
@@ -117,6 +118,7 @@ public class BoardController {
         mole = board.getCurrentMole();
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
             hitsound.play(1);
+            mole.finish();
             // Reset the mole
             JSONObject json = new JSONObject();
             try {

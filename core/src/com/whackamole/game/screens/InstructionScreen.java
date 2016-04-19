@@ -27,12 +27,13 @@ public class InstructionScreen implements Screen {
     private int screenWidth, screenHeight;
 
 
-    public InstructionScreen(final ScreenController screenController) {
+    public InstructionScreen(final ScreenController screenController, Stage stage) {
         this.screenController = screenController;
         this.renderer = new InstructionRenderer();
         this.screenWidth = Gdx.graphics.getWidth();
         this.screenHeight = Gdx.graphics.getHeight();
-        this.stage = new Stage();
+        this.stage = stage;
+        stage.clear();
         this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());

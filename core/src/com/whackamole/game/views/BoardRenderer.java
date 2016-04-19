@@ -3,14 +3,11 @@ package com.whackamole.game.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g3d.RenderableProvider;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -50,6 +47,11 @@ public class BoardRenderer implements Renderer, Disposable {
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.moleImages = new Array<Texture>();
 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 96;
+        font = generator.generateFont(parameter);
+        font.setColor(Color.BLACK);
 
     }
 
@@ -73,47 +75,49 @@ public class BoardRenderer implements Renderer, Disposable {
         int lastMolePoints = board.getLastMolePoints();
         List<Player> scoreList = match.getSortedHighScoreList();
 
-        Batch batch = stage.getBatch();
 
-        batch.begin();
 
-        batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
+        //stage.act();
+        stage.getBatch().begin();
+        stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
 
         //must be rendered in the right order to get correct layers
-
-        font.draw(batch, "Leaderboard:", 100, height - board_score.getHeight()/6);
+        font.draw(stage.getBatch(), "Leaderboard:", 100, height - board_score.getHeight()/6);
         for(int i = 0; i < scoreList.size(); i++) {
             if(i >= 5) {
                 break; // Breaks to avoid lists longer than 3 players
             }
             Player player = scoreList.get(i);
             String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
-            font.draw(batch, line, 100 , height - (i+2)*board_score.getHeight()/6);
+            font.draw(stage.getBatch(), line, 100 , height - (i+2)*board_score.getHeight()/6);
         }
         if(hitTheLastMole) {
-            font.draw(batch, "YOU WERE FAST!", width/2 + 50, height - board_score.getHeight()/5);
-            font.draw(batch, "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 2*board_score.getHeight()/6);
+            font.draw(stage.getBatch(), "YOU WERE FAST!", width/2 + 50, height - board_score.getHeight()/5);
+            font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 2*board_score.getHeight()/6);
         }
         else if (!board.firstRound()) {
-            font.draw(batch, "You missed.\nNot fast enough!", width - width/2, height - 150);
+            font.draw(stage.getBatch(), "You missed.\nNot fast enough!", width - width/2, height - 150);
         }
-
-        batch.draw(board_score, 0, 7*height/16, width, 3*height/16);
-        batch.draw(board_top, 0, 9*height/16, width, height/4);
+        font.draw(stage.getBatch(), "Hello", width/2, height/2);
+        stage.getBatch().draw(board_score, 0, 7*height/16, width, 3*height/16);
+        stage.getBatch().draw(board_top, 0, 9*height/16, width, height/4);
         drawMole(5,9);
-        batch.draw(board_score, 0, 5*height/16, width, 2*height/16);
-        batch.draw(board_second_top, 0, 6*height/16, width, 3*height/16);
+        stage.getBatch().draw(board_score, 0, 5*height/16, width, 2*height/16);
+        stage.getBatch().draw(board_second_top, 0, 6*height/16, width, 3*height/16);
         drawMole(2,6);
-        batch.draw(board_score, 0, 2*height/16, width, 2*height/16);
-        batch.draw(board_second_bottom, 0, 3*height/16, width, 3*height/16);
+        stage.getBatch().draw(board_score, 0, 2*height/16, width, 2*height/16);
+        stage.getBatch().draw(board_second_bottom, 0, 3*height/16, width, 3*height/16);
         drawMole(-1, 3);
-        batch.draw(board_bottom, 0, 0 , width, 3*height/16);
-        batch.end();
+        stage.getBatch().draw(board_bottom, 0, 0 , width, 3*height/16);
+        stage.getBatch().end();
+        stage.draw();
 
     }
 
 
     public void loadTextures() {
+
+
 
         // Setting up local references to the already loaded textures
 
@@ -123,23 +127,17 @@ public class BoardRenderer implements Renderer, Disposable {
         }
 
         board_bottom = Assets.manager.get(themePath + Assets.BOARD_BOTTOM, Texture.class);
-        board_second_bottom = Assets.manager.get(themePath + Assets.BOARD_BOTTOM, Texture.class);
-        board_second_top = Assets.manager.get(themePath + Assets.BOARD_SECOND_BOTTOM, Texture.class);
+        board_second_bottom = Assets.manager.get(themePath + Assets.BOARD_SECOND_BOTTOM, Texture.class);
+        board_second_top = Assets.manager.get(themePath + Assets.BOARD_SECOND_TOP, Texture.class);
         board_top= Assets.manager.get(themePath + Assets.BOARD_TOP, Texture.class);
         board_score = Assets.manager.get(themePath + Assets.BOARD_SCORE, Texture.class);
 
-        /*
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = board_score.getHeight()/7;
-        font = Assets.manager.get(Assets.FONT, FreeTypeFontGenerator.class).generateFont(parameter);
-        */
+        float var = (float)height/5;
+        System.out.println(var);
+        System.out.println(var/5);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = board_score.getHeight()/7;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
-        generator.dispose();
+
+        //font = FontGenerator.getBitmapFont(theme, ((float)height/25), Assets.FONT);
 
     }
 
@@ -164,9 +162,9 @@ public class BoardRenderer implements Renderer, Disposable {
         return moleImages.get(mole.getMoleImageId());
     }
 
-
     @Override
     public void dispose() {
         font.dispose();
     }
+
 }

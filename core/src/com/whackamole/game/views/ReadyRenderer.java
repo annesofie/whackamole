@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * Created by Lars on 15/04/16.
  */
-public class ReadyRenderer implements Renderer {
+public class ReadyRenderer implements Renderer, Disposable{
 
 
     Match match;
@@ -41,11 +42,13 @@ public class ReadyRenderer implements Renderer {
         this.stage = stage;
         loadTextures();
 
+        /*
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 96;
         font = generator.generateFont(parameter);
         generator.dispose();
+        */
 
     }
 
@@ -73,5 +76,8 @@ public class ReadyRenderer implements Renderer {
     }
 
 
-
+    @Override
+    public void dispose() {
+        //font.dispose();
+    }
 }

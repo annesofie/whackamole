@@ -26,15 +26,15 @@ public class GameScreen implements Screen, InputProcessor{
     private Stage stage;
 
 
-    public GameScreen(final ScreenController screenController) {
+    public GameScreen(final ScreenController screenController, Stage stage) {
 
         this.screenController = screenController;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.board = new Board();
         this.boardRenderer = new BoardRenderer(board);
         this.controller = new BoardController(board);
-        this.stage = new Stage();
-
+        this.stage = stage;
+        stage.clear();
 
         loadGame();
 
@@ -42,6 +42,7 @@ public class GameScreen implements Screen, InputProcessor{
 
 
     private void loadGame() {
+
         // Load model
         board.loadBoard();
 

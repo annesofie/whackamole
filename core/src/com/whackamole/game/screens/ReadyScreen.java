@@ -25,13 +25,14 @@ public class ReadyScreen implements Screen {
     private ReadyRenderer renderer;
     private ReadyController controller;
 
-    public ReadyScreen(final ScreenController screenController) {
+    public ReadyScreen(final ScreenController screenController, Stage stage) {
 
         this.screenController = screenController;
         this.renderer = new ReadyRenderer();
         this.controller = new ReadyController(this);
         this.skin = new Skin();
-        this.stage = new Stage();
+        this.stage = stage;
+        stage.clear();
 
         renderer.loadRenderer(loadActors());
         controller.loadController();
@@ -88,7 +89,8 @@ public class ReadyScreen implements Screen {
 
     @Override
     public void hide() {
-        dispose();
+        renderer.dispose();
+        // dispose();
     }
 
     @Override

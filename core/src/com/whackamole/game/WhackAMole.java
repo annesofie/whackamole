@@ -3,6 +3,7 @@ package com.whackamole.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.screens.*;
 import com.whackamole.game.utils.Constants;
@@ -16,10 +17,12 @@ import net.dermetfan.gdx.assets.AnnotationAssetManager;
 public class WhackAMole extends Game implements ScreenController {
 
     private ScreenController screenController;
+    private Stage stage;
 
     @Override
     public void create() {
 
+        stage = new Stage();
         screenController = this;
         loadDefaultPrefs();
         loadAssets();
@@ -30,37 +33,37 @@ public class WhackAMole extends Game implements ScreenController {
 
     @Override
     public void goToGameScreen() {
-        setScreen(new GameScreen(screenController));
+        setScreen(new GameScreen(screenController, stage));
     }
 
     @Override
     public void goToInstructionsScreen() {
-        setScreen(new InstructionScreen(screenController));
+        setScreen(new InstructionScreen(screenController, stage));
     }
 
     @Override
     public void goToMainMenuScreen() {
-        setScreen(new MainMenuScreen(screenController));
+        setScreen(new MainMenuScreen(screenController, stage));
     }
 
     @Override
     public void goToSettingsScreen() {
-        setScreen(new SettingsScreen(screenController));
+        setScreen(new SettingsScreen(screenController, stage));
     }
 
     @Override
     public void goToJoinGameScreen() {
-        setScreen(new CreateGameScreen(screenController, true));
+        setScreen(new CreateGameScreen(screenController, true, stage));
     }
 
     @Override
     public void goToCreateGameScreen() {
-        setScreen(new CreateGameScreen(screenController, false));
+        setScreen(new CreateGameScreen(screenController, false, stage));
     }
 
     @Override
     public void goToReadyScreen() {
-        setScreen(new ReadyScreen(screenController));
+        setScreen(new ReadyScreen(screenController, stage));
     }
 
 

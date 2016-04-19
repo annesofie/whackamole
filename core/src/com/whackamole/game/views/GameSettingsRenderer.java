@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.Disposable;
+import com.whackamole.game.utils.FontGenerator;
 import com.whackamole.game.utils.Prefs;
 import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
@@ -66,6 +67,7 @@ public class GameSettingsRenderer implements Renderer, Disposable {
 
         background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
         whiteRectangle = Assets.manager.get(Assets.WHITE_RECTANGLE, Texture.class);
+
 
     }
 

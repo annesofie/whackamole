@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.GameOver;
@@ -23,7 +24,7 @@ public class GameOverScreen implements Screen, InputProcessor {
     GameOverRenderer renderer;
 
 
-    public GameOverScreen(final ScreenController screenController) {
+    public GameOverScreen(final ScreenController screenController, Stage stage) {
         this.screenController = screenController;
 
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
@@ -31,6 +32,7 @@ public class GameOverScreen implements Screen, InputProcessor {
         this.gameOver = new GameOver();
 
         this.gameOverRenderer = new GameOverRenderer(gameOver);
+
 
     }
 

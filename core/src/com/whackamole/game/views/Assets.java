@@ -164,9 +164,20 @@ public class Assets {
         fontParams.color = Color.BLACK;
     }
     */
-    @Asset(value = FreeTypeFontGenerator.class, load = false)
     public static final String
-    FONT = "fonts/OpenSans-CondBold.ttf";
+    FONT = "fonts/OpenSans-CondLight.ttf";
+
+    public static final int
+    PRES_FONT_R = 15,
+    PRES_FONT_G = 52,
+    PRES_FONT_B = 104,
+    FONT_BORDER_R = 180,
+    FONT_BORDER_G = 180,
+    FONT_BORDER_B = 180,
+    KARD_FONT_R = 61,
+    KARD_FONT_G = 66,
+    KARD_FONT_B = 98;
+
 
 
     public static void dispose() {
