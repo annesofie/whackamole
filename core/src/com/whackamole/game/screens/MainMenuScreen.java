@@ -1,18 +1,22 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.views.MainMenuRenderer;
 
 
@@ -25,8 +29,12 @@ public class MainMenuScreen implements Screen {
     private MainMenuRenderer renderer;
     private final ScreenController screenController;
     private int screenWidth, screenHeight;
+    private float btnWidth, btnHeight;
     private Skin skin;
     private StageExtension stage;
+    private Preferences prefs;
+    private CheckBox soundCheckBox;
+
 
     public MainMenuScreen(final ScreenController screenController, Stage stage) {
         this.screenController = screenController;
@@ -36,6 +44,10 @@ public class MainMenuScreen implements Screen {
         this.stage = StageExtension.getCleanInstance();
         this.skin = new Skin();
 
+        btnWidth = 680*screenWidth/900;//(new Texture(FileName.CREATE_GAME_BTN.filename())).getWidth();
+        btnHeight = 13*screenHeight/160;//(new Texture(FileName.CREATE_GAME_BTN.filename())).getHeight();
+
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         renderer.loadRenderer(loadActors());
     }
 
@@ -66,21 +78,50 @@ public class MainMenuScreen implements Screen {
         float btnWidth = Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class).getWidth();
         float btnHeight = Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class).getHeight();
 
+        skin.add("mute", Assets.manager.get(Assets.MUTE_BTN, Texture.class));
+        skin.add("unmute", Assets.manager.get(Assets.UNMUTE_BTN, Texture.class));
+
+        soundCheckBox = new CheckBox("sound", new CheckBox.CheckBoxStyle(skin.getDrawable("unmute"), skin.getDrawable("mute"), new BitmapFont(), new Color()));
+        if(this.prefs.getBoolean(Prefs.ISSOUND.key())) {
+            soundCheckBox.setChecked(true);
+        }
+        else {
+            soundCheckBox.setChecked(false);
+        }
+        soundCheckBox.setPosition(screenWidth/2-screenWidth*23/300, screenHeight/4);
+
         //Buttons:
         ImageButton createGameButton = new ImageButton(skin.getDrawable("createGameBtn"),skin.getDrawable("createGameClicked"));
         ImageButton joinGameButton = new ImageButton(skin.getDrawable("joinGameBtn"),skin.getDrawable("joinGameClicked"));
-        ImageButton settingsButton = new ImageButton(skin.getDrawable("settingsBtn"),skin.getDrawable("settingsClicked"));
         ImageButton instructionsButton = new ImageButton(skin.getDrawable("instructionsBtn"),skin.getDrawable("instructionsClicked"));
+
+
 
         createGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*9/12-btnHeight/2);
         joinGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*7/12-btnHeight/2);
-        settingsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight/2);
-        instructionsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*3/12-btnHeight/2);
+        //settingsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight/2);
+        instructionsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight/2);
 
         createGameButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screenController.goToCreateGameScreen();
+                screenController.goToSettingsScreen();
+            }
+        });
+
+        soundCheckBox.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("soundBtnClicked");
+                if(soundCheckBox.isChecked()){
+                    //soundCheckBox.setChecked(false);
+                    prefs.putBoolean(Prefs.ISSOUND.key(), true);
+                    prefs.flush();
+                } else {
+                    //soundCheckBox.setChecked(true);
+                    prefs.putBoolean(Prefs.ISSOUND.key(), false);
+                    prefs.flush();
+                }
             }
         });
 
@@ -91,12 +132,12 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-        settingsButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                screenController.goToSettingsScreen();
-            }
-        });
+//        settingsButton.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                game.goToSettingsScreen(screen);
+//            }
+//        });
 
         instructionsButton.addListener(new ClickListener() {
             @Override
@@ -108,9 +149,14 @@ public class MainMenuScreen implements Screen {
         // Adding actors to the stage for display on screen
         stage.addActor(createGameButton);
         stage.addActor(joinGameButton);
-        stage.addActor(settingsButton);
+        //stage.addActor(settingsButton);
         stage.addActor(instructionsButton);
-
+        for (Actor actor: stage.getActors()) {
+            actor.setHeight(btnHeight);
+            actor.setWidth(btnWidth);
+        }
+        stage.addActor(soundCheckBox);
+        stage.getActors().get(3).setSize(screenWidth*46/300, screenHeight*128/1600);
         return stage;
     }
 
@@ -124,14 +170,8 @@ public class MainMenuScreen implements Screen {
         skin.dispose();
     }
 
-    @Override
-    public void resize(int width, int height) {
-    }
-    @Override
-    public void pause() {
-    }
-    @Override
-    public void resume() {
-    }
 
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
 }

@@ -129,6 +129,8 @@ public class Assets {
     SETTINGSBTN = imgDir + "SettingsBTN.png",
     SOUND_ON_BTN = imgDir + "SoundOn.png",
     SOUND_OFF_BTN = imgDir + "SoundOff.png",
+    MUTE_BTN = imgDir + "Mute.png",
+    UNMUTE_BTN = imgDir + "Unmute.png",
 
     // TEXTFIELDS AND CREATE/JOIN GAME
     ENTERGAMENAME = txtfieldDir + "EnterGameName.png",

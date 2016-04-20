@@ -51,22 +51,23 @@ public class ReadyScreen implements Screen {
 
     public StageExtension loadActors() {
 
-        float canvasHeight = Gdx.graphics.getHeight();
-        float canvasWidth = Gdx.graphics.getWidth();
-        float btnXPos = ((float)1/4 * canvasWidth);
-        float btnYPos = ((float)1/3 * canvasHeight);
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float btnXPos = ((float)1/4 * screenWidth);
+        float btnYPos = ((float)1/3 * screenHeight);
 
         skin.add("btnNotClicked", Assets.manager.get(Assets.READYBTN, Texture.class));
         skin.add("btnClicked", Assets.manager.get(Assets.READYBTNCLICKED, Texture.class));
 
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         btn.setName("readybtn");
-        float btnWidth = btn.getWidth();
-        btn.setPosition(canvasWidth/2 - btnWidth/2, btnYPos);
+        float btnWidth = 676*screenWidth/900;//btn.getWidth();
+        btn.setPosition(screenWidth/2 - btnWidth/2, btnYPos);
 
         addClickListener(btn);
 
         stage.addActor(btn);
+        stage.getActors().get(0).setWidth(btnWidth);
 
         return stage;
     }

@@ -65,7 +65,6 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
-        controller.update(delta);
         boardRenderer.render();
     }
 
@@ -99,7 +98,9 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void hide() {
-        backgroundmusic.stop();
+        if(!(backgroundmusic == null)) {
+            backgroundmusic.stop();
+        }
     }
 
     // Nothing to dispose in this class at the moment

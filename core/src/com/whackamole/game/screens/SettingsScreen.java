@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -30,7 +31,10 @@ public class SettingsScreen implements Screen {
     private GameSettingsRenderer renderer;
     private Skin skin;
     private StageExtension stage;
-    int screenWidth, screenHeight;
+    float screenWidth, screenHeight, createBtnWidth, minusBtnWidth, plusBtnWidth, minusBtnHeight;
+    float theme_btn_diameter;
+    float soundBtnWidth;
+    float returnBtnWidth, returnBtnHeight;
     private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
     private CheckBox presCheckBox;
@@ -47,6 +51,15 @@ public class SettingsScreen implements Screen {
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
+        theme_btn_diameter = screenWidth/3;//(new Texture(FileName.KARDASHIAN_THEME_BTN.filename())).getWidth();
+
+        soundBtnWidth = 0.16f*screenWidth;//(new Texture(FileName.SOUND_ON_BTN.filename())).getWidth();
+        returnBtnWidth = 4*screenWidth/90;//(new Texture(FileName.RETURN_BTN.filename())).getWidth();
+        returnBtnHeight = screenHeight/40;//(new Texture(FileName.RETURN_BTN.filename())).getHeight();
+        createBtnWidth = 680*screenWidth/900;
+        minusBtnWidth = 193*screenWidth/900;
+        minusBtnHeight = 0.08125f*screenHeight;
+
         renderer.loadRenderer(loadActors());
     }
 
@@ -59,6 +72,7 @@ public class SettingsScreen implements Screen {
     public void render(float delta) {
         this.renderer.render();
     }
+
 
 
     private StageExtension loadActors(){
@@ -74,6 +88,9 @@ public class SettingsScreen implements Screen {
         Texture minusBtnClicked = Assets.manager.get(Assets.MINUSBTNCLICKED, Texture.class);
         Texture plusBtn = Assets.manager.get(Assets.PLUSBTN, Texture.class);
         Texture plusBtnClicked = Assets.manager.get(Assets.PLUSBTNCLICKED, Texture.class);
+
+        Texture createBtn = Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class);
+        Texture createBtnClicked = Assets.manager.get(Assets.CREATE_GAME_BTN_CLICKED, Texture.class);
 
         int theme_btn_diameter = kardThemeBtn.getWidth();
         int soundBtnWidth = soundOnBtn.getWidth();
@@ -91,10 +108,15 @@ public class SettingsScreen implements Screen {
         skin.add("plusBtnClicked", plusBtnClicked);
         skin.add("soundOnBtn", soundOnBtn);
         skin.add("soundOffBtn", soundOffBtn);
+        skin.add("createBtn", createBtn);
+        skin.add("createBtnClicked", createBtnClicked);
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         ImageButton plusButton = new ImageButton(skin.getDrawable("plusBtn"), skin.getDrawable("plusBtnClicked"));
         ImageButton minusButton = new ImageButton(skin.getDrawable("minusBtn"), skin.getDrawable("minusBtnClicked"));
+        ImageButton createButton = new ImageButton(skin.getDrawable("createBtn"), skin.getDrawable("createBtnClicked"));
+        //ImageButton presThemeButton = new ImageButton(skin.getDrawable("presThemeBtn"));
+        //ImageButton kardThemeButton = new ImageButton(skin.getDrawable("kardThemeBtn"));
 
         CheckBox.CheckBoxStyle soundCheckBoxStyle  = new CheckBox.CheckBoxStyle(skin.getDrawable("soundOffBtn"), skin.getDrawable("soundOnBtn"), new BitmapFont(), new Color());
         CheckBox.CheckBoxStyle kardCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("kardThemeBtn"), skin.getDrawable("kardThemeBtnSelected"), new BitmapFont(), new Color());
@@ -104,12 +126,16 @@ public class SettingsScreen implements Screen {
         kardCheckBox = new CheckBox("kard", kardCheckBoxStyle);
         presCheckBox = new CheckBox("pres", presCheckBoxStyle);
 
-        plusButton.setPosition(screenWidth/2 + screenWidth/20 + 50, screenHeight*8/12 - plusBtn.getHeight() + 50);
-        minusButton.setPosition(screenWidth/2 - screenWidth/20 - minusBtn.getWidth(), screenHeight*8/12 - minusBtn.getHeight() + 50);
+        plusButton.setPosition(screenWidth/2 + screenWidth/3 - minusBtnWidth, screenHeight*8/12 - minusBtnHeight/2);
+        minusButton.setPosition(screenWidth/2 - screenWidth/3 , screenHeight*8/12 - minusBtnHeight/2);
         returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*3, screenHeight*8/10 - returnBtnHeight*3);
-        soundCheckBox.setPosition(screenWidth/2-soundBtnWidth/2, screenHeight*5/10);
-        kardCheckBox.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
-        presCheckBox.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
+        createButton.setPosition(screenWidth/2-createBtnWidth/2, screenHeight*3/12);
+        soundCheckBox.setPosition(screenWidth/2-soundBtnWidth/2, screenHeight/2);
+        kardCheckBox.setPosition(screenWidth/2, screenHeight/2 - screenHeight/6);
+        presCheckBox.setPosition(screenWidth/2 - theme_btn_diameter, screenHeight/2 - screenHeight/6);
+        //presThemeButton.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
+        //kardThemeButton.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
+
         if(prefs.getBoolean(Prefs.ISSOUND.key())) {
             soundCheckBox.setChecked(true);
         }
@@ -129,6 +155,14 @@ public class SettingsScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screenController.goToMainMenuScreen();
+            }
+        });
+
+
+        createButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                screenController.goToCreateGameScreen();
             }
         });
 
@@ -174,31 +208,50 @@ public class SettingsScreen implements Screen {
             }
         });
 
-        soundCheckBox.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("soundBtnClicked");
-                if(soundCheckBox.isChecked()){
-                    //soundCheckBox.setChecked(false);
-                    prefs.putBoolean(Prefs.ISSOUND.key(), true);
-                    prefs.flush();
-                } else {
-                    //soundCheckBox.setChecked(true);
-                    prefs.putBoolean(Prefs.ISSOUND.key(), false);
-                    prefs.flush();
-                }
-            }
-        });
+//        soundCheckBox.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                System.out.println("soundBtnClicked");
+//                if(soundCheckBox.isChecked()){
+//                    //soundCheckBox.setChecked(false);
+//                    prefs.putBoolean(Prefs.ISSOUND.key(), true);
+//                    prefs.flush();
+//                } else {
+//                    //soundCheckBox.setChecked(true);
+//                    prefs.putBoolean(Prefs.ISSOUND.key(), false);
+//                    prefs.flush();
+//                }
+//            }
+//        });
 
         stage.addActor(returnButton);
         stage.addActor(minusButton);
         stage.addActor(plusButton);
+        stage.addActor(createButton);
         stage.addActor(kardCheckBox);
         stage.addActor(presCheckBox);
         stage.addActor(soundCheckBox);
+
+        setSize(stage.getActors().get(0), returnBtnWidth);
+        setSize(stage.getActors().get(1), minusBtnWidth);
+        setSize(stage.getActors().get(2), minusBtnWidth);
+        setSize(stage.getActors().get(3), createBtnWidth);
+        setSize(stage.getActors().get(4), theme_btn_diameter, theme_btn_diameter);
+        setSize(stage.getActors().get(5), theme_btn_diameter, theme_btn_diameter);
+
+//        setSize(stage.getActors().get(6), soundBtnWidth);
+
         return stage;
     }
 
+    public void setSize(Actor actor, float width){
+        actor.setWidth(width);
+    }
+
+    public void setSize(Actor actor, float width, float height){
+        actor.setWidth(width);
+        actor.setHeight(height);
+    }
 
     @Override
     public void hide() {
@@ -210,7 +263,6 @@ public class SettingsScreen implements Screen {
     public void dispose() {
         skin.dispose();
     }
-
 
     // THE REST OF THE SCREEN METHODS
     @Override

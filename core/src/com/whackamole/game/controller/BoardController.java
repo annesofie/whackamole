@@ -6,8 +6,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.whackamole.game.model.*;
-import com.whackamole.game.screens.GameScreen;
-import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.views.Assets;
@@ -16,13 +14,11 @@ import io.socket.emitter.Emitter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class BoardController {
 
 
-    private int touch_x, touch_y;
+    private int touch_x, touch_y, counter = 4;
     private Board board;
     private Sound hitsound;
     private Sound speech;
@@ -142,9 +138,11 @@ public class BoardController {
         touch_y = screenY;
         mole = board.getCurrentMole();
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
-            hitsound.play(1);
-            mole.finish();
-            // Reset the mole
+            // PLay hit sound and hide the mole on hit.
+            if(this.prefs.getBoolean(Prefs.ISSOUND.key())) {
+                hitsound.play(1);
+                mole.finish();
+            }
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);
@@ -160,51 +158,23 @@ public class BoardController {
 
     public void receiveSocket(int mole, int img){
         board.setMole(mole, img);
-        if(img == 0){
-            speech.play();
+        if(this.prefs.getBoolean(Prefs.ISSOUND.key()) && img == 0){
+            if(counter == 4){
+                speech.play();
+                counter = 0;
+            } else counter++;
         }
     }
 
-    /** The main update method **/
-    public void update(float delta) {
-        processInput();
-        //mole.update(delta);
-    }
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}
+    public boolean keyDown(int keycode) {return false;}
 
-    private void processInput() {
+    public boolean keyUp(int keycode) {return false;}
 
-    }
+    public boolean keyTyped(char character) {return false;}
 
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    public boolean keyDown(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean touchDragged(int screenX, int screenY, int pointer) {return false;}
+    public boolean mouseMoved(int screenX, int screenY) {return false;}
 
-    public boolean keyUp(int keycode) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean keyTyped(char character) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    public boolean mouseMoved(int screenX, int screenY) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    public boolean scrolled(int amount) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    public boolean scrolled(int amount) {return false;}
 }
