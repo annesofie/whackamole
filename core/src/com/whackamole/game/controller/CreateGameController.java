@@ -1,17 +1,13 @@
 package com.whackamole.game.controller;
 
 
-import com.badlogic.gdx.Game;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.whackamole.game.WhackAMole;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.Match;
-import com.whackamole.game.model.Player;
-import com.whackamole.game.model.Theme;
 import com.whackamole.game.screens.CreateGameScreen;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
@@ -19,14 +15,10 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by Lars on 13/04/16.
- */
 public class CreateGameController {
 
     private CreateGame createGame;
@@ -37,9 +29,8 @@ public class CreateGameController {
     private Preferences prefs;
     private CreateGameScreen createGameScreen;
 
-    public CreateGameController(CreateGame createGame, Match match, CreateGameScreen createGameScreen) {
+    public CreateGameController(CreateGame createGame, CreateGameScreen createGameScreen) {
         this.createGame = createGame;
-        this.match = match;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.createGameScreen = createGameScreen;
     }
@@ -75,19 +66,19 @@ public class CreateGameController {
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
-
+        socket.connect();
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                System.out.println("connected to socket");
+                System.out.println("Connected to socket.");
                 emitNewGame(gameName, nickName);
                 System.out.println("Socket id: " + socket.id());
             }
         });
 
         socket.on("new game success", onNewGameSuccess);
-        socket.on("game name length error", onGameNameLengthError);
-        socket.on("game already exists error", onGameAlreadyExists);
+        socket.on("game name length", onGameNameLength);
+        socket.on("game already exists", onGameAlreadyExists);
     }
 
 
@@ -97,7 +88,7 @@ public class CreateGameController {
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
-
+        socket.connect();
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -108,8 +99,9 @@ public class CreateGameController {
         });
 
         socket.on("join game success", onJoinGameSuccess);
-        socket.on("game is full error", onGameIsFullError);
-        socket.on("game nonexistent error", onGameNonExistentError);
+        socket.on("game is full error", onGameIsFull);
+        socket.on("game nonexistent error", onGameNonExistent);
+        socket.on("nickName taken", onNickNameTaken);
     }
 
     private void emitNewGame(String gameName, String nickName) {
@@ -137,51 +129,60 @@ public class CreateGameController {
     }
 
 
-    private Emitter.Listener onGameNameLengthError = new Emitter.Listener(){
+    private Emitter.Listener onGameNameLength = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
             String msg = (String) args[0];
             System.out.println(msg);
+            // TODO: VARLSE BRUKER OM AT NAVNET ER FOR LANGT. MEN TROR DETTE GJØRES AV APPEN ALLEREDE I EN IF-SETNING
         }
     };
 
     private Emitter.Listener onNewGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
+            // Start a new match
+            Match.startNewMatch();
+            match = Match.getCurrentMatch();
+
             String msg = (String) args[0];
             System.out.println(msg);
             createGame.setGameNameAlreadyExists(false);
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
+
             createGameScreen.goToReadyScreen();
         }
     };
 
-    private Emitter.Listener onGameIsFullError = new Emitter.Listener(){
+    private Emitter.Listener onGameIsFull = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
             String msg = (String) args[0];
             System.out.println(msg);
             createGame.setGameIsFull(true);
+            // TODO: VISE TIL BRUKER AT SPILLET ER FULT PÅ SKJERMEN
         }
     };
 
     private Emitter.Listener onJoinGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
+            // Start a new match
+            Match.startNewMatch();
+            match = Match.getCurrentMatch();
+
             JsonValue json = new JsonReader().parse((String) args[0]);
             int themeId = json.getInt("themeId");
             if(!(prefs.getInteger(Prefs.THEME.key()) == themeId)) {
                 prefs.putInteger(Prefs.THEME.key(), themeId);
                 prefs.flush();
-                createGameScreen.reloadBoardRenderer();
-                createGameScreen.reloadReadyRenderer();
             }
 
+            createGame.setGameIsFull(false);
             createGame.setNoGameWithNameExists(false);
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
-
 
             JSONObject obj = new JSONObject();
             try {
@@ -201,17 +202,16 @@ public class CreateGameController {
                     match.addPlayer(nickName);
                 }
             }
-
-            System.out.print("You were registered in the game " + gameName + " server as: " + nickName);
             createGameScreen.goToReadyScreen();
         }
     };
 
-    private Emitter.Listener onGameNonExistentError = new Emitter.Listener() {
+    private Emitter.Listener onGameNonExistent = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-            // VARSLE BRUKER AT SPILLET IKKE FINNES PÅ SKJERMEN
-            // VARSLE BRUKER AT SPILLET IKKE FINNES PÅ SKJERMEN
+
+            //TODO: VARSLE BRUKER AT SPILLET IKKE FINNES, MED MINDRE VI GJØR DET ALLERDE?
+
             createGame.setNoGameWithNameExists(true);
         }
     };
@@ -220,7 +220,15 @@ public class CreateGameController {
         @Override
         public void call(Object... args) {
             createGame.setGameNameAlreadyExists(true);
-            // VARLSE BRUKEREN AT SPILLET FINNES FRA FØR PÅ SKJERMEN
+        }
+    };
+
+    private Emitter.Listener onNickNameTaken = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+
+            //TODO: VARLSE BRUKER OM AT NICKNAME ER TATT.
+
         }
     };
 

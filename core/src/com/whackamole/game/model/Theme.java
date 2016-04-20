@@ -33,11 +33,19 @@ public enum Theme {
                 return theme;
             }
         }
-        return null;
+        throw new IllegalArgumentException("No theme found on that id.");
     }
 
     public String path() {
         return this.path;
+    }
+
+    public String idAsString() {
+        return Integer.toString(this.id);
+    }
+
+    public int getId() {
+        return this.id;
     }
 
 }

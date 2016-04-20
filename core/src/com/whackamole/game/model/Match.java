@@ -14,39 +14,47 @@ public class Match {
     private List<Player> playerList;
     private String gameName;
 
+    private static Match currentMatch;
 
-    public Match() {
+
+    private Match() {
         thisPlayer = new Player(null);
         playerList = new ArrayList<Player>();
         playerList.add(thisPlayer);
         gameName = null;
     }
 
-
-    public void addPlayer(String username) {
-        playerList.add(new Player(username));
+    public static void startNewMatch() {
+        currentMatch = new Match();
     }
 
+    public static Match getCurrentMatch() {
+        return currentMatch;
+    }
 
-    public int getScoreOnUserName(String username) {
+    public void addPlayer(String nickName) {
+        this.playerList.add(new Player(nickName));
+    }
+
+    public int getScoreOnUserName(String nickName) {
         /**
          * Returns -1 if the user with username doesn't exist
          */
-        for(Player user : playerList) {
-            if(user.getNickname().equals(username)) {
-                return user.getScore();
+        for(Player player : this.playerList) {
+            if(player.getNickname().equals(nickName)) {
+                return player.getScore();
             }
         }
         return -1;
     }
 
-    public boolean setScoreToUser(String username, int totalScore) {
+    public boolean setScoreToUser(String nickName, int totalScore) {
         /**
          *  Returns false if the username was not found
          */
-        for(Player user : playerList) {
-            if(user.getNickname().equals(username)) {
-                user.setScore(totalScore);
+        for(Player player : this.playerList) {
+            if(player.getNickname().equals(nickName)) {
+                player.setScore(totalScore);
                 return true;
             }
         }
@@ -67,13 +75,15 @@ public class Match {
     }
 
     public void setPlayerReady(String nickname) {
-        getPlayerOnNickName(nickname).setReady(true);
+        Player player = getPlayerOnNickName(nickname);
+        if(!(player == null))
+            player.setReady(true);
     }
 
     public List<String> getCurrentNickNames() {
         List<String> list = new ArrayList<String>();
-        for (Player user : playerList) {
-            list.add(user.getNickname());
+        for (Player player : playerList) {
+            list.add(player.getNickname());
         }
         return list;
     }
@@ -113,7 +123,7 @@ public class Match {
         return null;
     }
 
-    private int getThisPlayerScore(){
+    private int getThisPlayerScore() {
         return this.thisPlayer.getScore();
     }
 

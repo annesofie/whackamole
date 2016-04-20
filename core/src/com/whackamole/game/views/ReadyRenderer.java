@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.whackamole.game.model.FileName;
+import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class ReadyRenderer implements Renderer {
 
 
     Match match;
-    Stage stage;
+    StageExtension stage;
     Preferences prefs;
     private float canvasHeight;
     private float canvasWidth;
@@ -31,23 +31,17 @@ public class ReadyRenderer implements Renderer {
     //Textures
     Texture background;
 
-    public ReadyRenderer(Match match) {
-        this.match = match;
+    public ReadyRenderer() {
+        this.match = Match.getCurrentMatch();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();
     }
 
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
         this.stage = stage;
         loadTextures();
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 72;
-        font = generator.generateFont(parameter);
-        generator.dispose();
 
     }
 
@@ -67,18 +61,9 @@ public class ReadyRenderer implements Renderer {
 
     }
 
-
     private void loadTextures() {
-
         Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
-        background = new Texture(Gdx.files.internal(theme.path() + FileName.READYBACKGROUND.filename()));
-
-        List<String> nicknames = match.getCurrentNickNames();
-
-
+        background = Assets.manager.get(theme.path() + Assets.READYBACKGROUND, Texture.class);
 
     }
-
-
-
 }

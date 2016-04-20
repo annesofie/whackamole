@@ -15,7 +15,6 @@ public class SocketRetreiver {
     private  SocketRetreiver() {
         try {
             mSocket = IO.socket(Constants.SERVER_URL);
-            mSocket.connect();
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

@@ -2,17 +2,19 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.graphics.g3d.RenderableProvider;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.*;
+import com.whackamole.game.utils.FontGenerator;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
 
 import java.util.List;
 
@@ -25,33 +27,38 @@ public class BoardRenderer implements Renderer {
     // TEXTURES
     private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score;
     private Array<Texture> moleImages;
-    private SpriteBatch batch;
+    private StageExtension stage;
     // GAME PROPERTIES
     private int height, width;
     private Mole currentMole;
     private BitmapFont font;
     private Match match;
+    private Theme theme;
+    String themePath;
+    String themeId;
 
 
 
-    public BoardRenderer(Board board, Match match){
+    public BoardRenderer(Board board){
 
         this.height = Gdx.graphics.getHeight();
         this.width = Gdx.graphics.getWidth();
-        this.batch = new SpriteBatch();
-        this.match = match;
+        this.match = Match.getCurrentMatch();
 
         this.board = board;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-
         this.moleImages = new Array<Texture>();
 
     }
 
-    public void loadRenderer() {
-        // Dispose to clean up if the theme was changed and loadRenderer() is run a second time.
+    public void loadRenderer(StageExtension stage) {
+        // Updating current themepath and themeId to match the selected theme
+        this.stage = stage;
+        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
+        this.themePath = theme.path();
+        this.themeId = theme.idAsString();
+
         loadTextures();
-        // ++ Andre ting som eventuelt må gjøres klart før spillet kan rendres
     }
 
 
@@ -64,83 +71,72 @@ public class BoardRenderer implements Renderer {
         int lastMolePoints = board.getLastMolePoints();
         List<Player> scoreList = match.getSortedHighScoreList();
 
-        batch.begin();
-
-        batch.draw(board_score, 0, 13*height/16, width, 3*height/16);
+        stage.getBatch().begin();
+        stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
 
         //must be rendered in the right order to get correct layers
-
-        font.draw(batch, "Leaderboard:", 100, height - board_score.getHeight()/6);
+        font.draw(stage.getBatch(), "Leaderboard:", 30, height - (board_score.getHeight()/6 + 20));
         for(int i = 0; i < scoreList.size(); i++) {
-            if(i >= 5) {
-                break; // Breaks to avoid lists longer than 3 players
-            }
             Player player = scoreList.get(i);
-            String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
-            font.draw(batch, line, 100 , height - (i+2)*board_score.getHeight()/6);
+            boolean isThisPlayer = player.getNickname().equals(Match.getCurrentMatch().getThisPlayerNickName());
+            if(!(i >= 3) || isThisPlayer) {
+                String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
+                if (isThisPlayer) {
+                    line = (i + 1) + ". You: " + player.getScore();
+                }
+                font.draw(stage.getBatch(), line, 30, height - ((i+2)*board_score.getHeight()/6 + 10));
+            }
         }
         if(hitTheLastMole) {
-            font.draw(batch, "YOU WERE FAST!", width/2 + 50, height - board_score.getHeight()/5);
-            font.draw(batch, "+ " + Integer.toString(lastMolePoints) + " points.", width - width/2 + 50, height - 2*board_score.getHeight()/6);
+            font.draw(stage.getBatch(), "YOU WERE FAST!", width/2, height - board_score.getHeight()/5);
+            font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - 2*board_score.getHeight()/4));
         }
         else if (!board.firstRound()) {
-            font.draw(batch, "You missed.\nNot fast enough!", width - width/2, height - 150);
+            font.draw(stage.getBatch(), "You missed.\nToo slow!", width/2, height - board_score.getHeight()/5);
         }
-
-        batch.draw(board_score, 0, 7*height/16, width, 3*height/16);
-        batch.draw(board_top, 0, 9*height/16, width, height/4);
+        stage.getBatch().draw(board_score, 0, 7*height/16, width, 3*height/16);
+        stage.getBatch().draw(board_top, 0, 9*height/16, width, height/4);
         drawMole(5,9);
-        batch.draw(board_score, 0, 5*height/16, width, 2*height/16);
-        batch.draw(board_second_top, 0, 6*height/16, width, 3*height/16);
+        stage.getBatch().draw(board_score, 0, 5*height/16, width, 2*height/16);
+        stage.getBatch().draw(board_second_top, 0, 6*height/16, width, 3*height/16);
         drawMole(2,6);
-        batch.draw(board_score, 0, 2*height/16, width, 2*height/16);
-        batch.draw(board_second_bottom, 0, 3*height/16, width, 3*height/16);
+        stage.getBatch().draw(board_score, 0, 2*height/16, width, 2*height/16);
+        stage.getBatch().draw(board_second_bottom, 0, 3*height/16, width, 3*height/16);
         drawMole(-1, 3);
-        batch.draw(board_bottom, 0, 0 , width, 3*height/16);
-        batch.end();
+        stage.getBatch().draw(board_bottom, 0, 0 , width, 3*height/16);
+        stage.getBatch().end();
 
     }
 
-
-
-    public void setMole(Mole mole){
-        this.currentMole = mole;
-    }
 
     public void loadTextures() {
 
-        // Last inn og gjør klar alle bilder basert på valgt tema
-
-        String filepath = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path();
-
-
+        // Setting up local references to the already loaded textures
         moleImages.clear();
         for (int i = 0; i < 6; i++) {
-            moleImages.add(new Texture(Gdx.files.internal(filepath + MoleImage.getFileNameOnImageId(i))));
+            moleImages.add(Assets.manager.get(themePath + MoleImage.getFileNameOnImageId(i), Texture.class));
         }
 
-        board_bottom = new Texture(Gdx.files.internal(filepath + FileName.BOARD_BOTTOM.filename()));
-        board_second_bottom = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_BOTTOM.filename()));
-        board_second_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SECOND_TOP.filename()));
-        board_top = new Texture(Gdx.files.internal(filepath + FileName.BOARD_TOP.filename()));
-        board_score = new Texture(Gdx.files.internal(filepath + FileName.BOARD_SCORE.filename()));
+        board_bottom = Assets.manager.get(themePath + Assets.BOARD_BOTTOM, Texture.class);
+        board_second_bottom = Assets.manager.get(themePath + Assets.BOARD_SECOND_BOTTOM, Texture.class);
+        board_second_top = Assets.manager.get(themePath + Assets.BOARD_SECOND_TOP, Texture.class);
+        board_top= Assets.manager.get(themePath + Assets.BOARD_TOP, Texture.class);
+        board_score = Assets.manager.get(themePath + Assets.BOARD_SCORE, Texture.class);
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = board_score.getHeight()/7;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
-        generator.dispose();
+        float var = (float)height/5;
+        System.out.println(var);
+        System.out.println(var/5);
 
-
-        System.out.println(board_bottom);
-        System.out.println(board_second_bottom);
-        System.out.println(board_second_top);
-        System.out.println(board_top);
-
+        if(theme.equals(Theme.KARDASHIAN)) {
+            font = Assets.manager.get(Assets.KARD_FONT_GAME);
+        }
+        else {
+            font = Assets.manager.get(Assets.PRES_FONT_GAME);
+        }
     }
 
     private void drawMole(int start, int end){
+        Batch batch = stage.getBatch();
         if(currentMole!= null && currentMole.getLocation() > start && currentMole.getLocation() < end){
             if(currentMole.finished()){
                     currentMole.reset();
@@ -155,10 +151,8 @@ public class BoardRenderer implements Renderer {
         }
     }
 
-
     private Texture getMoleImage(Mole mole) {
         return moleImages.get(mole.getMoleImageId());
     }
-
 
 }

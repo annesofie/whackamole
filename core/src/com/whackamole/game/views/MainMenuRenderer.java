@@ -3,21 +3,13 @@ package com.whackamole.game.views;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.whackamole.game.model.FileName;
+import com.whackamole.game.utils.StageExtension;
 
 
 public class MainMenuRenderer implements Renderer {
 
-
-    /**
-     *  Renders the main menu
-     *
-     */
-
-
     private Texture background;
-    private Stage stage;
+    private StageExtension stage;
     private int screenWidth, screenHeight;
 
     public MainMenuRenderer(){
@@ -34,13 +26,13 @@ public class MainMenuRenderer implements Renderer {
         stage.draw();
     }
 
-    public void loadRenderer(Stage stage){
+    public void loadRenderer(StageExtension stage){
         this.stage = stage;
         loadTextures();
     }
 
     private void loadTextures(){
-        background = new Texture(FileName.BACKGROUND.filename());
+        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
     }
 
 }

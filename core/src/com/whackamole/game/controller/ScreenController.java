@@ -22,6 +22,7 @@ public interface ScreenController {
     void goToJoinGameScreen();
     void goToCreateGameScreen();
     void goToReadyScreen();
+    void goToGameOverScreen();
 
 
 }

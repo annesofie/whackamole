@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.whackamole.game.model.FileName;
+import com.whackamole.game.utils.StageExtension;
 
 /**
  * Created by Lars on 07/04/16.
@@ -14,8 +14,8 @@ public class InstructionRenderer implements Renderer {
 
     // TEXTURES
     private Texture background;
-    private Texture whiteRectangle;
-    private Stage stage;
+    private Texture instructions;
+    private StageExtension stage;
     private int screenWidth, screenHeight;
 
     public InstructionRenderer(){
@@ -23,7 +23,7 @@ public class InstructionRenderer implements Renderer {
         screenHeight = Gdx.graphics.getHeight();
     }
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
         this.stage = stage;
         loadTextures();
     }
@@ -33,18 +33,14 @@ public class InstructionRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(whiteRectangle, screenWidth*1/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
+        stage.getBatch().draw(instructions, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
         stage.getBatch().end();
         stage.draw();
     }
 
-    private void loadTextures() {
-        // Lag textures her basert på tema, instruksjoner osv.
-        // Antakeligvis bare et bakgrunnsbilde med text på.
-        // I render skal disse tegnes.
-        background = new Texture(FileName.BACKGROUND.filename());
-        whiteRectangle = new Texture(FileName.INSTRUCTIONS_WHITE_RECTANGLE.filename());
-
+    public void loadTextures() {
+        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
+        instructions = Assets.manager.get(Assets.INSTRUCTIONS, Texture.class);
     }
 
 }
