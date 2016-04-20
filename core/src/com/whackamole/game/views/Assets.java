@@ -104,15 +104,25 @@ public class Assets {
     @Asset(Texture.class)
     public static final String
     BACKGROUND = imgDir + "Background.png",
-    CREATE_GAME_BTN = imgDir + "CreateGameBtn.png",
+    MAIN_MENU_BACKGROUND = imgDir + "MainMenuBackground.png",
+    KARD_READY_BACKGROUND = imgDir + "KardReadyBackground.png",
+    PRES_READY_BACKGROUND = imgDir + "PresReadyBackground.png",
+    NEW_GAME_BACKGROUND = imgDir + "NewGameBackground.png",
+    JOIN_GAME_BACKROUND = imgDir + "JoinGameBackground.png",
+    SETTINGS_BACKGROUND = imgDir + "SettingsBackground.png",
+
+
+
+    PROCEED_BTN = imgDir + "ProceedBtn.png",
+    PROCEED_BTN_CLICKED = imgDir + "ProceedBtnClicked.png",
     JOIN_GAME_BTN = imgDir + "JoinGameBtn.png",
     INSTRUCTIONS_BTN = imgDir + "InstructionsBtn.png",
     CREATE_GAME_BTN_CLICKED = imgDir + "CreateGameBtnClicked.png",
     JOIN_GAME_BTN_CLICKED = imgDir + "JoinGameBtnClicked.png",
-
     INSTRUCTIONS_BTN_CLICKED = imgDir + "InstructionsBtnClicked.png",
     KARDASHIAN_THEME_BTN_SELECTED = imgDir + "KardashianBtnSelected.png",
     PRESEDENTIAL_THEME_BTN_SELECTED = imgDir + "PresedentialBtnSelected.png",
+    LARGE_BACK_BTN = imgDir + "LargeBackBtn.png",
 
     //
     RETURN_BTN = imgDir + "ReturnBtn.png",
@@ -129,8 +139,6 @@ public class Assets {
     MINUSBTNCLICKED = imgDir + "MinusBtnClicked.png",
     SETTINGS_BTN = settingsDir + "SettingsBtn.png",
     SETTINGS_BTN_CLICKED = settingsDir + "SettingsBtnClicked.png",
-    SOUND_ON_BTN = imgDir + "SoundOn.png",
-    SOUND_OFF_BTN = imgDir + "SoundOff.png",
     MUTE_BTN = imgDir + "Mute.png",
     UNMUTE_BTN = imgDir + "Unmute.png",
     SETTINGS_HEADLINE = settingsDir + "SettingsHeadline.png",
@@ -150,8 +158,10 @@ public class Assets {
     ENTERBTNCLICKED = imgDir + "EnterBtnClicked.png",
 
     // READY SCREEN
-    READYBTN = imgDir + "ReadyBtn.png",
-    READYBTNCLICKED = imgDir + "ReadyBtnClicked.png";
+    KARD_READY_BTN = imgDir + "KardReadyBtn.png",
+    KARD_READY_BTN_CLICKED = imgDir + "KardReadyBtnClicked.png",
+    PRES_READY_BTN = imgDir + "PresReadyBtn.png",
+    PRES_READY_BTN_CLIKED = imgDir + "PresReadyBtnClicked.png";
 
 
 
@@ -165,10 +175,12 @@ public class Assets {
     // FONTS
     public static final String
     FONT = "fonts/OpenSans-CondBold.ttf",
-    PRES_FONT_GAME = "fonts/united.ttf",
-    KARD_FONT_GAME = "fonts/OpenSans-CondBold.ttf",
-    PRES_FONT_READY = "fonts/united.ttf",
-    KARD_FONT_READY = "fonts/OpenSans-CondBold.ttf";
+    PRES_FONT_GAME = "fonts/BangersPresGame.ttf",
+    KARD_FONT_GAME = "fonts/BangersKardGame.ttf",
+    PRES_FONT_READY = "fonts/BangersPresReady.ttf",
+    KARD_FONT_READY = "fonts/BangersKardReady.ttf",
+    GAME_OVER_FONT = "fonts/BangersGameOver.ttf",
+    SETTINGS_FONT = "fonts/BangersSettings.ttf";
 
     public static final int
     PRES_FONT_R = 15,
@@ -182,7 +194,7 @@ public class Assets {
     KARD_FONT_B = 98;
 
 
-    public static void generateBitmapFont(Theme theme, float fontToScreenRatio, String fontFile) {
+    public static void generateThemeBitmapFont(Theme theme, float fontToScreenRatio, String fontFile) {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         Assets.manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         Assets.manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
@@ -207,6 +219,24 @@ public class Assets {
         System.out.println("Generated font of size " + Math.round(fontToScreenRatio));
     }
 
+    public static void generatePlainBitmapFont(float fontToScreenRatio, String fontFile) {
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        Assets.manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        Assets.manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
+
+        FreetypeFontLoader.FreeTypeFontLoaderParameter params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        params.fontFileName = fontFile;
+        params.fontParameters.size = (int)Math.ceil(fontToScreenRatio);
+        params.fontParameters.minFilter = Texture.TextureFilter.Linear;
+        params.fontParameters.magFilter = Texture.TextureFilter.Linear;
+
+        params.fontParameters.color = Color.BLACK;
+        params.fontParameters.borderColor = Color.LIGHT_GRAY;
+        params.fontParameters.borderWidth = 3;
+
+        Assets.manager.load(fontFile, BitmapFont.class, params);
+        System.out.println("Generated font of size " + Math.round(fontToScreenRatio));
+    }
 
     private static Color getFontColor(Theme theme){
         if(theme.equals(Theme.KARDASHIAN)){
