@@ -14,19 +14,20 @@ import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.FontGenerator;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
 
 import java.util.List;
 
 
-public class BoardRenderer implements Renderer, Disposable {
+public class BoardRenderer implements Renderer {
 
 
     private Board board;
     private Preferences prefs;
     // TEXTURES
-    private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score, slow, fast;
+    private Texture board_bottom, board_second_bottom, board_second_top, board_top, board_score;
     private Array<Texture> moleImages;
-    private Stage stage;
+    private StageExtension stage;
     // GAME PROPERTIES
     private int height, width;
     private Mole currentMole;
@@ -50,22 +51,12 @@ public class BoardRenderer implements Renderer, Disposable {
 
     }
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
         // Updating current themepath and themeId to match the selected theme
         this.stage = stage;
         this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
         this.themePath = theme.path();
         this.themeId = theme.idAsString();
-
-        // TODO: midlertidig løsning pga et rendringproblem
-        if(theme == Theme.KARDASHIAN) {
-            font = FontGenerator.kardFont;
-        }
-        else {
-            font = FontGenerator.presFont;
-        }
-        // ----
-
 
         loadTextures();
     }
@@ -80,12 +71,9 @@ public class BoardRenderer implements Renderer, Disposable {
         int lastMolePoints = board.getLastMolePoints();
         List<Player> scoreList = match.getSortedHighScoreList();
 
-        //stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
 
-
-        // TODO: fikse så tekst rendres pent
         //must be rendered in the right order to get correct layers
         font.draw(stage.getBatch(), "Leaderboard:", 30, height - (board_score.getHeight()/6 + 20));
         for(int i = 0; i < scoreList.size(); i++) {
@@ -100,15 +88,12 @@ public class BoardRenderer implements Renderer, Disposable {
             }
         }
         if(hitTheLastMole) {
-            stage.getBatch().draw(fast, width/2, height - board_score.getHeight()/3);
-            //font.draw(stage.getBatch(), "YOU WERE FAST!", width/2, height - board_score.getHeight()/5);
+            font.draw(stage.getBatch(), "YOU WERE FAST!", width/2, height - board_score.getHeight()/5);
             font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - 2*board_score.getHeight()/4));
         }
         else if (!board.firstRound()) {
-            stage.getBatch().draw(slow, width/2, height - board_score.getHeight()/5);
-            //font.draw(stage.getBatch(), "You missed.\nNot fast enough!", width - width/2, height - 150);
+            font.draw(stage.getBatch(), "You missed.\nToo slow!", width/2, height - board_score.getHeight()/5);
         }
-        font.draw(stage.getBatch(), "Hello", width/2, height/2);
         stage.getBatch().draw(board_score, 0, 7*height/16, width, 3*height/16);
         stage.getBatch().draw(board_top, 0, 9*height/16, width, height/4);
         drawMole(5,9);
@@ -120,17 +105,13 @@ public class BoardRenderer implements Renderer, Disposable {
         drawMole(-1, 3);
         stage.getBatch().draw(board_bottom, 0, 0 , width, 3*height/16);
         stage.getBatch().end();
-        //stage.draw();
 
     }
 
 
     public void loadTextures() {
 
-
-
         // Setting up local references to the already loaded textures
-
         moleImages.clear();
         for (int i = 0; i < 6; i++) {
             moleImages.add(Assets.manager.get(themePath + MoleImage.getFileNameOnImageId(i), Texture.class));
@@ -142,17 +123,16 @@ public class BoardRenderer implements Renderer, Disposable {
         board_top= Assets.manager.get(themePath + Assets.BOARD_TOP, Texture.class);
         board_score = Assets.manager.get(themePath + Assets.BOARD_SCORE, Texture.class);
 
-        slow = Assets.manager.get(Assets.SLOW, Texture.class);
-        fast = Assets.manager.get(Assets.FAST, Texture.class);
-
         float var = (float)height/5;
         System.out.println(var);
         System.out.println(var/5);
 
-
-        //TODO: EGENTLIG DENNE SOM SKAL HENTE UT FONT, MEN ER ET PROBLEM MED DET
-        //font = FontGenerator.getBitmapFont(theme, ((float)height/25), Assets.FONT);
-
+        if(theme.equals(Theme.KARDASHIAN)) {
+            font = Assets.manager.get(Assets.KARD_FONT_GAME);
+        }
+        else {
+            font = Assets.manager.get(Assets.PRES_FONT_GAME);
+        }
     }
 
     private void drawMole(int start, int end){
@@ -171,14 +151,8 @@ public class BoardRenderer implements Renderer, Disposable {
         }
     }
 
-
     private Texture getMoleImage(Mole mole) {
         return moleImages.get(mole.getMoleImageId());
-    }
-
-    @Override
-    public void dispose() {
-        font.dispose();
     }
 
 }

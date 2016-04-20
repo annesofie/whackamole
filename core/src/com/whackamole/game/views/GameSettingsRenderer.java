@@ -13,17 +13,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
 import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.utils.FontGenerator;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
+
 import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 /**
  * Created by Lars on 07/04/16.
  */
-public class GameSettingsRenderer implements Renderer, Disposable {
+public class GameSettingsRenderer implements Renderer {
 
 
     private Texture background;
     private Texture whiteRectangle;
-    private Stage stage;
+    private StageExtension stage;
     private int screenWidth, screenHeight;
     private BitmapFont font;
     Preferences prefs;
@@ -31,14 +33,13 @@ public class GameSettingsRenderer implements Renderer, Disposable {
 
 
     public GameSettingsRenderer() {
-        //this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
-        prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        this.screenWidth = Gdx.graphics.getWidth();
+        this.screenHeight = Gdx.graphics.getHeight();
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
     }
 
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
         this.stage = stage;
         loadTextures();
     }
@@ -51,7 +52,7 @@ public class GameSettingsRenderer implements Renderer, Disposable {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(whiteRectangle, screenWidth*1/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
+        stage.getBatch().draw(whiteRectangle, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
         font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*8/12);
         stage.getBatch().end();
         stage.draw();
@@ -59,6 +60,7 @@ public class GameSettingsRenderer implements Renderer, Disposable {
 
     public void loadTextures() {
 
+        // TODO: implementer nye fontgenerator
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 96;
@@ -68,12 +70,5 @@ public class GameSettingsRenderer implements Renderer, Disposable {
         background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
         whiteRectangle = Assets.manager.get(Assets.WHITE_RECTANGLE, Texture.class);
 
-
-    }
-
-
-    @Override
-    public void dispose() {
-        font.dispose();
     }
 }

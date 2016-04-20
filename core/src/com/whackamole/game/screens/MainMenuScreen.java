@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.MainMenuRenderer;
 
@@ -25,15 +26,14 @@ public class MainMenuScreen implements Screen {
     private final ScreenController screenController;
     private int screenWidth, screenHeight;
     private Skin skin;
-    private Stage stage;
+    private StageExtension stage;
 
     public MainMenuScreen(final ScreenController screenController, Stage stage) {
         this.screenController = screenController;
         this.renderer = new MainMenuRenderer();
         this.screenWidth = Gdx.graphics.getWidth();
         this.screenHeight = Gdx.graphics.getHeight();
-        this.stage = stage;
-        stage.clear();
+        this.stage = StageExtension.getCleanInstance();
         this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());
@@ -50,7 +50,7 @@ public class MainMenuScreen implements Screen {
     }
 
 
-    private Stage loadActors(){
+    private StageExtension loadActors(){
 
 
         skin.add("createGameBtn", Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class));
@@ -116,13 +116,12 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void hide() {
-        // dispose();
+        //dispose();
     }
 
     @Override
     public void dispose() {
         skin.dispose();
-        stage.dispose();
     }
 
     @Override

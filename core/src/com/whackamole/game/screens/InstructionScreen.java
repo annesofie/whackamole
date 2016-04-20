@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.InstructionRenderer;
 
@@ -23,7 +24,7 @@ public class InstructionScreen implements Screen {
     private final ScreenController screenController;
     private InstructionRenderer renderer;
     private Skin skin;
-    private Stage stage;
+    private StageExtension stage;
     private int screenWidth, screenHeight;
 
 
@@ -32,8 +33,7 @@ public class InstructionScreen implements Screen {
         this.renderer = new InstructionRenderer();
         this.screenWidth = Gdx.graphics.getWidth();
         this.screenHeight = Gdx.graphics.getHeight();
-        this.stage = stage;
-        stage.clear();
+        this.stage = StageExtension.getCleanInstance();
         this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());
@@ -51,7 +51,7 @@ public class InstructionScreen implements Screen {
     }
 
 
-    private Stage loadActors(){
+    private StageExtension loadActors(){
 
         Texture returnBtn = Assets.manager.get(Assets.RETURN_BTN, Texture.class);
         float returnBtnWidth = returnBtn.getWidth();
@@ -80,26 +80,17 @@ public class InstructionScreen implements Screen {
 
     @Override
     public void hide() {
-        // dispose();
+        //dispose();
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
         skin.dispose();
     }
 
 
     // THE REST OF THE SCREEN METHODS
-    @Override
-    public void resize(int width, int height) {
-    }
-    @Override
-    public void pause() {
-
-    }
-    @Override
-    public void resume() {
-
-    }
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
 }

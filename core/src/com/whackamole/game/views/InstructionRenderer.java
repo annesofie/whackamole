@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.whackamole.game.utils.StageExtension;
 
 /**
  * Created by Lars on 07/04/16.
@@ -14,7 +15,7 @@ public class InstructionRenderer implements Renderer {
     // TEXTURES
     private Texture background;
     private Texture instructions;
-    private Stage stage;
+    private StageExtension stage;
     private int screenWidth, screenHeight;
 
     public InstructionRenderer(){
@@ -22,7 +23,7 @@ public class InstructionRenderer implements Renderer {
         screenHeight = Gdx.graphics.getHeight();
     }
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
         this.stage = stage;
         loadTextures();
     }
@@ -32,7 +33,7 @@ public class InstructionRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(instructions, screenWidth*1/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
+        stage.getBatch().draw(instructions, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
         stage.getBatch().end();
         stage.draw();
     }

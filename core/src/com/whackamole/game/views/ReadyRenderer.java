@@ -10,17 +10,18 @@ import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
 
 import java.util.List;
 
 /**
  * Created by Lars on 15/04/16.
  */
-public class ReadyRenderer implements Renderer, Disposable{
+public class ReadyRenderer implements Renderer {
 
 
     Match match;
-    Stage stage;
+    StageExtension stage;
     Preferences prefs;
     private float canvasHeight;
     private float canvasWidth;
@@ -38,16 +39,9 @@ public class ReadyRenderer implements Renderer, Disposable{
     }
 
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
         this.stage = stage;
         loadTextures();
-
-        /*
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 96;
-        font = generator.generateFont(parameter);
-        */
 
     }
 
@@ -67,16 +61,9 @@ public class ReadyRenderer implements Renderer, Disposable{
 
     }
 
-
     public void loadTextures() {
         Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
         background = Assets.manager.get(theme.path() + Assets.READYBACKGROUND, Texture.class);
 
-    }
-
-
-    @Override
-    public void dispose() {
-        //font.dispose();
     }
 }

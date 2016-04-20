@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ReadyController;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.ReadyRenderer;
 
@@ -20,7 +21,7 @@ public class ReadyScreen implements Screen {
 
 
     private final ScreenController screenController;
-    private Stage stage;
+    private StageExtension stage;
     private Skin skin;
     private ReadyRenderer renderer;
     private ReadyController controller;
@@ -31,9 +32,7 @@ public class ReadyScreen implements Screen {
         this.renderer = new ReadyRenderer();
         this.controller = new ReadyController(this);
         this.skin = new Skin();
-        this.stage = stage;
-        stage.clear();
-
+        this.stage = StageExtension.getCleanInstance();
         renderer.loadRenderer(loadActors());
         controller.loadController();
 
@@ -50,7 +49,7 @@ public class ReadyScreen implements Screen {
     }
 
 
-    public Stage loadActors() {
+    public StageExtension loadActors() {
 
         float canvasHeight = Gdx.graphics.getHeight();
         float canvasWidth = Gdx.graphics.getWidth();
@@ -88,17 +87,14 @@ public class ReadyScreen implements Screen {
 
 
     @Override
-    public void hide() {
-        // renderer.dispose();
-        // dispose();
+    public void hide() {;
+        //dispose();
     }
 
     @Override
     public void dispose() {
         skin.dispose();
-        stage.dispose();
     }
-
 
 
     @Override

@@ -12,11 +12,12 @@ import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.BoardRenderer;
 import com.whackamole.game.controller.BoardController;
 
-public class GameScreen implements Screen, InputProcessor{
+public class GameScreen implements Screen, InputProcessor {
 
     private final ScreenController screenController;
     private Board board;
@@ -24,13 +25,12 @@ public class GameScreen implements Screen, InputProcessor{
     private BoardController controller;
     private Preferences prefs;
     private Music backgroundmusic;
-    private Stage stage;
+    private StageExtension stage;
 
 
     public GameScreen(final ScreenController screenController, Stage stage) {
 
-        this.stage = stage;
-        stage.clear();
+        this.stage = StageExtension.getCleanInstance();
         this.screenController = screenController;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.board = new Board();
@@ -49,7 +49,7 @@ public class GameScreen implements Screen, InputProcessor{
         // Load renderer
         boardRenderer.loadRenderer(loadActors());
 
-        // Load controller
+        // Load helper controller
         controller.loadController();
 
         // Start the music
@@ -92,8 +92,7 @@ public class GameScreen implements Screen, InputProcessor{
     }
 
 
-
-    public Stage loadActors() {
+    public StageExtension loadActors() {
         return this.stage;
     }
 
@@ -101,18 +100,15 @@ public class GameScreen implements Screen, InputProcessor{
     @Override
     public void hide() {
         backgroundmusic.stop();
-        // dispose();
     }
 
+    // Nothing to dispose in this class at the moment
     @Override
-    public void dispose() {
-        stage.dispose();
-        boardRenderer.dispose();
-    }
+    public void dispose() {}
 
 
+    // TODO: PROPER HANDLING IF PAUSE() OR HIDE() IS RUN, ALSO RESUME()
 
-    
     // THE REST OF SCREEN METHODS
     @Override
     public void resize(int width, int height) {

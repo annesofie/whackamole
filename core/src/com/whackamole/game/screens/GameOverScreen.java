@@ -32,8 +32,7 @@ public class GameOverScreen implements Screen, InputProcessor {
         this.gameOver = new GameOver();
 
         this.gameOverRenderer = new GameOverRenderer(gameOver);
-
-
+        
     }
 
 

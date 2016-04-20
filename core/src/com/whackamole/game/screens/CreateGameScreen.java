@@ -3,9 +3,7 @@ package com.whackamole.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -14,11 +12,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.CreateGameController;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.CreateGame;
-import com.whackamole.game.utils.StageExtension;
+import com.whackamole.game.utils.StageExtensionKeyboard;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.CreateGameRenderer;
 
@@ -33,20 +30,20 @@ public class CreateGameScreen implements Screen{
     private TextField textFieldGameName;
     private TextField textFieldNickName;
     private boolean joinGame;
-    private StageExtension stage;
+    private StageExtensionKeyboard stage;
     private Skin skin;
     private BitmapFont font;
 
 
 
-    public CreateGameScreen(final ScreenController screenController, boolean joinGame, Stage stage) {
+    public CreateGameScreen(final ScreenController screenController, boolean joinGame) {
 
         this.screenController = screenController;
         this.joinGame = joinGame;
         this.createGame = new CreateGame();
         this.renderer = new CreateGameRenderer(createGame);
         this.controller = new CreateGameController(createGame, this);
-        this.stage = new StageExtension();
+        this.stage = StageExtensionKeyboard.getCleanInstance();
         this.skin = new Skin();
 
         renderer.loadRenderer(loadActors());
@@ -63,15 +60,10 @@ public class CreateGameScreen implements Screen{
     }
 
 
-    //TODO: Her lager vi actors og legger dem inn i en stage som vi sender videre til renderer.
-    //TODO: Vi ønsket i utgangspunktet å håndtere alt som skal rendres i renderer.
-    //TODO  Var nødt til å lage knapper og inputfelt her for å håndtere button clicks her. Forslag til hvordan vi kan håndtere dette bedre?
-
-    private StageExtension loadActors() {
+    private StageExtensionKeyboard loadActors() {
         /*
             Loads and returns the actors that can be acted upon on the screen
          */
-
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 72;
@@ -81,7 +73,6 @@ public class CreateGameScreen implements Screen{
         float canvasWidth = Gdx.graphics.getWidth();
         float btnXPos = ((float)1/4 * canvasWidth);
         float btnYPos = ((float)1/4 * canvasHeight);
-
 
         skin.add("textfield", Assets.manager.get(Assets.TEXTFIELD, Texture.class));
         skin.add("cursor", Assets.manager.get(Assets.CURSOR, Texture.class));
@@ -158,12 +149,11 @@ public class CreateGameScreen implements Screen{
 
     @Override
     public void hide() {
-      // dispose();
+      //dispose();
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
         skin.dispose();
     }
 

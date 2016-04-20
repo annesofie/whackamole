@@ -70,7 +70,7 @@ public class BoardController {
         public void call(Object... args) {
             JsonValue attendersJson = new JsonReader().parse((String) args[0]);
 
-            // Update the scoreboard just to make sure all scores were correct
+            // Update the scoreboard just to make sure all scores were correct and updated
             for(JsonValue attender : attendersJson.iterator()) {
                 match.setScoreToUser(attender.getString("nickName"), attender.getInt("points"));
             }

@@ -33,7 +33,7 @@ public enum Theme {
                 return theme;
             }
         }
-        return null;
+        throw new IllegalArgumentException("No theme found on that id.");
     }
 
     public String path() {

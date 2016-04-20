@@ -6,17 +6,16 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.GameSettingsRenderer;
 
@@ -30,7 +29,7 @@ public class SettingsScreen implements Screen {
     private Preferences prefs;
     private GameSettingsRenderer renderer;
     private Skin skin;
-    private Stage stage;
+    private StageExtension stage;
     int screenWidth, screenHeight;
     private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
@@ -39,17 +38,12 @@ public class SettingsScreen implements Screen {
 
     public SettingsScreen(final ScreenController screenController, Stage stage) {
 
-        // Game kan brukes til å endre screen f.eks. game.goToMainScreen();
         this.screenController = screenController;
         this.skin = new Skin();
-        this.stage = stage;
-        stage.clear();
+        this.stage = StageExtension.getCleanInstance();
 
-        // Modellen vi jobber med her
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-
         this.renderer = new GameSettingsRenderer();
-
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
@@ -67,7 +61,7 @@ public class SettingsScreen implements Screen {
     }
 
 
-    private Stage loadActors(){
+    private StageExtension loadActors(){
 
         Texture kardThemeBtn = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN, Texture.class);
         Texture presThemeBtn = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN, Texture.class);
@@ -208,37 +202,22 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void hide() {
-       // dispose();
+       //dispose();
     }
 
 
     @Override
     public void dispose() {
         skin.dispose();
-        stage.dispose();
-        // renderer.dispose();
     }
-
-
-    //----------------------------------------------------------------
 
 
     // THE REST OF THE SCREEN METHODS
-
     @Override
-    public void resize(int width, int height) {
-
-    }
-
+    public void resize(int width, int height) {}
     @Override
-    public void pause() {
-
-    }
-
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
-
+    public void resume() {}
 
 }

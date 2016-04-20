@@ -2,12 +2,16 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.FileHandleResolver;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.whackamole.game.model.MoleImage;
 import com.whackamole.game.model.Theme;
@@ -110,9 +114,6 @@ public class Assets {
     KARDASHIAN_THEME_BTN_SELECTED = imgDir + "KardashianBtnSelected.png",
     PRESEDENTIAL_THEME_BTN_SELECTED = imgDir + "PresedentialBtnSelected.png",
 
-    FAST = imgDir + "fast.png",
-    SLOW = imgDir + "slow.png",
-
     //
     RETURN_BTN = imgDir + "ReturnBtn.png",
     INSTRUCTIONS = imgDir + "Instructions.png",
@@ -121,10 +122,10 @@ public class Assets {
     // SETTINGS
     PRESEDENTIAL_THEME_BTN = imgDir + "TrumpGame.png",
     KARDASHIAN_THEME_BTN = imgDir + "KardGame.png",
-    PLUSBTN = imgDir + "plusbtn.png",
-    PLUSBTNCLICKED = imgDir + "plusbtnclicked.png",
-    MINUSBTN = imgDir + "minusbtn.png",
-    MINUSBTNCLICKED = imgDir + "minusbtnclicked.png",
+    PLUSBTN = imgDir + "PlusBtn.png",
+    PLUSBTNCLICKED = imgDir + "PlusBtnClicked.png",
+    MINUSBTN = imgDir + "MinusBtn.png",
+    MINUSBTNCLICKED = imgDir + "MinusBtnClicked.png",
     SETTINGSBTN = imgDir + "SettingsBTN.png",
     SOUND_ON_BTN = imgDir + "SoundOn.png",
     SOUND_OFF_BTN = imgDir + "SoundOff.png",
@@ -132,11 +133,11 @@ public class Assets {
     // TEXTFIELDS AND CREATE/JOIN GAME
     ENTERGAMENAME = txtfieldDir + "EnterGameName.png",
     ENTERGAMENAMENOTEXT = txtfieldDir + "EnterGameNameNoText.png",
-    CURSOR = txtfieldDir + "cursor.png",
-    TEXTFIELD = txtfieldDir + "textfield.png",
+    CURSOR = txtfieldDir + "Cursor.png",
+    TEXTFIELD = txtfieldDir + "Textfield.png",
     INVALIDGAMENAME = txtfieldDir + "InvalidGameName.png",
     INVALIDNICKNAME = txtfieldDir + "InvalidNickName.png",
-    GAMENAMEALREADYEXISTS = txtfieldDir + "gamenameallreadyexists.png",
+    GAMENAMEALREADYEXISTS = txtfieldDir + "GameNameAlreadyExists.png",
     NOGAMEWITHNAMEEXISTS = txtfieldDir + "NoGameWithNameExists.png",
     GAMEISFULL = txtfieldDir + "GameIsFull.png",
     ENTERBTN = imgDir + "EnterBtn.png",
@@ -144,9 +145,8 @@ public class Assets {
 
     // READY SCREEN
     READYBTN = imgDir + "ReadyBtn.png",
-    READYBTNCLICKED = imgDir + "ReadyBtnClicked.png",
+    READYBTNCLICKED = imgDir + "ReadyBtnClicked.png";
 
-    PLAYERLISTBACKGROUND = imgDir + "PlayerListBackground.png";
 
 
     private static final String soundDir = "sounds/";
@@ -156,21 +156,13 @@ public class Assets {
     public static final String
     HITSOUND = soundDir + "hit.mp3";
 
-
-
     // FONTS
-    /*
-    // IF OTHER FONTS / FONT SIZES ARE NEEDED SIMPLY COPY PASTE THE CODE BELOW AND CHANGE THE PARAMETERS
-    private static FreeTypeFontGenerator.FreeTypeFontParameter fontParams = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    static {
-        fontParams.size = Gdx.graphics.getHeight()/7;
-        fontParams.color = Color.BLACK;
-    }
-    */
     public static final String
     FONT = "fonts/OpenSans-CondBold.ttf",
-    FONT_PRES = "fonts/OpenSans-CondBold.ttf",
-    FONT_KARD = "fonts/OpenSans-CondBold.ttf";
+    PRES_FONT_GAME = "fonts/united.ttf",
+    KARD_FONT_GAME = "fonts/OpenSans-CondBold.ttf",
+    PRES_FONT_READY = "fonts/united.ttf",
+    KARD_FONT_READY = "fonts/OpenSans-CondBold.ttf";
 
     public static final int
     PRES_FONT_R = 15,
@@ -184,7 +176,50 @@ public class Assets {
     KARD_FONT_B = 98;
 
 
+    public static void generateBitmapFont(Theme theme, float fontToScreenRatio, String fontFile) {
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        Assets.manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        Assets.manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
+        FreetypeFontLoader.FreeTypeFontLoaderParameter params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        params.fontFileName = fontFile;
+        params.fontParameters.size = (int)Math.ceil(fontToScreenRatio);
+        params.fontParameters.minFilter = Texture.TextureFilter.Linear;
+        params.fontParameters.magFilter = Texture.TextureFilter.Linear;
+
+        if(theme.equals(Theme.KARDASHIAN)) {
+            params.fontParameters.color = Color.VIOLET;
+            params.fontParameters.borderColor = Color.WHITE;
+        }
+        else  {
+            params.fontParameters.color = Color.FIREBRICK;
+            params.fontParameters.borderColor = Color.NAVY;
+        }
+        params.fontParameters.borderWidth = 3;
+
+        Assets.manager.load(fontFile, BitmapFont.class, params);
+        System.out.println("Generated font of size " + Math.round(fontToScreenRatio));
+    }
+
+
+    private static Color getFontColor(Theme theme){
+        if(theme.equals(Theme.KARDASHIAN)){
+            return new Color(Assets.KARD_FONT_R, Assets.KARD_FONT_G, Assets.KARD_FONT_B, 1f);
+        }
+        else if(theme.equals(Theme.PRESIDENTIAL)){
+            return new Color(Assets.PRES_FONT_R, Assets.PRES_FONT_G, Assets.PRES_FONT_B, 1f);
+        }
+        else {
+            throw new IllegalArgumentException("That is not a legal theme.");
+        }
+    }
+
+    private static Color getBorderColor(Theme theme) {
+        return new Color(Assets.FONT_BORDER_R, Assets.FONT_BORDER_G, Assets.FONT_BORDER_B, 1f);
+    }
+
+
+    // Used to dispose all assets on app kill
     public static void dispose() {
         manager.dispose();
     }

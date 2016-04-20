@@ -28,28 +28,24 @@ public class CreateGameRenderer implements Renderer {
     private CreateGame createGame;
 
     // GAME PROPERTIES
-    private Preferences prefs;
     private int canvasHeight, canvasWidth;
-    private StageExtension stage;
+    private StageExtensionKeyboard stage;
 
 
     public CreateGameRenderer(CreateGame createGame) {
         this.createGame = createGame;
-        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         canvasHeight = Gdx.graphics.getHeight();
         canvasWidth = Gdx.graphics.getWidth();
     }
 
 
-    public void loadRenderer(StageExtension stage) {
+    public void loadRenderer(StageExtensionKeyboard stage) {
         this.stage = stage;
         loadTextures();
     }
 
 
     public void render() {
-
-        // TODO: DON'T USE WIDTH OF IMAGE TO DRAW, BUT RATHER THE RATIO BETWEEN THE PICTURE AND SCREENWIDTH ETC.
 
         stage.act();
         stage.getBatch().begin();
@@ -99,8 +95,5 @@ public class CreateGameRenderer implements Renderer {
         float textureWidth = (float) texture.getWidth();
         return (canvasWidth - textureWidth)/2;
     }
-
-
-
 
 }
