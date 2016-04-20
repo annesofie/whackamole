@@ -15,7 +15,7 @@ import org.json.JSONObject;
 public class BoardController {
 
 
-    private int touch_x, touch_y;
+    private int touch_x, touch_y, counter = 4;
     private Board board;
     private Sound hitsound;
     private Sound speech;
@@ -130,7 +130,9 @@ public class BoardController {
 
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
             // firstuser.addScore(mole.getScore());
-            hitsound.play(1);
+            if(this.prefs.getBoolean(Prefs.ISSOUND.key())) {
+                hitsound.play(1);
+            }
             // reset the mole
             JSONObject json = new JSONObject();
             try {
@@ -150,8 +152,11 @@ public class BoardController {
 
     public void receiveSocket(int mole, int img){
         board.setMole(mole, img);
-        if(img == 0){
-            speech.play();
+        if(this.prefs.getBoolean(Prefs.ISSOUND.key()) && img == 0){
+            if(counter == 4){
+                speech.play();
+                counter = 0;
+            } else counter++;
         }
     }
 

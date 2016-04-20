@@ -91,10 +91,10 @@ public class CreateGameScreen implements Screen{
         BitmapFont font72 = generator.generateFont(parameter);
         generator.dispose();
 
-        float canvasHeight = Gdx.graphics.getHeight();
-        float canvasWidth = Gdx.graphics.getWidth();
-        float btnXPos = ((float)1/4 * canvasWidth);
-        float btnYPos = ((float)1/4 * canvasHeight);
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float btnXPos = ((float)1/4 * screenWidth);
+        float btnYPos = ((float)1/4 * screenHeight);
 
 
         skin.add("textfield", new Texture(Gdx.files.internal(FileName.TEXTFIELD.filename())));
@@ -119,12 +119,12 @@ public class CreateGameScreen implements Screen{
         textFieldGameName = new TextField("", textFieldStyle);
         textFieldNickName = new TextField("", textFieldStyle);
 
-        float btnWidth = btn.getWidth();
-        btn.setPosition(canvasWidth/2-btnWidth/2, btnYPos);
+        float btnWidth = 676*screenWidth/900;//btn.getWidth();
+        btn.setPosition(screenWidth/2-btnWidth/2, btnYPos);
 
         // Set the size and messagetext of the textfield
-        textFieldGameName.setSize(btn.getWidth(), btn.getHeight());
-        textFieldNickName.setSize(btn.getWidth(), btn.getHeight());
+        textFieldGameName.setSize(screenWidth*2/3, screenHeight/16);
+        textFieldNickName.setSize(screenWidth*2/3, screenHeight/16);
         String messageTextGameName = "Enter game name";
         String messageTextNickName = "Enter nickname";
         textFieldGameName.setMessageText(messageTextGameName);
@@ -132,13 +132,14 @@ public class CreateGameScreen implements Screen{
 
         // Position the actors
 
-        textFieldGameName.setPosition(canvasWidth/2-btnWidth/2, canvasHeight/2);
-        textFieldNickName.setPosition(canvasWidth/2-btnWidth/2, ((canvasHeight/2) + 400));
+        textFieldGameName.setPosition(screenWidth/6, screenHeight/2);
+        textFieldNickName.setPosition(screenWidth/6, ((screenHeight/2) + screenHeight/4));
 
         addClickListener(btn);
 
         // Add actors
         stage.addActor(btn);
+        stage.getActors().get(0).setWidth(btnWidth);
         stage.addActor(textFieldGameName);
         stage.addActor(textFieldNickName);
 

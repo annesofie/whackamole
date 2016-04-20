@@ -55,6 +55,8 @@ public enum FileName {
     GAMENAMEALREADYEXISTS("textfield/gamenameallreadyexists.png"),
     NOGAMEWITHNAMEEXISTS("textfield/NoGameWithNameExists.png"),
     GAMEISFULL("textfield/GameIsFull.png"),
+    MUTE("mute.png"),
+    UNMUTE("unmute.png"),
 
     CREATEGAMEBTN("CreateGameBtn.png"),
     CREATEGAMEBTNCLICKED("CreateGameBtnClicked.png"),
