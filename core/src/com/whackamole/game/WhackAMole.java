@@ -32,11 +32,6 @@ public class WhackAMole extends Game implements ScreenController {
         goToMainMenuScreen();
     }
 
-    @Override
-    public void render() {
-
-    }
-
 
     @Override
     public void goToGameScreen() {
