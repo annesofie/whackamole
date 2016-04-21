@@ -144,6 +144,7 @@ public class BoardController {
     private Emitter.Listener onNewMole = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
+            System.out.println("New mole.");
             try {
                 board.getCurrentMole().finish();
             }catch(Exception e) {

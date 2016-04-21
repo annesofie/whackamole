@@ -144,7 +144,7 @@ public class Assets {
     PLUSBTNCLICKED = imgDir + "PlusBtnClicked.png",
     MINUSBTN = imgDir + "MinusBtn.png",
     MINUSBTNCLICKED = imgDir + "MinusBtnClicked.png",
-    SETTINGS_BTN = settingsDir + "SettingsBtn.png",
+    SETTINGS_BTN = settingsDir + "SettingsBtn1.png",
     SETTINGS_BTN_CLICKED = settingsDir + "SettingsBtnClicked.png",
     MUTE_BTN = imgDir + "Mute.png",
     UNMUTE_BTN = imgDir + "Unmute.png",
@@ -154,8 +154,8 @@ public class Assets {
     // TEXTFIELDS AND CREATE/JOIN GAME
     ENTERGAMENAME = txtfieldDir + "EnterGameName.png",
     ENTERGAMENAMENOTEXT = txtfieldDir + "EnterGameNameNoText.png",
-    CURSOR = txtfieldDir + "Cursor1.png",
-    TEXTFIELD = txtfieldDir + "Textfield.png",
+    CURSOR = txtfieldDir + "Cursor.png",
+    TEXTFIELD = txtfieldDir + "Textfield1.png",
     INVALIDGAMENAME = txtfieldDir + "InvalidGameName.png",
     INVALIDNICKNAME = txtfieldDir + "InvalidNickName.png",
     GAMENAMEALREADYEXISTS = txtfieldDir + "GameNameAlreadyExists.png",
@@ -215,9 +215,9 @@ public class Assets {
         }
         else  {
             params.fontParameters.color = Color.FIREBRICK;
-            params.fontParameters.borderColor = Color.NAVY;
+            params.fontParameters.borderColor = Color.WHITE;
         }
-        params.fontParameters.borderWidth = 3;
+        params.fontParameters.borderWidth = 2;
 
         Assets.manager.load(fontFile, BitmapFont.class, params);
         System.out.println("Generated font of size " + Math.round(fontToScreenRatio));
