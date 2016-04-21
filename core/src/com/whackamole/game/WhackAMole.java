@@ -81,6 +81,7 @@ public class WhackAMole extends Game implements ScreenController {
         Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/20), Assets.KARD_FONT_READY);
         Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/20), Assets.GAME_OVER_FONT);
         Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/15), Assets.SETTINGS_FONT);
+        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/15), Assets.TEXTFIELD_FONT);
     }
 
 

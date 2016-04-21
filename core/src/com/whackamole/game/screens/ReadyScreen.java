@@ -1,6 +1,7 @@
 package com.whackamole.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,9 +11,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ReadyController;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.Theme;
+import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.ReadyRenderer;
+
+import net.dermetfan.gdx.physics.box2d.PositionController;
+
 
 /**
  * Created by Lars on 15/04/16.
@@ -25,6 +31,8 @@ public class ReadyScreen implements Screen {
     private Skin skin;
     private ReadyRenderer renderer;
     private ReadyController controller;
+    private Preferences prefs;
+    private Theme theme;
 
     public ReadyScreen(final ScreenController screenController) {
         this.screenController = screenController;
@@ -32,6 +40,8 @@ public class ReadyScreen implements Screen {
         this.controller = new ReadyController(this);
         this.skin = new Skin();
         this.stage = StageExtension.getCleanInstance();
+        this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        this.theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
 
         renderer.loadRenderer(loadActors());
         controller.loadController();
@@ -56,9 +66,11 @@ public class ReadyScreen implements Screen {
         float btnXPos = ((float)1/4 * screenWidth);
         float btnYPos = ((float)1/3 * screenHeight);
 
-        skin.add("btnNotClicked", Assets.manager.get(Assets.READYBTN, Texture.class));
-        skin.add("btnClicked", Assets.manager.get(Assets.READYBTNCLICKED, Texture.class));
-        skin.add("returnBtn", Assets.manager.get(Assets.RETURN_BTN, Texture.class));
+
+
+        skin.add("btnNotClicked", Assets.manager.get(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path() + Assets.READY_BTN, Texture.class));
+        skin.add("btnClicked", Assets.manager.get(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path() + Assets.READY_BTN, Texture.class));
+        skin.add("returnBtn", Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);

@@ -36,7 +36,7 @@ public class CreateGameScreen implements Screen{
         this.screenController = screenController;
         this.joinGame = joinGame;
         this.createGame = new CreateGame();
-        this.renderer = new CreateGameRenderer(createGame);
+        this.renderer = new CreateGameRenderer(createGame, joinGame);
         this.controller = new CreateGameController(createGame, this);
         this.stage = StageExtensionKeyboard.getCleanInstance();
         this.skin = new Skin();
@@ -59,10 +59,12 @@ public class CreateGameScreen implements Screen{
         /*
             Loads and returns the actors that can be acted upon on the screen
          */
+        /*
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 72;
         BitmapFont font = generator.generateFont(parameter);
+        */
 
         float screenHeight = Gdx.graphics.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -81,11 +83,13 @@ public class CreateGameScreen implements Screen{
 
         // Textfield styling
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        BitmapFont font = Assets.manager.get(Assets.TEXTFIELD_FONT);
         textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
         textFieldStyle.background = textFieldBackground;
         textFieldStyle.cursor = cursor;
         textFieldStyle.cursor.setMinWidth(2f);
+        textFieldStyle.messageFont = font;
         textFieldStyle.messageFontColor = Color.WHITE;
 
         // Create a textfield with the styling defined above

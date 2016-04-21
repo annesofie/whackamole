@@ -79,14 +79,14 @@ public class SettingsScreen implements Screen {
         Texture presThemeBtn = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN, Texture.class);
         Texture kardThemeBtnSelected = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN_SELECTED, Texture.class);
         Texture presThemeBtnSelected = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN_SELECTED, Texture.class);
-        Texture returnBtn = Assets.manager.get(Assets.RETURN_BTN, Texture.class);
+        Texture returnBtn = Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class);
         Texture minusBtn = Assets.manager.get(Assets.MINUSBTN, Texture.class);
         Texture minusBtnClicked = Assets.manager.get(Assets.MINUSBTNCLICKED, Texture.class);
         Texture plusBtn = Assets.manager.get(Assets.PLUSBTN, Texture.class);
         Texture plusBtnClicked = Assets.manager.get(Assets.PLUSBTNCLICKED, Texture.class);
 
-        Texture createBtn = Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class);
-        Texture createBtnClicked = Assets.manager.get(Assets.CREATE_GAME_BTN_CLICKED, Texture.class);
+        Texture createBtn = Assets.manager.get(Assets.PROCEED_BTN, Texture.class);
+        Texture createBtnClicked = Assets.manager.get(Assets.PROCEED_BTN_CLICKED, Texture.class);
 
         int theme_btn_diameter = kardThemeBtn.getWidth();
         int returnBtnWidth = returnBtn.getWidth();

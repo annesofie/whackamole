@@ -22,7 +22,6 @@ import com.whackamole.game.views.MainMenuRenderer;
 
 public class MainMenuScreen implements Screen {
 
-
     private MainMenuRenderer renderer;
     private final ScreenController screenController;
     private int screenWidth, screenHeight;
@@ -83,7 +82,6 @@ public class MainMenuScreen implements Screen {
         ImageButton createGameButton = new ImageButton(skin.getDrawable("createGameBtn"),skin.getDrawable("createGameClicked"));
         ImageButton joinGameButton = new ImageButton(skin.getDrawable("joinGameBtn"),skin.getDrawable("joinGameClicked"));
         ImageButton instructionsButton = new ImageButton(skin.getDrawable("instructionsBtn"),skin.getDrawable("instructionsClicked"));
-
 
 
         createGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*9/12-btnHeight/2);

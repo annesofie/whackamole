@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.Match;
+import com.whackamole.game.model.Player;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.StageExtension;
@@ -23,9 +24,9 @@ public class ReadyRenderer implements Renderer {
     Match match;
     StageExtension stage;
     Preferences prefs;
-    private float canvasHeight;
-    private float canvasWidth;
-    BitmapFont font;
+    private float screenHeight;
+    private float screenWidth;
+    private BitmapFont font;
 
 
     //Textures
@@ -34,8 +35,8 @@ public class ReadyRenderer implements Renderer {
     public ReadyRenderer() {
         this.match = Match.getCurrentMatch();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-        this.canvasHeight = Gdx.graphics.getHeight();
-        this.canvasWidth = Gdx.graphics.getWidth();
+        this.screenHeight = Gdx.graphics.getHeight();
+        this.screenWidth = Gdx.graphics.getWidth();
     }
 
 
@@ -48,14 +49,15 @@ public class ReadyRenderer implements Renderer {
     @Override
     public void render() {
 
-        //TODO: MANGLER Å RENDRE HVILKE SPILLERE SOM HAR MELDT SEG PÅ OG HVOR MANGE SOM HAR MELDT 'READY'.
-        //TODO: DENNE INFOEN FINNES I VARIABLENE UNDER :)
-        List<String> currentNickNames = match.getCurrentNickNames();
         int numOfReadyPlayers = match.numOfReadyPlayers();
+        String playerList = getTextualPlayerList();
 
         stage.act();
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0, canvasWidth, canvasHeight);
+        stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
+        font.draw(stage.getBatch(), "Players joined: " + match.getCurrentNickNames().size(), screenWidth/15, screenHeight*2/3 - screenHeight/20);
+        font.draw(stage.getBatch(), "Players ready: " + numOfReadyPlayers, screenWidth/15, screenHeight*2/3);
+        font.draw(stage.getBatch(), playerList, screenWidth/15, screenHeight*2/3 + screenHeight/20);
         stage.getBatch().end();
         stage.draw();
 
@@ -63,7 +65,24 @@ public class ReadyRenderer implements Renderer {
 
     private void loadTextures() {
         Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
+        if(theme == Theme.KARDASHIAN) {
+            font = Assets.manager.get(Assets.KARD_FONT_READY);
+        }
+        else {
+            font = Assets.manager.get(Assets.PRES_FONT_READY);
+        }
         background = Assets.manager.get(theme.path() + Assets.READYBACKGROUND, Texture.class);
-
     }
+
+    private String getTextualPlayerList(){
+        String playerList = "";
+        int pos = 1;
+        List<String> nickNames = match.getCurrentNickNames();
+        for(String nickName : nickNames){
+            playerList += pos + ". " + nickName + "\n";
+            pos++;
+        }
+        return playerList;
+    }
+
 }

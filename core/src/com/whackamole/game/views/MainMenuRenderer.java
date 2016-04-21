@@ -32,7 +32,7 @@ public class MainMenuRenderer implements Renderer {
     }
 
     private void loadTextures(){
-        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
+        background = Assets.manager.get(Assets.MAIN_MENU_BACKGROUND, Texture.class);
     }
 
 }

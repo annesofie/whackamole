@@ -53,14 +53,14 @@ public class InstructionScreen implements Screen {
 
     private StageExtension loadActors(){
 
-        Texture returnBtn = Assets.manager.get(Assets.RETURN_BTN, Texture.class);
+        Texture returnBtn = Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class);
         float returnBtnWidth = returnBtn.getWidth();
         float returnBtnHeight = returnBtn.getHeight();
 
         skin.add("returnBtn", returnBtn);
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2, screenHeight*8/10 - returnBtnHeight*2);
+        returnButton.setPosition(screenWidth/10 - returnBtnWidth*2, screenHeight*2/10 - returnBtnHeight*2);
 
         addClickListener(returnButton);
         stage.addActor(returnButton);

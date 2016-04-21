@@ -138,10 +138,8 @@ public class BoardController {
         touch_y = screenY;
         mole = board.getCurrentMole();
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
-            // PLay hit sound and hide the mole on hit.
             if(this.prefs.getBoolean(Prefs.ISSOUND.key())) {
                 hitsound.play(1);
-                mole.finish();
             }
             JSONObject json = new JSONObject();
             try {

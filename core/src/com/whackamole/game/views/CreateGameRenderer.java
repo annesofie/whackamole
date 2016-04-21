@@ -26,16 +26,18 @@ public class CreateGameRenderer implements Renderer {
 
     // MODEL
     private CreateGame createGame;
+    private boolean isJoinGame;
 
     // GAME PROPERTIES
     private int canvasHeight, canvasWidth;
     private StageExtensionKeyboard stage;
 
 
-    public CreateGameRenderer(CreateGame createGame) {
+    public CreateGameRenderer(CreateGame createGame, boolean isJoinGame) {
         this.createGame = createGame;
         canvasHeight = Gdx.graphics.getHeight();
         canvasWidth = Gdx.graphics.getWidth();
+        this.isJoinGame = isJoinGame;
     }
 
 
@@ -80,7 +82,12 @@ public class CreateGameRenderer implements Renderer {
     private void loadTextures() {
 
         // Setting up local references to already loaded textures
-        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
+        if(isJoinGame) {
+            background = Assets.manager.get(Assets.JOIN_GAME_BACKROUND, Texture.class);
+        }
+        else {
+            background = Assets.manager.get(Assets.NEW_GAME_BACKGROUND, Texture.class);
+        }
         invalidGameNameText = Assets.manager.get(Assets.INVALIDGAMENAME, Texture.class);
         invalidNickNameText = Assets.manager.get(Assets.INVALIDNICKNAME, Texture.class);
         gameNameAlreadyExistsText = Assets.manager.get(Assets.GAMENAMEALREADYEXISTS, Texture.class);

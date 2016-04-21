@@ -39,6 +39,8 @@ public class Assets {
 
     // Background texture on ready screen
     READYBACKGROUND = "ReadyBackground.png",
+    READY_BTN = "ReadyBtn.png",
+    READY_BTN_CLICKED = "ReadyBtnClicked.png",
 
     // Moles are defined in the MoleImage enum type
     MOLE0 = MoleImage.getFileNameOnImageId(0),
@@ -64,6 +66,8 @@ public class Assets {
     PRES_BOARD_TOP = presPath + BOARD_TOP,
     PRES_BOARD_SCORE = presPath + BOARD_SCORE,
     PRES_READYBACKGROUND = presPath + READYBACKGROUND,
+    PRES_READY_BTN = presPath + READY_BTN,
+    PRES_READY_BTN_CLICKED = presPath + READY_BTN,
 
     KARD_BOARD_BOTTOM = kardPath + BOARD_BOTTOM,
     KARD_BOARD_SECOND_BOTTOM = kardPath + BOARD_SECOND_BOTTOM,
@@ -71,6 +75,8 @@ public class Assets {
     KARD_BOARD_TOP = kardPath + BOARD_TOP,
     KARD_BOARD_SCORE = kardPath + BOARD_SCORE,
     KARD_READYBACKGROUND = kardPath + READYBACKGROUND,
+    KARD_READY_BTN = kardPath + READY_BTN,
+    KARD_READY_BTN_CLICKED = kardPath + READY_BTN_CLICKED,
 
     PRES_MOLE0 = presPath + MOLE0,
     PRES_MOLE1 = presPath + MOLE1,
@@ -105,11 +111,10 @@ public class Assets {
     public static final String
     BACKGROUND = imgDir + "Background.png",
     MAIN_MENU_BACKGROUND = imgDir + "MainMenuBackground.png",
-    KARD_READY_BACKGROUND = imgDir + "KardReadyBackground.png",
-    PRES_READY_BACKGROUND = imgDir + "PresReadyBackground.png",
     NEW_GAME_BACKGROUND = imgDir + "NewGameBackground.png",
     JOIN_GAME_BACKROUND = imgDir + "JoinGameBackground.png",
     SETTINGS_BACKGROUND = imgDir + "SettingsBackground.png",
+    GAME_OVER_BACKGROUND = imgDir + "GameOverBackground.png",
 
 
 
@@ -117,14 +122,16 @@ public class Assets {
     PROCEED_BTN_CLICKED = imgDir + "ProceedBtnClicked.png",
     JOIN_GAME_BTN = imgDir + "JoinGameBtn.png",
     INSTRUCTIONS_BTN = imgDir + "InstructionsBtn.png",
+    CREATE_GAME_BTN = imgDir + "CreateGameBtnClicked.png",
     CREATE_GAME_BTN_CLICKED = imgDir + "CreateGameBtnClicked.png",
     JOIN_GAME_BTN_CLICKED = imgDir + "JoinGameBtnClicked.png",
     INSTRUCTIONS_BTN_CLICKED = imgDir + "InstructionsBtnClicked.png",
     KARDASHIAN_THEME_BTN_SELECTED = imgDir + "KardashianBtnSelected.png",
     PRESEDENTIAL_THEME_BTN_SELECTED = imgDir + "PresedentialBtnSelected.png",
-    LARGE_BACK_BTN = imgDir + "LargeBackBtn.png",
+
 
     //
+    LARGE_BACK_BTN = imgDir + "LargeBackBtn.png",
     RETURN_BTN = imgDir + "ReturnBtn.png",
     INSTRUCTIONS = imgDir + "Instructions.png",
     WHITE_RECTANGLE = imgDir + "WhiteRectangle.png",
@@ -155,13 +162,7 @@ public class Assets {
     NOGAMEWITHNAMEEXISTS = txtfieldDir + "NoGameWithNameExists.png",
     GAMEISFULL = txtfieldDir + "GameIsFull.png",
     ENTERBTN = imgDir + "EnterBtn.png",
-    ENTERBTNCLICKED = imgDir + "EnterBtnClicked.png",
-
-    // READY SCREEN
-    KARD_READY_BTN = imgDir + "KardReadyBtn.png",
-    KARD_READY_BTN_CLICKED = imgDir + "KardReadyBtnClicked.png",
-    PRES_READY_BTN = imgDir + "PresReadyBtn.png",
-    PRES_READY_BTN_CLIKED = imgDir + "PresReadyBtnClicked.png";
+    ENTERBTNCLICKED = imgDir + "EnterBtnClicked.png";
 
 
 
@@ -180,7 +181,8 @@ public class Assets {
     PRES_FONT_READY = "fonts/BangersPresReady.ttf",
     KARD_FONT_READY = "fonts/BangersKardReady.ttf",
     GAME_OVER_FONT = "fonts/BangersGameOver.ttf",
-    SETTINGS_FONT = "fonts/BangersSettings.ttf";
+    SETTINGS_FONT = "fonts/BangersSettings.ttf",
+    TEXTFIELD_FONT = "fonts/BangersTextfield.ttf";
 
     public static final int
     PRES_FONT_R = 15,

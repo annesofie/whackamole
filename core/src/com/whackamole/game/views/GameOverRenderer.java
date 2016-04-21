@@ -58,17 +58,21 @@ public class GameOverRenderer implements Renderer {
     }
 
     private void loadTextures() {
-        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
-        headline = Assets.manager.get(Assets.GAME_OVER_HEADLINE, Texture.class);
-        headlineWidth = headline.getWidth();
+        background = Assets.manager.get(Assets.GAME_OVER_BACKGROUND, Texture.class);
+        //headline = Assets.manager.get(Assets.GAME_OVER_HEADLINE, Texture.class);
+        //headlineWidth = headline.getWidth();
         highScoreList = getTextualHighScoreList();
 
+        font = Assets.manager.get(Assets.GAME_OVER_FONT);
+
+        /*
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = screenHeight/20;
         font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
         generator.dispose();
+        */
     }
 
     private String getTextualHighScoreList(){
