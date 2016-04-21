@@ -201,10 +201,12 @@ public class CreateGameController {
 
             JsonValue json = new JsonReader().parse((String) args[0]);
             int themeId = json.getInt("themeId");
+            int numOfPlayers = json.getInt("numOfPlayers");
+            prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
             if(!(prefs.getInteger(Prefs.THEME.key()) == themeId)) {
                 prefs.putInteger(Prefs.THEME.key(), themeId);
-                prefs.flush();
             }
+            //prefs.flush();
 
             createGame.setGameIsFull(false);
             createGame.setNoGameWithNameExists(false);

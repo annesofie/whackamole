@@ -60,7 +60,6 @@ public class BoardController {
         socket = socketRetreiver.getSocket();
 
         socket.on("disconnect", disconnected);
-        socket.on("start game error", startGameError);
         socket.on("player hit", playerHit);
         socket.on("new mole", onNewMole);
         socket.on("game finished", onGameFinished);
@@ -89,20 +88,7 @@ public class BoardController {
             }
 
             gameFinished = true;
-            // TODO: Switch to GameOverScreen when that one is done
             screenController.goToGameOverScreen();
-            socket.disconnect();
-        }
-    };
-
-    private  Emitter.Listener startGameError = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-
-            //TODO: HÅNDTERE FEIL VED START GAME. GI BRUKER FEEDBACK OG GÅ TIL GAME OVER SCREEN
-
-            String msg = (String) args[0];
-            System.out.println(msg);
         }
     };
 
@@ -112,11 +98,6 @@ public class BoardController {
         public void call(Object... args) {
             JSONObject obj = (JSONObject) args[0];
             try {
-                try {
-                    board.getCurrentMole().finish();
-                }catch(Exception e) {
-                    System.out.println(e.toString());
-                }
                 String nickName = obj.getString("nickName");
                 int points = obj.getInt("points");
                 int totalScore = obj.getInt("totalScore");
@@ -128,15 +109,15 @@ public class BoardController {
                 else {
                     try {
                         board.getCurrentMole().finish();
-                    }catch(Exception e) {}
-                    board.setHitTheLastMole(false, 0);
-                    match.setScoreToUser(nickName, totalScore);
+                    } catch (Exception e) {
+                        board.setHitTheLastMole(false, 0);
+                        match.setScoreToUser(nickName, totalScore);
+                    }
                 }
                 board.setNotFirstRound();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
     };
 
@@ -177,11 +158,13 @@ public class BoardController {
                 e.printStackTrace();
             }
             socket.emit("mole hit", json);
+            /*
             try {
                 mole.finish();
             }catch(Exception e) {
                 System.out.println(e.toString());
             }
+            */
         }
         return true;
     }

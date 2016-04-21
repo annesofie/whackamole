@@ -214,8 +214,8 @@ public class Assets {
             params.fontParameters.borderColor = Color.DARK_GRAY;
         }
         else  {
-            params.fontParameters.color = Color.FIREBRICK;
-            params.fontParameters.borderColor = Color.WHITE;
+            params.fontParameters.color = Color.WHITE;
+            params.fontParameters.borderColor = Color.FIREBRICK;
         }
         params.fontParameters.borderWidth = 2;
 
