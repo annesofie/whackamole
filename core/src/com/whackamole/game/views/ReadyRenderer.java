@@ -55,8 +55,8 @@ public class ReadyRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
-        font.draw(stage.getBatch(), match.getCurrentNickNames().size() + " of " + prefs.getInteger(Prefs.NUMOFMOLES.key()) + " players joined.", screenWidth * 3 / 20, screenHeight * 31 / 44);
-        font.draw(stage.getBatch(), "Players ready: " + numOfReadyPlayers, screenWidth*3/20, screenHeight*29/44);
+        font.draw(stage.getBatch(), match.getCurrentNickNames().size() + " of " + match.getNumOfPlayers() + " players joined.", screenWidth * 3 / 20, screenHeight * 31 / 44);
+        font.draw(stage.getBatch(), "Ready players: " + numOfReadyPlayers, screenWidth*3/20, screenHeight*29/44);
         font.draw(stage.getBatch(), playerList, screenWidth*3/20, screenHeight*25/44);
         stage.getBatch().end();
         stage.draw();
@@ -77,9 +77,15 @@ public class ReadyRenderer implements Renderer {
     private String getTextualPlayerList(){
         String playerList = "";
         int pos = 1;
-        List<String> nickNames = match.getCurrentNickNames();
-        for(String nickName : nickNames){
-            playerList += pos + ". " + nickName + "\n";
+        List<Player> players = match.getPlayerList();
+        for(Player player : players){
+            if(player.isReady()) {
+                playerList += pos + ". " + player.getNickname() + " - ready\n";
+            }
+            else {
+                playerList += pos + ". " + player.getNickname()+ "\n";
+            }
+
             pos++;
         }
         return playerList;

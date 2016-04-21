@@ -13,7 +13,7 @@ public class Match {
     private Player thisPlayer; // The user that created the match
     private List<Player> playerList;
     private String gameName;
-
+    private int numOfPlayers;
     private static Match currentMatch;
 
 
@@ -22,6 +22,7 @@ public class Match {
         playerList = new ArrayList<Player>();
         playerList.add(thisPlayer);
         gameName = null;
+        numOfPlayers = 0;
     }
 
     public static void startNewMatch() {
@@ -131,6 +132,21 @@ public class Match {
         }
         return false;
     }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int num) {
+        numOfPlayers = num;
+
+    }
+
+    public List<Player> getPlayerList() {
+        return playerList;
+    }
+
+
 
     private int getThisPlayerScore() {
         return this.thisPlayer.getScore();

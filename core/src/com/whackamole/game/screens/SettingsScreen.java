@@ -8,12 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.StageExtension;
@@ -38,6 +38,7 @@ public class SettingsScreen implements Screen {
     private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
     private CheckBox presCheckBox;
+    private Match match;
 
 
     public SettingsScreen(final ScreenController screenController) {
@@ -46,6 +47,12 @@ public class SettingsScreen implements Screen {
         this.stage = StageExtension.getCleanInstance();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.renderer = new GameSettingsRenderer();
+
+        // The SettingsScreen is the first screen visited in the process of creating a new game.
+        // A new match is therefore started here
+        Match.startNewMatch();
+        this.match = Match.getCurrentMatch();
+
         screenWidth = Gdx.graphics.getWidth();
         screenHeight = Gdx.graphics.getHeight();
 
@@ -163,10 +170,12 @@ public class SettingsScreen implements Screen {
         plusButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getInteger(Prefs.NUMOFPLAYERS.key()) < 5){
-                    prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) + 1);
+                int numOfPlayers = prefs.getInteger(Prefs.NUMOFPLAYERS.key());
+                if(numOfPlayers < 5){
+                    numOfPlayers = numOfPlayers + 1;
+                    prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
                     prefs.flush();
-                    System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+                    match.setNumOfPlayers(numOfPlayers);
                 }
 
             }
@@ -175,10 +184,12 @@ public class SettingsScreen implements Screen {
         minusButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getInteger(Prefs.NUMOFPLAYERS.key()) > 1){ //TODO: BYTTE TIL 2 VED DEPLOY
-                    prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) - 1);
+                int numOfPlayers = prefs.getInteger(Prefs.NUMOFPLAYERS.key());
+                if(numOfPlayers > 1){
+                    numOfPlayers = numOfPlayers - 1;
+                    prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
                     prefs.flush();
-                    System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+                    match.setNumOfPlayers(numOfPlayers);
                 }
 
             }

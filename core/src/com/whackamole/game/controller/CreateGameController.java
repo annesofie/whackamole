@@ -164,8 +164,6 @@ public class CreateGameController {
     private Emitter.Listener onNewGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            // Start a new match
-            Match.startNewMatch();
             match = Match.getCurrentMatch();
 
             String msg = (String) args[0];

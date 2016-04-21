@@ -108,7 +108,7 @@ public class BoardController {
                 }
                 else {
                     try {
-                        board.getCurrentMole().finish();
+                        //board.getCurrentMole().finish();
                     } catch (Exception e) {
                         board.setHitTheLastMole(false, 0);
                         match.setScoreToUser(nickName, totalScore);
@@ -146,8 +146,14 @@ public class BoardController {
         touch_y = screenY;
         mole = board.getCurrentMole();
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
+
             if(isSound) {
                 hitsound.play(1);
+            }
+            try {
+                mole.finish();
+            }catch(Exception e) {
+                System.out.println(e.toString());
             }
             JSONObject json = new JSONObject();
             try {
@@ -158,13 +164,6 @@ public class BoardController {
                 e.printStackTrace();
             }
             socket.emit("mole hit", json);
-            /*
-            try {
-                mole.finish();
-            }catch(Exception e) {
-                System.out.println(e.toString());
-            }
-            */
         }
         return true;
     }
