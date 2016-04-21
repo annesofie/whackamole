@@ -235,8 +235,6 @@ public class Assets {
         params.fontParameters.magFilter = Texture.TextureFilter.Linear;
 
         params.fontParameters.color = Color.BLACK;
-        params.fontParameters.borderColor = Color.LIGHT_GRAY;
-        params.fontParameters.borderWidth = 2;
 
         Assets.manager.load(fontFile, BitmapFont.class, params);
         System.out.println("Generated font of size " + Math.round(fontToScreenRatio));

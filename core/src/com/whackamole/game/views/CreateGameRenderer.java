@@ -23,7 +23,8 @@ public class CreateGameRenderer implements Renderer {
     private Texture gameNameAlreadyExistsText;
     private Texture noGameWithNameExistsText;
     private Texture gameIsFullText;
-    private Texture unableToConnect;
+    private Texture unableToConnectText;
+    private Texture nickNameTakenText;
 
     // MODEL
     private CreateGame createGame;
@@ -61,21 +62,25 @@ public class CreateGameRenderer implements Renderer {
             float verticalMargin = getVerticalMargin(gameNameAlreadyExistsText);
             stage.getBatch().draw(gameNameAlreadyExistsText, verticalMargin, ((canvasHeight/2)- 150), gameNameAlreadyExistsText.getWidth(), gameNameAlreadyExistsText.getHeight());
         }
-        else if(createGame.noGameWithNameExists()) {
+        else if(isJoinGame && createGame.noGameWithNameExists()) {
             float verticalMargin = getVerticalMargin(noGameWithNameExistsText);
             stage.getBatch().draw(noGameWithNameExistsText, verticalMargin, ((canvasHeight/2) - 150), noGameWithNameExistsText.getWidth(), noGameWithNameExistsText.getHeight());
         }
-        else if(createGame.gameIsFull()) {
+        else if(isJoinGame && createGame.gameIsFull()) {
             float verticalMargin = getVerticalMargin(gameIsFullText);
             stage.getBatch().draw(gameIsFullText, verticalMargin, ((canvasHeight/2) - 150), invalidGameNameText.getWidth(), invalidGameNameText.getHeight());
         }
         else if(createGame.isUnableToConnect()) {
-            float vericalMargin = getVerticalMargin(unableToConnect);
-            stage.getBatch().draw(unableToConnect, vericalMargin, ((canvasHeight/2)- 150), gameNameAlreadyExistsText.getWidth(), gameNameAlreadyExistsText.getHeight());
+            float vericalMargin = getVerticalMargin(unableToConnectText);
+            stage.getBatch().draw(unableToConnectText, vericalMargin, ((canvasHeight/2)- 150), gameNameAlreadyExistsText.getWidth(), gameNameAlreadyExistsText.getHeight());
         }
         if(createGame.isInvalidNickName()) {
             float verticalMargin = getVerticalMargin(invalidNickNameText);
             stage.getBatch().draw(invalidNickNameText, verticalMargin, ((canvasHeight/2) + 400 - 150), invalidNickNameText.getWidth(), invalidNickNameText.getHeight());
+        }
+        else if(isJoinGame && createGame.nickNameIsTaken()) {
+            float verticalMargin = getVerticalMargin(gameNameAlreadyExistsText);
+            stage.getBatch().draw(nickNameTakenText, verticalMargin, ((canvasHeight/2) + 400 - 150), nickNameTakenText.getWidth(), nickNameTakenText.getHeight());
         }
         stage.getBatch().end();
 
@@ -95,10 +100,11 @@ public class CreateGameRenderer implements Renderer {
         }
         invalidGameNameText = Assets.manager.get(Assets.INVALIDGAMENAME, Texture.class);
         invalidNickNameText = Assets.manager.get(Assets.INVALIDNICKNAME, Texture.class);
+        nickNameTakenText = Assets.manager.get(Assets.NICKNAMETAKEN, Texture.class);
         gameNameAlreadyExistsText = Assets.manager.get(Assets.GAMENAMEALREADYEXISTS, Texture.class);
         noGameWithNameExistsText = Assets.manager.get(Assets.NOGAMEWITHNAMEEXISTS, Texture.class);
         gameIsFullText = Assets.manager.get(Assets.GAMEISFULL, Texture.class);
-        unableToConnect = Assets.manager.get(Assets.UNABLETOCONNECT, Texture.class);
+        unableToConnectText = Assets.manager.get(Assets.UNABLETOCONNECT, Texture.class);
     }
 
 

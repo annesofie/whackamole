@@ -90,10 +90,6 @@ public class Match {
         return list;
     }
 
-    public void setPlayerList(List<Player> playerList) {
-        this.playerList = playerList;
-    }
-
     public void setGameName(String gameName) {
         this.gameName = gameName;
     }

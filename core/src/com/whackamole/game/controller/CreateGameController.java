@@ -37,6 +37,31 @@ public class CreateGameController {
         this.screenController = screenController;
     }
 
+
+    public void loadController() {
+        SocketRetreiver retreiver = SocketRetreiver.getInstance();
+        socket = retreiver.getSocket();
+        socket.connect();
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                System.out.println("connected to socket");
+                System.out.println("Socket id: " + socket.id());
+            }
+        });
+
+        socket.on("new game success", onNewGameSuccess);
+        socket.on("game name length", onGameNameLength);
+        socket.on("game already exists", onGameAlreadyExists);
+        socket.on("connect_error", connectError);
+        socket.on("disconnect", disconnected);
+        socket.on("join game success", onJoinGameSuccess);
+        socket.on("game is full", onGameIsFull);
+        socket.on("game nonexistent", onGameNonExistent);
+        socket.on("nickname taken", onNickNameTaken);
+    }
+
+
     // TODO: grundigere sjekk av lovlige tegn
     public boolean isValidGameName(String gameName) {
         if(gameName.trim().length() == 0 || gameName.length() < 3) {
@@ -69,51 +94,19 @@ public class CreateGameController {
 
         if(!createGameClicked) {
             createGameClicked = true;
-            SocketRetreiver retreiver = SocketRetreiver.getInstance();
-            socket = retreiver.getSocket();
-            socket.connect();
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    System.out.println("Connected to socket.");
-                    System.out.println("Socket id: " + socket.id());
-                    emitNewGame(gameName, nickName);
-                }
-            });
+            emitNewGame(gameName, nickName);
         }
-
-        socket.on("disconnect", disconnected);
-        socket.on("connect_error", connectError);
-        socket.on("new game success", onNewGameSuccess);
-        socket.on("game name length", onGameNameLength);
-        socket.on("game already exists", onGameAlreadyExists);
     }
 
 
     public void joinGame(String gamename, String nickname) {
         this.gameName = gamename;
         this.nickName = nickname;
-
         if(!joinGameClicked) {
             joinGameClicked = true;
-            SocketRetreiver retreiver = SocketRetreiver.getInstance();
-            socket = retreiver.getSocket();
-            socket.connect();
-            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-                @Override
-                public void call(Object... args) {
-                    System.out.println("connected to socket");
-                    System.out.println("Socket id: " + socket.id());
-                    emitJoinGame(gameName, nickName);
-                }
-            });
+            emitJoinGame(gameName, nickName);
         }
-        socket.on("connect_error", connectError);
-        socket.on("disconnect", disconnected);
-        socket.on("join game success", onJoinGameSuccess);
-        socket.on("game is full error", onGameIsFull);
-        socket.on("game nonexistent error", onGameNonExistent);
-        socket.on("nickName taken", onNickNameTaken);
+
     }
 
     private void emitNewGame(String gameName, String nickName) {
@@ -263,6 +256,7 @@ public class CreateGameController {
     private Emitter.Listener onNickNameTaken = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            System.out.println("Nickname was taken");
             joinGameClicked = false;
             createGame.setNickNameTaken(true);
         }

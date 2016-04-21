@@ -45,7 +45,7 @@ public class GameOverScreen implements Screen {
     private StageExtension loadActors(){
         skin = new Skin();
 
-        skin.add("returnBtn", Assets.manager.get(Assets.RETURN_BTN, Texture.class));
+        skin.add("returnBtn", Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class));
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
         returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);

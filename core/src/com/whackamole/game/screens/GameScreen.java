@@ -12,6 +12,7 @@ import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.BoardRenderer;
@@ -99,6 +100,7 @@ public class GameScreen implements Screen, InputProcessor {
             backgroundmusic.stop();
             backgroundmusic.dispose();
         }
+        SocketRetreiver.getInstance().getSocket().disconnect();
     }
 
     // Nothing to dispose in this class at the moment
