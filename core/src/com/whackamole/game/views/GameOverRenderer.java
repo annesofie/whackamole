@@ -45,9 +45,9 @@ public class GameOverRenderer implements Renderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.getBatch().begin();
-        stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(headline,screenWidth/2 - headlineWidth/2,screenHeight*8/10);
-        font.draw(stage.getBatch(),highScoreList,screenWidth/15,screenHeight*2/3);
+        stage.getBatch().draw(background,0,0, screenWidth, screenHeight);
+        //stage.getBatch().draw(headline, screenWidth/2 - headlineWidth/2, screenHeight*8/10);
+        font.draw(stage.getBatch(), highScoreList, screenWidth/13, screenHeight*31/44);
         stage.getBatch().end();
         stage.draw();
     }

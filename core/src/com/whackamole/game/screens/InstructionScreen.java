@@ -60,7 +60,7 @@ public class InstructionScreen implements Screen {
         skin.add("returnBtn", returnBtn);
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
-        returnButton.setPosition(screenWidth/10 - returnBtnWidth*2, screenHeight*2/10 - returnBtnHeight*2);
+        returnButton.setPosition(screenWidth/10, screenHeight*2/10 + screenHeight/20);
 
         addClickListener(returnButton);
         stage.addActor(returnButton);

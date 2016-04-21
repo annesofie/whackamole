@@ -29,6 +29,8 @@ public class BoardController {
     private Match match;
     private Preferences prefs;
     private ScreenController screenController;
+    private boolean isSound;
+    private boolean gameFinished;
 
     public BoardController(Board board, ScreenController screenController) {
 
@@ -36,10 +38,13 @@ public class BoardController {
         this.match = Match.getCurrentMatch();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.screenController = screenController;
+        this.gameFinished = false;
 
     }
 
     public void loadController() {
+
+        isSound = this.prefs.getBoolean(Prefs.ISSOUND.key());
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
@@ -54,11 +59,23 @@ public class BoardController {
         SocketRetreiver socketRetreiver = SocketRetreiver.getInstance();
         socket = socketRetreiver.getSocket();
 
+        socket.on("disconnect", disconnected);
         socket.on("start game error", startGameError);
         socket.on("player hit", playerHit);
         socket.on("new mole", onNewMole);
         socket.on("game finished", onGameFinished);
     }
+
+    private Emitter.Listener disconnected = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            if(!gameFinished) {
+                //TODO: varsle spiller om at han ble disconnectet
+                System.out.println("Disconnected and was redirected to MainMenuScreen from ReadyController.");
+                screenController.goToMainMenuScreen();
+            }
+        }
+    };
 
 
     private Emitter.Listener onGameFinished = new Emitter.Listener() {
@@ -71,6 +88,7 @@ public class BoardController {
                 match.setScoreToUser(attender.getString("nickName"), attender.getInt("points"));
             }
 
+            gameFinished = true;
             // TODO: Switch to GameOverScreen when that one is done
             screenController.goToGameOverScreen();
             socket.disconnect();
@@ -94,6 +112,11 @@ public class BoardController {
         public void call(Object... args) {
             JSONObject obj = (JSONObject) args[0];
             try {
+                try {
+                    board.getCurrentMole().finish();
+                }catch(Exception e) {
+                    System.out.println(e.toString());
+                }
                 String nickName = obj.getString("nickName");
                 int points = obj.getInt("points");
                 int totalScore = obj.getInt("totalScore");
@@ -123,7 +146,9 @@ public class BoardController {
         public void call(Object... args) {
             try {
                 board.getCurrentMole().finish();
-            }catch(Exception e) {}
+            }catch(Exception e) {
+                System.out.println(e.toString());
+            }
             JSONObject obj = (JSONObject) args[0];
             try {
                 receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
@@ -138,7 +163,7 @@ public class BoardController {
         touch_y = screenY;
         mole = board.getCurrentMole();
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
-            if(this.prefs.getBoolean(Prefs.ISSOUND.key())) {
+            if(isSound) {
                 hitsound.play(1);
             }
             JSONObject json = new JSONObject();
@@ -150,6 +175,11 @@ public class BoardController {
                 e.printStackTrace();
             }
             socket.emit("mole hit", json);
+            try {
+                mole.finish();
+            }catch(Exception e) {
+                System.out.println(e.toString());
+            }
         }
         return true;
     }
@@ -166,13 +196,9 @@ public class BoardController {
 
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}
     public boolean keyDown(int keycode) {return false;}
-
     public boolean keyUp(int keycode) {return false;}
-
     public boolean keyTyped(char character) {return false;}
-
     public boolean touchDragged(int screenX, int screenY, int pointer) {return false;}
     public boolean mouseMoved(int screenX, int screenY) {return false;}
-
     public boolean scrolled(int amount) {return false;}
 }

@@ -3,7 +3,7 @@ package com.whackamole.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.Texture;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.screens.*;
@@ -13,17 +13,17 @@ import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.utils.StageExtensionKeyboard;
 import com.whackamole.game.views.Assets;
 
-/**
- * Created by Lars on 07/04/16.
- */
+
 public class WhackAMole extends Game implements ScreenController {
 
     private ScreenController screenController;
+    private StageExtension stage;
 
     @Override
     public void create() {
 
         screenController = this;
+        stage = StageExtension.getCleanInstance();
         loadDefaultPrefs();
         loadFontAssets();
         loadAndInitializeAllAssets();
@@ -31,6 +31,12 @@ public class WhackAMole extends Game implements ScreenController {
         // Initial screen to be displayed on app startup
         goToMainMenuScreen();
     }
+
+    @Override
+    public void render() {
+
+    }
+
 
     @Override
     public void goToGameScreen() {
@@ -75,13 +81,13 @@ public class WhackAMole extends Game implements ScreenController {
     // Loads TrueType fonts that are used to render nicely scaled text dynamically at runtime.
     public void loadFontAssets() {
         // Font assets for renderer
-        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/30), Assets.PRES_FONT_GAME);
-        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/30), Assets.KARD_FONT_GAME);
+        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/35), Assets.PRES_FONT_GAME);
+        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/35), Assets.KARD_FONT_GAME);
         Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/30), Assets.PRES_FONT_READY);
         Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/30), Assets.KARD_FONT_READY);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.GAME_OVER_FONT);
+        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/35), Assets.GAME_OVER_FONT);
         Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.SETTINGS_FONT);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.TEXTFIELD_FONT);
+        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/35), Assets.TEXTFIELD_FONT);
     }
 
 

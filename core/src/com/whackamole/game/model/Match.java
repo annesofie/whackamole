@@ -33,7 +33,9 @@ public class Match {
     }
 
     public void addPlayer(String nickName) {
-        this.playerList.add(new Player(nickName));
+        if(!(this.isPlayer(nickName))) {
+            this.playerList.add(new Player(nickName));
+        }
     }
 
     public int getScoreOnUserName(String nickName) {
@@ -121,6 +123,15 @@ public class Match {
             }
         }
         return null;
+    }
+
+    private boolean isPlayer(String nickName) {
+        for(Player player : playerList) {
+            if(player.getNickname().equals(nickName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int getThisPlayerScore() {

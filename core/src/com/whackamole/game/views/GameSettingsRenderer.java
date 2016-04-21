@@ -58,7 +58,7 @@ public class GameSettingsRenderer implements Renderer {
         //stage.getBatch().draw(chooseThemeText, screenWidth/4, screenHeight*9/20);
         //stage.getBatch().draw(headline, screenWidth/4, screenHeight*8/10 - headlineHeight*5/2);
         //stage.getBatch().draw(whiteRectangle, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
-        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*8/12);
+        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*17/24);
         stage.getBatch().end();
         stage.draw();
     }

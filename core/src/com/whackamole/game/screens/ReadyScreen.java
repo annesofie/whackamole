@@ -64,8 +64,7 @@ public class ReadyScreen implements Screen {
         float screenHeight = Gdx.graphics.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
         float btnXPos = ((float)1/4 * screenWidth);
-        float btnYPos = ((float)1/3 * screenHeight);
-
+        float btnYPos = ((float)1/4 * screenHeight);
 
 
         skin.add("btnNotClicked", Assets.manager.get(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path() + Assets.READY_BTN, Texture.class));
@@ -105,6 +104,9 @@ public class ReadyScreen implements Screen {
         screenController.goToGameScreen();
     }
 
+    public void goToMainMenuScreen() {
+        screenController.goToMainMenuScreen();
+    }
 
     @Override
     public void hide() {;

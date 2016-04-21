@@ -12,9 +12,7 @@ import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.GameOverRenderer;
 
-/**
- * Created by AnneSofie on 04.04.2016.
- */
+
 public class GameOverScreen implements Screen {
 
 
@@ -56,7 +54,6 @@ public class GameOverScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screenController.goToMainMenuScreen();
-                dispose();
             }
         });
 

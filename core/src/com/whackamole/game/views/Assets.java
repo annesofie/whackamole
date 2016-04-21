@@ -113,7 +113,7 @@ public class Assets {
     MAIN_MENU_BACKGROUND = imgDir + "MainMenuBackground.png",
     NEW_GAME_BACKGROUND = imgDir + "NewGameBackground.png",
     JOIN_GAME_BACKROUND = imgDir + "JoinGameBackground.png",
-    SETTINGS_BACKGROUND = imgDir + "SettingsBackground.png",
+    SETTINGS_BACKGROUND = settingsDir + "SettingsBackground.png",
     GAME_OVER_BACKGROUND = imgDir + "GameOverBackground.png",
 
 
@@ -122,7 +122,7 @@ public class Assets {
     PROCEED_BTN_CLICKED = imgDir + "ProceedBtnClicked.png",
     JOIN_GAME_BTN = imgDir + "JoinGameBtn.png",
     INSTRUCTIONS_BTN = imgDir + "InstructionsBtn.png",
-    CREATE_GAME_BTN = imgDir + "CreateGameBtnClicked.png",
+    CREATE_GAME_BTN = imgDir + "CreateGameBtn.png",
     CREATE_GAME_BTN_CLICKED = imgDir + "CreateGameBtnClicked.png",
     JOIN_GAME_BTN_CLICKED = imgDir + "JoinGameBtnClicked.png",
     INSTRUCTIONS_BTN_CLICKED = imgDir + "InstructionsBtnClicked.png",
@@ -160,6 +160,8 @@ public class Assets {
     INVALIDNICKNAME = txtfieldDir + "InvalidNickName.png",
     GAMENAMEALREADYEXISTS = txtfieldDir + "GameNameAlreadyExists.png",
     NOGAMEWITHNAMEEXISTS = txtfieldDir + "NoGameWithNameExists.png",
+    NICKNAMETAKEN = txtfieldDir + "NickNameTaken.png",
+    UNABLETOCONNECT = txtfieldDir + "UnableToConnect.png",
     GAMEISFULL = txtfieldDir + "GameIsFull.png",
     ENTERBTN = imgDir + "EnterBtn.png",
     ENTERBTNCLICKED = imgDir + "EnterBtnClicked.png";
@@ -208,8 +210,8 @@ public class Assets {
         params.fontParameters.magFilter = Texture.TextureFilter.Linear;
 
         if(theme.equals(Theme.KARDASHIAN)) {
-            params.fontParameters.color = Color.VIOLET;
-            params.fontParameters.borderColor = Color.WHITE;
+            params.fontParameters.color = Color.WHITE;
+            params.fontParameters.borderColor = Color.DARK_GRAY;
         }
         else  {
             params.fontParameters.color = Color.FIREBRICK;
@@ -234,7 +236,7 @@ public class Assets {
 
         params.fontParameters.color = Color.BLACK;
         params.fontParameters.borderColor = Color.LIGHT_GRAY;
-        params.fontParameters.borderWidth = 3;
+        params.fontParameters.borderWidth = 2;
 
         Assets.manager.load(fontFile, BitmapFont.class, params);
         System.out.println("Generated font of size " + Math.round(fontToScreenRatio));

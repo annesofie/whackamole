@@ -27,14 +27,17 @@ public class CreateGameController {
     private String nickName;
     private Match match;
     private Preferences prefs;
-    private CreateGameScreen createGameScreen;
+    private ScreenController screenController;
+    private boolean joinGameClicked;
+    private boolean createGameClicked;
 
-    public CreateGameController(CreateGame createGame, CreateGameScreen createGameScreen) {
+    public CreateGameController(CreateGame createGame, ScreenController screenController) {
         this.createGame = createGame;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-        this.createGameScreen = createGameScreen;
+        this.screenController = screenController;
     }
 
+    // TODO: grundigere sjekk av lovlige tegn
     public boolean isValidGameName(String gameName) {
         if(gameName.trim().length() == 0 || gameName.length() < 3) {
             createGame.setInvalidGameName(true);
@@ -64,18 +67,23 @@ public class CreateGameController {
         this.gameName = gamename;
         this.nickName = nickname;
 
-        SocketRetreiver retreiver = SocketRetreiver.getInstance();
-        socket = retreiver.getSocket();
-        socket.connect();
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                System.out.println("Connected to socket.");
-                emitNewGame(gameName, nickName);
-                System.out.println("Socket id: " + socket.id());
-            }
-        });
+        if(!createGameClicked) {
+            createGameClicked = true;
+            SocketRetreiver retreiver = SocketRetreiver.getInstance();
+            socket = retreiver.getSocket();
+            socket.connect();
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    System.out.println("Connected to socket.");
+                    System.out.println("Socket id: " + socket.id());
+                    emitNewGame(gameName, nickName);
+                }
+            });
+        }
 
+        socket.on("disconnect", disconnected);
+        socket.on("connect_error", connectError);
         socket.on("new game success", onNewGameSuccess);
         socket.on("game name length", onGameNameLength);
         socket.on("game already exists", onGameAlreadyExists);
@@ -86,18 +94,22 @@ public class CreateGameController {
         this.gameName = gamename;
         this.nickName = nickname;
 
-        SocketRetreiver retreiver = SocketRetreiver.getInstance();
-        socket = retreiver.getSocket();
-        socket.connect();
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                System.out.println("connected to socket");
-                emitJoinGame(gameName, nickName);
-                System.out.println("Socket id: " + socket.id());
-            }
-        });
-
+        if(!joinGameClicked) {
+            joinGameClicked = true;
+            SocketRetreiver retreiver = SocketRetreiver.getInstance();
+            socket = retreiver.getSocket();
+            socket.connect();
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    System.out.println("connected to socket");
+                    System.out.println("Socket id: " + socket.id());
+                    emitJoinGame(gameName, nickName);
+                }
+            });
+        }
+        socket.on("connect_error", connectError);
+        socket.on("disconnect", disconnected);
         socket.on("join game success", onJoinGameSuccess);
         socket.on("game is full error", onGameIsFull);
         socket.on("game nonexistent error", onGameNonExistent);
@@ -129,12 +141,30 @@ public class CreateGameController {
     }
 
 
+    private Emitter.Listener connectError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            joinGameClicked = false;
+            createGame.setUnableToConnect(true);
+        }
+    };
+
+    private Emitter.Listener disconnected = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO: display that user was disconnected by the server
+            System.out.println("Disconnected in createGameController.");
+            joinGameClicked = false;
+        }
+    };
+
     private Emitter.Listener onGameNameLength = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
+            // This check is already done by the client.
+            joinGameClicked = false;
             String msg = (String) args[0];
             System.out.println(msg);
-            // TODO: VARLSE BRUKER OM AT NAVNET ER FOR LANGT. MEN TROR DETTE GJØRES AV APPEN ALLEREDE I EN IF-SETNING
         }
     };
 
@@ -147,11 +177,15 @@ public class CreateGameController {
 
             String msg = (String) args[0];
             System.out.println(msg);
+
             createGame.setGameNameAlreadyExists(false);
+            createGame.setUnableToConnect(false);
+
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
 
-            createGameScreen.goToReadyScreen();
+            screenController.goToReadyScreen();
+            createGameClicked = false;
         }
     };
 
@@ -160,8 +194,8 @@ public class CreateGameController {
         public void call(Object... args) {
             String msg = (String) args[0];
             System.out.println(msg);
+            joinGameClicked = false;
             createGame.setGameIsFull(true);
-            // TODO: VISE TIL BRUKER AT SPILLET ER FULT PÅ SKJERMEN
         }
     };
 
@@ -181,6 +215,9 @@ public class CreateGameController {
 
             createGame.setGameIsFull(false);
             createGame.setNoGameWithNameExists(false);
+            createGame.setNickNameTaken(false);
+            createGame.setUnableToConnect(false);
+
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
 
@@ -202,16 +239,15 @@ public class CreateGameController {
                     match.addPlayer(nickName);
                 }
             }
-            createGameScreen.goToReadyScreen();
+            screenController.goToReadyScreen();
+            joinGameClicked = false;
         }
     };
 
     private Emitter.Listener onGameNonExistent = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-
-            //TODO: VARSLE BRUKER AT SPILLET IKKE FINNES, MED MINDRE VI GJØR DET ALLERDE?
-
+            joinGameClicked = false;
             createGame.setNoGameWithNameExists(true);
         }
     };
@@ -219,6 +255,7 @@ public class CreateGameController {
     private Emitter.Listener onGameAlreadyExists = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            createGameClicked = false;
             createGame.setGameNameAlreadyExists(true);
         }
     };
@@ -226,9 +263,8 @@ public class CreateGameController {
     private Emitter.Listener onNickNameTaken = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
-
-            //TODO: VARLSE BRUKER OM AT NICKNAME ER TATT.
-
+            joinGameClicked = false;
+            createGame.setNickNameTaken(true);
         }
     };
 

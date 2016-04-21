@@ -37,7 +37,7 @@ public class CreateGameScreen implements Screen{
         this.joinGame = joinGame;
         this.createGame = new CreateGame();
         this.renderer = new CreateGameRenderer(createGame, joinGame);
-        this.controller = new CreateGameController(createGame, this);
+        this.controller = new CreateGameController(createGame, screenController);
         this.stage = StageExtensionKeyboard.getCleanInstance();
         this.skin = new Skin();
 
@@ -74,7 +74,7 @@ public class CreateGameScreen implements Screen{
         skin.add("cursor", Assets.manager.get(Assets.CURSOR, Texture.class));
         skin.add("btnNotClicked", Assets.manager.get(Assets.ENTERBTN, Texture.class));
         skin.add("btnClicked", Assets.manager.get(Assets.ENTERBTNCLICKED, Texture.class));
-        skin.add("returnBtn", Assets.manager.get(Assets.RETURN_BTN, Texture.class));
+        skin.add("returnBtn", Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
@@ -149,11 +149,6 @@ public class CreateGameScreen implements Screen{
 
         return stage;
     }
-
-    public void goToReadyScreen() {
-        screenController.goToReadyScreen();
-    }
-
 
     @Override
     public void hide() {

@@ -20,13 +20,15 @@ import java.util.List;
 public class ReadyController {
 
 
-    Socket socket;
-    Match match;
-    ReadyScreen readyScreen;
+    private Socket socket;
+    private Match match;
+    private ReadyScreen readyScreen;
+    private boolean isReadyClicked;
 
     public ReadyController(ReadyScreen screen) {
         this.match = Match.getCurrentMatch();
         this.readyScreen = screen;
+        this.isReadyClicked = false;
     }
 
     public void loadController() {
@@ -39,12 +41,13 @@ public class ReadyController {
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
 
+        socket.on("connect_error", connectionError);
+
         socket.on("player joined", playerJoined);
         socket.on("start game success", startGame);
         socket.on("player ready", playerReady);
 
     }
-
 
     private Emitter.Listener playerJoined = new Emitter.Listener() {
         @Override
@@ -53,9 +56,6 @@ public class ReadyController {
                 JSONObject obj = (JSONObject) args[0];
                 System.out.println(obj.getString("nickName") + " joined the game");
                 match.addPlayer(obj.getString("nickName"));
-                for(String name: match.getCurrentNickNames()) {
-                    System.out.println(name);
-                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -73,7 +73,6 @@ public class ReadyController {
         @Override
         public void call(Object... args) {
             JSONObject obj = (JSONObject) args[0];
-            System.out.println(obj.toString());
             try {
                 if(!obj.getString("nickName").equals(null)){
                     match.setPlayerReady(obj.getString("nickName"));
@@ -84,21 +83,30 @@ public class ReadyController {
         }
     };
 
-    public void isReady() {
-        JSONObject obj = new JSONObject();
-        try {
+    private Emitter.Listener connectionError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            //TODO: Varsle bruker om at det er nettverksproblemer
+            isReadyClicked = false;
 
-            System.out.println("Game name in isReady(): " + match.getGameName());
-            System.out.println("Nick name in isReady(): " + match.getThisPlayerNickName());
-
-            obj.put("gameName", match.getGameName());
-            obj.put("nickName", match.getThisPlayerNickName());
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
-        System.out.println("Got to isReady()");
-        socket.emit("ready", obj);
-        match.setThisPlayerReady();
+    };
+
+
+
+    public void isReady() {
+        if(!isReadyClicked) {
+            isReadyClicked = true;
+            JSONObject obj = new JSONObject();
+            try {
+                obj.put("gameName", match.getGameName());
+                obj.put("nickName", match.getThisPlayerNickName());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            socket.emit("ready", obj);
+            match.setThisPlayerReady();
+        }
     }
 
 
