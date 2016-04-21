@@ -62,11 +62,6 @@ public class CreateGameController {
     }
 
 
-
-
-
-
-
     // TODO: grundigere sjekk av lovlige tegn
     public boolean isValidGameName(String gameName) {
         if(gameName.trim().length() == 0 || gameName.length() < 3) {

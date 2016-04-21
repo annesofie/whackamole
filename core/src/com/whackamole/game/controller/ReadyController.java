@@ -42,7 +42,6 @@ public class ReadyController {
         socket = retreiver.getSocket();
 
         socket.on("connect_error", connectionError);
-
         socket.on("player joined", playerJoined);
         socket.on("start game success", startGame);
         socket.on("player ready", playerReady);
