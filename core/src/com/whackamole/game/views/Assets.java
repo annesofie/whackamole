@@ -154,7 +154,7 @@ public class Assets {
     // TEXTFIELDS AND CREATE/JOIN GAME
     ENTERGAMENAME = txtfieldDir + "EnterGameName.png",
     ENTERGAMENAMENOTEXT = txtfieldDir + "EnterGameNameNoText.png",
-    CURSOR = txtfieldDir + "Cursor.png",
+    CURSOR = txtfieldDir + "Cursor1.png",
     TEXTFIELD = txtfieldDir + "Textfield.png",
     INVALIDGAMENAME = txtfieldDir + "InvalidGameName.png",
     INVALIDNICKNAME = txtfieldDir + "InvalidNickName.png",
