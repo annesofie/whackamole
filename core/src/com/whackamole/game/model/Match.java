@@ -123,8 +123,10 @@ public class Match {
 
     private boolean isPlayer(String nickName) {
         for(Player player : playerList) {
-            if(player.getNickname().equals(nickName)) {
-                return true;
+            if(player != null && nickName != null) {
+                if(player.getNickname().equals(nickName)) {
+                    return true;
+                }
             }
         }
         return false;

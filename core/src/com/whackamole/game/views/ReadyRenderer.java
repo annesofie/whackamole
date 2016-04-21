@@ -55,9 +55,9 @@ public class ReadyRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
-        font.draw(stage.getBatch(), "Players joined: " + match.getCurrentNickNames().size(), screenWidth*3/20, screenHeight*31/44);
+        font.draw(stage.getBatch(), match.getCurrentNickNames().size() + " of " + prefs.getInteger(Prefs.NUMOFMOLES.key()) + " players joined.", screenWidth * 3 / 20, screenHeight * 31 / 44);
         font.draw(stage.getBatch(), "Players ready: " + numOfReadyPlayers, screenWidth*3/20, screenHeight*29/44);
-        font.draw(stage.getBatch(), playerList, screenWidth*3/20, screenHeight*27/44);
+        font.draw(stage.getBatch(), playerList, screenWidth*3/20, screenHeight*25/44);
         stage.getBatch().end();
         stage.draw();
 

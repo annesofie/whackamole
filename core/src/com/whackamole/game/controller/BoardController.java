@@ -146,6 +146,7 @@ public class BoardController {
         public void call(Object... args) {
             System.out.println("New mole.");
             try {
+                // TODO: currentMole not defined yet. Fix
                 board.getCurrentMole().finish();
             }catch(Exception e) {
                 System.out.println(e.toString());
