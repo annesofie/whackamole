@@ -176,13 +176,13 @@ public class Assets {
     // FONTS
     public static final String
     FONT = "fonts/OpenSans-CondBold.ttf",
-    PRES_FONT_GAME = "fonts/BangersPresGame.ttf",
-    KARD_FONT_GAME = "fonts/BangersKardGame.ttf",
-    PRES_FONT_READY = "fonts/BangersPresReady.ttf",
-    KARD_FONT_READY = "fonts/BangersKardReady.ttf",
-    GAME_OVER_FONT = "fonts/BangersGameOver.ttf",
-    SETTINGS_FONT = "fonts/BangersSettings.ttf",
-    TEXTFIELD_FONT = "fonts/BangersTextfield.ttf";
+    PRES_FONT_GAME = "fonts/FontPresGame.ttf",
+    KARD_FONT_GAME = "fonts/FontKardGame.ttf",
+    PRES_FONT_READY = "fonts/FontPresReady.ttf",
+    KARD_FONT_READY = "fonts/FontKardReady.ttf",
+    GAME_OVER_FONT = "fonts/FontGameOver.ttf",
+    SETTINGS_FONT = "fonts/FontSettings.ttf",
+    TEXTFIELD_FONT = "fonts/FontTextfield.ttf";
 
     public static final int
     PRES_FONT_R = 15,
@@ -238,22 +238,6 @@ public class Assets {
 
         Assets.manager.load(fontFile, BitmapFont.class, params);
         System.out.println("Generated font of size " + Math.round(fontToScreenRatio));
-    }
-
-    private static Color getFontColor(Theme theme){
-        if(theme.equals(Theme.KARDASHIAN)){
-            return new Color(Assets.KARD_FONT_R, Assets.KARD_FONT_G, Assets.KARD_FONT_B, 1f);
-        }
-        else if(theme.equals(Theme.PRESIDENTIAL)){
-            return new Color(Assets.PRES_FONT_R, Assets.PRES_FONT_G, Assets.PRES_FONT_B, 1f);
-        }
-        else {
-            throw new IllegalArgumentException("That is not a legal theme.");
-        }
-    }
-
-    private static Color getBorderColor(Theme theme) {
-        return new Color(Assets.FONT_BORDER_R, Assets.FONT_BORDER_G, Assets.FONT_BORDER_B, 1f);
     }
 
 

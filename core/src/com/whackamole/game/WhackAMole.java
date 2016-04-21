@@ -75,13 +75,13 @@ public class WhackAMole extends Game implements ScreenController {
     // Loads TrueType fonts that are used to render nicely scaled text dynamically at runtime.
     public void loadFontAssets() {
         // Font assets for renderer
-        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/40), Assets.PRES_FONT_GAME);
-        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/40), Assets.KARD_FONT_GAME);
-        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/20), Assets.PRES_FONT_READY);
-        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/20), Assets.KARD_FONT_READY);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/20), Assets.GAME_OVER_FONT);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/15), Assets.SETTINGS_FONT);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/15), Assets.TEXTFIELD_FONT);
+        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/30), Assets.PRES_FONT_GAME);
+        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/30), Assets.KARD_FONT_GAME);
+        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/30), Assets.PRES_FONT_READY);
+        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/30), Assets.KARD_FONT_READY);
+        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.GAME_OVER_FONT);
+        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.SETTINGS_FONT);
+        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.TEXTFIELD_FONT);
     }
 
 
