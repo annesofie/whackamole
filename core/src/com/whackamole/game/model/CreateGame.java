@@ -61,20 +61,20 @@ public class CreateGame {
         return gameIsFull;
     }
 
-    public void setGameIsFull(boolean gameIsFull) {
-        this.gameIsFull = gameIsFull;
+    public void setGameIsFull(boolean full) {
+        gameIsFull = full;
     }
 
-    public void setUnableToConnect(boolean unableToConnect) {
-        this.unableToConnect = unableToConnect;
+    public void setUnableToConnect(boolean value) {
+        unableToConnect = value;
     }
 
     public boolean isUnableToConnect() {
         return this.unableToConnect;
     }
 
-    public void setNickNameTaken(boolean nickNameTaken) {
-        this.nickNameTaken = nickNameTaken;
+    public void setNickNameTaken(boolean value) {
+        nickNameTaken = value;
     }
 
     public boolean nickNameIsTaken() {

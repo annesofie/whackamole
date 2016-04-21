@@ -41,6 +41,7 @@ public class CreateGameScreen implements Screen{
         this.stage = StageExtensionKeyboard.getCleanInstance();
         this.skin = new Skin();
 
+        controller.loadController();
         renderer.loadRenderer(loadActors());
     }
 

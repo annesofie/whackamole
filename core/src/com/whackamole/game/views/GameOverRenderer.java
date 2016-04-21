@@ -47,7 +47,7 @@ public class GameOverRenderer implements Renderer {
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0, screenWidth, screenHeight);
         //stage.getBatch().draw(headline, screenWidth/2 - headlineWidth/2, screenHeight*8/10);
-        font.draw(stage.getBatch(), highScoreList, screenWidth/13, screenHeight*31/44);
+        font.draw(stage.getBatch(), highScoreList, screenWidth/11, screenHeight*29/44);
         stage.getBatch().end();
         stage.draw();
     }
