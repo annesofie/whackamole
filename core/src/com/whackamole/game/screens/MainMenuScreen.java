@@ -22,7 +22,6 @@ import com.whackamole.game.views.MainMenuRenderer;
 
 public class MainMenuScreen implements Screen {
 
-
     private MainMenuRenderer renderer;
     private final ScreenController screenController;
     private int screenWidth, screenHeight;
@@ -77,7 +76,7 @@ public class MainMenuScreen implements Screen {
         else {
             soundCheckBox.setChecked(false);
         }
-        soundCheckBox.setPosition(screenWidth/2-screenWidth*23/300, screenHeight/4);
+        soundCheckBox.setPosition(screenWidth/2-screenWidth*23/300, screenHeight/5);
 
         //Buttons:
         ImageButton createGameButton = new ImageButton(skin.getDrawable("createGameBtn"),skin.getDrawable("createGameClicked"));
@@ -85,11 +84,10 @@ public class MainMenuScreen implements Screen {
         ImageButton instructionsButton = new ImageButton(skin.getDrawable("instructionsBtn"),skin.getDrawable("instructionsClicked"));
 
 
-
-        createGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*9/12-btnHeight/2);
-        joinGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*7/12-btnHeight/2);
+        createGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*9/12-btnHeight);
+        joinGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*7/12-btnHeight);
         //settingsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight/2);
-        instructionsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight/2);
+        instructionsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight);
 
         createGameButton.addListener(new ClickListener() {
             @Override

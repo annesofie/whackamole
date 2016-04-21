@@ -33,13 +33,13 @@ public class InstructionRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(instructions, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
+        //stage.getBatch().draw(instructions, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
         stage.getBatch().end();
         stage.draw();
     }
 
     public void loadTextures() {
-        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
+        background = Assets.manager.get(Assets.INSTRUCTIONS, Texture.class);
         instructions = Assets.manager.get(Assets.INSTRUCTIONS, Texture.class);
     }
 

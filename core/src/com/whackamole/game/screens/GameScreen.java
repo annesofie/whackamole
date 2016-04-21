@@ -70,10 +70,9 @@ public class GameScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        int xhit = screenX;
-        int yhit = Gdx.graphics.getHeight() - screenY;
+        screenY = Gdx.graphics.getHeight() - screenY;
 
-        return this.controller.touchDown(xhit, yhit, pointer, button);
+        return this.controller.touchDown(screenX, screenY, pointer, button);
     }
 
 
@@ -98,6 +97,7 @@ public class GameScreen implements Screen, InputProcessor {
     public void hide() {
         if(!(backgroundmusic == null)) {
             backgroundmusic.stop();
+            backgroundmusic.dispose();
         }
     }
 
@@ -110,17 +110,11 @@ public class GameScreen implements Screen, InputProcessor {
 
     // THE REST OF SCREEN METHODS
     @Override
-    public void resize(int width, int height) {
-
-    }
+    public void resize(int width, int height) {}
     @Override
-    public void pause() {
-
-    }
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
+    public void resume() {}
 
 
     // REST OF THE INPUTPROCESSOR METHODS

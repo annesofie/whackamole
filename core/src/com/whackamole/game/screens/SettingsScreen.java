@@ -31,10 +31,10 @@ public class SettingsScreen implements Screen {
     private GameSettingsRenderer renderer;
     private Skin skin;
     private StageExtension stage;
-    float screenWidth, screenHeight, createBtnWidth, minusBtnWidth, plusBtnWidth, minusBtnHeight;
-    float theme_btn_diameter;
-    float soundBtnWidth;
-    float returnBtnWidth, returnBtnHeight;
+    private float screenWidth, screenHeight, createBtnWidth, minusBtnWidth, plusBtnWidth, minusBtnHeight;
+    private float theme_btn_diameter;
+    private float soundBtnWidth;
+    private float returnBtnWidth, returnBtnHeight;
     private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
     private CheckBox presCheckBox;
@@ -72,21 +72,20 @@ public class SettingsScreen implements Screen {
     }
 
 
-
     private StageExtension loadActors(){
 
         Texture kardThemeBtn = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN, Texture.class);
         Texture presThemeBtn = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN, Texture.class);
         Texture kardThemeBtnSelected = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN_SELECTED, Texture.class);
         Texture presThemeBtnSelected = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN_SELECTED, Texture.class);
-        Texture returnBtn = Assets.manager.get(Assets.RETURN_BTN, Texture.class);
+        Texture returnBtn = Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class);
         Texture minusBtn = Assets.manager.get(Assets.MINUSBTN, Texture.class);
         Texture minusBtnClicked = Assets.manager.get(Assets.MINUSBTNCLICKED, Texture.class);
         Texture plusBtn = Assets.manager.get(Assets.PLUSBTN, Texture.class);
         Texture plusBtnClicked = Assets.manager.get(Assets.PLUSBTNCLICKED, Texture.class);
 
-        Texture createBtn = Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class);
-        Texture createBtnClicked = Assets.manager.get(Assets.CREATE_GAME_BTN_CLICKED, Texture.class);
+        Texture createBtn = Assets.manager.get(Assets.PROCEED_BTN, Texture.class);
+        Texture createBtnClicked = Assets.manager.get(Assets.PROCEED_BTN_CLICKED, Texture.class);
 
         int theme_btn_diameter = kardThemeBtn.getWidth();
         int returnBtnWidth = returnBtn.getWidth();
@@ -118,12 +117,12 @@ public class SettingsScreen implements Screen {
         presCheckBox = new CheckBox("pres", presCheckBoxStyle);
 
 
-        plusButton.setPosition(screenWidth/2 + screenWidth/20 + 50, screenHeight*8/12 - plusBtn.getHeight() + 50);
-        minusButton.setPosition(screenWidth/2 - screenWidth/20 - minusBtn.getWidth(), screenHeight*8/12 - minusBtn.getHeight() + 50);
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2, screenHeight*8/10 - returnBtnHeight*2);
-        kardCheckBox.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
-        presCheckBox.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
-        createButton.setPosition(screenWidth/2-createBtnWidth/2, screenHeight*3/12);
+        plusButton.setPosition(screenWidth/2 + plusBtn.getWidth()/2, screenHeight*17/24 - plusBtn.getHeight()*5/8);
+        minusButton.setPosition(screenWidth/2 - minusBtn.getWidth()*3/2, screenHeight*17/24 - minusBtn.getHeight()*5/8);
+        returnButton.setPosition(returnBtnWidth, screenHeight - returnBtnHeight*2);
+        kardCheckBox.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/9);
+        presCheckBox.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/9);
+        createButton.setPosition(screenWidth/2-createBtnWidth/2, screenHeight*7/24);
 
         /* ALTERNATIV TIL BULKEN OVER. SPØRS HVEM SOM SER BEST UT
         plusButton.setPosition(screenWidth/2 + screenWidth/3 - minusBtnWidth, screenHeight*8/12 - minusBtnHeight/2);
@@ -176,7 +175,7 @@ public class SettingsScreen implements Screen {
         minusButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(prefs.getInteger(Prefs.NUMOFPLAYERS.key()) > 2){
+                if(prefs.getInteger(Prefs.NUMOFPLAYERS.key()) > 1){ //TODO: BYTTE TIL 2 VED DEPLOY
                     prefs.putInteger(Prefs.NUMOFPLAYERS.key(), prefs.getInteger(Prefs.NUMOFPLAYERS.key()) - 1);
                     prefs.flush();
                     System.out.println(prefs.getInteger(Prefs.NUMOFPLAYERS.key()));

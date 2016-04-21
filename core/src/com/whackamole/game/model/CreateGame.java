@@ -12,13 +12,17 @@ public class CreateGame {
     private boolean gameNameAlreadyExists;
     private boolean noGameWithNameExists;
     private boolean gameIsFull;
+    private boolean unableToConnect;
+    private boolean nickNameTaken;
 
     public CreateGame() {
         invalidGameName = false;
         invalidNickName = false;
+        nickNameTaken = false;
         gameNameAlreadyExists = false;
         noGameWithNameExists = false;
         gameIsFull = false;
+        unableToConnect = false;
     }
 
     public boolean isInvalidGameName() {
@@ -59,6 +63,22 @@ public class CreateGame {
 
     public void setGameIsFull(boolean gameIsFull) {
         this.gameIsFull = gameIsFull;
+    }
+
+    public void setUnableToConnect(boolean unableToConnect) {
+        this.unableToConnect = unableToConnect;
+    }
+
+    public boolean isUnableToConnect() {
+        return this.unableToConnect;
+    }
+
+    public void setNickNameTaken(boolean nickNameTaken) {
+        this.nickNameTaken = nickNameTaken;
+    }
+
+    public boolean nickNameIsTaken() {
+        return this.nickNameTaken;
     }
 
 }

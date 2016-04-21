@@ -36,8 +36,8 @@ public class CreateGameScreen implements Screen{
         this.screenController = screenController;
         this.joinGame = joinGame;
         this.createGame = new CreateGame();
-        this.renderer = new CreateGameRenderer(createGame);
-        this.controller = new CreateGameController(createGame, this);
+        this.renderer = new CreateGameRenderer(createGame, joinGame);
+        this.controller = new CreateGameController(createGame, screenController);
         this.stage = StageExtensionKeyboard.getCleanInstance();
         this.skin = new Skin();
 
@@ -59,10 +59,12 @@ public class CreateGameScreen implements Screen{
         /*
             Loads and returns the actors that can be acted upon on the screen
          */
+        /*
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = 72;
         BitmapFont font = generator.generateFont(parameter);
+        */
 
         float screenHeight = Gdx.graphics.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -72,7 +74,7 @@ public class CreateGameScreen implements Screen{
         skin.add("cursor", Assets.manager.get(Assets.CURSOR, Texture.class));
         skin.add("btnNotClicked", Assets.manager.get(Assets.ENTERBTN, Texture.class));
         skin.add("btnClicked", Assets.manager.get(Assets.ENTERBTNCLICKED, Texture.class));
-        skin.add("returnBtn", Assets.manager.get(Assets.RETURN_BTN, Texture.class));
+        skin.add("returnBtn", Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
@@ -81,11 +83,13 @@ public class CreateGameScreen implements Screen{
 
         // Textfield styling
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
+        BitmapFont font = Assets.manager.get(Assets.TEXTFIELD_FONT);
         textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
         textFieldStyle.background = textFieldBackground;
         textFieldStyle.cursor = cursor;
         textFieldStyle.cursor.setMinWidth(2f);
+        textFieldStyle.messageFont = font;
         textFieldStyle.messageFontColor = Color.WHITE;
 
         // Create a textfield with the styling defined above
@@ -145,11 +149,6 @@ public class CreateGameScreen implements Screen{
 
         return stage;
     }
-
-    public void goToReadyScreen() {
-        screenController.goToReadyScreen();
-    }
-
 
     @Override
     public void hide() {

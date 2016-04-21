@@ -55,31 +55,25 @@ public class GameSettingsRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(chooseThemeText, screenWidth/4, screenHeight*9/20);
-        stage.getBatch().draw(headline, screenWidth/4, screenHeight*8/10 - headlineHeight*5/2);
-        stage.getBatch().draw(whiteRectangle, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
-        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*8/12);
+        //stage.getBatch().draw(chooseThemeText, screenWidth/4, screenHeight*9/20);
+        //stage.getBatch().draw(headline, screenWidth/4, screenHeight*8/10 - headlineHeight*5/2);
+        //stage.getBatch().draw(whiteRectangle, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
+        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*17/24);
         stage.getBatch().end();
         stage.draw();
     }
 
     private void loadTextures() {
 
-        // TODO: implementer nye fontgenerator
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 96;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
+        font = Assets.manager.get(Assets.SETTINGS_FONT);
 
         // Lag textures her basert på tema, instruksjoner osv.
         // Antakeligvis bare et bakgrunnsbilde med text på.
         // I render skal disse tegnes.
-        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
-        whiteRectangle = Assets.manager.get(Assets.WHITE_RECTANGLE, Texture.class);
-        chooseThemeText = Assets.manager.get(Assets.SETTINGS_CHOOSETHEME, Texture.class);
-        headline = Assets.manager.get(Assets.SETTINGS_HEADLINE, Texture.class);
-        headlineHeight = headline.getHeight();
+        background = Assets.manager.get(Assets.SETTINGS_BACKGROUND, Texture.class);
+        //chooseThemeText = Assets.manager.get(Assets.SETTINGS_CHOOSETHEME, Texture.class);
+        //headline = Assets.manager.get(Assets.SETTINGS_HEADLINE, Texture.class);
+        //headlineHeight = headline.getHeight();
 
     }
 }

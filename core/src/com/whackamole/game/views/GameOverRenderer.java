@@ -45,9 +45,9 @@ public class GameOverRenderer implements Renderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.getBatch().begin();
-        stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(headline,screenWidth/2 - headlineWidth/2,screenHeight*8/10);
-        font.draw(stage.getBatch(),highScoreList,screenWidth/15,screenHeight*2/3);
+        stage.getBatch().draw(background,0,0, screenWidth, screenHeight);
+        //stage.getBatch().draw(headline, screenWidth/2 - headlineWidth/2, screenHeight*8/10);
+        font.draw(stage.getBatch(), highScoreList, screenWidth/13, screenHeight*31/44);
         stage.getBatch().end();
         stage.draw();
     }
@@ -58,17 +58,21 @@ public class GameOverRenderer implements Renderer {
     }
 
     private void loadTextures() {
-        background = Assets.manager.get(Assets.BACKGROUND, Texture.class);
-        headline = Assets.manager.get(Assets.GAME_OVER_HEADLINE, Texture.class);
-        headlineWidth = headline.getWidth();
+        background = Assets.manager.get(Assets.GAME_OVER_BACKGROUND, Texture.class);
+        //headline = Assets.manager.get(Assets.GAME_OVER_HEADLINE, Texture.class);
+        //headlineWidth = headline.getWidth();
         highScoreList = getTextualHighScoreList();
 
+        font = Assets.manager.get(Assets.GAME_OVER_FONT);
+
+        /*
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = screenHeight/20;
         font = generator.generateFont(parameter);
         font.setColor(Color.BLACK);
         generator.dispose();
+        */
     }
 
     private String getTextualHighScoreList(){

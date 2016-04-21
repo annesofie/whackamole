@@ -39,6 +39,8 @@ public class Assets {
 
     // Background texture on ready screen
     READYBACKGROUND = "ReadyBackground.png",
+    READY_BTN = "ReadyBtn.png",
+    READY_BTN_CLICKED = "ReadyBtnClicked.png",
 
     // Moles are defined in the MoleImage enum type
     MOLE0 = MoleImage.getFileNameOnImageId(0),
@@ -64,6 +66,8 @@ public class Assets {
     PRES_BOARD_TOP = presPath + BOARD_TOP,
     PRES_BOARD_SCORE = presPath + BOARD_SCORE,
     PRES_READYBACKGROUND = presPath + READYBACKGROUND,
+    PRES_READY_BTN = presPath + READY_BTN,
+    PRES_READY_BTN_CLICKED = presPath + READY_BTN,
 
     KARD_BOARD_BOTTOM = kardPath + BOARD_BOTTOM,
     KARD_BOARD_SECOND_BOTTOM = kardPath + BOARD_SECOND_BOTTOM,
@@ -71,6 +75,8 @@ public class Assets {
     KARD_BOARD_TOP = kardPath + BOARD_TOP,
     KARD_BOARD_SCORE = kardPath + BOARD_SCORE,
     KARD_READYBACKGROUND = kardPath + READYBACKGROUND,
+    KARD_READY_BTN = kardPath + READY_BTN,
+    KARD_READY_BTN_CLICKED = kardPath + READY_BTN_CLICKED,
 
     PRES_MOLE0 = presPath + MOLE0,
     PRES_MOLE1 = presPath + MOLE1,
@@ -104,17 +110,28 @@ public class Assets {
     @Asset(Texture.class)
     public static final String
     BACKGROUND = imgDir + "Background.png",
-    CREATE_GAME_BTN = imgDir + "CreateGameBtn.png",
+    MAIN_MENU_BACKGROUND = imgDir + "MainMenuBackground.png",
+    NEW_GAME_BACKGROUND = imgDir + "NewGameBackground.png",
+    JOIN_GAME_BACKROUND = imgDir + "JoinGameBackground.png",
+    SETTINGS_BACKGROUND = settingsDir + "SettingsBackground.png",
+    GAME_OVER_BACKGROUND = imgDir + "GameOverBackground.png",
+
+
+
+    PROCEED_BTN = imgDir + "ProceedBtn.png",
+    PROCEED_BTN_CLICKED = imgDir + "ProceedBtnClicked.png",
     JOIN_GAME_BTN = imgDir + "JoinGameBtn.png",
     INSTRUCTIONS_BTN = imgDir + "InstructionsBtn.png",
+    CREATE_GAME_BTN = imgDir + "CreateGameBtn.png",
     CREATE_GAME_BTN_CLICKED = imgDir + "CreateGameBtnClicked.png",
     JOIN_GAME_BTN_CLICKED = imgDir + "JoinGameBtnClicked.png",
-
     INSTRUCTIONS_BTN_CLICKED = imgDir + "InstructionsBtnClicked.png",
     KARDASHIAN_THEME_BTN_SELECTED = imgDir + "KardashianBtnSelected.png",
     PRESEDENTIAL_THEME_BTN_SELECTED = imgDir + "PresedentialBtnSelected.png",
 
+
     //
+    LARGE_BACK_BTN = imgDir + "LargeBackBtn.png",
     RETURN_BTN = imgDir + "ReturnBtn.png",
     INSTRUCTIONS = imgDir + "Instructions.png",
     WHITE_RECTANGLE = imgDir + "WhiteRectangle.png",
@@ -129,8 +146,6 @@ public class Assets {
     MINUSBTNCLICKED = imgDir + "MinusBtnClicked.png",
     SETTINGS_BTN = settingsDir + "SettingsBtn.png",
     SETTINGS_BTN_CLICKED = settingsDir + "SettingsBtnClicked.png",
-    SOUND_ON_BTN = imgDir + "SoundOn.png",
-    SOUND_OFF_BTN = imgDir + "SoundOff.png",
     MUTE_BTN = imgDir + "Mute.png",
     UNMUTE_BTN = imgDir + "Unmute.png",
     SETTINGS_HEADLINE = settingsDir + "SettingsHeadline.png",
@@ -145,13 +160,11 @@ public class Assets {
     INVALIDNICKNAME = txtfieldDir + "InvalidNickName.png",
     GAMENAMEALREADYEXISTS = txtfieldDir + "GameNameAlreadyExists.png",
     NOGAMEWITHNAMEEXISTS = txtfieldDir + "NoGameWithNameExists.png",
+    NICKNAMETAKEN = txtfieldDir + "NickNameTaken.png",
+    UNABLETOCONNECT = txtfieldDir + "UnableToConnect.png",
     GAMEISFULL = txtfieldDir + "GameIsFull.png",
     ENTERBTN = imgDir + "EnterBtn.png",
-    ENTERBTNCLICKED = imgDir + "EnterBtnClicked.png",
-
-    // READY SCREEN
-    READYBTN = imgDir + "ReadyBtn.png",
-    READYBTNCLICKED = imgDir + "ReadyBtnClicked.png";
+    ENTERBTNCLICKED = imgDir + "EnterBtnClicked.png";
 
 
 
@@ -165,10 +178,13 @@ public class Assets {
     // FONTS
     public static final String
     FONT = "fonts/OpenSans-CondBold.ttf",
-    PRES_FONT_GAME = "fonts/united.ttf",
-    KARD_FONT_GAME = "fonts/OpenSans-CondBold.ttf",
-    PRES_FONT_READY = "fonts/united.ttf",
-    KARD_FONT_READY = "fonts/OpenSans-CondBold.ttf";
+    PRES_FONT_GAME = "fonts/FontPresGame.ttf",
+    KARD_FONT_GAME = "fonts/FontKardGame.ttf",
+    PRES_FONT_READY = "fonts/FontPresReady.ttf",
+    KARD_FONT_READY = "fonts/FontKardReady.ttf",
+    GAME_OVER_FONT = "fonts/FontGameOver.ttf",
+    SETTINGS_FONT = "fonts/FontSettings.ttf",
+    TEXTFIELD_FONT = "fonts/FontTextfield.ttf";
 
     public static final int
     PRES_FONT_R = 15,
@@ -182,7 +198,7 @@ public class Assets {
     KARD_FONT_B = 98;
 
 
-    public static void generateBitmapFont(Theme theme, float fontToScreenRatio, String fontFile) {
+    public static void generateThemeBitmapFont(Theme theme, float fontToScreenRatio, String fontFile) {
         FileHandleResolver resolver = new InternalFileHandleResolver();
         Assets.manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         Assets.manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
@@ -194,8 +210,8 @@ public class Assets {
         params.fontParameters.magFilter = Texture.TextureFilter.Linear;
 
         if(theme.equals(Theme.KARDASHIAN)) {
-            params.fontParameters.color = Color.VIOLET;
-            params.fontParameters.borderColor = Color.WHITE;
+            params.fontParameters.color = Color.WHITE;
+            params.fontParameters.borderColor = Color.DARK_GRAY;
         }
         else  {
             params.fontParameters.color = Color.FIREBRICK;
@@ -207,21 +223,23 @@ public class Assets {
         System.out.println("Generated font of size " + Math.round(fontToScreenRatio));
     }
 
+    public static void generatePlainBitmapFont(float fontToScreenRatio, String fontFile) {
+        FileHandleResolver resolver = new InternalFileHandleResolver();
+        Assets.manager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
+        Assets.manager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
 
-    private static Color getFontColor(Theme theme){
-        if(theme.equals(Theme.KARDASHIAN)){
-            return new Color(Assets.KARD_FONT_R, Assets.KARD_FONT_G, Assets.KARD_FONT_B, 1f);
-        }
-        else if(theme.equals(Theme.PRESIDENTIAL)){
-            return new Color(Assets.PRES_FONT_R, Assets.PRES_FONT_G, Assets.PRES_FONT_B, 1f);
-        }
-        else {
-            throw new IllegalArgumentException("That is not a legal theme.");
-        }
-    }
+        FreetypeFontLoader.FreeTypeFontLoaderParameter params = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
+        params.fontFileName = fontFile;
+        params.fontParameters.size = (int)Math.ceil(fontToScreenRatio);
+        params.fontParameters.minFilter = Texture.TextureFilter.Linear;
+        params.fontParameters.magFilter = Texture.TextureFilter.Linear;
 
-    private static Color getBorderColor(Theme theme) {
-        return new Color(Assets.FONT_BORDER_R, Assets.FONT_BORDER_G, Assets.FONT_BORDER_B, 1f);
+        params.fontParameters.color = Color.BLACK;
+        params.fontParameters.borderColor = Color.LIGHT_GRAY;
+        params.fontParameters.borderWidth = 2;
+
+        Assets.manager.load(fontFile, BitmapFont.class, params);
+        System.out.println("Generated font of size " + Math.round(fontToScreenRatio));
     }
 
 

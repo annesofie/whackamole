@@ -75,7 +75,7 @@ public class BoardRenderer implements Renderer {
         stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
 
         //must be rendered in the right order to get correct layers
-        font.draw(stage.getBatch(), "Leaderboard:", 30, height - (board_score.getHeight()/6 + 20));
+        font.draw(stage.getBatch(), "Leaderboard:", width/20, height - (board_score.getHeight()*2/12));
         for(int i = 0; i < scoreList.size(); i++) {
             Player player = scoreList.get(i);
             boolean isThisPlayer = player.getNickname().equals(Match.getCurrentMatch().getThisPlayerNickName());
@@ -84,15 +84,15 @@ public class BoardRenderer implements Renderer {
                 if (isThisPlayer) {
                     line = (i + 1) + ". You: " + player.getScore();
                 }
-                font.draw(stage.getBatch(), line, 30, height - ((i+2)*board_score.getHeight()/6 + 10));
+                font.draw(stage.getBatch(), line, width/20, height - ((i+2)*board_score.getHeight()*2/12 + 10));
             }
         }
         if(hitTheLastMole) {
-            font.draw(stage.getBatch(), "YOU WERE FAST!", width/2, height - board_score.getHeight()/5);
-            font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - 2*board_score.getHeight()/4));
+            font.draw(stage.getBatch(), "YOU WERE FAST!", width/2, height - board_score.getHeight()*6/16);
+            font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - board_score.getHeight()*9/16));
         }
         else if (!board.firstRound()) {
-            font.draw(stage.getBatch(), "You missed.\nToo slow!", width/2, height - board_score.getHeight()/5);
+            font.draw(stage.getBatch(), "You missed.\nToo slow!", width/2, height - board_score.getHeight()*6/16);
         }
         stage.getBatch().draw(board_score, 0, 7*height/16, width, 3*height/16);
         stage.getBatch().draw(board_top, 0, 9*height/16, width, height/4);
