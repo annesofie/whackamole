@@ -7,10 +7,9 @@ import com.whackamole.game.model.Theme;
  */
 public class Constants {
     //public static final String SERVER_URL = "https://murmuring-everglades-2479.herokuapp.com/";
-    //public static final String SERVER_URL = "https://agile-sands-28562.herokuapp.com/";
-    public static final String SERVER_URL = "http://10.22.23.95:5000";
-
-
+    public static final String SERVER_URL = "https://agile-sands-28562.herokuapp.com/";
+    //public static final String SERVER_URL = "http://10.22.23.95:5000";
+    
     public static final float hitBoxRelativeHeight = (float) 33/160;
     public static final float hitBoxRelativeWidth = (float) 260/900;
     public static final float buttonHeightWidthRatio = (float) 154/692;
