@@ -3,6 +3,7 @@ package com.whackamole.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.whackamole.game.model.*;
@@ -15,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class BoardController {
+public class BoardController implements Disposable{
 
 
     private int touch_x, touch_y, counter = 4;
@@ -32,7 +33,7 @@ public class BoardController {
     private boolean isSound;
     private boolean gameFinished;
 
-    public BoardController(Board board, ScreenController screenController) {
+    public BoardController(Board board, ScreenController screenController){
 
         this.board = board;
         this.match = Match.getCurrentMatch();
@@ -48,6 +49,9 @@ public class BoardController {
 
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
+
+        System.out.println("In BoardController loadController(). Socket is connected: " + socket.connected());
+
         String themePath = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path();
 
         this.gameName = match.getGameName();
@@ -70,8 +74,9 @@ public class BoardController {
         public void call(Object... args) {
             if(!gameFinished) {
                 //TODO: varsle spiller om at han ble disconnectet
-                System.out.println("Disconnected and was redirected to MainMenuScreen from ReadyController.");
+                System.out.println("Disconnected and was redirected to MainMenuScreen from ReadyController disconnected().");
                 screenController.goToMainMenuScreen();
+                match.setIsOnGoingMatch(false);
             }
         }
     };
@@ -89,6 +94,7 @@ public class BoardController {
 
             gameFinished = true;
             screenController.goToGameOverScreen();
+            socket.emit("left game", "");
         }
     };
 
@@ -180,6 +186,12 @@ public class BoardController {
                 counter = 0;
             } else counter++;
         }
+    }
+
+    @Override
+    public void dispose() {
+        this.hitsound.dispose();
+        this.speech.dispose();
     }
 
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}

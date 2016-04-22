@@ -5,10 +5,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.*;
 import com.whackamole.game.utils.Prefs;
@@ -26,6 +22,7 @@ public class GameScreen implements Screen, InputProcessor {
     private Preferences prefs;
     private Music backgroundmusic;
     private StageExtension stage;
+    private final ScreenController screenController;
 
 
     public GameScreen(final ScreenController screenController) {
@@ -34,6 +31,7 @@ public class GameScreen implements Screen, InputProcessor {
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.board = new Board();
         this.boardRenderer = new BoardRenderer(board);
+        this.screenController = screenController;
         this.controller = new BoardController(board, screenController);
         loadGame();
 
@@ -79,9 +77,9 @@ public class GameScreen implements Screen, InputProcessor {
 
     public void loadSoundtracks() {
         boolean isSound = prefs.getBoolean(Prefs.ISSOUND.key());
+        Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
+        backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + Assets.BACKGROUND_MUSIC));
         if(isSound) {
-            Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
-            backgroundmusic = Gdx.audio.newMusic(Gdx.files.internal(theme.path() + Assets.BACKGROUND_MUSIC));
             backgroundmusic.setLooping(true);
             backgroundmusic.setVolume(0.5f);
             backgroundmusic.play();
@@ -96,28 +94,32 @@ public class GameScreen implements Screen, InputProcessor {
 
     @Override
     public void hide() {
-        if(!(backgroundmusic == null)) {
-            backgroundmusic.stop();
-            backgroundmusic.dispose();
-        }
-        //SocketRetreiver.getInstance().getSocket().disconnect();
-        SocketRetreiver.getInstance().getSocket().emit("left game", "");
+        dispose();
+        backgroundmusic.stop();
+        backgroundmusic.dispose();
+        // SocketRetreiver.getInstance().getSocket().emit("left game", "");
+        System.out.println("Hide() run in GameScreen.");
     }
 
     // Nothing to dispose in this class at the moment
     @Override
-    public void dispose() {}
-
-
-    // TODO: PROPER HANDLING IF PAUSE() OR HIDE() IS RUN, ALSO RESUME()
+    public void dispose() {
+        controller.dispose();
+    }
 
     // THE REST OF SCREEN METHODS
     @Override
     public void resize(int width, int height) {}
     @Override
-    public void pause() {}
+    public void pause() {
+        System.out.println("Pause() run in GameScreen and 'left game' emitted");
+        SocketRetreiver.getInstance().getSocket().emit("left game", "");
+    }
+
     @Override
-    public void resume() {}
+    public void resume() {
+        screenController.goToMainMenuScreen();
+    }
 
 
     // REST OF THE INPUTPROCESSOR METHODS

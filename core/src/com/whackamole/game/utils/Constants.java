@@ -8,12 +8,18 @@ import com.whackamole.game.model.Theme;
 public class Constants {
     //public static final String SERVER_URL = "https://murmuring-everglades-2479.herokuapp.com/";
     //public static final String SERVER_URL = "https://agile-sands-28562.herokuapp.com/";
-    public static final String SERVER_URL = "http://10.0.0.49:5000";
+    public static final String SERVER_URL = "http://10.0.0.6:5000";
 
-
-    public static final float hitBoxRelativeHeight = (float) 33/160;
-    public static final float hitBoxRelativeWidth = (float) 260/900;
-    public static final float buttonHeightWidthRatio = (float) 154/692;
+    public static final float menuButtonWidthRatio = (float)678/900;
+    public static final float menuButtonHeightRatio = (float)13/160;
+    public static final float roundButtonWidthRatio = (float)278/900;
+    public static final float roundButtonHeightRatio = (float)278/900;
+    public static final float returnButtonHeightRatio = (float)1/16;
+    public static final float returnButtonWidthRatio = (float)101/900;
+    public static final float soundButtonWidthRatio = (float)128/900;
+    public static final float soundButtonHeightRatio = (float)128/900;
+    public static final float textfieldHeightRatio = (float)83/1600;
+    public static final float textfieldWidthRatio = (float)470/900;
 
     public static final int numOfMoles = 1;
     public static final int numOfPlayers = 2;

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -15,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.whackamole.game.controller.CreateGameController;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.CreateGame;
+import com.whackamole.game.model.Match;
+import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.StageExtensionKeyboard;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.CreateGameRenderer;
@@ -43,6 +46,10 @@ public class CreateGameScreen implements Screen{
 
         controller.loadController();
         renderer.loadRenderer(loadActors());
+
+        if(joinGame) {
+            Match.startNewMatch();
+        }
     }
 
     @Override
@@ -92,9 +99,6 @@ public class CreateGameScreen implements Screen{
         float btnWidth = 676*screenWidth/900;//btn.getWidth();
         btn.setPosition(screenWidth/2 - btnWidth/2, btnYPos);
 
-        // Set the size and messagetext of the textfield
-        textFieldGameName.setSize(screenWidth*2/3, screenHeight/16);
-        textFieldNickName.setSize(screenWidth*2/3, screenHeight/16);
         String messageTextGameName = "Enter game name";
         String messageTextNickName = "Enter nickname";
         textFieldGameName.setMessageText(messageTextGameName);
@@ -131,9 +135,20 @@ public class CreateGameScreen implements Screen{
             }
         });
 
+
+        System.out.println(screenWidth*Constants.menuButtonWidthRatio);
+        System.out.println(screenHeight*Constants.menuButtonHeightRatio);
+        System.out.println(screenWidth*Constants.textfieldWidthRatio);
+        System.out.println(screenHeight*Constants.textfieldHeightRatio);
+
+        // Set sizes to scale with screen dimensions nicely
+        btn.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
+        textFieldGameName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
+        textFieldNickName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
+
         // Add actors
         stage.addActor(btn);
-        stage.getActors().get(0).setWidth(btnWidth);
         stage.addActor(textFieldGameName);
         stage.addActor(textFieldNickName);
         stage.addActor(returnButton);
@@ -143,7 +158,6 @@ public class CreateGameScreen implements Screen{
 
     @Override
     public void hide() {
-        //controller.leftGame();
         //dispose();
     }
 

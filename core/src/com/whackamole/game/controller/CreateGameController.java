@@ -53,15 +53,14 @@ public class CreateGameController {
         }
 
         socket.on("new game success", onNewGameSuccess);
-        socket.on("game name length", onGameNameLength);
-        socket.on("game already exists", onGameAlreadyExists);
+        socket.on("game name length error", onGameNameLength);
+        socket.on("game already exists error", onGameAlreadyExists);
         socket.on("connect_error", connectError);
         socket.on("disconnect", disconnected);
         socket.on("join game success", onJoinGameSuccess);
-        socket.on("game is full", onGameIsFull);
-        socket.on("game nonexistent", onGameNonExistent);
-        socket.on("nickname taken", onNickNameTaken);
-        socket.on("player left", onPlayerLeft);
+        socket.on("game is full error", onGameIsFull);
+        socket.on("game nonexistent error", onGameNonExistent);
+        socket.on("nickname taken error", onNickNameTaken);
     }
 
 
@@ -148,7 +147,7 @@ public class CreateGameController {
         @Override
         public void call(Object... args) {
             //TODO: display that user was disconnected by the server
-            System.out.println("Disconnected in createGameController.");
+            System.out.println("Disconnected in createGameController...");
             joinGameClicked = false;
         }
     };
@@ -168,14 +167,15 @@ public class CreateGameController {
         public void call(Object... args) {
             match = Match.getCurrentMatch();
 
-            String msg = (String) args[0];
-            System.out.println(msg);
+            JsonValue json = new JsonReader().parse((String) args[0]);
+            int numOfPlayers = json.getInt("numOfPlayers");
 
             createGame.setGameNameAlreadyExists(false);
             createGame.setUnableToConnect(false);
 
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
+            match.setNumOfPlayers(numOfPlayers);
 
             screenController.goToReadyScreen();
             createGameClicked = false;
@@ -195,8 +195,6 @@ public class CreateGameController {
     private Emitter.Listener onJoinGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            // Start a new match here. This is done in SettingsScreen when creating a game.
-            Match.startNewMatch();
             match = Match.getCurrentMatch();
 
             JsonValue json = new JsonReader().parse((String) args[0]);
@@ -263,28 +261,6 @@ public class CreateGameController {
             createGame.setNickNameTaken(true);
         }
     };
-
-    private Emitter.Listener onPlayerLeft = new Emitter.Listener() {
-        @Override
-        public void call(Object... args) {
-            try {
-                JSONObject obj = (JSONObject) args[0];
-                System.out.println(obj.getString("nickName") + " left the game.");
-                match.removePlayer(obj.getString("nickName"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    };
-
-
-    public void leftGame() {
-        if(!createGame.leftGame()) {
-            createGame.setLeftGame(true);
-            socket.emit("left game", "");
-
-        }
-    }
 
 
 }

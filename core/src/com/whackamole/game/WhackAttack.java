@@ -13,16 +13,14 @@ import com.whackamole.game.views.Assets;
 import io.socket.client.Socket;
 
 
-public class WhackAMole extends Game implements ScreenController {
+public class WhackAttack extends Game implements ScreenController {
 
     private ScreenController screenController;
-    private StageExtension stage;
 
     @Override
     public void create() {
 
         screenController = this;
-        stage = StageExtension.getCleanInstance();
         loadDefaultPrefs();
         loadFontAssets();
         loadAndInitializeAllAssets();
@@ -37,6 +35,7 @@ public class WhackAMole extends Game implements ScreenController {
         setScreen(new GameScreen(screenController));
     }
 
+    @Override
     public void goToInstructionsScreen() {
         setScreen(new InstructionScreen(screenController));
     }
@@ -109,6 +108,7 @@ public class WhackAMole extends Game implements ScreenController {
         Socket socket = SocketRetreiver.getInstance().getSocket();
         if(socket.connected() && Match.getCurrentMatch().isOnGoingMatch()) {
             socket.emit("left game", "");
+            socket.disconnect();
         }
         StageExtension.disposeStage();
         StageExtensionKeyboard.disposeStage();
@@ -129,22 +129,27 @@ public class WhackAMole extends Game implements ScreenController {
         if(!prefs.contains(Prefs.NUMOFMOLES.key())) {
             prefs.putInteger(Prefs.NUMOFMOLES.key(), numOfMoles);
             prefs.flush();
+            System.out.println("Added default preference " + Prefs.NUMOFMOLES.key() + " with value " + numOfMoles);
         }
         if(!prefs.contains(Prefs.USERNAME.key())) {
             prefs.putString(Prefs.USERNAME.key(), username);
             prefs.flush();
+            System.out.println("Added default preference " + Prefs.USERNAME.key() + " with value " + username);
         }
         if(!prefs.contains(Prefs.THEME.key())) {
             prefs.putInteger(Prefs.THEME.key(), themeID);
             prefs.flush();
+            System.out.println("Added default preference " + Prefs.THEME.key() + " with value " + themeID);
         }
         if(!prefs.contains(Prefs.ISSOUND.key())) {
             prefs.putBoolean(Prefs.ISSOUND.key(), isSound);
             prefs.flush();
+            System.out.println("Added default preference " + Prefs.ISSOUND.key() + " with value " + isSound);
         }
         if(!prefs.contains(Prefs.NUMOFPLAYERS.key())) {
             prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
             prefs.flush();
+            System.out.println("Added default preference " + Prefs.NUMOFPLAYERS.key() + " with value " + numOfPlayers);
         }
     }
 }

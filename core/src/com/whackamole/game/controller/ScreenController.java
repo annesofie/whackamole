@@ -9,7 +9,7 @@ import com.whackamole.game.screens.*;
 public interface ScreenController {
 
     /*
-        This controller is implemented by WhackAMole to ensure that these methods are available to other classes that
+        This controller is implemented by WhackAttack to ensure that these methods are available to other classes that
         needs to switch between screens
 
      */

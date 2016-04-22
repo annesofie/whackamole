@@ -21,13 +21,11 @@ public class ReadyController {
 
 
     private Socket socket;
-    private Match match;
     private ReadyScreen readyScreen;
     private boolean isReadyClicked;
     private boolean leftGame;
 
     public ReadyController(ReadyScreen screen) {
-        this.match = Match.getCurrentMatch();
         this.readyScreen = screen;
         this.isReadyClicked = false;
         this.leftGame = false;
@@ -47,12 +45,14 @@ public class ReadyController {
         socket.on("player joined", playerJoined);
         socket.on("start game success", startGame);
         socket.on("player ready", playerReady);
+        socket.on("player left", onPlayerLeft);
 
     }
 
     private Emitter.Listener playerJoined = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            Match match = Match.getCurrentMatch();
             try {
                 JSONObject obj = (JSONObject) args[0];
                 System.out.println(obj.getString("nickName") + " joined the game");
@@ -73,6 +73,7 @@ public class ReadyController {
     private Emitter.Listener playerReady = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
+            Match match = Match.getCurrentMatch();
             JSONObject obj = (JSONObject) args[0];
             try {
                 if(!obj.getString("nickName").equals(null)){
@@ -94,8 +95,8 @@ public class ReadyController {
     };
 
 
-
     public void isReady() {
+        Match match = Match.getCurrentMatch();
         if(!isReadyClicked) {
             isReadyClicked = true;
             JSONObject obj = new JSONObject();
@@ -110,12 +111,17 @@ public class ReadyController {
         }
     }
 
-    public void leftGame() {
-        if(!leftGame) {
-            leftGame = true;
-            socket.emit("left game", "");
+    private Emitter.Listener onPlayerLeft = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            Match match = Match.getCurrentMatch();
+            try {
+                JSONObject obj = (JSONObject) args[0];
+                System.out.println(obj.getString("nickName") + " left the game.");
+                match.removePlayer(obj.getString("nickName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-    }
-
-
+    };
 }

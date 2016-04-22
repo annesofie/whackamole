@@ -14,11 +14,15 @@ import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.ReadyRenderer;
 
 import net.dermetfan.gdx.physics.box2d.PositionController;
+
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 
 /**
@@ -46,7 +50,6 @@ public class ReadyScreen implements Screen {
 
         renderer.loadRenderer(loadActors());
         controller.loadController();
-
     }
 
     @Override
@@ -92,7 +95,6 @@ public class ReadyScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screenController.goToMainMenuScreen();
-                dispose();
             }
         });
 
@@ -109,7 +111,6 @@ public class ReadyScreen implements Screen {
 
     @Override
     public void hide() {;
-        //controller.leftGame();
         //dispose();
     }
 
@@ -118,9 +119,15 @@ public class ReadyScreen implements Screen {
         skin.dispose();
     }
 
+    @Override public void resume() {
+        Socket socket = SocketRetreiver.getInstance().getSocket();
+        if(!socket.connected()) {
+            System.out.println("Got to resume() in ReadyScreen");
+            Match.getCurrentMatch().setIsOnGoingMatch(false);
+            screenController.goToMainMenuScreen();
+        }
+    }
 
     @Override public void resize(int width, int height) {}
     @Override public void pause() {}
-    @Override public void resume() {}
-
 }

@@ -124,8 +124,13 @@ public class SettingsScreen implements Screen {
 
         kardCheckBox = new CheckBox("kard", kardCheckBoxStyle);
         presCheckBox = new CheckBox("pres", presCheckBoxStyle);
+
+        // Set sizes to scale nicely on different screens
         kardCheckBox.getCells().get(0).size(screenWidth/4, screenWidth/4);
         presCheckBox.getCells().get(0).size(screenWidth/4, screenWidth/4);
+        returnButton.getCells().get(0).size(screenWidth/10, screenWidth/10);
+        minusButton.getCells().get(0).size(screenWidth/8, screenWidth/10);
+        plusButton.getCells().get(0).size(screenWidth/8, screenWidth/10);
 
 
         plusButton.setPosition(screenWidth/2 + plusBtn.getWidth()/2, screenHeight*17/24 - plusBtn.getHeight()*3/4);
@@ -167,8 +172,8 @@ public class SettingsScreen implements Screen {
                 if(numOfPlayers < 5){
                     numOfPlayers = numOfPlayers + 1;
                     prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
-                    prefs.flush();
                     match.setNumOfPlayers(numOfPlayers);
+                    prefs.flush();
                     System.out.println("Num of players in Match: " + match.getNumOfPlayers());
                 }
 
@@ -182,11 +187,10 @@ public class SettingsScreen implements Screen {
                 if(numOfPlayers > 1){
                     numOfPlayers = numOfPlayers - 1;
                     prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
-                    prefs.flush();
                     match.setNumOfPlayers(numOfPlayers);
+                    prefs.flush();
                     System.out.println("Num of players in Match: " + match.getNumOfPlayers());
                 }
-
             }
         });
 
@@ -220,19 +224,25 @@ public class SettingsScreen implements Screen {
         stage.addActor(kardCheckBox);
         stage.addActor(presCheckBox);
 
+        /*
         setSize(stage.getActors().get(0), returnBtnWidth);
         setSize(stage.getActors().get(1), minusBtnWidth);
         setSize(stage.getActors().get(2), minusBtnWidth);
         setSize(stage.getActors().get(3), createBtnWidth);
         setSize(stage.getActors().get(4), theme_btn_diameter, theme_btn_diameter);
         setSize(stage.getActors().get(5), theme_btn_diameter, theme_btn_diameter);
+        */
 
         return stage;
     }
 
+
+
     public void setSize(Actor actor, float width){
         actor.setWidth(width);
     }
+
+
 
     public void setSize(Actor actor, float width, float height){
         actor.setWidth(width);
