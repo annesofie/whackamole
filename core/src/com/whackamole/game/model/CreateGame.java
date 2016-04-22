@@ -14,6 +14,7 @@ public class CreateGame {
     private boolean gameIsFull;
     private boolean unableToConnect;
     private boolean nickNameTaken;
+    private boolean leftGame;
 
     public CreateGame() {
         invalidGameName = false;
@@ -23,6 +24,7 @@ public class CreateGame {
         noGameWithNameExists = false;
         gameIsFull = false;
         unableToConnect = false;
+        leftGame = false;
     }
 
     public boolean isInvalidGameName() {
@@ -79,6 +81,14 @@ public class CreateGame {
 
     public boolean nickNameIsTaken() {
         return this.nickNameTaken;
+    }
+
+    public void setLeftGame(boolean leftGame) {
+        this.leftGame = leftGame;
+    }
+
+    public boolean leftGame() {
+        return this.leftGame;
     }
 
 }

@@ -41,14 +41,16 @@ public class CreateGameController {
     public void loadController() {
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
-        socket.connect();
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                System.out.println("connected to socket");
-                System.out.println("Socket id: " + socket.id());
-            }
-        });
+        if(!socket.connected()) {
+            socket.connect();
+            socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    System.out.println("connected to socket");
+                    System.out.println("Socket id: " + socket.id());
+                }
+            });
+        }
 
         socket.on("new game success", onNewGameSuccess);
         socket.on("game name length", onGameNameLength);
@@ -59,6 +61,7 @@ public class CreateGameController {
         socket.on("game is full", onGameIsFull);
         socket.on("game nonexistent", onGameNonExistent);
         socket.on("nickname taken", onNickNameTaken);
+        socket.on("player left", onPlayerLeft);
     }
 
 
@@ -106,7 +109,6 @@ public class CreateGameController {
             joinGameClicked = true;
             emitJoinGame(gameName, nickName);
         }
-
     }
 
     private void emitNewGame(String gameName, String nickName) {
@@ -193,7 +195,7 @@ public class CreateGameController {
     private Emitter.Listener onJoinGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
-            // Start a new match
+            // Start a new match here. This is done in SettingsScreen when creating a game.
             Match.startNewMatch();
             match = Match.getCurrentMatch();
 
@@ -204,7 +206,7 @@ public class CreateGameController {
             if(!(prefs.getInteger(Prefs.THEME.key()) == themeId)) {
                 prefs.putInteger(Prefs.THEME.key(), themeId);
             }
-            //prefs.flush();
+            prefs.flush();
 
             createGame.setGameIsFull(false);
             createGame.setNoGameWithNameExists(false);
@@ -261,6 +263,28 @@ public class CreateGameController {
             createGame.setNickNameTaken(true);
         }
     };
+
+    private Emitter.Listener onPlayerLeft = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            try {
+                JSONObject obj = (JSONObject) args[0];
+                System.out.println(obj.getString("nickName") + " left the game.");
+                match.removePlayer(obj.getString("nickName"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+
+    public void leftGame() {
+        if(!createGame.leftGame()) {
+            createGame.setLeftGame(true);
+            socket.emit("left game", "");
+
+        }
+    }
 
 
 }

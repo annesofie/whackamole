@@ -41,6 +41,7 @@ public class ReadyRenderer implements Renderer {
 
 
     public void loadRenderer(StageExtension stage) {
+        System.out.println("Num of players in ReadyRenderer loadRenderer() = " + match.getNumOfPlayers());
         this.stage = stage;
         loadTextures();
 
@@ -50,12 +51,13 @@ public class ReadyRenderer implements Renderer {
     public void render() {
 
         int numOfReadyPlayers = match.numOfReadyPlayers();
+        int numOfPlayers = match.getNumOfPlayers();
         String playerList = getTextualPlayerList();
 
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
-        font.draw(stage.getBatch(), match.getCurrentNickNames().size() + " of " + match.getNumOfPlayers() + " players joined.", screenWidth * 3 / 20, screenHeight * 31 / 44);
+        font.draw(stage.getBatch(), match.getCurrentNickNames().size() + " of " + numOfPlayers + " players joined.", screenWidth * 3 / 20, screenHeight * 31 / 44);
         font.draw(stage.getBatch(), "Ready players: " + numOfReadyPlayers, screenWidth*3/20, screenHeight*29/44);
         font.draw(stage.getBatch(), playerList, screenWidth*3/20, screenHeight*25/44);
         stage.getBatch().end();

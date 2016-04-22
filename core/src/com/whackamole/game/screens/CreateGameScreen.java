@@ -55,17 +55,7 @@ public class CreateGameScreen implements Screen{
         this.renderer.render();
     }
 
-
     private StageExtensionKeyboard loadActors() {
-        /*
-            Loads and returns the actors that can be acted upon on the screen
-         */
-        /*
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 72;
-        BitmapFont font = generator.generateFont(parameter);
-        */
 
         float screenHeight = Gdx.graphics.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
@@ -153,7 +143,8 @@ public class CreateGameScreen implements Screen{
 
     @Override
     public void hide() {
-      //dispose();
+        //controller.leftGame();
+        //dispose();
     }
 
     @Override

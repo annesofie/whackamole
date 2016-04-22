@@ -19,8 +19,8 @@ public class Mole extends Sprite{
     private int moleImageId = 0;
     private int location;
     private float dt, hiddenposition, shownposition;
-    private boolean hidden = true;
-    private boolean finished = false;
+    private boolean hidden;
+    private boolean finished;
 
     Rectangle rect;
 
@@ -30,12 +30,13 @@ public class Mole extends Sprite{
         this.hiddenposition = pos.y - height*33/160;
         this.position = setPos(pos.x, hiddenposition);
         this.dt = 0;
+        this.hidden = true;
+        this.finished = false;
 
         setBoundingRectangle();
     }
 
-    public void update(float time){
-
+    public void update(float time) {
         if(this.dt < 0.145f && this.hidden) {
             show();
             this.dt += time;
@@ -62,8 +63,12 @@ public class Mole extends Sprite{
         this.finished = true;
     }
 
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
     public void reset(){
-        this.finished = false;
+        this.hidden = true;
         this.position = setPos(position.x, hiddenposition);
         this.dt = 0;
     }
@@ -76,6 +81,16 @@ public class Mole extends Sprite{
         return position;
     }
 
+    public boolean isHidden(){
+        return this.hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+
+    /*
     public void hide(){
         if(this.position.y > hiddenposition){
             this.position.y = this.position.y - height*33/1600.0f;
@@ -84,6 +99,7 @@ public class Mole extends Sprite{
             this.hidden = true;
             this.position.y = hiddenposition;}
     }
+    */
 
     public void show(){
         if(this.position.y < shownposition){

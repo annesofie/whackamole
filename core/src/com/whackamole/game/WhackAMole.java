@@ -5,13 +5,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.screens.*;
-import com.whackamole.game.utils.Constants;
-import com.whackamole.game.utils.Prefs;
-import com.whackamole.game.utils.StageExtension;
-import com.whackamole.game.utils.StageExtensionKeyboard;
+import com.whackamole.game.utils.*;
 import com.whackamole.game.views.Assets;
+import io.socket.client.Socket;
 
 
 public class WhackAMole extends Game implements ScreenController {
@@ -107,6 +106,10 @@ public class WhackAMole extends Game implements ScreenController {
 
     // Disposes the disposable resources on app kill to avoid memory leaks.
     public void dispose() {
+        Socket socket = SocketRetreiver.getInstance().getSocket();
+        if(socket.connected() && Match.getCurrentMatch().isOnGoingMatch()) {
+            socket.emit("left game", "");
+        }
         StageExtension.disposeStage();
         StageExtensionKeyboard.disposeStage();
         Assets.dispose();

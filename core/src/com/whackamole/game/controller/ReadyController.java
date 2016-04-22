@@ -24,11 +24,13 @@ public class ReadyController {
     private Match match;
     private ReadyScreen readyScreen;
     private boolean isReadyClicked;
+    private boolean leftGame;
 
     public ReadyController(ReadyScreen screen) {
         this.match = Match.getCurrentMatch();
         this.readyScreen = screen;
         this.isReadyClicked = false;
+        this.leftGame = false;
     }
 
     public void loadController() {
@@ -105,6 +107,13 @@ public class ReadyController {
             }
             socket.emit("ready", obj);
             match.setThisPlayerReady();
+        }
+    }
+
+    public void leftGame() {
+        if(!leftGame) {
+            leftGame = true;
+            socket.emit("left game", "");
         }
     }
 

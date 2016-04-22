@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.Match;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.GameOverRenderer;
@@ -33,6 +34,7 @@ public class GameOverScreen implements Screen {
 
     @Override
     public void show() {
+        Match.getCurrentMatch().setIsOnGoingMatch(false);
         Gdx.input.setInputProcessor(stage);
     }
 

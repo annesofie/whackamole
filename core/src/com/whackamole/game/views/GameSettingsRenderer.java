@@ -24,12 +24,8 @@ public class GameSettingsRenderer implements Renderer {
 
 
     private Texture background;
-    private Texture whiteRectangle;
-    private Texture chooseThemeText;
-    private Texture headline;
     private StageExtension stage;
     private int screenWidth, screenHeight;
-    private int headlineHeight;
     private BitmapFont font;
     Preferences prefs;
 
@@ -55,10 +51,7 @@ public class GameSettingsRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        //stage.getBatch().draw(chooseThemeText, screenWidth/4, screenHeight*9/20);
-        //stage.getBatch().draw(headline, screenWidth/4, screenHeight*8/10 - headlineHeight*5/2);
-        //stage.getBatch().draw(whiteRectangle, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
-        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*17/24);
+        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*33/48);
         stage.getBatch().end();
         stage.draw();
     }

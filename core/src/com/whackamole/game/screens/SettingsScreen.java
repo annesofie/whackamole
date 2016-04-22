@@ -70,6 +70,8 @@ public class SettingsScreen implements Screen {
 
     @Override
     public void show() {
+        System.out.println("I SettingsScreen show(): numOfPlayers = " + prefs.getInteger(Prefs.NUMOFPLAYERS.key()));
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -118,30 +120,21 @@ public class SettingsScreen implements Screen {
         //ImageButton kardThemeButton = new ImageButton(skin.getDrawable("kardThemeBtn"));
 
         CheckBox.CheckBoxStyle kardCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("kardThemeBtn"), skin.getDrawable("kardThemeBtnSelected"), new BitmapFont(), new Color());
-        final CheckBox.CheckBoxStyle presCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("presThemeBtn"), skin.getDrawable("presThemeBtnSelected"), new BitmapFont(), new Color());
+        CheckBox.CheckBoxStyle presCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("presThemeBtn"), skin.getDrawable("presThemeBtnSelected"), new BitmapFont(), new Color());
 
         kardCheckBox = new CheckBox("kard", kardCheckBoxStyle);
         presCheckBox = new CheckBox("pres", presCheckBoxStyle);
+        kardCheckBox.getCells().get(0).size(screenWidth/4, screenWidth/4);
+        presCheckBox.getCells().get(0).size(screenWidth/4, screenWidth/4);
 
 
-        plusButton.setPosition(screenWidth/2 + plusBtn.getWidth()/2, screenHeight*17/24 - plusBtn.getHeight()*5/8);
-        minusButton.setPosition(screenWidth/2 - minusBtn.getWidth()*3/2, screenHeight*17/24 - minusBtn.getHeight()*5/8);
+        plusButton.setPosition(screenWidth/2 + plusBtn.getWidth()/2, screenHeight*17/24 - plusBtn.getHeight()*3/4);
+        minusButton.setPosition(screenWidth/2 - minusBtn.getWidth()*3/2, screenHeight*17/24 - minusBtn.getHeight()*3/4);
         returnButton.setPosition(returnBtnWidth, screenHeight - returnBtnHeight*2);
         kardCheckBox.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/9);
         presCheckBox.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/9);
         createButton.setPosition(screenWidth/2-createBtnWidth/2, screenHeight*7/24);
 
-        /* ALTERNATIV TIL BULKEN OVER. SPØRS HVEM SOM SER BEST UT
-        plusButton.setPosition(screenWidth/2 + screenWidth/3 - minusBtnWidth, screenHeight*8/12 - minusBtnHeight/2);
-        minusButton.setPosition(screenWidth/2 - screenWidth/3 , screenHeight*8/12 - minusBtnHeight/2);
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*3, screenHeight*8/10 - returnBtnHeight*3);
-        createButton.setPosition(screenWidth/2-createBtnWidth/2, screenHeight*3/12);
-        soundCheckBox.setPosition(screenWidth/2-soundBtnWidth/2, screenHeight/2);
-        kardCheckBox.setPosition(screenWidth/2, screenHeight/2 - screenHeight/6);
-        presCheckBox.setPosition(screenWidth/2 - theme_btn_diameter, screenHeight/2 - screenHeight/6);
-        //presThemeButton.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/5);
-        //kardThemeButton.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/5);
-        */
 
         if(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())) == Theme.KARDASHIAN) {
             kardCheckBox.setChecked(true);
@@ -176,6 +169,7 @@ public class SettingsScreen implements Screen {
                     prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
                     prefs.flush();
                     match.setNumOfPlayers(numOfPlayers);
+                    System.out.println("Num of players in Match: " + match.getNumOfPlayers());
                 }
 
             }
@@ -190,6 +184,7 @@ public class SettingsScreen implements Screen {
                     prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
                     prefs.flush();
                     match.setNumOfPlayers(numOfPlayers);
+                    System.out.println("Num of players in Match: " + match.getNumOfPlayers());
                 }
 
             }
@@ -217,22 +212,6 @@ public class SettingsScreen implements Screen {
                 System.out.println("Kardashian theme now selected.");
             }
         });
-
-//        soundCheckBox.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                System.out.println("soundBtnClicked");
-//                if(soundCheckBox.isChecked()){
-//                    //soundCheckBox.setChecked(false);
-//                    prefs.putBoolean(Prefs.ISSOUND.key(), true);
-//                    prefs.flush();
-//                } else {
-//                    //soundCheckBox.setChecked(true);
-//                    prefs.putBoolean(Prefs.ISSOUND.key(), false);
-//                    prefs.flush();
-//                }
-//            }
-//        });
 
         stage.addActor(returnButton);
         stage.addActor(minusButton);

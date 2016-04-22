@@ -15,6 +15,7 @@ public class Match {
     private String gameName;
     private int numOfPlayers;
     private static Match currentMatch;
+    private boolean isOnGoingMatch;
 
 
     private Match() {
@@ -146,6 +147,23 @@ public class Match {
         return playerList;
     }
 
+    public boolean removePlayer(String nickName) {
+        for(Player player : playerList) {
+            if(player.getNickname().equals(nickName)) {
+                playerList.remove(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isOnGoingMatch() {
+        return isOnGoingMatch;
+    }
+
+    public void setIsOnGoingMatch(boolean value) {
+        this.isOnGoingMatch = value;
+    }
 
 
     private int getThisPlayerScore() {

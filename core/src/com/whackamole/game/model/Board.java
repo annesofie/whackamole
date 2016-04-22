@@ -55,7 +55,11 @@ public class Board {
     }
 
     public void setMole(int moleLocation, int image) {
+        if(currentMole != null) {
+            currentMole.finish();
+        }
         Mole mole = grid.get(moleLocation);
+        mole.setHidden(false);
         mole.setMoleImageId(image);
         this.currentMole = mole;
     }

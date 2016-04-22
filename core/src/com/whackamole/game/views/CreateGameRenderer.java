@@ -68,11 +68,11 @@ public class CreateGameRenderer implements Renderer {
         }
         else if(isJoinGame && createGame.gameIsFull()) {
             float verticalMargin = getVerticalMargin(gameIsFullText);
-            stage.getBatch().draw(gameIsFullText, verticalMargin, ((canvasHeight/2) - 150), invalidGameNameText.getWidth(), invalidGameNameText.getHeight());
+            stage.getBatch().draw(gameIsFullText, verticalMargin, ((canvasHeight/2) - 150), gameIsFullText.getWidth(), gameIsFullText.getHeight());
         }
         else if(createGame.isUnableToConnect()) {
             float vericalMargin = getVerticalMargin(unableToConnectText);
-            stage.getBatch().draw(unableToConnectText, vericalMargin, ((canvasHeight/2)- 150), gameNameAlreadyExistsText.getWidth(), gameNameAlreadyExistsText.getHeight());
+            stage.getBatch().draw(unableToConnectText, vericalMargin, ((canvasHeight/2)- 150), unableToConnectText.getWidth(), unableToConnectText.getHeight());
         }
         if(createGame.isInvalidNickName()) {
             float verticalMargin = getVerticalMargin(invalidNickNameText);

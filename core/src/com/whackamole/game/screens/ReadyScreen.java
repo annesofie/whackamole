@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ReadyController;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.StageExtension;
@@ -50,6 +51,7 @@ public class ReadyScreen implements Screen {
 
     @Override
     public void show() {
+        Match.getCurrentMatch().setIsOnGoingMatch(true);
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -104,12 +106,10 @@ public class ReadyScreen implements Screen {
         screenController.goToGameScreen();
     }
 
-    public void goToMainMenuScreen() {
-        screenController.goToMainMenuScreen();
-    }
 
     @Override
     public void hide() {;
+        //controller.leftGame();
         //dispose();
     }
 

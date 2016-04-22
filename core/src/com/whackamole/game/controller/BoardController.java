@@ -97,6 +97,9 @@ public class BoardController {
         @Override
         public void call(Object... args) {
             JSONObject obj = (JSONObject) args[0];
+            if(board.getCurrentMole() != null) {
+                board.getCurrentMole().finish();
+            }
             try {
                 String nickName = obj.getString("nickName");
                 int points = obj.getInt("points");
@@ -107,12 +110,8 @@ public class BoardController {
                     match.setScoreToUser(nickName, totalScore);
                 }
                 else {
-                    try {
-                        //board.getCurrentMole().finish();
-                    } catch (Exception e) {
-                        board.setHitTheLastMole(false, 0);
-                        match.setScoreToUser(nickName, totalScore);
-                    }
+                    board.setHitTheLastMole(false, 0);
+                    match.setScoreToUser(nickName, totalScore);
                 }
                 board.setNotFirstRound();
             } catch (JSONException e) {
@@ -126,15 +125,12 @@ public class BoardController {
         @Override
         public void call(Object... args) {
             System.out.println("New mole.");
-            try {
-                // TODO: currentMole not defined yet. Fix
-                board.getCurrentMole().finish();
-            }catch(Exception e) {
-                System.out.println(e.toString());
-            }
             JSONObject obj = (JSONObject) args[0];
+            if(board.getCurrentMole() != null) {
+                board.getCurrentMole().finish();
+            }
             try {
-                receiveSocket(obj.getInt("pos"), obj.getInt("pic"));
+                moleFromSocket(obj.getInt("pos"), obj.getInt("pic"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -146,15 +142,10 @@ public class BoardController {
         touch_y = screenY;
         mole = board.getCurrentMole();
         if(mole != null && mole.getBoundingRectangle().contains(touch_x, touch_y)){
-
             if(isSound) {
                 hitsound.play(1);
             }
-            try {
-                mole.finish();
-            }catch(Exception e) {
-                System.out.println(e.toString());
-            }
+            mole.finish();
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);
@@ -168,7 +159,7 @@ public class BoardController {
         return true;
     }
 
-    public void receiveSocket(int mole, int img){
+    public void moleFromSocket(int mole, int img){
         board.setMole(mole, img);
         if(this.prefs.getBoolean(Prefs.ISSOUND.key()) && img == 0){
             if(counter == 4){
