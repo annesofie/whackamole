@@ -97,9 +97,11 @@ public class BoardController {
         @Override
         public void call(Object... args) {
             JSONObject obj = (JSONObject) args[0];
+            /*
             if(board.getCurrentMole() != null) {
                 board.getCurrentMole().finish();
             }
+            */
             try {
                 String nickName = obj.getString("nickName");
                 int points = obj.getInt("points");
@@ -110,6 +112,11 @@ public class BoardController {
                     match.setScoreToUser(nickName, totalScore);
                 }
                 else {
+                    try{
+                        //board.getCurrentMole().finish();
+                    } catch(Exception e) {
+
+                    }
                     board.setHitTheLastMole(false, 0);
                     match.setScoreToUser(nickName, totalScore);
                 }
@@ -125,10 +132,12 @@ public class BoardController {
         @Override
         public void call(Object... args) {
             System.out.println("New mole.");
-            JSONObject obj = (JSONObject) args[0];
-            if(board.getCurrentMole() != null) {
+            try{
                 board.getCurrentMole().finish();
+            }catch(Exception e) {
+                e.printStackTrace();
             }
+            JSONObject obj = (JSONObject) args[0];
             try {
                 moleFromSocket(obj.getInt("pos"), obj.getInt("pic"));
             } catch (JSONException e) {
@@ -145,7 +154,11 @@ public class BoardController {
             if(isSound) {
                 hitsound.play(1);
             }
-            mole.finish();
+            try {
+                mole.finish();
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);

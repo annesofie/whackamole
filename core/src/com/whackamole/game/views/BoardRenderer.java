@@ -137,8 +137,7 @@ public class BoardRenderer implements Renderer {
 
     private void drawMole(int start, int end){
         Batch batch = stage.getBatch();
-
-        if(currentMole != null && currentMole.getLocation() > start && currentMole.getLocation() < end){
+        if((currentMole != null) && (currentMole.getLocation() > start) && (currentMole.getLocation() < end)){
             if(currentMole.finished()){
                     currentMole.reset();
                     board.removeCurrentMole();

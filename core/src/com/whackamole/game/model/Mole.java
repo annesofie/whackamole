@@ -68,7 +68,7 @@ public class Mole extends Sprite{
     }
 
     public void reset(){
-        this.hidden = true;
+        this.finished = false;
         this.position = setPos(position.x, hiddenposition);
         this.dt = 0;
     }
@@ -90,7 +90,7 @@ public class Mole extends Sprite{
     }
 
 
-    /*
+
     public void hide(){
         if(this.position.y > hiddenposition){
             this.position.y = this.position.y - height*33/1600.0f;
@@ -99,7 +99,7 @@ public class Mole extends Sprite{
             this.hidden = true;
             this.position.y = hiddenposition;}
     }
-    */
+
 
     public void show(){
         if(this.position.y < shownposition){
