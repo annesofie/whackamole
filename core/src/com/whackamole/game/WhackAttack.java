@@ -21,12 +21,17 @@ public class WhackAttack extends Game implements ScreenController {
     public void create() {
 
         screenController = this;
+
         loadDefaultPrefs();
-        loadFontAssets();
-        loadAndInitializeAllAssets();
+
+        LoadingScreen loadingScreen = new LoadingScreen(screenController);
+        setScreen(loadingScreen);
+
+        //loadFontAssets();
+        //loadAndInitializeAllAssets();
 
         // Initial screen to be displayed on app startup
-        goToMainMenuScreen();
+        //goToMainMenuScreen();
     }
 
 
@@ -70,39 +75,6 @@ public class WhackAttack extends Game implements ScreenController {
         setScreen(new GameOverScreen(screenController));
     }
 
-
-    // Loads TrueType fonts that are used to render nicely scaled text dynamically at runtime.
-    public void loadFontAssets() {
-        // Font assets for renderer
-        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/35), Assets.PRES_FONT_GAME);
-        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/35), Assets.KARD_FONT_GAME);
-        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/35), Assets.PRES_FONT_READY);
-        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/35), Assets.KARD_FONT_READY);
-        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/20), Assets.KARD_GET_READY_FONT);
-        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/20), Assets.PRES_GET_READY_FONT);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/35), Assets.GAME_OVER_FONT);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.SETTINGS_FONT);
-        Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/35), Assets.TEXTFIELD_FONT);
-    }
-
-
-    // Loads and initializes all assets and saves them in-memory for good overall performance and switching between screens.
-    public void loadAndInitializeAllAssets() {
-        System.out.println("Started loading assets...");
-        Assets.manager.load(Assets.class);
-
-        /*
-        while(Assets.manager.update()) {
-            float progress = Assets.manager.getProgress() * 100;
-            if((progress % 10) == 0.0) {
-                System.out.println(progress + "%");
-            }
-        }
-        */
-
-        Assets.manager.finishLoading();
-        System.out.println("Done loading assets...");
-    }
 
 
     // Disposes the disposable resources on app kill to avoid memory leaks.

@@ -42,6 +42,8 @@ public class Assets {
     READY_BTN = "ReadyBtn.png",
     READY_BTN_CLICKED = "ReadyBtnClicked.png",
 
+    LOADING_BACKROUND = "images/LoadingScreenBackground.png",
+
     // Moles are defined in the MoleImage enum type
     MOLE0 = MoleImage.getFileNameOnImageId(0),
     MOLE1 = MoleImage.getFileNameOnImageId(1),
@@ -117,7 +119,6 @@ public class Assets {
     GAME_OVER_BACKGROUND = imgDir + "GameOverBackground.png",
 
 
-
     PROCEED_BTN = imgDir + "ProceedBtn.png",
     PROCEED_BTN_CLICKED = imgDir + "ProceedBtnClicked.png",
     JOIN_GAME_BTN = imgDir + "JoinGameBtn.png",
@@ -133,6 +134,7 @@ public class Assets {
     //
     LARGE_BACK_BTN = imgDir + "LargeBackBtn.png",
     RETURN_BTN = imgDir + "ReturnBtn.png",
+    BACK_BTN = imgDir + "BackBtn.png",
     INSTRUCTIONS = imgDir + "Instructions.png",
     WHITE_RECTANGLE = imgDir + "WhiteRectangle.png",
     GAME_OVER_HEADLINE = imgDir + "GameOverHeadline.png",

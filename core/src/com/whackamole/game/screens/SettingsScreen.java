@@ -87,41 +87,22 @@ public class SettingsScreen implements Screen {
         float screenHeight = Gdx.graphics.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
 
-        Texture kardThemeBtn = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN, Texture.class);
-        Texture presThemeBtn = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN, Texture.class);
-        Texture kardThemeBtnSelected = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN_SELECTED, Texture.class);
-        Texture presThemeBtnSelected = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN_SELECTED, Texture.class);
-        Texture returnBtn = Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class);
-        Texture minusBtn = Assets.manager.get(Assets.MINUSBTN, Texture.class);
-        Texture minusBtnClicked = Assets.manager.get(Assets.MINUSBTNCLICKED, Texture.class);
-        Texture plusBtn = Assets.manager.get(Assets.PLUSBTN, Texture.class);
-        Texture plusBtnClicked = Assets.manager.get(Assets.PLUSBTNCLICKED, Texture.class);
-
-        Texture createBtn = Assets.manager.get(Assets.PROCEED_BTN, Texture.class);
-        Texture createBtnClicked = Assets.manager.get(Assets.PROCEED_BTN_CLICKED, Texture.class);
-
-        int theme_btn_diameter = kardThemeBtn.getWidth();
-        int returnBtnWidth = returnBtn.getWidth();
-        int returnBtnHeight = returnBtn.getHeight();
-
-        skin.add("returnBtn", returnBtn);
-        skin.add("presThemeBtn", presThemeBtn);
-        skin.add("kardThemeBtn", kardThemeBtn);
-        skin.add("kardThemeBtnSelected", kardThemeBtnSelected);
-        skin.add("presThemeBtnSelected", presThemeBtnSelected);
-        skin.add("minusBtn", minusBtn);
-        skin.add("minusBtnClicked", minusBtnClicked);
-        skin.add("plusBtn", plusBtn);
-        skin.add("plusBtnClicked", plusBtnClicked);
-        skin.add("createBtn", createBtn);
-        skin.add("createBtnClicked", createBtnClicked);
+        skin.add("returnBtn", Assets.manager.get(Assets.BACK_BTN, Texture.class));
+        skin.add("presThemeBtn", Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN, Texture.class));
+        skin.add("kardThemeBtn", Assets.manager.get(Assets.KARDASHIAN_THEME_BTN, Texture.class));
+        skin.add("kardThemeBtnSelected", Assets.manager.get(Assets.KARDASHIAN_THEME_BTN_SELECTED, Texture.class));
+        skin.add("presThemeBtnSelected", Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN_SELECTED, Texture.class));
+        skin.add("minusBtn", Assets.manager.get(Assets.MINUSBTN, Texture.class));
+        skin.add("minusBtnClicked", Assets.manager.get(Assets.MINUSBTNCLICKED, Texture.class));
+        skin.add("plusBtn", Assets.manager.get(Assets.PLUSBTN, Texture.class));
+        skin.add("plusBtnClicked", Assets.manager.get(Assets.PLUSBTNCLICKED, Texture.class));
+        skin.add("createBtn", Assets.manager.get(Assets.PROCEED_BTN, Texture.class));
+        skin.add("createBtnClicked", Assets.manager.get(Assets.PROCEED_BTN_CLICKED, Texture.class));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         ImageButton plusButton = new ImageButton(skin.getDrawable("plusBtn"), skin.getDrawable("plusBtnClicked"));
         ImageButton minusButton = new ImageButton(skin.getDrawable("minusBtn"), skin.getDrawable("minusBtnClicked"));
         ImageButton createButton = new ImageButton(skin.getDrawable("createBtn"), skin.getDrawable("createBtnClicked"));
-        //ImageButton presThemeButton = new ImageButton(skin.getDrawable("presThemeBtn"));
-        //ImageButton kardThemeButton = new ImageButton(skin.getDrawable("kardThemeBtn"));
 
         CheckBox.CheckBoxStyle kardCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("kardThemeBtn"), skin.getDrawable("kardThemeBtnSelected"), new BitmapFont(), new Color());
         CheckBox.CheckBoxStyle presCheckBoxStyle = new CheckBox.CheckBoxStyle(skin.getDrawable("presThemeBtn"), skin.getDrawable("presThemeBtnSelected"), new BitmapFont(), new Color());
@@ -132,17 +113,17 @@ public class SettingsScreen implements Screen {
         // Set sizes to scale nicely on different screens
         kardCheckBox.getCells().get(0).size(screenWidth*Constants.roundButtonWidthRatio, screenHeight*Constants.roundButtonHeightRatio);
         presCheckBox.getCells().get(0).size(screenWidth*Constants.roundButtonWidthRatio, screenHeight*Constants.roundButtonHeightRatio);
-        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenWidth*Constants.returnButtonHeightRatio);
-        minusButton.getCells().get(0).size(screenWidth*Constants.smallButtonWidthRatio, screenWidth*Constants.smallButtonHeightRatio);
-        plusButton.getCells().get(0).size(screenWidth*Constants.smallButtonWidthRatio, screenWidth*Constants.smallButtonHeightRatio);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
+        minusButton.getCells().get(0).size(screenWidth*Constants.smallButtonWidthRatio, screenHeight*Constants.smallButtonHeightRatio);
+        plusButton.getCells().get(0).size(screenWidth*Constants.smallButtonWidthRatio, screenHeight*Constants.smallButtonHeightRatio);
+        createButton.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
 
-
-        plusButton.setPosition(screenWidth - 2*getVerticalMargin(createButton.getWidth()) - screenWidth/20, screenHeight*17/24 - plusBtn.getHeight()*3/4);
-        minusButton.setPosition(getVerticalMargin(createButton.getWidth()) + screenWidth*Constants.soundButtonWidthRatio/2, screenHeight*17/24 - minusBtn.getHeight()*3/4);
-        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnBtnHeight*2);
-        kardCheckBox.setPosition(screenWidth - getVerticalMargin(createButton.getWidth()) - screenWidth*Constants.roundButtonWidthRatio + screenWidth/20, screenHeight/2 - screenHeight/9);
-        presCheckBox.setPosition(getVerticalMargin(createButton.getWidth()), screenHeight/2 - screenHeight/9);
-        createButton.setPosition(getVerticalMargin(createButton.getWidth()), screenHeight*7/24);
+        plusButton.setPosition(screenWidth - screenWidth/4 - plusButton.getWidth(), screenHeight*17/24 - plusButton.getHeight()*3/4);
+        minusButton.setPosition(screenWidth/4, screenHeight*17/24 - minusButton.getHeight()*3/4);
+        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
+        kardCheckBox.setPosition(screenWidth/2 + screenWidth/10, screenHeight/2 - screenHeight/10);
+        presCheckBox.setPosition(screenWidth/2 - presCheckBox.getWidth() - screenWidth/10, screenHeight/2 - screenHeight/10);
+        createButton.setPosition(getLeftMargin(createButton.getWidth()), screenHeight*14/48);
 
 
         if(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())) == Theme.KARDASHIAN) {
@@ -203,6 +184,8 @@ public class SettingsScreen implements Screen {
         presCheckBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                presCheckBox.setDisabled(true);
+                kardCheckBox.setDisabled(false);
                 kardCheckBox.setChecked(false);
                 prefs.putInteger(Prefs.THEME.key(), Theme.PRESIDENTIAL.getId());
                 prefs.flush();
@@ -214,6 +197,8 @@ public class SettingsScreen implements Screen {
         kardCheckBox.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                kardCheckBox.setDisabled(true);
+                presCheckBox.setDisabled(false);
                 presCheckBox.setChecked(false);
                 prefs.putInteger(Prefs.THEME.key(), Theme.KARDASHIAN.getId());
                 prefs.flush();
@@ -228,19 +213,11 @@ public class SettingsScreen implements Screen {
         stage.addActor(kardCheckBox);
         stage.addActor(presCheckBox);
 
-        /*
-        setSize(stage.getActors().get(0), returnBtnWidth);
-        setSize(stage.getActors().get(1), minusBtnWidth);
-        setSize(stage.getActors().get(2), minusBtnWidth);
-        setSize(stage.getActors().get(3), createBtnWidth);
-        setSize(stage.getActors().get(4), theme_btn_diameter, theme_btn_diameter);
-        setSize(stage.getActors().get(5), theme_btn_diameter, theme_btn_diameter);
-        */
-
         return stage;
     }
 
-    public float getVerticalMargin(float width) {
+    public float getLeftMargin(float width) {
+        float screenWidth = Gdx.graphics.getWidth();
         return (screenWidth - width)/2;
     }
 

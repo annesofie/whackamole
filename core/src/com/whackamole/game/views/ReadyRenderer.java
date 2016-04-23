@@ -42,7 +42,6 @@ public class ReadyRenderer implements Renderer {
 
 
     public void loadRenderer(StageExtension stage) {
-        System.out.println("Num of players in ReadyRenderer loadRenderer() = " + match.getNumOfPlayers());
         this.stage = stage;
         loadTextures();
 
@@ -54,12 +53,27 @@ public class ReadyRenderer implements Renderer {
         int numOfReadyPlayers = match.numOfReadyPlayers();
         int numOfPlayers = match.getNumOfPlayers();
         String playerList = getTextualPlayerList();
+        String statusMessage1 = "";
+        String statusMessage2 = "";
+        String statusMessage3 = "";
+
+
+
+        if((numOfPlayers - match.getCurrentNickNames().size()) == 0){
+            statusMessage2 = "Enough players.";
+            statusMessage3 = "Press ready to start.";
+        }
+        else {
+            statusMessage1 = "Invite friends to: " + match.getGameName();
+            statusMessage2 = match.getCurrentNickNames().size() + " players have joined.";
+            statusMessage3 = "Need " + (numOfPlayers - match.getCurrentNickNames().size()) + " more to start.";
+        }
 
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
-        font.draw(stage.getBatch(), "Invite friends to: " + match.getGameName() + "\n\n" + match.getCurrentNickNames().size() + " players have joined.\nNeed "
-                + numOfPlayers + " more to start.\n\nPlayers:\n" + playerList, screenWidth*3/20, screenHeight*35/44);
+        font.draw(stage.getBatch(), statusMessage1 + "\n\n" + statusMessage2 + "\n"
+               + statusMessage3 + "\n\nPlayers:\n" + playerList, screenWidth*3/20, screenHeight*35/44);
         stage.getBatch().end();
         stage.draw();
 

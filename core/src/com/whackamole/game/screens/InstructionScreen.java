@@ -53,9 +53,7 @@ public class InstructionScreen implements Screen {
         float screenHeight = Gdx.graphics.getHeight();
         float screenWidth = Gdx.graphics.getWidth();
 
-        Texture returnBtn = Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class);
-
-        skin.add("returnBtn", returnBtn);
+        skin.add("returnBtn", Assets.manager.get(Assets.BACK_BTN, Texture.class));
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
         returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);

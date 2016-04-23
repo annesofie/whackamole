@@ -3,6 +3,7 @@ package com.whackamole.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,7 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
@@ -30,6 +33,10 @@ public class MainMenuScreen implements Screen {
     private StageExtension stage;
     private Preferences prefs;
     private CheckBox soundCheckBox;
+    private Sound speechTrump;
+    private Sound speechKanye;
+    private Array<Sound> speeches;
+    private static int sound;
 
 
     public MainMenuScreen(final ScreenController screenController) {
@@ -40,6 +47,12 @@ public class MainMenuScreen implements Screen {
         this.stage = StageExtension.getCleanInstance();
         this.skin = new Skin();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
+        this.speechTrump = Gdx.audio.newSound(Gdx.files.internal(Theme.PRESIDENTIAL.path() + Assets.SPEECH));
+        this.speechKanye = Gdx.audio.newSound(Gdx.files.internal(Theme.KARDASHIAN.path() + Assets.SPEECH));
+        this.speeches = new Array<Sound>();
+        this.speeches.add(speechKanye);
+        this.speeches.add(speechTrump);
+        sound = 0;
 
         renderer.loadRenderer(loadActors());
     }
@@ -103,11 +116,10 @@ public class MainMenuScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("soundBtnClicked");
                 if(soundCheckBox.isChecked()){
-                    //soundCheckBox.setChecked(false);
+                    getNextSound().play();
                     prefs.putBoolean(Prefs.ISSOUND.key(), true);
                     prefs.flush();
                 } else {
-                    //soundCheckBox.setChecked(true);
                     prefs.putBoolean(Prefs.ISSOUND.key(), false);
                     prefs.flush();
                 }
@@ -136,6 +148,17 @@ public class MainMenuScreen implements Screen {
         stage.addActor(soundCheckBox);
         stage.getActors().get(3).setSize(screenWidth*46/300, screenHeight*128/1600);
         return stage;
+    }
+
+    public Sound getNextSound() {
+        if(sound % 2 == 0) {
+            sound++;
+            return speechKanye;
+        }
+        else {
+            sound++;
+            return speechTrump;
+        }
     }
 
     public float getVerticalMargin(float width) {

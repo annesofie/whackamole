@@ -72,7 +72,7 @@ public class CreateGameScreen implements Screen{
         skin.add("cursor", Assets.manager.get(Assets.CURSOR, Texture.class));
         skin.add("btnNotClicked", Assets.manager.get(Assets.ENTERBTN, Texture.class));
         skin.add("btnClicked", Assets.manager.get(Assets.ENTERBTNCLICKED, Texture.class));
-        skin.add("returnBtn", Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class));
+        skin.add("returnBtn", Assets.manager.get(Assets.BACK_BTN, Texture.class));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
@@ -102,7 +102,7 @@ public class CreateGameScreen implements Screen{
 
         // Set sizes to scale with screen dimensions nicely
         btn.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
-        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenWidth*Constants.returnButtonHeightRatio);
         textFieldGameName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
         textFieldNickName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
 

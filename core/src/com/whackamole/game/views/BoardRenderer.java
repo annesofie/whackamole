@@ -79,18 +79,20 @@ public class BoardRenderer implements Renderer {
 
         // LEADERBOARD
         stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
-        font.draw(stage.getBatch(), "Leaderboard:\n" + leaderBoard, width/20, height - (board_score.getHeight()*2/12));
+        if(!isFirstMole) {
+            font.draw(stage.getBatch(), "Leaderboard:\n" + leaderBoard, width/20, height - (board_score.getHeight()*2/12));
+            if(hitTheLastMole) {
+                font.draw(stage.getBatch(), "YOU WERE FAST!\n+ " + Integer.toString(lastMolePoints) + " points.", width*26/50, height - (board_score.getHeight()*6/16));
+                //font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - board_score.getHeight()*9/16));
+            }
+            else if (!board.first()) {
+                font.draw(stage.getBatch(), "You missed.\nToo slow!", width*27/50, height - board_score.getHeight()*6/16);
+            }
+        }
+        else {
+            getReadyFont.draw(stage.getBatch(), "\t\tGET READY!\nFirst player to 5000 points wins!", width/20, height - (board_score.getHeight()*6/16));
+        }
 
-        if(isFirstMole) {
-            getReadyFont.draw(stage.getBatch(), "GET READY!\nFirst player to 5000 points wins!+ " + Integer.toString(lastMolePoints) + " points.", width/10, height - (board_score.getHeight()*6/16));
-        }
-        else if(hitTheLastMole) {
-            font.draw(stage.getBatch(), "YOU WERE FAST!\n+ " + Integer.toString(lastMolePoints) + " points.", width*26/50, height - (board_score.getHeight()*6/16));
-            //font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - board_score.getHeight()*9/16));
-        }
-        else if (!board.first()) {
-            font.draw(stage.getBatch(), "You missed.\nToo slow!", width*27/50, height - board_score.getHeight()*6/16);
-        }
 
         // GRID AND MOLES
         stage.getBatch().draw(board_score, 0, 7*height/16, width, 3*height/16);
