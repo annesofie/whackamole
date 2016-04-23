@@ -23,8 +23,6 @@ public class CreateGameController {
 
     private CreateGame createGame;
     private Socket socket;
-    private String gameName;
-    private String nickName;
     private Match match;
     private Preferences prefs;
     private ScreenController screenController;
@@ -53,7 +51,7 @@ public class CreateGameController {
         }
 
         socket.on("new game success", onNewGameSuccess);
-        socket.on("game name length error", onGameNameLength);
+        socket.on("invalid game name error", onGameNameLength);
         socket.on("game already exists error", onGameAlreadyExists);
         socket.on("connect_error", connectError);
         socket.on("disconnect", disconnected);
@@ -61,12 +59,13 @@ public class CreateGameController {
         socket.on("game is full error", onGameIsFull);
         socket.on("game nonexistent error", onGameNonExistent);
         socket.on("nickname taken error", onNickNameTaken);
+        socket.on("invalid nickname error", onInvalidNickNameError);
     }
 
 
     // TODO: grundigere sjekk av lovlige tegn
     public boolean isValidGameName(String gameName) {
-        if(gameName.trim().length() == 0 || gameName.length() < 3) {
+        if(gameName.trim().length() == 0 || gameName.length() < 3 || gameName.matches("[^a-zA-Z0-9_-]")) {
             createGame.setInvalidGameName(true);
             return false;
 
@@ -78,7 +77,7 @@ public class CreateGameController {
     }
 
     public boolean isValidNickName(String nickName) {
-        if(nickName.trim().length() == 0 || nickName.length() < 3) {
+        if(nickName.trim().length() == 0 || nickName.length() < 3 || nickName.matches("[^a-zA-Z0-9_-]")) {
             createGame.setInvalidNickName(true);
             return false;
 
@@ -90,9 +89,7 @@ public class CreateGameController {
 
     }
 
-    public void createGame(String gamename, String nickname) {
-        this.gameName = gamename;
-        this.nickName = nickname;
+    public void createGame(String gameName, String nickName) {
         if(!createGameClicked) {
             createGameClicked = true;
             emitNewGame(gameName, nickName);
@@ -100,9 +97,7 @@ public class CreateGameController {
     }
 
 
-    public void joinGame(String gamename, String nickname) {
-        this.gameName = gamename;
-        this.nickName = nickname;
+    public void joinGame(String gameName, String nickName) {
         if(!joinGameClicked) {
             joinGameClicked = true;
             emitJoinGame(gameName, nickName);
@@ -161,6 +156,13 @@ public class CreateGameController {
         }
     };
 
+    private Emitter.Listener onInvalidNickNameError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            createGame.setInvalidNickName(true);
+        }
+    };
+
     private Emitter.Listener onNewGameSuccess = new Emitter.Listener(){
         @Override
         public void call(Object... args) {
@@ -168,9 +170,13 @@ public class CreateGameController {
 
             JsonValue json = new JsonReader().parse((String) args[0]);
             int numOfPlayers = json.getInt("numOfPlayers");
+            String nickName = json.getString("nickname");
+            String gameName = json.getString("name");
 
             createGame.setGameNameAlreadyExists(false);
             createGame.setUnableToConnect(false);
+            createGame.setInvalidNickName(false);
+            createGame.setInvalidGameName(false);
 
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
@@ -199,6 +205,10 @@ public class CreateGameController {
             JsonValue json = new JsonReader().parse((String) args[0]);
             int themeId = json.getInt("themeId");
             int numOfPlayers = json.getInt("numOfPlayers");
+            String gameName = json.getString("name");
+            String nickName = json.getString("nickname");
+
+            // Sets the correct theme based on the creators choice of theme for this game.
             prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);
             if(!(prefs.getInteger(Prefs.THEME.key()) == themeId)) {
                 prefs.putInteger(Prefs.THEME.key(), themeId);
@@ -209,6 +219,8 @@ public class CreateGameController {
             createGame.setNoGameWithNameExists(false);
             createGame.setNickNameTaken(false);
             createGame.setUnableToConnect(false);
+            createGame.setInvalidNickName(false);
+            createGame.setInvalidGameName(false);
 
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
@@ -220,15 +232,12 @@ public class CreateGameController {
                 e.printStackTrace();
             }
 
-            List<String> nickNames = new ArrayList<String>();
+            // Updates the list of attenders on currently on the server
             JsonValue attendersJson = json.get("attenders");
             for(JsonValue attender : attendersJson.iterator()) {
-                String nickName = attender.getString("nickName");
-                nickNames.add(nickName);
-            }
-            for(String nickName : nickNames) {
-                if(!nickName.equals(match.getThisPlayerNickName())) {
-                    match.addPlayer(nickName);
+                String nickname = attender.getString("nickName");
+                if(!nickname.equals(match.getThisPlayerNickName())) {
+                    match.addPlayer(nickname);
                 }
             }
             screenController.goToReadyScreen();
