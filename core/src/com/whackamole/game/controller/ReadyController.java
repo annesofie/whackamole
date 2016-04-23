@@ -56,7 +56,10 @@ public class ReadyController {
             try {
                 JSONObject obj = (JSONObject) args[0];
                 System.out.println(obj.getString("nickName") + " joined the game");
-                match.addPlayer(obj.getString("nickName"));
+                String nickname = obj.getString("nickName");
+                if(!nickname.equals(match.getThisPlayerNickName())) {
+                    match.addPlayer(obj.getString("nickName"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

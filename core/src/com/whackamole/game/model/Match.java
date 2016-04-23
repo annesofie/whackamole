@@ -35,7 +35,7 @@ public class Match {
     }
 
     public void addPlayer(String nickName) {
-        if(!(this.isPlayer(nickName))) {
+        if(!(this.isPlayer(nickName)) && !getCurrentNickNames().contains(nickName)) {
             this.playerList.add(new Player(nickName));
         }
     }

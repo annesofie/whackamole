@@ -236,6 +236,7 @@ public class CreateGameController {
             JsonValue attendersJson = json.get("attenders");
             for(JsonValue attender : attendersJson.iterator()) {
                 String nickname = attender.getString("nickName");
+                System.out.println("In 'join game success', nickname from server: " + nickname);
                 if(!nickname.equals(match.getThisPlayerNickName())) {
                     match.addPlayer(nickname);
                 }
