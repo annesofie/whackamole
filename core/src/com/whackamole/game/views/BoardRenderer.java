@@ -83,7 +83,6 @@ public class BoardRenderer implements Renderer {
             font.draw(stage.getBatch(), "Leaderboard:\n" + leaderBoard, width/20, height - (board_score.getHeight()*2/12));
             if(hitTheLastMole) {
                 font.draw(stage.getBatch(), "YOU WERE FAST!\n+ " + Integer.toString(lastMolePoints) + " points.", width*26/50, height - (board_score.getHeight()*6/16));
-                //font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - board_score.getHeight()*9/16));
             }
             else if (!board.first()) {
                 font.draw(stage.getBatch(), "You missed.\nToo slow!", width*27/50, height - board_score.getHeight()*6/16);

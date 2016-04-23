@@ -7,6 +7,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.StreamUtils;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.screens.CreateGameScreen;
@@ -29,6 +30,7 @@ public class CreateGameController implements Disposable {
     private ScreenController screenController;
     private boolean joinGameClicked;
     private boolean createGameClicked;
+    private String nickName;
 
     public CreateGameController(CreateGame createGame, ScreenController screenController) {
         this.createGame = createGame;
@@ -121,6 +123,7 @@ public class CreateGameController implements Disposable {
     }
 
     private void emitJoinGame(String gameName, String nickName) {
+        this.nickName = nickName;
         JSONObject json = new JSONObject();
         try {
             json.put("gameName", gameName);
@@ -244,7 +247,6 @@ public class CreateGameController implements Disposable {
             int themeId = json.getInt("themeId");
             int numOfPlayers = json.getInt("numOfPlayers");
             String gameName = json.getString("name");
-            String nickName = json.getString("nickname");
 
             // Sets the correct theme based on the creators choice of theme for this game.
             prefs.putInteger(Prefs.NUMOFPLAYERS.key(), numOfPlayers);

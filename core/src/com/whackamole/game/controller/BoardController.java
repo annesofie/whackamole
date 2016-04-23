@@ -3,6 +3,7 @@ package com.whackamole.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
@@ -138,6 +139,9 @@ public class BoardController implements Disposable {
                 String nickName = obj.getString("nickName");
                 int points = obj.getInt("points");
                 int totalScore = obj.getInt("totalScore");
+                System.out.println(match.getThisPlayerNickName());
+                System.out.println(nickName);
+                System.out.println(match.getThisPlayerNickName().equals(nickName));
                 if(match.getThisPlayerNickName().equals(nickName)) {
                     System.out.print("You hit the last mole for " + points + " points!");
                     board.setHitTheLastMole(true, points);
