@@ -1,10 +1,5 @@
 package com.whackamole.game.model;
 
-
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
 public class CreateGame {
 
     private boolean invalidGameName;
@@ -81,14 +76,6 @@ public class CreateGame {
 
     public boolean nickNameIsTaken() {
         return this.nickNameTaken;
-    }
-
-    public void setLeftGame(boolean leftGame) {
-        this.leftGame = leftGame;
-    }
-
-    public boolean leftGame() {
-        return this.leftGame;
     }
 
 }

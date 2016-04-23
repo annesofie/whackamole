@@ -6,7 +6,9 @@ import io.socket.client.Socket;
 
 
 public class SocketRetreiver {
-
+    /**
+     *  Singleton that provides a socket to the application
+     */
 
     private Socket mSocket = null;
     private static SocketRetreiver instance;

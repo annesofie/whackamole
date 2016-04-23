@@ -1,23 +1,14 @@
 package com.whackamole.game.controller;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.Match;
-import com.whackamole.game.model.Player;
 import com.whackamole.game.screens.ReadyScreen;
 import com.whackamole.game.utils.SocketRetreiver;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by Lars on 15/04/16.
- */
 public class ReadyController implements Disposable {
 
 

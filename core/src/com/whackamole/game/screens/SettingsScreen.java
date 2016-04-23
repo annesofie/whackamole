@@ -32,11 +32,6 @@ public class SettingsScreen implements Screen {
     private GameSettingsRenderer renderer;
     private Skin skin;
     private StageExtension stage;
-    private float screenWidth, screenHeight, createBtnWidth, minusBtnWidth, plusBtnWidth, minusBtnHeight;
-    private float theme_btn_diameter;
-    private float soundBtnWidth;
-    private float returnBtnWidth, returnBtnHeight;
-    private CheckBox soundCheckBox;
     private CheckBox kardCheckBox;
     private CheckBox presCheckBox;
     private Match match;
@@ -53,18 +48,6 @@ public class SettingsScreen implements Screen {
         // A new match is therefore started here
         Match.startNewMatch();
         this.match = Match.getCurrentMatch();
-
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
-
-        theme_btn_diameter = screenWidth/3;//(new Texture(FileName.KARDASHIAN_THEME_BTN.filename())).getWidth();
-
-        soundBtnWidth = 0.16f*screenWidth;//(new Texture(FileName.SOUND_ON_BTN.filename())).getWidth();
-        returnBtnWidth = 4*screenWidth/90;//(new Texture(FileName.RETURN_BTN.filename())).getWidth();
-        returnBtnHeight = screenHeight/40;//(new Texture(FileName.RETURN_BTN.filename())).getHeight();
-        createBtnWidth = 680*screenWidth/900;
-        minusBtnWidth = 193*screenWidth/900;
-        minusBtnHeight = 0.08125f*screenHeight;
 
         renderer.loadRenderer(loadActors());
     }

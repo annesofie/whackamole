@@ -7,9 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 
-/**
- * Created by AnneSofie on 04.04.2016.
- */
 public class Board {
 
     private Array<Mole> grid = new Array<Mole>();
@@ -33,10 +30,7 @@ public class Board {
 
 
     public void loadBoard() {
-        // Init board in GameScreen show()
         loadGrid();
-        // ++ andre ting som må lastes når screen byttes til GameScreen
-
     }
 
 
@@ -64,12 +58,6 @@ public class Board {
         mole.setHidden(false);
         mole.setMoleImageId(image);
         this.currentMole = mole;
-    }
-
-
-
-    public void removeCurrentMole(){
-        this.currentMole = null;
     }
 
     public Mole getCurrentMole(){
@@ -101,7 +89,4 @@ public class Board {
         return isFirstMole;
     }
 
-    public void setNotFirstMole() {
-        this.isFirstMole = false;
-    }
 }

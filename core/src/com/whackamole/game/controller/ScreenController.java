@@ -1,19 +1,14 @@
 package com.whackamole.game.controller;
 
-import com.badlogic.gdx.Screen;
-import com.whackamole.game.screens.*;
-
 /**
  * Created by Lars on 12/04/16.
  */
 public interface ScreenController {
 
     /*
-        This controller is implemented by WhackAttack to ensure that these methods are available to other classes that
-        needs to switch between screens
-
+        This controller interface is implemented by by the Game class to ensure that these methods are available to other classes that
+        needs to switch between screens.
      */
-
 
     void goToGameScreen();
     void goToInstructionsScreen();

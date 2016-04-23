@@ -17,15 +17,6 @@ import java.util.List;
  */
 public class GameOverRenderer implements Renderer {
 
-
-
-    /**
-     *  Renders the game over window
-     *
-     *
-     *
-     */
-
     private Texture background, headline;
     private StageExtension stage;
     private int screenWidth, screenHeight;
@@ -59,8 +50,6 @@ public class GameOverRenderer implements Renderer {
 
     private void loadTextures() {
         background = Assets.manager.get(Assets.GAME_OVER_BACKGROUND, Texture.class);
-        //headline = Assets.manager.get(Assets.GAME_OVER_HEADLINE, Texture.class);
-        //headlineWidth = headline.getWidth();
         highScoreList = getTextualHighScoreList();
 
         font = Assets.manager.get(Assets.GAME_OVER_FONT);

@@ -24,14 +24,10 @@ public class WhackAttack extends Game implements ScreenController {
 
         loadDefaultPrefs();
 
+        // Loading screen. Loads assets into memory on startup.
         LoadingScreen loadingScreen = new LoadingScreen(screenController);
         setScreen(loadingScreen);
 
-        //loadFontAssets();
-        //loadAndInitializeAllAssets();
-
-        // Initial screen to be displayed on app startup
-        //goToMainMenuScreen();
     }
 
 

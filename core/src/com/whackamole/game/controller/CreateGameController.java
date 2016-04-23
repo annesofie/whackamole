@@ -1,24 +1,19 @@
 package com.whackamole.game.controller;
 
 
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.StreamUtils;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.model.Match;
-import com.whackamole.game.screens.CreateGameScreen;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class CreateGameController implements Disposable {

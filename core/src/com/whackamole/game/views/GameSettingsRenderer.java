@@ -2,20 +2,11 @@ package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.TextArea;
-import com.badlogic.gdx.utils.Disposable;
-import com.whackamole.game.utils.FontGenerator;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.StageExtension;
-
-import net.dermetfan.gdx.assets.AnnotationAssetManager;
 
 /**
  * Created by Lars on 07/04/16.

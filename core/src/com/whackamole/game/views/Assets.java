@@ -61,6 +61,10 @@ public class Assets {
     private static String presPath = Theme.PRESIDENTIAL.path();
     private static String kardPath = Theme.KARDASHIAN.path();
 
+
+    /*
+        These variables are tagged as unused. But they are actually loaded by the AssetManager. Don't delete.
+     */
     @Asset(Texture.class)
     public static final String
     PRES_BOARD_BOTTOM = presPath + BOARD_BOTTOM,
