@@ -22,7 +22,6 @@ import java.util.List;
 public class ReadyRenderer implements Renderer {
 
 
-    Match match;
     StageExtension stage;
     Preferences prefs;
     private float screenHeight;
@@ -34,7 +33,6 @@ public class ReadyRenderer implements Renderer {
     Texture background;
 
     public ReadyRenderer() {
-        this.match = Match.getCurrentMatch();
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.screenHeight = Gdx.graphics.getHeight();
         this.screenWidth = Gdx.graphics.getWidth();
@@ -50,23 +48,25 @@ public class ReadyRenderer implements Renderer {
     @Override
     public void render() {
 
-        int numOfReadyPlayers = match.numOfReadyPlayers();
+        Match match = Match.getCurrentMatch();
         int numOfPlayers = match.getNumOfPlayers();
+        int currentNumOfPlayers = match.getCurrentNickNames().size();
+        int requiredPlayers = (numOfPlayers - currentNumOfPlayers);
+
         String playerList = getTextualPlayerList();
         String statusMessage1 = "";
         String statusMessage2 = "";
         String statusMessage3 = "";
 
 
-
-        if((numOfPlayers - match.getCurrentNickNames().size()) == 0){
+        if(requiredPlayers == 0){
             statusMessage2 = "Enough players.";
             statusMessage3 = "Press ready to start.";
         }
         else {
             statusMessage1 = "Invite friends to: " + match.getGameName();
-            statusMessage2 = match.getCurrentNickNames().size() + " players have joined.";
-            statusMessage3 = "Need " + (numOfPlayers - match.getCurrentNickNames().size()) + " more to start.";
+            statusMessage2 =  currentNumOfPlayers + " players have joined.";
+            statusMessage3 = "Need " + requiredPlayers + " more to start.";
         }
 
         stage.act();
@@ -93,6 +93,7 @@ public class ReadyRenderer implements Renderer {
     private String getTextualPlayerList(){
         String playerList = "";
         int pos = 1;
+        Match match = Match.getCurrentMatch();
         List<Player> players = match.getPlayerList();
         for(Player player : players){
             if(player.isReady()) {

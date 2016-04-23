@@ -37,7 +37,9 @@ public class Match {
     public void addPlayer(String nickName) {
         if(!(this.isPlayer(nickName)) && !getCurrentNickNames().contains(nickName)) {
             this.playerList.add(new Player(nickName));
+            System.out.println("In Match addPlayer(): " + playerList.size() + " number of players.");
         }
+        System.out.println("In Match getCurrentNickName(): " + getCurrentNickNames().size() + " number of players.");
     }
 
     public int getScoreOnUserName(String nickName) {

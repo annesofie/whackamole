@@ -260,6 +260,7 @@ public class CreateGameController implements Disposable {
             createGame.setInvalidNickName(false);
             createGame.setInvalidGameName(false);
 
+            match.setNumOfPlayers(numOfPlayers);
             match.setNickNameOnThisPlayer(nickName);
             match.setGameName(gameName);
 

@@ -47,13 +47,13 @@ public class CreateGameScreen implements Screen{
         controller.loadController();
         renderer.loadRenderer(loadActors());
 
-        if(joinGame) {
-            Match.startNewMatch();
-        }
     }
 
     @Override
     public void show() {
+        if(joinGame) {
+            Match.startNewMatch();
+        }
         Gdx.input.setInputProcessor(stage);
     }
 

@@ -59,7 +59,7 @@ public class LoadingScreen implements Screen {
     public void render(float delta) {
         update(delta);
         if(progress >= (float)100){
-            System.out.println("Started loading assets...");
+            System.out.println("Done loading assets...");
             screenController.goToMainMenuScreen();
         }
         stage.act();
