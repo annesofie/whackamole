@@ -75,16 +75,16 @@ public class ReadyScreen implements Screen {
 
         skin.add("btnNotClicked", Assets.manager.get(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path() + Assets.READY_BTN, Texture.class));
         skin.add("btnClicked", Assets.manager.get(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())).path() + Assets.READY_BTN, Texture.class));
-        skin.add("returnBtn", Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class));
+        skin.add("returnBtn", Assets.manager.get(theme.path() + Assets.THEME_BACK_BTN, Texture.class));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
-        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
-
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         btn.setName("readybtn");
 
         btn.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
         btn.setPosition(screenWidth/2 - btn.getWidth()/2, btnYPos);
+        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
 
         btn.addListener(new ClickListener() {
             @Override
@@ -96,10 +96,15 @@ public class ReadyScreen implements Screen {
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                Socket socket = SocketRetreiver.getInstance().getSocket();
+                if(socket.connected() && Match.getCurrentMatch().isOnGoingMatch()) {
+                    socket.emit("left game", "");
+                }
                 screenController.goToMainMenuScreen();
             }
         });
 
+        stage.addActor(returnButton);
         stage.addActor(btn);
 
         return stage;
@@ -112,12 +117,12 @@ public class ReadyScreen implements Screen {
 
     @Override
     public void hide() {;
-        //dispose();
+        dispose();
     }
 
     @Override
     public void dispose() {
-        skin.dispose();
+        controller.dispose();
     }
 
     @Override public void resume() {

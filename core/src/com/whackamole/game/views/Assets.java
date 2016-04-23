@@ -41,6 +41,7 @@ public class Assets {
     READYBACKGROUND = "ReadyBackground.png",
     READY_BTN = "ReadyBtn.png",
     READY_BTN_CLICKED = "ReadyBtnClicked.png",
+    THEME_BACK_BTN = "ThemeBackBtn.png",
 
     LOADING_BACKROUND = "images/LoadingScreenBackground.png",
 
@@ -70,6 +71,7 @@ public class Assets {
     PRES_READYBACKGROUND = presPath + READYBACKGROUND,
     PRES_READY_BTN = presPath + READY_BTN,
     PRES_READY_BTN_CLICKED = presPath + READY_BTN,
+    PRES_BACK_BTN = presPath + THEME_BACK_BTN,
 
     KARD_BOARD_BOTTOM = kardPath + BOARD_BOTTOM,
     KARD_BOARD_SECOND_BOTTOM = kardPath + BOARD_SECOND_BOTTOM,
@@ -79,6 +81,7 @@ public class Assets {
     KARD_READYBACKGROUND = kardPath + READYBACKGROUND,
     KARD_READY_BTN = kardPath + READY_BTN,
     KARD_READY_BTN_CLICKED = kardPath + READY_BTN_CLICKED,
+    KARD_BACK_BTN = kardPath + THEME_BACK_BTN,
 
     PRES_MOLE0 = presPath + MOLE0,
     PRES_MOLE1 = presPath + MOLE1,

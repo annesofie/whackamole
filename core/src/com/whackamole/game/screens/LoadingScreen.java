@@ -43,8 +43,8 @@ public class LoadingScreen implements Screen {
         font = generator.generateFont(params);
         generator.dispose();
 
+        System.out.println("Started loading assets...");
         loadTextures();
-
         loadFontAssets();
         loadAndInitializeAllAssets();
     }
@@ -59,6 +59,7 @@ public class LoadingScreen implements Screen {
     public void render(float delta) {
         update(delta);
         if(progress >= (float)100){
+            System.out.println("Started loading assets...");
             screenController.goToMainMenuScreen();
         }
         stage.act();
@@ -91,7 +92,6 @@ public class LoadingScreen implements Screen {
 
     // Loads and initializes all assets and saves them in-memory for good overall performance and switching between screens.
     public void loadAndInitializeAllAssets() {
-        System.out.println("Started loading assets...");
         Assets.manager.load(Assets.class);
     }
 

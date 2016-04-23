@@ -16,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class BoardController implements Disposable{
+public class BoardController implements Disposable {
 
 
     private int touch_x, touch_y, counter = 4;
@@ -33,7 +33,7 @@ public class BoardController implements Disposable{
     private boolean isSound;
     private boolean gameFinished;
 
-    public BoardController(Board board, ScreenController screenController){
+    public BoardController(Board board, ScreenController screenController) {
 
         this.board = board;
         this.match = Match.getCurrentMatch();
@@ -63,24 +63,55 @@ public class BoardController implements Disposable{
         SocketRetreiver socketRetreiver = SocketRetreiver.getInstance();
         socket = socketRetreiver.getSocket();
 
-        socket.on("disconnect", disconnected);
+
+        socket.on(Socket.EVENT_DISCONNECT, disconnected);
+        socket.on(Socket.EVENT_RECONNECT_ATTEMPT, onReconnecting);
+        socket.on(Socket.EVENT_RECONNECT, onReconnected);
+        socket.on(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        socket.on(Socket.EVENT_CONNECT, onConnect);
         socket.on("player hit", playerHit);
         socket.on("new mole", onNewMole);
         socket.on("game finished", onGameFinished);
     }
 
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Connected during the game.");
+        }
+    };
+
+    private Emitter.Listener onConnectError = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Connection error during the game.");
+        }
+    };
+
+    private Emitter.Listener onReconnected = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Reconnected during the game.");
+        }
+    };
+
+    private Emitter.Listener onReconnecting = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Attempting to reconnect during the game.");
+        }
+    };
+
     private Emitter.Listener disconnected = new Emitter.Listener() {
         @Override
         public void call(Object... args) {
             if(!gameFinished) {
-                //TODO: varsle spiller om at han ble disconnectet
                 System.out.println("Disconnected and was redirected to MainMenuScreen from ReadyController disconnected().");
                 screenController.goToMainMenuScreen();
                 match.setIsOnGoingMatch(false);
             }
         }
     };
-
 
     private Emitter.Listener onGameFinished = new Emitter.Listener() {
         @Override
@@ -181,6 +212,15 @@ public class BoardController implements Disposable{
     public void dispose() {
         this.hitsound.dispose();
         this.speech.dispose();
+
+        socket.off(Socket.EVENT_DISCONNECT, disconnected);
+        socket.off(Socket.EVENT_RECONNECT_ATTEMPT, onReconnecting);
+        socket.off(Socket.EVENT_RECONNECT, onReconnected);
+        socket.off(Socket.EVENT_CONNECT_ERROR, onConnectError);
+        socket.off(Socket.EVENT_CONNECT, onConnect);
+        socket.off("player hit", playerHit);
+        socket.off("new mole", onNewMole);
+        socket.off("game finished", onGameFinished);
     }
 
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {return false;}

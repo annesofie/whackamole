@@ -156,13 +156,13 @@ public class CreateGameScreen implements Screen{
 
     @Override
     public void hide() {
-        //dispose();
+        dispose();
     }
 
 
     @Override
     public void dispose() {
-        skin.dispose();
+        controller.dispose();
     }
 
 

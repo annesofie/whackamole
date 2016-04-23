@@ -1,6 +1,7 @@
 package com.whackamole.game.controller;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Player;
 import com.whackamole.game.screens.ReadyScreen;
@@ -17,18 +18,16 @@ import java.util.List;
 /**
  * Created by Lars on 15/04/16.
  */
-public class ReadyController {
+public class ReadyController implements Disposable {
 
 
     private Socket socket;
     private ReadyScreen readyScreen;
     private boolean isReadyClicked;
-    private boolean leftGame;
 
     public ReadyController(ReadyScreen screen) {
         this.readyScreen = screen;
         this.isReadyClicked = false;
-        this.leftGame = false;
     }
 
     public void loadController() {
@@ -41,13 +40,49 @@ public class ReadyController {
         SocketRetreiver retreiver = SocketRetreiver.getInstance();
         socket = retreiver.getSocket();
 
-        socket.on("connect_error", connectionError);
+        socket.on(Socket.EVENT_CONNECT, onConnect);
+        socket.on(Socket.EVENT_CONNECT_ERROR, connectionError);
+        socket.on(Socket.EVENT_RECONNECT, onReconnect);
+        socket.on(Socket.EVENT_DISCONNECT, disconnected);
+        socket.on(Socket.EVENT_RECONNECT_ATTEMPT, onReconnecting);
         socket.on("player joined", playerJoined);
         socket.on("start game success", startGame);
         socket.on("player ready", playerReady);
         socket.on("player left", onPlayerLeft);
 
     }
+
+    private Emitter.Listener onConnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            System.out.println("Connected to socket.");
+            System.out.println("Socket id: " + socket.id());
+        }
+    };
+
+    private Emitter.Listener onReconnect = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            isReadyClicked = false;
+            System.out.println("Reconnected.");
+        }
+    };
+
+    private Emitter.Listener disconnected = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            isReadyClicked = false;
+            System.out.println("Disconnected from server");
+        }
+    };
+
+    private Emitter.Listener onReconnecting = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            isReadyClicked = false;
+            System.out.println("Attempting to reconnect.");
+        }
+    };
 
     private Emitter.Listener playerJoined = new Emitter.Listener() {
         @Override
@@ -93,10 +128,8 @@ public class ReadyController {
         public void call(Object... args) {
             //TODO: Varsle bruker om at det er nettverksproblemer
             isReadyClicked = false;
-
         }
     };
-
 
     public void isReady() {
         Match match = Match.getCurrentMatch();
@@ -127,4 +160,17 @@ public class ReadyController {
             }
         }
     };
+
+    @Override
+    public void dispose() {
+        socket.off(Socket.EVENT_CONNECT, onConnect);
+        socket.off(Socket.EVENT_CONNECT_ERROR, connectionError);
+        socket.off(Socket.EVENT_RECONNECT, onReconnect);
+        socket.off(Socket.EVENT_DISCONNECT, disconnected);
+        socket.off(Socket.EVENT_RECONNECT_ATTEMPT, onReconnecting);
+        socket.off("player joined", playerJoined);
+        socket.off("start game success", startGame);
+        socket.off("player ready", playerReady);
+        socket.off("player left", onPlayerLeft);
+    }
 }

@@ -14,7 +14,9 @@ public class SocketRetreiver {
 
     private  SocketRetreiver() {
         try {
-            mSocket = IO.socket(Constants.SERVER_URL);
+            IO.Options opts = new IO.Options();
+            opts.forceNew = true;
+            mSocket = IO.socket(Constants.SERVER_URL, opts);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
