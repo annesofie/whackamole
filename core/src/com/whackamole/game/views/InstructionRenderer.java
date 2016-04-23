@@ -14,7 +14,6 @@ public class InstructionRenderer implements Renderer {
 
     // TEXTURES
     private Texture background;
-    private Texture instructions;
     private StageExtension stage;
     private int screenWidth, screenHeight;
 
@@ -32,15 +31,13 @@ public class InstructionRenderer implements Renderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.getBatch().begin();
-        stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        //stage.getBatch().draw(instructions, screenWidth/10, screenHeight*2/10, screenWidth*8/10, screenHeight*6/10);
+        stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
         stage.getBatch().end();
         stage.draw();
     }
 
     public void loadTextures() {
         background = Assets.manager.get(Assets.INSTRUCTIONS, Texture.class);
-        instructions = Assets.manager.get(Assets.INSTRUCTIONS, Texture.class);
     }
 
 }

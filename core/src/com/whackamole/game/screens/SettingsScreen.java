@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
+import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
@@ -83,6 +84,9 @@ public class SettingsScreen implements Screen {
 
     private StageExtension loadActors(){
 
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+
         Texture kardThemeBtn = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN, Texture.class);
         Texture presThemeBtn = Assets.manager.get(Assets.PRESEDENTIAL_THEME_BTN, Texture.class);
         Texture kardThemeBtnSelected = Assets.manager.get(Assets.KARDASHIAN_THEME_BTN_SELECTED, Texture.class);
@@ -126,19 +130,19 @@ public class SettingsScreen implements Screen {
         presCheckBox = new CheckBox("pres", presCheckBoxStyle);
 
         // Set sizes to scale nicely on different screens
-        kardCheckBox.getCells().get(0).size(screenWidth/4, screenWidth/4);
-        presCheckBox.getCells().get(0).size(screenWidth/4, screenWidth/4);
-        returnButton.getCells().get(0).size(screenWidth/10, screenWidth/10);
-        minusButton.getCells().get(0).size(screenWidth/8, screenWidth/10);
-        plusButton.getCells().get(0).size(screenWidth/8, screenWidth/10);
+        kardCheckBox.getCells().get(0).size(screenWidth*Constants.roundButtonWidthRatio, screenHeight*Constants.roundButtonHeightRatio);
+        presCheckBox.getCells().get(0).size(screenWidth*Constants.roundButtonWidthRatio, screenHeight*Constants.roundButtonHeightRatio);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenWidth*Constants.returnButtonHeightRatio);
+        minusButton.getCells().get(0).size(screenWidth*Constants.smallButtonWidthRatio, screenWidth*Constants.smallButtonHeightRatio);
+        plusButton.getCells().get(0).size(screenWidth*Constants.smallButtonWidthRatio, screenWidth*Constants.smallButtonHeightRatio);
 
 
-        plusButton.setPosition(screenWidth/2 + plusBtn.getWidth()/2, screenHeight*17/24 - plusBtn.getHeight()*3/4);
-        minusButton.setPosition(screenWidth/2 - minusBtn.getWidth()*3/2, screenHeight*17/24 - minusBtn.getHeight()*3/4);
-        returnButton.setPosition(returnBtnWidth, screenHeight - returnBtnHeight*2);
-        kardCheckBox.setPosition(screenWidth/2 + screenWidth/20, screenHeight/2 - screenHeight/9);
-        presCheckBox.setPosition(screenWidth/2 - screenWidth/20 - theme_btn_diameter, screenHeight/2 - screenHeight/9);
-        createButton.setPosition(screenWidth/2-createBtnWidth/2, screenHeight*7/24);
+        plusButton.setPosition(screenWidth - 2*getVerticalMargin(createButton.getWidth()) - screenWidth/20, screenHeight*17/24 - plusBtn.getHeight()*3/4);
+        minusButton.setPosition(getVerticalMargin(createButton.getWidth()) + screenWidth*Constants.soundButtonWidthRatio/2, screenHeight*17/24 - minusBtn.getHeight()*3/4);
+        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnBtnHeight*2);
+        kardCheckBox.setPosition(screenWidth - getVerticalMargin(createButton.getWidth()) - screenWidth*Constants.roundButtonWidthRatio + screenWidth/20, screenHeight/2 - screenHeight/9);
+        presCheckBox.setPosition(getVerticalMargin(createButton.getWidth()), screenHeight/2 - screenHeight/9);
+        createButton.setPosition(getVerticalMargin(createButton.getWidth()), screenHeight*7/24);
 
 
         if(Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key())) == Theme.KARDASHIAN) {
@@ -236,6 +240,9 @@ public class SettingsScreen implements Screen {
         return stage;
     }
 
+    public float getVerticalMargin(float width) {
+        return (screenWidth - width)/2;
+    }
 
 
     public void setSize(Actor actor, float width){

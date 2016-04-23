@@ -93,7 +93,6 @@ public class CreateGameController {
     public void createGame(String gamename, String nickname) {
         this.gameName = gamename;
         this.nickName = nickname;
-
         if(!createGameClicked) {
             createGameClicked = true;
             emitNewGame(gameName, nickName);

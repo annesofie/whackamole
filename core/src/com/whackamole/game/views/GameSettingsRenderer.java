@@ -51,22 +51,13 @@ public class GameSettingsRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*33/48);
+        font.draw(stage.getBatch(), Integer.toString(numOfPlayers), screenWidth/2, screenHeight*67/96);
         stage.getBatch().end();
         stage.draw();
     }
 
     private void loadTextures() {
-
         font = Assets.manager.get(Assets.SETTINGS_FONT);
-
-        // Lag textures her basert på tema, instruksjoner osv.
-        // Antakeligvis bare et bakgrunnsbilde med text på.
-        // I render skal disse tegnes.
         background = Assets.manager.get(Assets.SETTINGS_BACKGROUND, Texture.class);
-        //chooseThemeText = Assets.manager.get(Assets.SETTINGS_CHOOSETHEME, Texture.class);
-        //headline = Assets.manager.get(Assets.SETTINGS_HEADLINE, Texture.class);
-        //headlineHeight = headline.getHeight();
-
     }
 }

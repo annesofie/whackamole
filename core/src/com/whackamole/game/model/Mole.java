@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Mole extends Sprite{
+public class Mole extends Sprite {
 
     private Vector2 position;
     private int height = Gdx.graphics.getHeight();
@@ -37,7 +37,8 @@ public class Mole extends Sprite{
     }
 
     public void update(float time) {
-        if(this.dt < 0.145f && this.hidden) {
+        // && this.hidden
+        if(this.dt < 0.145f)  {
             show();
             this.dt += time;
         }
@@ -68,7 +69,7 @@ public class Mole extends Sprite{
     }
 
     public void reset(){
-        this.finished = false;
+        this.hidden = true;
         this.position = setPos(position.x, hiddenposition);
         this.dt = 0;
     }

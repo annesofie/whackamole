@@ -97,8 +97,6 @@ public class GameScreen implements Screen, InputProcessor {
         dispose();
         backgroundmusic.stop();
         backgroundmusic.dispose();
-        // SocketRetreiver.getInstance().getSocket().emit("left game", "");
-        System.out.println("Hide() run in GameScreen.");
     }
 
     // Nothing to dispose in this class at the moment

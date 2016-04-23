@@ -13,13 +13,19 @@ public class Constants {
     public static final float menuButtonWidthRatio = (float)678/900;
     public static final float menuButtonHeightRatio = (float)13/160;
     public static final float roundButtonWidthRatio = (float)278/900;
-    public static final float roundButtonHeightRatio = (float)278/900;
-    public static final float returnButtonHeightRatio = (float)1/16;
-    public static final float returnButtonWidthRatio = (float)101/900;
+    public static final float roundButtonHeightRatio = (float)278/1600;
+    public static final float returnButtonHeightRatio = (float)99/1600;
+    public static final float returnButtonWidthRatio = (float)99/900;
     public static final float soundButtonWidthRatio = (float)128/900;
-    public static final float soundButtonHeightRatio = (float)128/900;
+    public static final float soundButtonHeightRatio = (float)128/1600;
     public static final float textfieldHeightRatio = (float)83/1600;
     public static final float textfieldWidthRatio = (float)470/900;
+    public static final float smallButtonWidthRatio = (float)129/900;
+    public static final float smallButtonHeightRatio = (float)193/1600;
+    public static final float errorTextHeightRatio = (float)98/1600;
+    public static final float errorTextWidthRatio = (float)611/900;
+    public static final float unableToConnectHeightRatio = (float)49/1600;
+    public static final float unableToConnectWidthRatio = (float)531/900;
 
     public static final int numOfMoles = 1;
     public static final int numOfPlayers = 2;

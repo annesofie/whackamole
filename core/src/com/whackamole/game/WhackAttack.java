@@ -76,8 +76,10 @@ public class WhackAttack extends Game implements ScreenController {
         // Font assets for renderer
         Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/35), Assets.PRES_FONT_GAME);
         Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/35), Assets.KARD_FONT_GAME);
-        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/30), Assets.PRES_FONT_READY);
-        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/30), Assets.KARD_FONT_READY);
+        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/35), Assets.PRES_FONT_READY);
+        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/35), Assets.KARD_FONT_READY);
+        Assets.generateThemeBitmapFont(Theme.KARDASHIAN, (float)(Gdx.graphics.getHeight()/20), Assets.KARD_GET_READY_FONT);
+        Assets.generateThemeBitmapFont(Theme.PRESIDENTIAL, (float)(Gdx.graphics.getHeight()/20), Assets.PRES_GET_READY_FONT);
         Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/35), Assets.GAME_OVER_FONT);
         Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/30), Assets.SETTINGS_FONT);
         Assets.generatePlainBitmapFont((float)(Gdx.graphics.getHeight()/35), Assets.TEXTFIELD_FONT);

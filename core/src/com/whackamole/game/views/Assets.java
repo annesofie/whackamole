@@ -184,7 +184,9 @@ public class Assets {
     KARD_FONT_READY = "fonts/FontKardReady.ttf",
     GAME_OVER_FONT = "fonts/FontGameOver.ttf",
     SETTINGS_FONT = "fonts/FontSettings.ttf",
-    TEXTFIELD_FONT = "fonts/FontTextfield.ttf";
+    TEXTFIELD_FONT = "fonts/FontTextfield.ttf",
+    KARD_GET_READY_FONT = "fonts/KardGetReadyFont.ttf",
+    PRES_GET_READY_FONT = "fonts/PresGetReadyFont.ttf";
 
     public static final int
     PRES_FONT_R = 15,

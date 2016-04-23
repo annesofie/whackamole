@@ -103,11 +103,6 @@ public class BoardController implements Disposable{
         @Override
         public void call(Object... args) {
             JSONObject obj = (JSONObject) args[0];
-            /*
-            if(board.getCurrentMole() != null) {
-                board.getCurrentMole().finish();
-            }
-            */
             try {
                 String nickName = obj.getString("nickName");
                 int points = obj.getInt("points");
@@ -118,15 +113,14 @@ public class BoardController implements Disposable{
                     match.setScoreToUser(nickName, totalScore);
                 }
                 else {
-                    try{
-                        //board.getCurrentMole().finish();
-                    } catch(Exception e) {
-
+                    Mole mole = board.getCurrentMole();
+                    if(mole != null) {
+                        mole.reset();
                     }
                     board.setHitTheLastMole(false, 0);
                     match.setScoreToUser(nickName, totalScore);
                 }
-                board.setNotFirstRound();
+                board.setNotFirst();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -138,10 +132,9 @@ public class BoardController implements Disposable{
         @Override
         public void call(Object... args) {
             System.out.println("New mole.");
-            try{
-                board.getCurrentMole().finish();
-            }catch(Exception e) {
-                e.printStackTrace();
+            Mole mole = board.getCurrentMole();
+            if(mole != null) {
+                mole.reset();
             }
             JSONObject obj = (JSONObject) args[0];
             try {
@@ -160,11 +153,7 @@ public class BoardController implements Disposable{
             if(isSound) {
                 hitsound.play(1);
             }
-            try {
-                mole.finish();
-            }catch (Exception e) {
-                e.printStackTrace();
-            }
+            mole.reset();
             JSONObject json = new JSONObject();
             try {
                 json.put("gameName", gameName);

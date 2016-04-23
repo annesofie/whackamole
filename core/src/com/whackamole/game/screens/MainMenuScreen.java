@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.utils.Prefs;
@@ -55,8 +56,6 @@ public class MainMenuScreen implements Screen {
 
 
     private StageExtension loadActors(){
-        float btnWidth = 680*screenWidth/900;//(new Texture(FileName.CREATE_GAME_BTN.filename())).getWidth();
-        float btnHeight = 13*screenHeight/160;//(new Texture(FileName.CREATE_GAME_BTN.filename())).getHeight();
 
         skin.add("createGameBtn", Assets.manager.get(Assets.CREATE_GAME_BTN, Texture.class));
         skin.add("joinGameBtn", Assets.manager.get(Assets.JOIN_GAME_BTN, Texture.class));
@@ -76,18 +75,21 @@ public class MainMenuScreen implements Screen {
         else {
             soundCheckBox.setChecked(false);
         }
-        soundCheckBox.setPosition(screenWidth/2-screenWidth*23/300, screenHeight/5);
 
         //Buttons:
         ImageButton createGameButton = new ImageButton(skin.getDrawable("createGameBtn"),skin.getDrawable("createGameClicked"));
         ImageButton joinGameButton = new ImageButton(skin.getDrawable("joinGameBtn"),skin.getDrawable("joinGameClicked"));
         ImageButton instructionsButton = new ImageButton(skin.getDrawable("instructionsBtn"),skin.getDrawable("instructionsClicked"));
 
+        createGameButton.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        joinGameButton.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        instructionsButton.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        soundCheckBox.getCells().get(0).size(screenWidth*Constants.soundButtonWidthRatio, screenHeight*Constants.soundButtonHeightRatio);
 
-        createGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*9/12-btnHeight);
-        joinGameButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*7/12-btnHeight);
-        //settingsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight/2);
-        instructionsButton.setPosition(screenWidth/2-btnWidth/2,screenHeight*5/12-btnHeight);
+        createGameButton.setPosition(screenWidth/2-createGameButton.getWidth()/2,screenHeight*9/12-createGameButton.getHeight());
+        joinGameButton.setPosition(screenWidth/2-joinGameButton.getWidth()/2,screenHeight*7/12-joinGameButton.getHeight());
+        instructionsButton.setPosition(screenWidth/2-instructionsButton.getWidth()/2,screenHeight*5/12-instructionsButton.getHeight());
+        soundCheckBox.setPosition(screenWidth/2-screenWidth*23/300, screenHeight/5);
 
         createGameButton.addListener(new ClickListener() {
             @Override
@@ -119,13 +121,6 @@ public class MainMenuScreen implements Screen {
             }
         });
 
-//        settingsButton.addListener(new ClickListener() {
-//            @Override
-//            public void clicked(InputEvent event, float x, float y) {
-//                game.goToSettingsScreen(screen);
-//            }
-//        });
-
         instructionsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -136,15 +131,15 @@ public class MainMenuScreen implements Screen {
         // Adding actors to the stage for display on screen
         stage.addActor(createGameButton);
         stage.addActor(joinGameButton);
-        //stage.addActor(settingsButton);
         stage.addActor(instructionsButton);
-        for (Actor actor: stage.getActors()) {
-            actor.setHeight(btnHeight);
-            actor.setWidth(btnWidth);
-        }
+
         stage.addActor(soundCheckBox);
         stage.getActors().get(3).setSize(screenWidth*46/300, screenHeight*128/1600);
         return stage;
+    }
+
+    public float getVerticalMargin(float width) {
+        return (screenWidth - width)/2;
     }
 
     @Override

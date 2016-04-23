@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Match;
+import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.GameOverRenderer;
@@ -21,12 +22,14 @@ public class GameOverScreen implements Screen {
     private GameOverRenderer renderer;
     private StageExtension stage;
     private Skin skin;
-    private int screenHeight;
+    private float screenHeight;
+    private float screenWidth;
 
     public GameOverScreen(ScreenController screenController) {
         this.screenController = screenController;
         renderer = new GameOverRenderer();
         screenHeight = Gdx.graphics.getHeight();
+        screenWidth = Gdx.graphics.getWidth();
         this.stage = StageExtension.getCleanInstance();
 
         renderer.loadRenderer(loadActors());
@@ -49,6 +52,8 @@ public class GameOverScreen implements Screen {
 
         skin.add("returnBtn", Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class));
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
+
+        returnButton.getCells().get(0).size(screenWidth* Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
 
         returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
 

@@ -18,14 +18,16 @@ public class Board {
     private Mole currentMole;
     private boolean hitTheLastMole;
     private int lastMolePoints;
-    private boolean firstRound;
+    private boolean first;
+    private boolean isFirstMole;
 
     public Board(){
 
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();
         hitTheLastMole = false;
-        firstRound = true;
+        isFirstMole = true;
+        first = true;
 
     }
 
@@ -55,13 +57,11 @@ public class Board {
     }
 
     public void setMole(int moleLocation, int image) {
-        /*
-        if(currentMole != null) {
-            currentMole.finish();
+        if(isFirstMole) {
+            isFirstMole = false;
         }
-        */
         Mole mole = grid.get(moleLocation);
-        //mole.setHidden(false);
+        mole.setHidden(false);
         mole.setMoleImageId(image);
         this.currentMole = mole;
     }
@@ -89,12 +89,19 @@ public class Board {
         return lastMolePoints;
     }
 
-    public void setNotFirstRound() {
-        firstRound = false;
+    public void setNotFirst() {
+        first = false;
     }
 
-    public boolean firstRound() {
-        return firstRound;
+    public boolean first() {
+        return first;
     }
 
+    public boolean isFirstMole() {
+        return isFirstMole;
+    }
+
+    public void setNotFirstMole() {
+        this.isFirstMole = false;
+    }
 }

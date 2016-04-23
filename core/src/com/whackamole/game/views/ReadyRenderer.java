@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
@@ -57,9 +58,8 @@ public class ReadyRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
-        font.draw(stage.getBatch(), match.getCurrentNickNames().size() + " of " + numOfPlayers + " players joined.", screenWidth * 3 / 20, screenHeight * 31 / 44);
-        font.draw(stage.getBatch(), "Ready players: " + numOfReadyPlayers, screenWidth*3/20, screenHeight*29/44);
-        font.draw(stage.getBatch(), playerList, screenWidth*3/20, screenHeight*25/44);
+        font.draw(stage.getBatch(), "Invite friends to: " + match.getGameName() + "\n\n" + match.getCurrentNickNames().size() + " players have joined.\nNeed "
+                + numOfPlayers + " more to start.\n\nPlayers:\n" + playerList, screenWidth*3/20, screenHeight*35/44);
         stage.getBatch().end();
         stage.draw();
 

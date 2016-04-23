@@ -32,8 +32,10 @@ public class BoardRenderer implements Renderer {
     private int height, width;
     private Mole currentMole;
     private BitmapFont font;
+    private BitmapFont getReadyFont;
     private Match match;
     private Theme theme;
+    private boolean isFirstMole;
     String themePath;
     String themeId;
 
@@ -48,6 +50,7 @@ public class BoardRenderer implements Renderer {
         this.board = board;
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
         this.moleImages = new Array<Texture>();
+        this.isFirstMole = true;
 
     }
 
@@ -68,32 +71,28 @@ public class BoardRenderer implements Renderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         currentMole = board.getCurrentMole();
         boolean hitTheLastMole = board.hitTheLastMole();
+        boolean isFirstMole = board.isFirstMole();
         int lastMolePoints = board.getLastMolePoints();
-        List<Player> scoreList = match.getSortedHighScoreList();
+        String leaderBoard = getLeaderBoard();
 
         stage.getBatch().begin();
-        stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
 
-        //must be rendered in the right order to get correct layers
-        font.draw(stage.getBatch(), "Leaderboard:", width/20, height - (board_score.getHeight()*2/12));
-        for(int i = 0; i < scoreList.size(); i++) {
-            Player player = scoreList.get(i);
-            boolean isThisPlayer = player.getNickname().equals(Match.getCurrentMatch().getThisPlayerNickName());
-            if(!(i >= 3) || isThisPlayer) {
-                String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
-                if (isThisPlayer) {
-                    line = (i + 1) + ". You: " + player.getScore();
-                }
-                font.draw(stage.getBatch(), line, width/20, height - ((i+2)*board_score.getHeight()*2/12 + 10));
-            }
+        // LEADERBOARD
+        stage.getBatch().draw(board_score, 0, 13*height/16, width, 3*height/16);
+        font.draw(stage.getBatch(), "Leaderboard:\n" + leaderBoard, width/20, height - (board_score.getHeight()*2/12));
+
+        if(isFirstMole) {
+            getReadyFont.draw(stage.getBatch(), "GET READY!\nFirst player to 5000 points wins!+ " + Integer.toString(lastMolePoints) + " points.", width/10, height - (board_score.getHeight()*6/16));
         }
-        if(hitTheLastMole) {
-            font.draw(stage.getBatch(), "YOU WERE FAST!", width/2, height - board_score.getHeight()*6/16);
-            font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - board_score.getHeight()*9/16));
+        else if(hitTheLastMole) {
+            font.draw(stage.getBatch(), "YOU WERE FAST!\n+ " + Integer.toString(lastMolePoints) + " points.", width*26/50, height - (board_score.getHeight()*6/16));
+            //font.draw(stage.getBatch(), "+ " + Integer.toString(lastMolePoints) + " points.", width/2, (height - board_score.getHeight()*9/16));
         }
-        else if (!board.firstRound()) {
-            font.draw(stage.getBatch(), "You missed.\nToo slow!", width/2, height - board_score.getHeight()*6/16);
+        else if (!board.first()) {
+            font.draw(stage.getBatch(), "You missed.\nToo slow!", width*27/50, height - board_score.getHeight()*6/16);
         }
+
+        // GRID AND MOLES
         stage.getBatch().draw(board_score, 0, 7*height/16, width, 3*height/16);
         stage.getBatch().draw(board_top, 0, 9*height/16, width, height/4);
         drawMole(5,9);
@@ -114,7 +113,8 @@ public class BoardRenderer implements Renderer {
         // Setting up local references to the already loaded textures
         moleImages.clear();
         for (int i = 0; i < 6; i++) {
-            moleImages.add(Assets.manager.get(themePath + MoleImage.getFileNameOnImageId(i), Texture.class));
+            Texture image = Assets.manager.get(themePath + MoleImage.getFileNameOnImageId(i), Texture.class);
+            moleImages.add(image);
         }
 
         board_bottom = Assets.manager.get(themePath + Assets.BOARD_BOTTOM, Texture.class);
@@ -129,20 +129,24 @@ public class BoardRenderer implements Renderer {
 
         if(theme.equals(Theme.KARDASHIAN)) {
             font = Assets.manager.get(Assets.KARD_FONT_GAME);
+            getReadyFont = Assets.manager.get(Assets.KARD_GET_READY_FONT);
         }
         else {
             font = Assets.manager.get(Assets.PRES_FONT_GAME);
+            getReadyFont = Assets.manager.get(Assets.PRES_GET_READY_FONT);
         }
     }
 
     private void drawMole(int start, int end){
         Batch batch = stage.getBatch();
         if((currentMole != null) && (currentMole.getLocation() > start) && (currentMole.getLocation() < end)){
+            /*
             if(currentMole.finished()){
                     currentMole.reset();
-                    board.removeCurrentMole();
+                    //board.removeCurrentMole();
             }
-            else {
+            */
+            if(!currentMole.isHidden()){
                 currentMole.update(0.015f);
                 batch.draw(getMoleImage(currentMole),
                         currentMole.getPosition().x,
@@ -153,6 +157,28 @@ public class BoardRenderer implements Renderer {
 
     private Texture getMoleImage(Mole mole) {
         return moleImages.get(mole.getMoleImageId());
+    }
+
+    private String getLeaderBoard() {
+        List<Player> scoreList = match.getSortedHighScoreList();
+        String list = "";
+        for(int i = 0; i < scoreList.size(); i++) {
+            Player player = scoreList.get(i);
+            boolean isThisPlayer = player.getNickname().equals(Match.getCurrentMatch().getThisPlayerNickName());
+            if(!(i >= 3) || isThisPlayer) {
+                String line = (i + 1) + ". " + player.getNickname() + ": " + player.getScore();
+                if (isThisPlayer) {
+                    line = (i + 1) + ". You: " + player.getScore();
+                }
+                if(i >= 3) {
+                    list += line;
+                }
+                else {
+                    list += line + "\n";
+                }
+            }
+        }
+        return list;
     }
 
 }

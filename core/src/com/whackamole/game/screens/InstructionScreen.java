@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.StageExtension;
 import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.InstructionRenderer;
@@ -49,14 +50,15 @@ public class InstructionScreen implements Screen {
 
 
     private StageExtension loadActors(){
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
 
         Texture returnBtn = Assets.manager.get(Assets.LARGE_BACK_BTN, Texture.class);
-        float returnBtnWidth = returnBtn.getWidth();
-        float returnBtnHeight = returnBtn.getHeight();
 
         skin.add("returnBtn", returnBtn);
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
         returnButton.setPosition(screenWidth/10, screenHeight*2/10 + screenHeight/20);
 
         addClickListener(returnButton);

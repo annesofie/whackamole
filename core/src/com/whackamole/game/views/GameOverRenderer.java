@@ -46,9 +46,8 @@ public class GameOverRenderer implements Renderer {
         stage.act();
         stage.getBatch().begin();
         stage.getBatch().draw(background,0,0, screenWidth, screenHeight);
-        //stage.getBatch().draw(headline, screenWidth/2 - headlineWidth/2, screenHeight*8/10);
-        font.draw(stage.getBatch(), "Results:", screenWidth/10, screenHeight*31/44);
-        font.draw(stage.getBatch(), highScoreList, screenWidth/10, screenHeight*29/44);
+        font.draw(stage.getBatch(), "Results:", screenWidth/9, screenHeight*31/44);
+        font.draw(stage.getBatch(), highScoreList, screenWidth/9, screenHeight*29/44);
         stage.getBatch().end();
         stage.draw();
     }
@@ -65,15 +64,6 @@ public class GameOverRenderer implements Renderer {
         highScoreList = getTextualHighScoreList();
 
         font = Assets.manager.get(Assets.GAME_OVER_FONT);
-
-        /*
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Assets.FONT));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = screenHeight/20;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
-        generator.dispose();
-        */
     }
 
     private String getTextualHighScoreList(){

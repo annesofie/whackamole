@@ -94,20 +94,22 @@ public class CreateGameScreen implements Screen{
         textFieldGameName = new TextField("", textFieldStyle);
         textFieldNickName = new TextField("", textFieldStyle);
 
-        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
-
-        float btnWidth = 676*screenWidth/900;//btn.getWidth();
-        btn.setPosition(screenWidth/2 - btnWidth/2, btnYPos);
 
         String messageTextGameName = "Enter game name";
         String messageTextNickName = "Enter nickname";
         textFieldGameName.setMessageText(messageTextGameName);
         textFieldNickName.setMessageText(messageTextNickName);
 
-        // Position the actors
+        // Set sizes to scale with screen dimensions nicely
+        btn.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
+        textFieldGameName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
+        textFieldNickName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
 
-        textFieldGameName.setPosition(screenWidth/6, screenHeight/2);
-        textFieldNickName.setPosition(screenWidth/6, ((screenHeight/2) + screenHeight/4));
+        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
+        btn.setPosition(getLeftMargin(btn.getWidth()), btnYPos);
+        textFieldGameName.setPosition(getLeftMargin(textFieldGameName.getWidth()), screenHeight*5/10);
+        textFieldNickName.setPosition(getLeftMargin(textFieldNickName.getWidth()), screenHeight*7/10);
 
         btn.addListener(new ClickListener() {
             @Override
@@ -135,18 +137,6 @@ public class CreateGameScreen implements Screen{
             }
         });
 
-
-        System.out.println(screenWidth*Constants.menuButtonWidthRatio);
-        System.out.println(screenHeight*Constants.menuButtonHeightRatio);
-        System.out.println(screenWidth*Constants.textfieldWidthRatio);
-        System.out.println(screenHeight*Constants.textfieldHeightRatio);
-
-        // Set sizes to scale with screen dimensions nicely
-        btn.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
-        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
-        textFieldGameName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
-        textFieldNickName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
-
         // Add actors
         stage.addActor(btn);
         stage.addActor(textFieldGameName);
@@ -156,10 +146,19 @@ public class CreateGameScreen implements Screen{
         return stage;
     }
 
+
+    public float getLeftMargin(float width) {
+        float screenWidth = Gdx.graphics.getWidth();
+        return (screenWidth - width)/2;
+    }
+
+
+
     @Override
     public void hide() {
         //dispose();
     }
+
 
     @Override
     public void dispose() {

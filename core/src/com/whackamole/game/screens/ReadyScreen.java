@@ -13,6 +13,7 @@ import com.whackamole.game.controller.ReadyController;
 import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.Match;
 import com.whackamole.game.model.Theme;
+import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 import com.whackamole.game.utils.SocketRetreiver;
 import com.whackamole.game.utils.StageExtension;
@@ -81,8 +82,9 @@ public class ReadyScreen implements Screen {
 
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
         btn.setName("readybtn");
-        float btnWidth = 676*screenWidth/900;//btn.getWidth();
-        btn.setPosition(screenWidth/2 - btnWidth/2, btnYPos);
+
+        btn.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        btn.setPosition(screenWidth/2 - btn.getWidth()/2, btnYPos);
 
         btn.addListener(new ClickListener() {
             @Override
@@ -99,7 +101,6 @@ public class ReadyScreen implements Screen {
         });
 
         stage.addActor(btn);
-        stage.getActors().get(0).setWidth(btnWidth);
 
         return stage;
     }

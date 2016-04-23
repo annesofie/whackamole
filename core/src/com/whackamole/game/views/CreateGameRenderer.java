@@ -1,13 +1,9 @@
 package com.whackamole.game.views;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.whackamole.game.model.CreateGame;
 import com.whackamole.game.utils.*;
-
-
-import com.whackamole.game.utils.Prefs;
 
 
 /**
@@ -31,14 +27,14 @@ public class CreateGameRenderer implements Renderer {
     private boolean isJoinGame;
 
     // GAME PROPERTIES
-    private int canvasHeight, canvasWidth;
+    private int screenHeight, screenWidth;
     private StageExtensionKeyboard stage;
 
 
     public CreateGameRenderer(CreateGame createGame, boolean isJoinGame) {
         this.createGame = createGame;
-        canvasHeight = Gdx.graphics.getHeight();
-        canvasWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
+        screenWidth = Gdx.graphics.getWidth();
         this.isJoinGame = isJoinGame;
     }
 
@@ -53,34 +49,41 @@ public class CreateGameRenderer implements Renderer {
 
         stage.act();
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0, canvasWidth, canvasHeight);
+        stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
         if(createGame.isInvalidGameName()) {
             float verticalMargin = getVerticalMargin(invalidGameNameText);
-            stage.getBatch().draw(invalidGameNameText, verticalMargin, ((canvasHeight/2) - 150), invalidGameNameText.getWidth(), invalidGameNameText.getHeight());
+            stage.getBatch().draw(invalidGameNameText, verticalMargin, (screenHeight*5/10 - screenHeight*Constants.errorTextHeightRatio*3/2),
+                    screenWidth*Constants.errorTextWidthRatio, screenHeight*Constants.errorTextHeightRatio);
         }
         else if(createGame.gameNameAlreadyExists()) {
             float verticalMargin = getVerticalMargin(gameNameAlreadyExistsText);
-            stage.getBatch().draw(gameNameAlreadyExistsText, verticalMargin, ((canvasHeight/2)- 150), gameNameAlreadyExistsText.getWidth(), gameNameAlreadyExistsText.getHeight());
+            stage.getBatch().draw(gameNameAlreadyExistsText, verticalMargin, (screenHeight*5/10- screenHeight*Constants.errorTextHeightRatio*3/2),
+                    screenWidth*Constants.errorTextWidthRatio, screenHeight*Constants.errorTextHeightRatio);
         }
         else if(isJoinGame && createGame.noGameWithNameExists()) {
             float verticalMargin = getVerticalMargin(noGameWithNameExistsText);
-            stage.getBatch().draw(noGameWithNameExistsText, verticalMargin, ((canvasHeight/2) - 150), noGameWithNameExistsText.getWidth(), noGameWithNameExistsText.getHeight());
+            stage.getBatch().draw(noGameWithNameExistsText, verticalMargin, (screenHeight*5/10 - screenHeight*Constants.errorTextHeightRatio*3/2),
+                    screenWidth*Constants.errorTextWidthRatio, screenHeight*Constants.errorTextHeightRatio);
         }
         else if(isJoinGame && createGame.gameIsFull()) {
             float verticalMargin = getVerticalMargin(gameIsFullText);
-            stage.getBatch().draw(gameIsFullText, verticalMargin, ((canvasHeight/2) - 150), gameIsFullText.getWidth(), gameIsFullText.getHeight());
+            stage.getBatch().draw(gameIsFullText, verticalMargin, (screenHeight*5/10 - screenHeight*Constants.errorTextHeightRatio*3/2),
+                    screenWidth*Constants.errorTextWidthRatio, screenHeight*Constants.errorTextHeightRatio);
         }
         else if(createGame.isUnableToConnect()) {
             float vericalMargin = getVerticalMargin(unableToConnectText);
-            stage.getBatch().draw(unableToConnectText, vericalMargin, ((canvasHeight/2)- 150), unableToConnectText.getWidth(), unableToConnectText.getHeight());
+            stage.getBatch().draw(unableToConnectText, vericalMargin, (screenHeight*5/10- screenHeight*Constants.unableToConnectHeightRatio*3/2),
+                    screenWidth*Constants.unableToConnectWidthRatio, screenHeight*Constants.unableToConnectHeightRatio);
         }
         if(createGame.isInvalidNickName()) {
             float verticalMargin = getVerticalMargin(invalidNickNameText);
-            stage.getBatch().draw(invalidNickNameText, verticalMargin, ((canvasHeight/2) + 400 - 150), invalidNickNameText.getWidth(), invalidNickNameText.getHeight());
+            stage.getBatch().draw(invalidNickNameText, verticalMargin, (screenHeight*7/10 - screenHeight*Constants.errorTextHeightRatio*3/2),
+                    screenWidth*Constants.errorTextWidthRatio, screenHeight*Constants.errorTextHeightRatio);
         }
         else if(isJoinGame && createGame.nickNameIsTaken()) {
             float verticalMargin = getVerticalMargin(gameNameAlreadyExistsText);
-            stage.getBatch().draw(nickNameTakenText, verticalMargin, ((canvasHeight/2) + 400 - 150), nickNameTakenText.getWidth(), nickNameTakenText.getHeight());
+            stage.getBatch().draw(nickNameTakenText, verticalMargin, (screenHeight*7/10 - screenHeight*Constants.errorTextHeightRatio*3/2),
+                    screenWidth*Constants.errorTextWidthRatio, screenHeight*Constants.errorTextHeightRatio);
         }
         stage.getBatch().end();
 
@@ -110,7 +113,7 @@ public class CreateGameRenderer implements Renderer {
 
     public float getVerticalMargin(Texture texture) {
         float canvasWidth = Gdx.graphics.getWidth();
-        float textureWidth = (float) texture.getWidth();
+        float textureWidth = screenWidth*Constants.errorTextWidthRatio;
         return (canvasWidth - textureWidth)/2;
     }
 
