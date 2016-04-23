@@ -121,8 +121,8 @@ public class SettingsScreen implements Screen {
         plusButton.setPosition(screenWidth - screenWidth/4 - plusButton.getWidth(), screenHeight*17/24 - plusButton.getHeight()*3/4);
         minusButton.setPosition(screenWidth/4, screenHeight*17/24 - minusButton.getHeight()*3/4);
         returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
-        kardCheckBox.setPosition(screenWidth/2 + screenWidth/10, screenHeight/2 - screenHeight/10);
-        presCheckBox.setPosition(screenWidth/2 - presCheckBox.getWidth() - screenWidth/10, screenHeight/2 - screenHeight/10);
+        kardCheckBox.setPosition(screenWidth/2 + screenWidth/18, screenHeight/2 - screenHeight/10);
+        presCheckBox.setPosition(screenWidth/2 - presCheckBox.getWidth() - screenWidth/18, screenHeight/2 - screenHeight/10);
         createButton.setPosition(getLeftMargin(createButton.getWidth()), screenHeight*14/48);
 
 
