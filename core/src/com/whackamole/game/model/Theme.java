@@ -1,20 +1,7 @@
 package com.whackamole.game.model;
 
-/**
- * Created by AnneSofie on 04.04.2016.
- */
-
 
 public enum Theme {
-    /**
-     *
-     *  Thought maybe an enum would be nice to use for saving / choosing between themes
-     *  We can define constants with references to separate "assets" folders with pictures, sounds, etc.
-     *
-     *  Maybe also set cathegory constants for each individual picture type based on how many points they award.
-     *  Then use those enum constants in the code to dynamically select the correct pictures for each theme.
-     *
-     */
 
     PRESIDENTIAL (0, "presidential/"),
     KARDASHIAN (1, "kardashian/");
@@ -33,11 +20,19 @@ public enum Theme {
                 return theme;
             }
         }
-        return null;
+        throw new IllegalArgumentException("No theme found on that id.");
     }
 
     public String path() {
         return this.path;
+    }
+
+    public String idAsString() {
+        return Integer.toString(this.id);
+    }
+
+    public int getId() {
+        return this.id;
     }
 
 }

@@ -6,7 +6,9 @@ import io.socket.client.Socket;
 
 
 public class SocketRetreiver {
-
+    /**
+     *  Singleton that provides a socket to the application
+     */
 
     private Socket mSocket = null;
     private static SocketRetreiver instance;
@@ -14,8 +16,9 @@ public class SocketRetreiver {
 
     private  SocketRetreiver() {
         try {
-            mSocket = IO.socket(Constants.SERVER_URL);
-            mSocket.connect();
+            IO.Options opts = new IO.Options();
+            opts.forceNew = true;
+            mSocket = IO.socket(Constants.SERVER_URL, opts);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }

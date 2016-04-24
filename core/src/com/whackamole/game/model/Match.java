@@ -13,40 +13,54 @@ public class Match {
     private Player thisPlayer; // The user that created the match
     private List<Player> playerList;
     private String gameName;
+    private int numOfPlayers;
+    private static Match currentMatch;
+    private boolean isOnGoingMatch;
 
 
-    public Match() {
+    private Match() {
         thisPlayer = new Player(null);
         playerList = new ArrayList<Player>();
         playerList.add(thisPlayer);
         gameName = null;
+        numOfPlayers = 0;
     }
 
-
-    public void addPlayer(String username) {
-        playerList.add(new Player(username));
+    public static void startNewMatch() {
+        currentMatch = new Match();
     }
 
+    public static Match getCurrentMatch() {
+        return currentMatch;
+    }
 
-    public int getScoreOnUserName(String username) {
+    public void addPlayer(String nickName) {
+        if(!(this.isPlayer(nickName)) && !getCurrentNickNames().contains(nickName)) {
+            this.playerList.add(new Player(nickName));
+            System.out.println("In Match addPlayer(): " + playerList.size() + " number of players.");
+        }
+        System.out.println("In Match getCurrentNickName(): " + getCurrentNickNames().size() + " number of players.");
+    }
+
+    public int getScoreOnUserName(String nickName) {
         /**
          * Returns -1 if the user with username doesn't exist
          */
-        for(Player user : playerList) {
-            if(user.getNickname().equals(username)) {
-                return user.getScore();
+        for(Player player : this.playerList) {
+            if(player.getNickname().equals(nickName)) {
+                return player.getScore();
             }
         }
         return -1;
     }
 
-    public boolean setScoreToUser(String username, int totalScore) {
+    public boolean setScoreToUser(String nickName, int totalScore) {
         /**
          *  Returns false if the username was not found
          */
-        for(Player user : playerList) {
-            if(user.getNickname().equals(username)) {
-                user.setScore(totalScore);
+        for(Player player : this.playerList) {
+            if(player.getNickname().equals(nickName)) {
+                player.setScore(totalScore);
                 return true;
             }
         }
@@ -67,19 +81,17 @@ public class Match {
     }
 
     public void setPlayerReady(String nickname) {
-        getPlayerOnNickName(nickname).setReady(true);
+        Player player = getPlayerOnNickName(nickname);
+        if(!(player == null))
+            player.setReady(true);
     }
 
     public List<String> getCurrentNickNames() {
         List<String> list = new ArrayList<String>();
-        for (Player user : playerList) {
-            list.add(user.getNickname());
+        for (Player player : playerList) {
+            list.add(player.getNickname());
         }
         return list;
-    }
-
-    public void setPlayerList(List<Player> playerList) {
-        this.playerList = playerList;
     }
 
     public void setGameName(String gameName) {
@@ -113,7 +125,50 @@ public class Match {
         return null;
     }
 
-    private int getThisPlayerScore(){
+    private boolean isPlayer(String nickName) {
+        for(Player player : playerList) {
+            if(player != null && nickName != null) {
+                if(player.getNickname().equals(nickName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getNumOfPlayers() {
+        return numOfPlayers;
+    }
+
+    public void setNumOfPlayers(int num) {
+        numOfPlayers = num;
+
+    }
+
+    public List<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public boolean removePlayer(String nickName) {
+        for(Player player : playerList) {
+            if(player.getNickname().equals(nickName)) {
+                playerList.remove(player);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isOnGoingMatch() {
+        return isOnGoingMatch;
+    }
+
+    public void setIsOnGoingMatch(boolean value) {
+        this.isOnGoingMatch = value;
+    }
+
+
+    private int getThisPlayerScore() {
         return this.thisPlayer.getScore();
     }
 

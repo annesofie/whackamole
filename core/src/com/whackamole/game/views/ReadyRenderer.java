@@ -4,13 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.whackamole.game.model.FileName;
+import com.badlogic.gdx.utils.Disposable;
 import com.whackamole.game.model.Match;
+import com.whackamole.game.model.Player;
 import com.whackamole.game.model.Theme;
 import com.whackamole.game.utils.Prefs;
+import com.whackamole.game.utils.StageExtension;
 
 import java.util.List;
 
@@ -20,65 +22,90 @@ import java.util.List;
 public class ReadyRenderer implements Renderer {
 
 
-    Match match;
-    Stage stage;
+    StageExtension stage;
     Preferences prefs;
-    private float canvasHeight;
-    private float canvasWidth;
-    BitmapFont font;
+    private float screenHeight;
+    private float screenWidth;
+    private BitmapFont font;
 
 
     //Textures
     Texture background;
 
-    public ReadyRenderer(Match match) {
-        this.match = match;
+    public ReadyRenderer() {
         this.prefs = Gdx.app.getPreferences(Prefs.PREFS.key());
-        this.canvasHeight = Gdx.graphics.getHeight();
-        this.canvasWidth = Gdx.graphics.getWidth();
+        this.screenHeight = Gdx.graphics.getHeight();
+        this.screenWidth = Gdx.graphics.getWidth();
     }
 
 
-    public void loadRenderer(Stage stage) {
+    public void loadRenderer(StageExtension stage) {
         this.stage = stage;
         loadTextures();
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 72;
-        font = generator.generateFont(parameter);
-        generator.dispose();
 
     }
 
     @Override
     public void render() {
 
-        //TODO: MANGLER Å RENDRE HVILKE SPILLERE SOM HAR MELDT SEG PÅ OG HVOR MANGE SOM HAR MELDT 'READY'.
-        //TODO: DENNE INFOEN FINNES I VARIABLENE UNDER :)
-        List<String> currentNickNames = match.getCurrentNickNames();
-        int numOfReadyPlayers = match.numOfReadyPlayers();
+        Match match = Match.getCurrentMatch();
+        int numOfPlayers = match.getNumOfPlayers();
+        int currentNumOfPlayers = match.getCurrentNickNames().size();
+        int requiredPlayers = (numOfPlayers - currentNumOfPlayers);
+
+        String playerList = getTextualPlayerList();
+        String statusMessage1 = "";
+        String statusMessage2 = "";
+        String statusMessage3 = "";
+
+
+        if(requiredPlayers == 0){
+            statusMessage2 = "Enough players.";
+            statusMessage3 = "Press ready to start.";
+        }
+        else {
+            statusMessage1 = "Invite friends to: " + match.getGameName();
+            statusMessage2 =  currentNumOfPlayers + " players have joined.";
+            statusMessage3 = "Need " + requiredPlayers + " more to start.";
+        }
 
         stage.act();
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0, canvasWidth, canvasHeight);
+        stage.getBatch().draw(background, 0, 0, screenWidth, screenHeight);
+        font.draw(stage.getBatch(), statusMessage1 + "\n\n" + statusMessage2 + "\n"
+               + statusMessage3 + "\n\nPlayers:\n" + playerList, screenWidth*3/20, screenHeight*35/44);
         stage.getBatch().end();
         stage.draw();
 
     }
 
-
     private void loadTextures() {
-
         Theme theme = Theme.getThemeOnThemeId(prefs.getInteger(Prefs.THEME.key()));
-        background = new Texture(Gdx.files.internal(theme.path() + FileName.READYBACKGROUND.filename()));
-
-        List<String> nicknames = match.getCurrentNickNames();
-
-
-
+        if(theme == Theme.KARDASHIAN) {
+            font = Assets.manager.get(Assets.KARD_FONT_READY);
+        }
+        else {
+            font = Assets.manager.get(Assets.PRES_FONT_READY);
+        }
+        background = Assets.manager.get(theme.path() + Assets.READYBACKGROUND, Texture.class);
     }
 
+    private String getTextualPlayerList(){
+        String playerList = "";
+        int pos = 1;
+        Match match = Match.getCurrentMatch();
+        List<Player> players = match.getPlayerList();
+        for(Player player : players){
+            if(player.isReady()) {
+                playerList += pos + ". " + player.getNickname() + " - ready\n";
+            }
+            else {
+                playerList += pos + ". " + player.getNickname()+ "\n";
+            }
 
+            pos++;
+        }
+        return playerList;
+    }
 
 }

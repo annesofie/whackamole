@@ -7,9 +7,6 @@ import com.badlogic.gdx.utils.Array;
 import com.whackamole.game.utils.Constants;
 import com.whackamole.game.utils.Prefs;
 
-/**
- * Created by AnneSofie on 04.04.2016.
- */
 public class Board {
 
     private Array<Mole> grid = new Array<Mole>();
@@ -18,23 +15,22 @@ public class Board {
     private Mole currentMole;
     private boolean hitTheLastMole;
     private int lastMolePoints;
-    private boolean firstRound;
+    private boolean first;
+    private boolean isFirstMole;
 
     public Board(){
 
         this.canvasHeight = Gdx.graphics.getHeight();
         this.canvasWidth = Gdx.graphics.getWidth();
         hitTheLastMole = false;
-        firstRound = true;
+        isFirstMole = true;
+        first = true;
 
     }
 
 
     public void loadBoard() {
-        // Init board in GameScreen show()
         loadGrid();
-        // ++ andre ting som må lastes når screen byttes til GameScreen
-
     }
 
 
@@ -55,15 +51,13 @@ public class Board {
     }
 
     public void setMole(int moleLocation, int image) {
+        if(isFirstMole) {
+            isFirstMole = false;
+        }
         Mole mole = grid.get(moleLocation);
+        mole.setHidden(false);
         mole.setMoleImageId(image);
         this.currentMole = mole;
-    }
-
-
-
-    public void removeCurrentMole(){
-        this.currentMole = null;
     }
 
     public Mole getCurrentMole(){
@@ -83,12 +77,16 @@ public class Board {
         return lastMolePoints;
     }
 
-    public void setNotFirstRound() {
-        firstRound = false;
+    public void setNotFirst() {
+        first = false;
     }
 
-    public boolean firstRound() {
-        return firstRound;
+    public boolean first() {
+        return first;
+    }
+
+    public boolean isFirstMole() {
+        return isFirstMole;
     }
 
 }

@@ -1,10 +1,5 @@
 package com.whackamole.game.model;
 
-
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
 public class CreateGame {
 
     private boolean invalidGameName;
@@ -12,13 +7,19 @@ public class CreateGame {
     private boolean gameNameAlreadyExists;
     private boolean noGameWithNameExists;
     private boolean gameIsFull;
+    private boolean unableToConnect;
+    private boolean nickNameTaken;
+    private boolean leftGame;
 
     public CreateGame() {
         invalidGameName = false;
         invalidNickName = false;
+        nickNameTaken = false;
         gameNameAlreadyExists = false;
         noGameWithNameExists = false;
         gameIsFull = false;
+        unableToConnect = false;
+        leftGame = false;
     }
 
     public boolean isInvalidGameName() {
@@ -57,8 +58,24 @@ public class CreateGame {
         return gameIsFull;
     }
 
-    public void setGameIsFull(boolean gameIsFull) {
-        this.gameIsFull = gameIsFull;
+    public void setGameIsFull(boolean full) {
+        gameIsFull = full;
+    }
+
+    public void setUnableToConnect(boolean value) {
+        unableToConnect = value;
+    }
+
+    public boolean isUnableToConnect() {
+        return this.unableToConnect;
+    }
+
+    public void setNickNameTaken(boolean value) {
+        nickNameTaken = value;
+    }
+
+    public boolean nickNameIsTaken() {
+        return this.nickNameTaken;
     }
 
 }

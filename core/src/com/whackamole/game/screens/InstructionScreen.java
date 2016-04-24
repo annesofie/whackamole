@@ -4,12 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.whackamole.game.WhackAMole;
-import com.whackamole.game.model.FileName;
+import com.whackamole.game.controller.ScreenController;
+import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.StageExtension;
+import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.InstructionRenderer;
 
 /**
@@ -18,85 +19,75 @@ import com.whackamole.game.views.InstructionRenderer;
 public class InstructionScreen implements Screen {
 
 
-    private final WhackAMole game;
+    private final ScreenController screenController;
     private InstructionRenderer renderer;
     private Skin skin;
-    private Stage stage;
+    private StageExtension stage;
     private int screenWidth, screenHeight;
-    private int returnBtnWidth, returnBtnHeight;
-    //private Screen screen;
 
 
-    public InstructionScreen(final WhackAMole game) {
-        this.game = game;
-        //this.screen = this;
-        renderer = new InstructionRenderer();
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
-        returnBtnWidth = (new Texture(FileName.RETURN_BTN.filename())).getWidth();
-        returnBtnHeight = (new Texture(FileName.RETURN_BTN.filename())).getHeight();
+    public InstructionScreen(final ScreenController screenController) {
+        this.screenController = screenController;
+        this.renderer = new InstructionRenderer();
+        this.screenWidth = Gdx.graphics.getWidth();
+        this.screenHeight = Gdx.graphics.getHeight();
+        this.stage = StageExtension.getCleanInstance();
+        this.skin = new Skin();
+
+        renderer.loadRenderer(loadActors());
     }
 
     @Override
     public void show() {
-        renderer.loadRenderer(loadActors());
+        Gdx.input.setInputProcessor(stage);
     }
+
 
     @Override
     public void render(float delta) {
         renderer.render();
     }
 
-    private Stage loadActors(){
-        stage = new Stage();
-        skin = new Skin();
 
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        skin = new Skin();
+    private StageExtension loadActors(){
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
 
-        skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
+        skin.add("returnBtn", Assets.manager.get(Assets.BACK_BTN, Texture.class));
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
 
-        returnButton.setPosition(screenWidth*9/10 - returnBtnWidth*2, screenHeight*8/10 - returnBtnHeight*2);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenHeight*Constants.returnButtonHeightRatio);
+        returnButton.setPosition(screenWidth/10, screenHeight*2/10 + screenHeight/20);
 
-        returnButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.goToMainMenuScreen();
-            }
-        });
-
+        addClickListener(returnButton);
         stage.addActor(returnButton);
-        Gdx.input.setInputProcessor(stage);
+
         return stage;
     }
 
-    // THE REST OF THE SCREEN METHODS
 
-    @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
+    public void addClickListener(ImageButton button) {
+        button.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                screenController.goToMainMenuScreen();
+            }
+        });
     }
 
     @Override
     public void hide() {
-
+        //dispose();
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
         skin.dispose();
     }
 
+
+    // THE REST OF THE SCREEN METHODS
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
 }

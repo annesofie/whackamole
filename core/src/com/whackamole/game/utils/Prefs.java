@@ -5,7 +5,7 @@ package com.whackamole.game.utils;
  */
 public enum Prefs {
 
-    PREFS("WhackAMole"),
+    PREFS("WhackAttack"),
     ISSOUND("isSound"),
     USERNAME("username"),
     THEME("themeID"),

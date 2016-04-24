@@ -6,22 +6,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.whackamole.game.model.FileName;
+import com.whackamole.game.model.Match;
+import com.whackamole.game.model.Player;
 import com.whackamole.game.utils.StageExtension;
+
+import java.util.List;
 
 /**
  * Created by Lars on 07/04/16.
  */
 public class GameOverRenderer implements Renderer {
-
-
-
-    /**
-     *  Renders the game over window
-     *
-     *
-     *
-     */
 
     private Texture background, headline;
     private StageExtension stage;
@@ -29,10 +23,12 @@ public class GameOverRenderer implements Renderer {
     private int headlineWidth;
     private BitmapFont font;
     private String highScoreList;
+    private Match match;
 
     public GameOverRenderer() {
-        screenWidth = Gdx.graphics.getWidth();
-        screenHeight = Gdx.graphics.getHeight();
+        this.screenWidth = Gdx.graphics.getWidth();
+        this.screenHeight = Gdx.graphics.getHeight();
+        this.match = Match.getCurrentMatch();
     }
 
 
@@ -40,9 +36,9 @@ public class GameOverRenderer implements Renderer {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act();
         stage.getBatch().begin();
-        stage.getBatch().draw(background,0,0,screenWidth,screenHeight);
-        stage.getBatch().draw(headline,screenWidth/2 - headlineWidth/2,screenHeight*8/10);
-        font.draw(stage.getBatch(),highScoreList,screenWidth/15,screenHeight*2/3);
+        stage.getBatch().draw(background,0,0, screenWidth, screenHeight);
+        font.draw(stage.getBatch(), "Results:", screenWidth/9, screenHeight*31/44);
+        font.draw(stage.getBatch(), highScoreList, screenWidth/9, screenHeight*29/44);
         stage.getBatch().end();
         stage.draw();
     }
@@ -53,18 +49,21 @@ public class GameOverRenderer implements Renderer {
     }
 
     private void loadTextures() {
-        background = new Texture(FileName.BACKGROUND.filename());
-        headline = new Texture(FileName.GAME_OVER_HEADLINE.filename());
-        headlineWidth = headline.getWidth();
-        highScoreList = stage.getText();
+        background = Assets.manager.get(Assets.GAME_OVER_BACKGROUND, Texture.class);
+        highScoreList = getTextualHighScoreList();
 
+        font = Assets.manager.get(Assets.GAME_OVER_FONT);
+    }
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = screenHeight/20;
-        font = generator.generateFont(parameter);
-        font.setColor(Color.BLACK);
-        generator.dispose();
+    private String getTextualHighScoreList(){
+        String highScoreList = "";
+        int pos = 1;
+        List<Player> playerList = match.getSortedHighScoreList();
+        for(Player player : playerList){
+            highScoreList += pos + ". " + player.getNickname() + " (" + player.getScore() + " points)\n";
+            pos++;
+        }
+        return highScoreList;
     }
 
 

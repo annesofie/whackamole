@@ -1,8 +1,5 @@
 package com.whackamole.game.model;
 
-/**
- * Created by AnneSofie on 04.04.2016.
- */
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -11,19 +8,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-public class Mole extends Sprite{
+public class Mole extends Sprite {
 
-    private Sound moleSound;  //A different sound when user hits different types of moles
     private Vector2 position;
     private int height = Gdx.graphics.getHeight();
     private int width = Gdx.graphics.getWidth();
-    // Denne IDen er brukt av renderer for å bestemme hvilket bilde den skal rendre for molen.
     private int moleImageId = 0;
-    private int pointsWorth = 0;
     private int location;
     private float dt, hiddenposition, shownposition;
-    private boolean hidden = true;
-    private boolean finished = false;
+    private boolean hidden;
+    private boolean finished;
 
     Rectangle rect;
 
@@ -32,19 +26,20 @@ public class Mole extends Sprite{
         this.shownposition = pos.y;
         this.hiddenposition = pos.y - height*33/160;
         this.position = setPos(pos.x, hiddenposition);
-        this.dt=0;
+        this.dt = 0;
+        this.hidden = true;
+        this.finished = false;
 
         setBoundingRectangle();
     }
 
-    public void update(float time){
-
-        if(this.dt < 0.145f && this.hidden) {
+    public void update(float time) {
+        // && this.hidden
+        if(this.dt < 0.145f)  {
             show();
             this.dt += time;
         }
     }
-
 
     public void setMoleImageId(int id) {
         this.moleImageId = id;
@@ -52,14 +47,6 @@ public class Mole extends Sprite{
 
     public int getMoleImageId() {
         return moleImageId;
-    }
-
-    public int getPointsWorth() {
-        return pointsWorth;
-    }
-
-    public void setPointsWorth(int pointsWorth) {
-        this.pointsWorth = pointsWorth;
     }
 
     public int getLocation() {
@@ -74,48 +61,33 @@ public class Mole extends Sprite{
         this.finished = true;
     }
 
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
     public void reset(){
-        this.finished = false;
-        pointsWorth = 0;
+        this.hidden = true;
         this.position = setPos(position.x, hiddenposition);
         this.dt = 0;
-    }
-
-    public void setHiddenposition(){
-        this.position.y = hiddenposition;
-    }
-
-    public void setShownposition(){
-        this.position.y = shownposition;
     }
 
     public boolean finished(){
         return finished;
     }
 
-    public boolean hidden(){
-        return this.hidden;
-    }
-
-    public void setHidden(){
-        this.hidden = true;
-    }
-
-    public void setShown(){
-        this.hidden = false;
-    }
-
-    public Sound getMoleSound(){
-        return moleSound;
-    }
-
-    public void setMoleSound(Sound msc) {
-        this.moleSound = msc;
-    }
-
     public Vector2 getPosition(){
         return position;
     }
+
+    public boolean isHidden(){
+        return this.hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+
 
     public void hide(){
         if(this.position.y > hiddenposition){
@@ -125,6 +97,7 @@ public class Mole extends Sprite{
             this.hidden = true;
             this.position.y = hiddenposition;}
     }
+
 
     public void show(){
         if(this.position.y < shownposition){

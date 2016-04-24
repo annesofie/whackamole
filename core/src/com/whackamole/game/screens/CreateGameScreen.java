@@ -4,70 +4,56 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.whackamole.game.WhackAMole;
 import com.whackamole.game.controller.CreateGameController;
+import com.whackamole.game.controller.ScreenController;
 import com.whackamole.game.model.CreateGame;
-import com.whackamole.game.model.FileName;
-import com.whackamole.game.utils.StageExtension;
+import com.whackamole.game.model.Match;
+import com.whackamole.game.utils.Constants;
+import com.whackamole.game.utils.StageExtensionKeyboard;
+import com.whackamole.game.views.Assets;
 import com.whackamole.game.views.CreateGameRenderer;
 
 
 public class CreateGameScreen implements Screen{
 
-
-    private final WhackAMole game;
-    //private Screen screen;
+    private final ScreenController screenController;
     private CreateGame createGame;
     private CreateGameController controller;
     private CreateGameRenderer renderer;
     private TextField textFieldGameName;
     private TextField textFieldNickName;
     private boolean joinGame;
-    private float canvasWidth;
-    private float canvasHeight;
-    private int returnBtnWidth, returnBtnHeight;
+    private StageExtensionKeyboard stage;
+    private Skin skin;
 
-
-    StageExtension stage;
-    Skin skin;
-
-
-
-    public CreateGameScreen(final WhackAMole game, boolean joinGame) {
-
-        this.game = game;
-        //this.screen = this;
+    public CreateGameScreen(final ScreenController screenController, boolean joinGame) {
+        this.screenController = screenController;
         this.joinGame = joinGame;
-
-        returnBtnWidth = (new Texture(FileName.RETURN_BTN.filename())).getWidth();
-        returnBtnHeight = (new Texture(FileName.RETURN_BTN.filename())).getHeight();
-
         this.createGame = new CreateGame();
+        this.renderer = new CreateGameRenderer(createGame, joinGame);
+        this.controller = new CreateGameController(createGame, screenController);
+        this.stage = StageExtensionKeyboard.getCleanInstance();
+        this.skin = new Skin();
 
-        this.renderer = new CreateGameRenderer(createGame);
-
-        this.controller = new CreateGameController(createGame, game.getMatch(), this);
-
-        // Temporarily moved here for performance
+        controller.loadController();
         renderer.loadRenderer(loadActors());
 
     }
 
     @Override
     public void show() {
+        if(joinGame) {
+            Match.startNewMatch();
+        }
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -76,37 +62,17 @@ public class CreateGameScreen implements Screen{
         this.renderer.render();
     }
 
+    private StageExtensionKeyboard loadActors() {
 
+        float screenHeight = Gdx.graphics.getHeight();
+        float screenWidth = Gdx.graphics.getWidth();
+        float btnYPos = ((float)1/4 * screenHeight);
 
-    //TODO: Her lager vi actors og legger dem inn i en stage som vi sender videre til renderer.
-    //TODO: Vi ønsket i utgangspunktet å håndtere alt som skal rendres i renderer.
-    //TODO  Var nødt til å lage knapper og inputfelt her for å håndtere button clicks her. Forslag til hvordan vi kan håndtere dette bedre?
-
-    private StageExtension loadActors() {
-        /*
-            Loads and returns the actors that can be acted upon on the screen
-         */
-
-        stage = new StageExtension();
-        skin = new Skin();
-
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(FileName.FONT.filename()));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 72;
-        BitmapFont font72 = generator.generateFont(parameter);
-        generator.dispose();
-
-        float canvasHeight = Gdx.graphics.getHeight();
-        float canvasWidth = Gdx.graphics.getWidth();
-        float btnXPos = ((float)1/4 * canvasWidth);
-        float btnYPos = ((float)1/4 * canvasHeight);
-
-
-        skin.add("textfield", new Texture(Gdx.files.internal(FileName.TEXTFIELD.filename())));
-        skin.add("cursor", new Texture(Gdx.files.internal(FileName.CURSOR.filename())));
-        skin.add("btnNotClicked", new Texture(Gdx.files.internal(FileName.ENTERBTN.filename())));
-        skin.add("btnClicked", new Texture(Gdx.files.internal(FileName.ENTERBTNCLICKED.filename())));
-        skin.add("returnBtn", new Texture(FileName.RETURN_BTN.filename()));
+        skin.add("textfield", Assets.manager.get(Assets.TEXTFIELD, Texture.class));
+        skin.add("cursor", Assets.manager.get(Assets.CURSOR, Texture.class));
+        skin.add("btnNotClicked", Assets.manager.get(Assets.ENTERBTN, Texture.class));
+        skin.add("btnClicked", Assets.manager.get(Assets.ENTERBTNCLICKED, Texture.class));
+        skin.add("returnBtn", Assets.manager.get(Assets.BACK_BTN, Texture.class));
 
         ImageButton returnButton = new ImageButton(skin.getDrawable("returnBtn"));
         ImageButton btn = new ImageButton(skin.getDrawable(("btnNotClicked")), skin.getDrawable("btnClicked"));
@@ -115,64 +81,37 @@ public class CreateGameScreen implements Screen{
 
         // Textfield styling
         TextField.TextFieldStyle textFieldStyle = new TextField.TextFieldStyle();
-        textFieldStyle.font = font72;
+        BitmapFont font = Assets.manager.get(Assets.TEXTFIELD_FONT);
+        textFieldStyle.font = font;
         textFieldStyle.fontColor = Color.WHITE;
         textFieldStyle.background = textFieldBackground;
         textFieldStyle.cursor = cursor;
         textFieldStyle.cursor.setMinWidth(2f);
+        textFieldStyle.messageFont = font;
         textFieldStyle.messageFontColor = Color.WHITE;
 
         // Create a textfield with the styling defined above
         textFieldGameName = new TextField("", textFieldStyle);
         textFieldNickName = new TextField("", textFieldStyle);
 
-        float btnWidth = btn.getWidth();
-        btn.setPosition(canvasWidth/2-btnWidth/2, btnYPos);
-        returnButton.setPosition(returnBtnWidth, canvasHeight - returnBtnHeight*2);
 
-        // Set the size and messagetext of the textfield
-        textFieldGameName.setSize(btn.getWidth(), btn.getHeight());
-        textFieldNickName.setSize(btn.getWidth(), btn.getHeight());
         String messageTextGameName = "Enter game name";
         String messageTextNickName = "Enter nickname";
         textFieldGameName.setMessageText(messageTextGameName);
         textFieldNickName.setMessageText(messageTextNickName);
 
-        // Position the actors
+        // Set sizes to scale with screen dimensions nicely
+        btn.getCells().get(0).size(screenWidth*Constants.menuButtonWidthRatio, screenHeight*Constants.menuButtonHeightRatio);
+        returnButton.getCells().get(0).size(screenWidth*Constants.returnButtonWidthRatio, screenWidth*Constants.returnButtonHeightRatio);
+        textFieldGameName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
+        textFieldNickName.setSize(screenWidth*Constants.textfieldWidthRatio, screenHeight*Constants.textfieldHeightRatio);
 
-        textFieldGameName.setPosition(canvasWidth/2-btnWidth/2, canvasHeight/2);
-        textFieldNickName.setPosition(canvasWidth/2-btnWidth/2, ((canvasHeight/2) + 400));
+        returnButton.setPosition(returnButton.getWidth(), screenHeight - returnButton.getHeight()*2);
+        btn.setPosition(getLeftMargin(btn.getWidth()), btnYPos);
+        textFieldGameName.setPosition(getLeftMargin(textFieldGameName.getWidth()), screenHeight*5/10);
+        textFieldNickName.setPosition(getLeftMargin(textFieldNickName.getWidth()), screenHeight*7/10);
 
-        addClickListener(btn,returnButton);
-
-        // Add actors
-        stage.addActor(btn);
-        stage.addActor(textFieldGameName);
-        stage.addActor(textFieldNickName);
-        stage.addActor(returnButton);
-
-        return stage;
-    }
-
-
-    public void setJoinGame(boolean joinGame) {
-        this.joinGame = joinGame;
-    }
-
-    public void goToReadyScreen() {
-        game.goToReadyScreen();
-    }
-
-    public void reloadBoardRenderer() {
-        game.reloadBoardRenderer();
-    }
-
-    public void reloadReadyRenderer() {
-        game.reloadReadyRenderer();
-    }
-
-    private void addClickListener(ImageButton button, ImageButton returnButton) {
-        button.addListener(new ClickListener() {
+        btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 String gameName = textFieldGameName.getText();
@@ -190,39 +129,44 @@ public class CreateGameScreen implements Screen{
                 }
             }
         });
+
         returnButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.goToMainMenuScreen();
+                screenController.goToMainMenuScreen();
             }
         });
+
+        // Add actors
+        stage.addActor(btn);
+        stage.addActor(textFieldGameName);
+        stage.addActor(textFieldNickName);
+        stage.addActor(returnButton);
+
+        return stage;
     }
 
-    @Override
-    public void dispose() {
-        stage.dispose();
-        skin.dispose();
+
+    public float getLeftMargin(float width) {
+        float screenWidth = Gdx.graphics.getWidth();
+        return (screenWidth - width)/2;
     }
 
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
 
     @Override
     public void hide() {
-
+        dispose();
     }
 
+
+    @Override
+    public void dispose() {
+        controller.dispose();
+    }
+
+
+    @Override public void resize(int width, int height) {}
+    @Override public void pause() {}
+    @Override public void resume() {}
 }
