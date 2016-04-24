@@ -148,9 +148,11 @@ public class BoardController implements Disposable {
                 }
                 else {
                     Mole mole = board.getCurrentMole();
+                    /*
                     if(mole != null) {
                         mole.reset();
                     }
+                    */
                     board.setHitTheLastMole(false, 0);
                     match.setScoreToUser(nickName, totalScore);
                 }
